@@ -2,7 +2,8 @@
 # define	SERVICE_REGISTRATION_INFO_H_
 
 # include <deque>
-# include "Service.h"
+
+# include <Hypodermic/Service.h>
 
 
 namespace Hypodermic

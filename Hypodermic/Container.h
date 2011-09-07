@@ -1,9 +1,9 @@
 #ifndef		CONTAINER_H_
 # define	CONTAINER_H_
 
-# include "ComponentRegistry.h"
-# include "IComponentContext.h"
-# include "IContainer.h"
+# include <Hypodermic/ComponentRegistry.h>
+# include <Hypodermic/IComponentContext.h>
+# include <Hypodermic/IContainer.h>
 
 
 namespace Hypodermic

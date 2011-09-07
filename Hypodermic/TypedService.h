@@ -2,7 +2,8 @@
 # define	TYPED_SERVICE_H_
 
 # include <typeinfo>
-# include "Service.h"
+
+# include <Hypodermic/Service.h>
 
 
 namespace Hypodermic

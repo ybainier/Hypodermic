@@ -2,9 +2,10 @@
 # define	COMPONENT_REGISTRATION_H_
 
 # include <vector>
-# include "IComponentRegistration.h"
-# include "IInstanceActivator.h"
-# include "Service.h"
+
+# include <Hypodermic/IComponentRegistration.h>
+# include <Hypodermic/IInstanceActivator.h>
+# include <Hypodermic/Service.h>
 
 
 namespace Hypodermic

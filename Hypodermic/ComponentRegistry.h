@@ -6,10 +6,10 @@
 # include <boost/unordered_map.hpp>
 # include <boost/thread.hpp>
 
-# include "IComponentRegistration.h"
-# include "IComponentRegistry.h"
-# include "ServiceRegistrationInfo.h"
-# include "ServiceKey.h"
+# include <Hypodermic/IComponentRegistration.h>
+# include <Hypodermic/IComponentRegistry.h>
+# include <Hypodermic/ServiceRegistrationInfo.h>
+# include <Hypodermic/ServiceKey.h>
 
 
 namespace Hypodermic

@@ -2,13 +2,14 @@
 # define	REGISTRATION_BUILDER_H_
 
 # include <vector>
-# include "ComponentRegistration.h"
-# include "DelegateActivator.h"
-# include "IComponentContext.h"
-# include "IInstanceActivator.h"
-# include "IRegistrationBuilder.h"
-# include "RegistrationData.h"
-# include "TypedService.h"
+
+# include <Hypodermic/ComponentRegistration.h>
+# include <Hypodermic/DelegateActivator.h>
+# include <Hypodermic/IComponentContext.h>
+# include <Hypodermic/IInstanceActivator.h>
+# include <Hypodermic/IRegistrationBuilder.h>
+# include <Hypodermic/RegistrationData.h>
+# include <Hypodermic/TypedService.h>
 
 
 namespace Hypodermic

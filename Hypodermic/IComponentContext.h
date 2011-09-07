@@ -2,7 +2,8 @@
 # define	ICOMPONENT_CONTEXT_H_
 
 # include <typeinfo>
-# include "TypedService.h"
+
+# include <Hypodermic/TypedService.h>
 
 
 namespace Hypodermic

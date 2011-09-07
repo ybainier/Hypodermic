@@ -2,7 +2,8 @@
 # define	REGISTRATION_DATA_H_
 
 # include <vector>
-# include "Service.h"
+
+# include <Hypodermic/Service.h>
 
 
 namespace Hypodermic

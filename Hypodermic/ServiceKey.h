@@ -1,7 +1,7 @@
 #ifndef		SERVICE_KEY_H_
 # define	SERVICE_KEY_H_
 
-# include "Service.h"
+# include <Hypodermic/Service.h>
 
 
 namespace Hypodermic

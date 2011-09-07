@@ -6,10 +6,10 @@
 
 # include <boost/foreach.hpp>
 
-# include "Action.h"
-# include "Container.h"
-# include "Func.h"
-# include "RegistrationBuilder.h"
+# include <Hypodermic/Action.h>
+# include <Hypodermic/Container.h>
+# include <Hypodermic/Func.h>
+# include <Hypodermic/RegistrationBuilder.h>
 
 
 namespace Hypodermic

@@ -2,7 +2,8 @@
 # define	INSTANCE_ACTIVATOR_H_
 
 # include <typeinfo>
-# include "IInstanceActivator.h"
+
+# include <Hypodermic/IInstanceActivator.h>
 
 
 namespace Hypodermic

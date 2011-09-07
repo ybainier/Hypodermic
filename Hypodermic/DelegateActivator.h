@@ -2,10 +2,11 @@
 # define	DELEGATE_ACTIVATOR_H_
 
 # include <typeinfo>
-# include "Func.h"
-# include "IComponentContext.h"
-# include "IInstanceActivator.h"
-# include "InstanceActivator.h"
+
+# include <Hypodermic/Func.h>
+# include <Hypodermic/IComponentContext.h>
+# include <Hypodermic/IInstanceActivator.h>
+# include <Hypodermic/InstanceActivator.h>
 
 
 namespace Hypodermic
