@@ -2,6 +2,7 @@
 # define	REGISTRATION_BUILDER_H_
 
 # include <vector>
+# include <boost/type_traits.hpp>
 
 # include <Hypodermic/ComponentRegistration.h>
 # include <Hypodermic/DelegateActivator.h>
@@ -33,6 +34,13 @@ namespace Hypodermic
 			return activator_;
 		}
 
+		template <class ServiceT>
+		IRegistrationBuilder< T >* as()
+		{
+			registrationData_.addService(new TypedService(typeid(ServiceT)));
+			return this;
+		}
+
 	private:
 		RegistrationData registrationData_;
 		IInstanceActivator* activator_;
@@ -48,9 +56,6 @@ namespace Hypodermic
 			return new RegistrationBuilder< T >(
 				new TypedService(typeid(T)),
 				new DelegateActivator< T >(typeid(T), delegate));
-			//	new TypedService(typeof(T)),
-			//	new SimpleActivatorData(new DelegateActivator(typeof(T), (c, p) => @delegate(c, p))),
-			//	new SingleRegistrationStyle());
 		}
 
 		template <class T>
@@ -61,11 +66,8 @@ namespace Hypodermic
 				new DelegateActivator< T >(typeid(T), Func< IComponentContext*, T >(
 					[](IComponentContext* c) -> T
 					{
-						return new T;
+						return new boost::remove_pointer< T >::type;
 					})));
-			//	new TypedService(typeof(T)),
-			//	new SimpleActivatorData(new DelegateActivator(typeof(T), (c, p) => @delegate(c, p))),
-			//	new SingleRegistrationStyle());
 		}
 
 		template <class T>

@@ -59,6 +59,9 @@
       <AdditionalLibraryDirectories>$(BOOST_HOME)\lib</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(ProjectPath)" --result_code=no --report_level=no</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -75,6 +78,9 @@
       <AdditionalLibraryDirectories>$(BOOST_HOME)\lib</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
     </Link>
+    <PostBuildEvent>
+      <Command>"$(ProjectPath)" --result_code=no --report_level=no</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ContainerBuilderTests.cpp" />

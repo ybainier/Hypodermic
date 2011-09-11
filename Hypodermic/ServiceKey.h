@@ -27,5 +27,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-
 #endif /* !SERVICE_KEY_H_ */

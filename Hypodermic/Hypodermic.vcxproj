@@ -78,9 +78,9 @@
     <ClInclude Include="ComponentRegistry.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="ContainerBuilder.h" />
-    <ClInclude Include="ContainerBuilder.hpp" />
     <ClInclude Include="DelegateActivator.h" />
     <ClInclude Include="Func.h" />
+    <ClInclude Include="Helpers.h" />
     <ClInclude Include="IComponentContext.h" />
     <ClInclude Include="IComponentRegistration.h" />
     <ClInclude Include="IComponentRegistry.h" />

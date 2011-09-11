@@ -6,7 +6,9 @@
 namespace Hypodermic
 {
 	class IInstanceActivator;
+	template <class T> class RegistrationBuilder;
 	class RegistrationData;
+
 
 	template <class T>
 	class IRegistrationBuilder
@@ -14,6 +16,12 @@ namespace Hypodermic
 	public:
 		virtual RegistrationData& registrationData() = 0;
 		virtual IInstanceActivator* activator() = 0;
+
+		template <class ServiceT>
+		IRegistrationBuilder< T >* as()
+		{
+			return static_cast< RegistrationBuilder< T >* >(this)->as< ServiceT >();
+		}
 	};
 
 } // namespace Hypodermic

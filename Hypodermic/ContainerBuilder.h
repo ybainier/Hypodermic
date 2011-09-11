@@ -31,7 +31,7 @@ namespace Hypodermic
 		}
 
 		template <class T>
-		IRegistrationBuilder< T >* registerConstruction(Func< IComponentContext*, T > delegate)
+		IRegistrationBuilder< T >* setup(Func< IComponentContext*, T > delegate)
 		{
 			auto rb = RegistrationBuilderFactory::forDelegate(delegate);
 			
@@ -45,15 +45,15 @@ namespace Hypodermic
 		}
 
 		template <class T>
-		IRegistrationBuilder< T >* registerType()
+		IRegistrationBuilder< T >* setup()
 		{
 			auto rb = RegistrationBuilderFactory::forType< T >();
 
 			registerCallback(ConfigurationCallback(
 				[rb](IComponentRegistry* cr) -> void
-			{
-				return RegistrationBuilderFactory::registerSingleComponent(cr, rb);
-			}));
+				{
+					return RegistrationBuilderFactory::registerSingleComponent(cr, rb);
+				}));
 
 			return rb;
 		}
