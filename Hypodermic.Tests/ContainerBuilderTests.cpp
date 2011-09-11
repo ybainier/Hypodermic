@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(Concrete_type_can_be_setup_and_get_resolved)
 
 	auto myDep = container->resolve< MyDep* >();
 
-	BOOST_CHECK( myDep != nullptr);
+	BOOST_CHECK(myDep != nullptr);
 }
 
 
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(Should_be_setup_as_an_interface_and_get_resolved)
 
 	auto myDep = container->resolve< IDep* >();
 
-	BOOST_CHECK( myDep != nullptr);
+	BOOST_CHECK(myDep != nullptr);
 }
 
 
@@ -71,7 +71,38 @@ BOOST_AUTO_TEST_CASE(Should_be_setup_as_an_interface_and_resolve_abstract_depend
 
 	auto myType = container->resolve< IMyType* >();
 
-	BOOST_CHECK( myType != nullptr);
+	BOOST_CHECK(myType != nullptr);
+}
+
+
+BOOST_AUTO_TEST_CASE(Default_lifetime_should_be_transient)
+{
+	ContainerBuilder builder;
+
+	builder.setup< MyDep* >()->as< IDep* >();
+
+	auto container = builder.build();
+
+	auto myDep = container->resolve< IDep* >();
+	auto myDep2 = container->resolve< IDep* >();
+
+	BOOST_CHECK(myDep != myDep2);
+}
+
+
+BOOST_AUTO_TEST_CASE(Setup_as_interface_should_prevent_from_resolving_concrete_type)
+{
+	ContainerBuilder builder;
+
+	builder.setup< MyDep* >()->as< IDep* >();
+
+	auto container = builder.build();
+
+	auto myDep = container->resolve< MyDep* >();
+	auto myDep2 = container->resolve< IDep* >();
+
+	BOOST_CHECK(myDep == nullptr);
+	BOOST_CHECK(myDep2 != nullptr);
 }
 
 
