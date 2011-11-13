@@ -86,17 +86,24 @@
     <ClInclude Include="IComponentRegistry.h" />
     <ClInclude Include="IContainer.h" />
     <ClInclude Include="IInstanceActivator.h" />
+    <ClInclude Include="ILifetimeScope.h" />
     <ClInclude Include="InstanceActivator.h" />
+    <ClInclude Include="InstanceSharing.h" />
     <ClInclude Include="IRegistrationBuilder.h" />
+    <ClInclude Include="IResolveOperation.h" />
+    <ClInclude Include="ISharingLifetimeScope.h" />
+    <ClInclude Include="LifetimeScope.h" />
+    <ClInclude Include="ProvidedInstanceActivator.h" />
     <ClInclude Include="RegistrationBuilder.h" />
-    <ClInclude Include="RegistrationBuilder.hpp" />
     <ClInclude Include="RegistrationData.h" />
+    <ClInclude Include="ResolveOperation.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="ServiceKey.h" />
     <ClInclude Include="ServiceRegistrationInfo.h" />
     <ClInclude Include="TypedService.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="LifetimeScope.cpp" />
     <ClCompile Include="ServiceKey.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

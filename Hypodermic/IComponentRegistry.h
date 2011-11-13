@@ -1,5 +1,5 @@
-#ifndef		ICOMPONENT_REGISTRY_H_
-# define	ICOMPONENT_REGISTRY_H_
+#ifndef		HYPODERMIC_ICOMPONENT_REGISTRY_H_
+# define	HYPODERMIC_ICOMPONENT_REGISTRY_H_
 
 # include <vector>
 
@@ -28,4 +28,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !ICOMPONENT_REGISTRY_H_ */
+#endif /* !HYPODERMIC_ICOMPONENT_REGISTRY_H_ */

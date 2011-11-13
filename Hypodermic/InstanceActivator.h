@@ -1,5 +1,5 @@
-#ifndef		INSTANCE_ACTIVATOR_H_
-# define	INSTANCE_ACTIVATOR_H_
+#ifndef		HYPODERMIC_INSTANCE_ACTIVATOR_H_
+# define	HYPODERMIC_INSTANCE_ACTIVATOR_H_
 
 # include <typeinfo>
 
@@ -29,4 +29,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !INSTANCE_ACTIVATOR_H_ */
+#endif /* !HYPODERMIC_INSTANCE_ACTIVATOR_H_ */

@@ -1,5 +1,5 @@
-#ifndef		COMPONENT_REGISTRATION_H_
-# define	COMPONENT_REGISTRATION_H_
+#ifndef		HYPODERMIC_COMPONENT_REGISTRATION_H_
+# define	HYPODERMIC_COMPONENT_REGISTRATION_H_
 
 # include <vector>
 
@@ -37,4 +37,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !COMPONENT_REGISTRATION_H_ */
+#endif /* !HYPODERMIC_COMPONENT_REGISTRATION_H_ */

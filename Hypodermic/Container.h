@@ -1,5 +1,5 @@
-#ifndef		CONTAINER_H_
-# define	CONTAINER_H_
+#ifndef		HYPODERMIC_CONTAINER_H_
+# define	HYPODERMIC_CONTAINER_H_
 
 # include <Hypodermic/ComponentRegistry.h>
 # include <Hypodermic/IComponentContext.h>
@@ -42,4 +42,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !CONTAINER_H_ */
+#endif /* !HYPODERMIC_CONTAINER_H_ */

@@ -1,5 +1,5 @@
-#ifndef		SERVICE_REGISTRATION_INFO_H_
-# define	SERVICE_REGISTRATION_INFO_H_
+#ifndef		HYPODERMIC_SERVICE_REGISTRATION_INFO_H_
+# define	HYPODERMIC_SERVICE_REGISTRATION_INFO_H_
 
 # include <deque>
 
@@ -49,5 +49,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-
-#endif /* !SERVICE_REGISTRATION_INFO_H_ */
+#endif /* !HYPODERMIC_SERVICE_REGISTRATION_INFO_H_ */

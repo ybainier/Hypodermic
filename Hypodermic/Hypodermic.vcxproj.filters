@@ -26,9 +26,6 @@
     <ClInclude Include="IComponentRegistry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RegistrationBuilder.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentRegistration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -77,9 +74,33 @@
     <ClInclude Include="Helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ProvidedInstanceActivator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceSharing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ISharingLifetimeScope.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ILifetimeScope.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LifetimeScope.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IResolveOperation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResolveOperation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServiceKey.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LifetimeScope.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

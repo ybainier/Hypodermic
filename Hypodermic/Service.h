@@ -1,5 +1,5 @@
-#ifndef		SERVICE_H_
-# define	SERVICE_H_
+#ifndef		HYPODERMIC_SERVICE_H_
+# define	HYPODERMIC_SERVICE_H_
 
 # include <boost/functional/hash.hpp>
 
@@ -23,4 +23,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !SERVICE_H_ */
+#endif /* !HYPODERMIC_SERVICE_H_ */

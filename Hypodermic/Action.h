@@ -1,5 +1,5 @@
-#ifndef		ACTION_H_
-# define	ACTION_H_
+#ifndef		HYPODERMIC_ACTION_H_
+# define	HYPODERMIC_ACTION_H_
 
 # include <boost/function.hpp>
 
@@ -64,4 +64,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !ACTION_H_ */
+#endif /* !HYPODERMIC_ACTION_H_ */

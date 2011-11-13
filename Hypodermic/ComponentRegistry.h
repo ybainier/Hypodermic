@@ -1,5 +1,5 @@
-#ifndef		COMPONENT_REGISTRY_H_
-# define	COMPONENT_REGISTRY_H_
+#ifndef		HYPODERMIC_COMPONENT_REGISTRY_H_
+# define	HYPODERMIC_COMPONENT_REGISTRY_H_
 
 # include <vector>
 # include <boost/foreach.hpp>
@@ -83,4 +83,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !COMPONENT_REGISTRY_H_ */
+#endif /* !HYPODERMIC_COMPONENT_REGISTRY_H_ */

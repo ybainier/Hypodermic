@@ -1,5 +1,5 @@
-#ifndef		SERVICE_KEY_H_
-# define	SERVICE_KEY_H_
+#ifndef		HYPODERMIC_SERVICE_KEY_H_
+# define	HYPODERMIC_SERVICE_KEY_H_
 
 # include <Hypodermic/Service.h>
 
@@ -27,4 +27,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !SERVICE_KEY_H_ */
+#endif /* !HYPODERMIC_SERVICE_KEY_H_ */

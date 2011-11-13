@@ -1,5 +1,5 @@
-#ifndef		ICONTAINER_H_
-# define	ICONTAINER_H_
+#ifndef		HYPODERMIC_ICONTAINER_H_
+# define	HYPODERMIC_ICONTAINER_H_
 
 
 namespace Hypodermic
@@ -12,4 +12,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !ICONTAINER_H_ */
+#endif /* !HYPODERMIC_ICONTAINER_H_ */

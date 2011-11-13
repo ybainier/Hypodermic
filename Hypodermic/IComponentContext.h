@@ -1,8 +1,9 @@
-#ifndef		ICOMPONENT_CONTEXT_H_
-# define	ICOMPONENT_CONTEXT_H_
+#ifndef		HYPODERMIC_ICOMPONENT_CONTEXT_H_
+# define	HYPODERMIC_ICOMPONENT_CONTEXT_H_
 
 # include <typeinfo>
 
+# include <Hypodermic/IComponentRegistration.h>
 # include <Hypodermic/TypedService.h>
 
 
@@ -45,4 +46,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !ICOMPONENT_CONTEXT_H_ */
+#endif /* !HYPODERMIC_ICOMPONENT_CONTEXT_H_ */

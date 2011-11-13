@@ -1,5 +1,5 @@
-#ifndef		REGISTRATION_BUILDER_H_
-# define	REGISTRATION_BUILDER_H_
+#ifndef		HYPODERMIC_REGISTRATION_BUILDER_H_
+# define	HYPODERMIC_REGISTRATION_BUILDER_H_
 
 # include <vector>
 # include <boost/type_traits.hpp>
@@ -32,6 +32,13 @@ namespace Hypodermic
 		IInstanceActivator* activator()
 		{
 			return activator_;
+		}
+
+		IRegistrationBuilder< T >* singleInstance()
+		{
+			registrationData().sharing(InstanceSharing::Shared);
+			//registrationData().Lifetime = new RootScopeLifetime();
+			return this;
 		}
 
 		template <class ServiceT>
@@ -97,4 +104,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !REGISTRATION_BUILDER_H_ */
+#endif /* !HYPODERMIC_REGISTRATION_BUILDER_H_ */

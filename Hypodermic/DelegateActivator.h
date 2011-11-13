@@ -1,5 +1,5 @@
-#ifndef		DELEGATE_ACTIVATOR_H_
-# define	DELEGATE_ACTIVATOR_H_
+#ifndef		HYPODERMIC_DELEGATE_ACTIVATOR_H_
+# define	HYPODERMIC_DELEGATE_ACTIVATOR_H_
 
 # include <typeinfo>
 
@@ -33,5 +33,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-
-#endif /* !DELEGATE_ACTIVATOR_H_ */
+#endif /* !HYPODERMIC_DELEGATE_ACTIVATOR_H_ */

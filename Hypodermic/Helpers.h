@@ -1,5 +1,5 @@
-#ifndef		HELPERS_H_
-# define	HELPERS_H_
+#ifndef		HYPODERMIC_HELPERS_H_
+# define	HYPODERMIC_HELPERS_H_
 
 
 # ifndef		HYPODERMIC_NO_HELPERS
@@ -16,4 +16,4 @@
 # endif /* !HYPODERMIC_NO_HELPERS */
 
 
-#endif /* !HELPERS_H_ */
+#endif /* !HYPODERMIC_HELPERS_H_ */

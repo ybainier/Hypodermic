@@ -1,7 +1,8 @@
-#ifndef		IREGISTRATION_BUILDER_H_
-# define	IREGISTRATION_BUILDER_H_
+#ifndef		HYPODERMIC_IREGISTRATION_BUILDER_H_
+# define	HYPODERMIC_IREGISTRATION_BUILDER_H_
 
 # include <vector>
+
 
 namespace Hypodermic
 {
@@ -16,6 +17,7 @@ namespace Hypodermic
 	public:
 		virtual RegistrationData& registrationData() = 0;
 		virtual IInstanceActivator* activator() = 0;
+		virtual IRegistrationBuilder< T >* singleInstance() = 0;
 
 		template <class ServiceT>
 		IRegistrationBuilder< T >* as()
@@ -27,5 +29,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-
-#endif /* !IREGISTRATION_BUILDER_H_ */
+#endif /* !HYPODERMIC_IREGISTRATION_BUILDER_H_ */

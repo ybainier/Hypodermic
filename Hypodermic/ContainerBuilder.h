@@ -1,5 +1,5 @@
-#ifndef		CONTAINER_BUILDER_H_
-# define	CONTAINER_BUILDER_H_
+#ifndef		HYPODERMIC_CONTAINER_BUILDER_H_
+# define	HYPODERMIC_CONTAINER_BUILDER_H_
 
 # include <stdexcept>
 # include <vector>
@@ -9,6 +9,7 @@
 # include <Hypodermic/Action.h>
 # include <Hypodermic/Container.h>
 # include <Hypodermic/Func.h>
+# include <Hypodermic/ProvidedInstanceActivator.h>
 # include <Hypodermic/RegistrationBuilder.h>
 
 
@@ -38,7 +39,7 @@ namespace Hypodermic
 			registerCallback(ConfigurationCallback(
 				[rb](IComponentRegistry* cr) -> void
 				{
-					return RegistrationBuilderFactory::registerSingleComponent(cr, rb);
+					RegistrationBuilderFactory::registerSingleComponent(cr, rb);
 				}));
 
 			return rb;
@@ -52,7 +53,28 @@ namespace Hypodermic
 			registerCallback(ConfigurationCallback(
 				[rb](IComponentRegistry* cr) -> void
 				{
-					return RegistrationBuilderFactory::registerSingleComponent(cr, rb);
+					RegistrationBuilderFactory::registerSingleComponent(cr, rb);
+				}));
+
+			return rb;
+		}
+
+		template <class T>
+		IRegistrationBuilder< T >* setup(T instance)
+		{
+			auto activator = new ProvidedInstanceActivator< T >(instance);
+
+			auto rb = new RegistrationBuilder< T >(
+				new TypedService(typeid(T)),
+				activator);
+
+			rb->singleInstance();
+
+			registerCallback(ConfigurationCallback(
+				[rb, activator](IComponentRegistry* cr) -> void
+				{
+					//activator.disposeInstance(rb.registrationData().ownership() == InstanceOwnership.OwnedByLifetimeScope);
+					RegistrationBuilderFactory::registerSingleComponent(cr, rb);
 				}));
 
 			return rb;
@@ -97,4 +119,4 @@ namespace Hypodermic
 
 
 
-#endif /* !CONTAINER_BUILDER_H_ */
+#endif /* !HYPODERMIC_CONTAINER_BUILDER_H_ */

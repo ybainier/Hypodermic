@@ -1,8 +1,9 @@
-#ifndef		REGISTRATION_DATA_H_
-# define	REGISTRATION_DATA_H_
+#ifndef		HYPODERMIC_REGISTRATION_DATA_H_
+# define	HYPODERMIC_REGISTRATION_DATA_H_
 
 # include <vector>
 
+# include <Hypodermic/InstanceSharing.h>
 # include <Hypodermic/Service.h>
 
 
@@ -14,7 +15,18 @@ namespace Hypodermic
 	public:
 		RegistrationData(Service* defaultService)
 			: defaultService_(defaultService), defaultServiceOverriden_(false)
+			, sharing_(InstanceSharing::None)
 		{
+		}
+
+		const InstanceSharing::Mode& sharing() const
+		{
+			return sharing_;
+		}
+
+		void sharing(InstanceSharing::Mode value)
+		{
+			sharing_ = value;
 		}
 
 		std::vector< Service* > services()
@@ -34,10 +46,11 @@ namespace Hypodermic
 	private:
 		Service* defaultService_;
 		bool defaultServiceOverriden_;
+		InstanceSharing::Mode sharing_;
 		std::vector< Service* > services_;
 	};
 
 } // namespace Hypodermic
 
 
-#endif /* !REGISTRATION_DATA_H_ */
+#endif /* !HYPODERMIC_REGISTRATION_DATA_H_ */

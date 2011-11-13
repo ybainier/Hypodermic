@@ -106,4 +106,19 @@ BOOST_AUTO_TEST_CASE(Setup_as_interface_should_prevent_from_resolving_concrete_t
 }
 
 
+BOOST_AUTO_TEST_CASE(Registered_instance_should_be_shared)
+{
+	ContainerBuilder builder;
+
+	builder.setup(new MyDep);
+
+	auto container = builder.build();
+
+	auto myDep = container->resolve< MyDep* >();
+	auto myDep2 = container->resolve< MyDep* >();
+
+	BOOST_CHECK(myDep == nullptr);
+	BOOST_CHECK(myDep2 != nullptr);
+}
+
 BOOST_AUTO_TEST_SUITE_END();

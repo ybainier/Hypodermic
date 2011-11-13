@@ -1,5 +1,5 @@
-#ifndef		FUNC_H_
-# define	FUNC_H_
+#ifndef		HYPODERMIC_FUNC_H_
+# define	HYPODERMIC_FUNC_H_
 
 # include <boost/function.hpp>
 
@@ -24,7 +24,25 @@ namespace Hypodermic
 		::boost::function< TResult(T) > func_;
 	};
 
+
+	template <class TResult>
+	struct Func< void, TResult >
+	{
+		Func(::boost::function< TResult() > func)
+			: func_(func)
+		{
+		}
+
+		TResult operator()() const
+		{
+			return func_();
+		}
+
+	private:
+		::boost::function< TResult() > func_;
+	};
+
 } // namespace Hypodermic
 
 
-#endif /* !FUNC_H_ */
+#endif /* !HYPODERMIC_FUNC_H_ */

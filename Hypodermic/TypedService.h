@@ -1,5 +1,5 @@
-#ifndef		TYPED_SERVICE_H_
-# define	TYPED_SERVICE_H_
+#ifndef		HYPODERMIC_TYPED_SERVICE_H_
+# define	HYPODERMIC_TYPED_SERVICE_H_
 
 # include <typeinfo>
 
@@ -44,4 +44,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !TYPED_SERVICE_H_ */
+#endif /* !HYPODERMIC_TYPED_SERVICE_H_ */
