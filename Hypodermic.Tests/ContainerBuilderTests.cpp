@@ -122,4 +122,22 @@ BOOST_AUTO_TEST_CASE(Registered_instance_should_be_shared)
 	BOOST_CHECK(myDep == myDep2);
 }
 
+
+BOOST_AUTO_TEST_CASE(Invoking_singleInstance_should_enable_instance_sharing)
+{
+    ContainerBuilder builder;
+
+    auto rb = builder.setup< MyDep* >()->as< IDep* >();
+
+    rb->singleInstance();
+
+    auto container = builder.build();
+
+    auto myDep = container->resolve< IDep* >();
+    auto myDep2 = container->resolve< IDep* >();
+
+    BOOST_CHECK(myDep == myDep2);
+}
+
+
 BOOST_AUTO_TEST_SUITE_END();

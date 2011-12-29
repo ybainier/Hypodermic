@@ -10,6 +10,7 @@
 # include <Hypodermic/IInstanceActivator.h>
 # include <Hypodermic/IRegistrationBuilder.h>
 # include <Hypodermic/RegistrationData.h>
+# include <Hypodermic/RootScopeLifetime.h>
 # include <Hypodermic/SingleRegistrationStyle.h>
 # include <Hypodermic/TypedService.h>
 
@@ -44,7 +45,7 @@ namespace Hypodermic
 		IRegistrationBuilder< T, RegistrationStyleT >* singleInstance()
 		{
 			registrationData().sharing(InstanceSharing::Shared);
-			//registrationData().Lifetime = new RootScopeLifetime();
+			registrationData().lifetime(new RootScopeLifetime);
 			return this;
 		}
 

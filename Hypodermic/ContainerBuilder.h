@@ -11,6 +11,7 @@
 # include <Hypodermic/Func.h>
 # include <Hypodermic/ProvidedInstanceActivator.h>
 # include <Hypodermic/RegistrationBuilder.h>
+# include <Hypodermic/RootScopeLifetime.h>
 # include <Hypodermic/SingleRegistrationStyle.h>
 
 
@@ -75,6 +76,10 @@ namespace Hypodermic
 			registerCallback(ConfigurationCallback(
 				[rb, activator](IComponentRegistry* cr) -> void
 				{
+                    auto rootScopeLifetime = dynamic_cast< RootScopeLifetime* >(rb->registrationData().lifetime());
+                    if (rootScopeLifetime == nullptr || rb->registrationData().sharing() != InstanceSharing::Shared)
+                        throw std::logic_error("Instance registration are single instance only");
+
 					//activator.disposeInstance(rb.registrationData().ownership() == InstanceOwnership.OwnedByLifetimeScope);
 					RegistrationBuilderFactory::registerSingleComponent(cr, rb);
 				}));

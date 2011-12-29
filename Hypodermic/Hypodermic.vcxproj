@@ -104,6 +104,7 @@
     <ClInclude Include="RegistrationBuilder.h" />
     <ClInclude Include="RegistrationData.h" />
     <ClInclude Include="ResolveOperation.h" />
+    <ClInclude Include="RootScopeLifetime.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="ServiceKey.h" />
     <ClInclude Include="ServiceRegistrationInfo.h" />
