@@ -9,14 +9,14 @@
 # include <boost/uuid/uuid.hpp>
 
 # include <Hypodermic/Action.h>
-# include <Hypodermic/ContainerBuilder.h>
 # include <Hypodermic/IComponentRegistry.h>
 # include <Hypodermic/ISharingLifetimeScope.h>
-# include <Hypodermic/LifetimeScope.h>
+# include <Hypodermic/ResolveOperation.h>
 
 
 namespace Hypodermic
 {
+    class ContainerBuilder;
 
 	class LifetimeScope : public ISharingLifetimeScope
 	{
@@ -36,6 +36,16 @@ namespace Hypodermic
 			return root_;
 		}
 
+        IComponentRegistry* componentRegistry()
+        {
+            return componentRegistry_;
+        }
+
+        static const boost::uuids::uuid& selfRegistrationId()
+        {
+            return selfRegistrationId_;
+        }
+
 		void* resolveComponent(IComponentRegistration* registration)
 		{
 			if (registration == nullptr)
@@ -46,13 +56,13 @@ namespace Hypodermic
 			{
 				boost::lock_guard< decltype(mutex_) > lock(mutex_);
 
-				//var operation = new ResolveOperation(this);
-				//ResolveOperationBeginning(this, new ResolveOperationBeginningEventArgs(operation));
-				//return operation.Execute(registration, parameters);
+                ResolveOperation operation(this);
+                //ResolveOperationBeginning(this, new ResolveOperationBeginningEventArgs(operation));
+                return operation.execute(registration);
 			}
 		}
 
-		void* getOrCreateAndShare(boost::uuids::uuid id, Func< void, void* > creator)
+		void* getOrCreateAndShare(const boost::uuids::uuid& id, Func< void, void* > creator)
 		{
 			boost::lock_guard< decltype(mutex_) > lock(mutex_);
 

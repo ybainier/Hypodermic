@@ -11,6 +11,7 @@
 # include <Hypodermic/Func.h>
 # include <Hypodermic/ProvidedInstanceActivator.h>
 # include <Hypodermic/RegistrationBuilder.h>
+# include <Hypodermic/SingleRegistrationStyle.h>
 
 
 namespace Hypodermic
@@ -18,7 +19,7 @@ namespace Hypodermic
 	class IComponentContext;
 	class IComponentRegistry;
 	class IContainer;
-	template <class T> class IRegistrationBuilder;
+	template <class T, class RegistrationStyleT> class IRegistrationBuilder;
 
 
 	class ContainerBuilder
@@ -32,7 +33,7 @@ namespace Hypodermic
 		}
 
 		template <class T>
-		IRegistrationBuilder< T >* setup(Func< IComponentContext*, T > delegate)
+		IRegistrationBuilder< T, SingleRegistrationStyle >* setup(Func< IComponentContext*, T > delegate)
 		{
 			auto rb = RegistrationBuilderFactory::forDelegate(delegate);
 			
@@ -46,7 +47,7 @@ namespace Hypodermic
 		}
 
 		template <class T>
-		IRegistrationBuilder< T >* setup()
+		IRegistrationBuilder< T, SingleRegistrationStyle >* setup()
 		{
 			auto rb = RegistrationBuilderFactory::forType< T >();
 
@@ -60,13 +61,14 @@ namespace Hypodermic
 		}
 
 		template <class T>
-		IRegistrationBuilder< T >* setup(T instance)
+		IRegistrationBuilder< T, SingleRegistrationStyle >* setup(T instance)
 		{
 			auto activator = new ProvidedInstanceActivator< T >(instance);
 
-			auto rb = new RegistrationBuilder< T >(
+			auto rb = new RegistrationBuilder< T, SingleRegistrationStyle >(
 				new TypedService(typeid(T)),
-				activator);
+				activator,
+                SingleRegistrationStyle());
 
 			rb->singleInstance();
 

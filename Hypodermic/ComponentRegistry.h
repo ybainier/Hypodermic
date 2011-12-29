@@ -35,14 +35,18 @@ namespace Hypodermic
 
 		void addRegistration(IComponentRegistration* registration)
 		{
-			registrations_.push_back(registration);
-
-			BOOST_FOREACH(Service* service, registration->services())
-			{
-				ServiceRegistrationInfo* info = getServiceInfo(service);
-				info->addImplementation(registration);
-			}
+            addRegistration(registration, false);
 		}
+
+        void addRegistration(IComponentRegistration* registration, bool preserveDefaults)
+        {
+            BOOST_FOREACH(Service* service, registration->services())
+            {
+                ServiceRegistrationInfo* info = getServiceInfo(service);
+                info->addImplementation(registration);
+            }
+            registrations_.push_back(registration);
+        }
 
 		std::vector< IComponentRegistration* > registrations()
 		{

@@ -7,7 +7,7 @@
 namespace Hypodermic
 {
 
-	template <class T, class TResult>
+	template <class T = void, class TResult = void>
 	struct Func
 	{
 		Func(::boost::function< TResult(T) > func)

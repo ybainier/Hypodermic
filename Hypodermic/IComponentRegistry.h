@@ -19,6 +19,7 @@ namespace Hypodermic
 		virtual bool isRegistered(Service* service) = 0;
 		
 		virtual void addRegistration(IComponentRegistration* registration) = 0;
+        virtual void addRegistration(IComponentRegistration* registration, bool preserveDefaults) = 0;
 
 		virtual std::vector< IComponentRegistration* > registrations() = 0;
 

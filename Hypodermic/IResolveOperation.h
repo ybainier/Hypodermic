@@ -10,6 +10,7 @@ namespace Hypodermic
 
 	class IResolveOperation
 	{
+    public:
 		virtual void* getOrCreateInstance(ISharingLifetimeScope* currentOperationScope,
 										  IComponentRegistration* registration) = 0;
 	};

@@ -3,6 +3,8 @@
 
 # include <vector>
 
+# include <Hypodermic/CurrentLifetimeScope.h>
+# include <Hypodermic/InstanceOwnership.h>
 # include <Hypodermic/InstanceSharing.h>
 # include <Hypodermic/Service.h>
 
@@ -14,12 +16,15 @@ namespace Hypodermic
 	{
 	public:
 		RegistrationData(Service* defaultService)
-			: defaultService_(defaultService), defaultServiceOverriden_(false)
+			: defaultService_(defaultService)
+            , defaultServiceOverriden_(false)
 			, sharing_(InstanceSharing::None)
+            , ownership_(InstanceOwnership::OwnedByLifetimeScope)
+            , lifetime_(new CurrentLifetimeScope)
 		{
 		}
 
-		const InstanceSharing::Mode& sharing() const
+		InstanceSharing::Mode sharing() const
 		{
 			return sharing_;
 		}
@@ -28,6 +33,27 @@ namespace Hypodermic
 		{
 			sharing_ = value;
 		}
+
+        InstanceOwnership::Mode ownership() const
+        {
+            return ownership_;
+        }
+
+        void ownership(InstanceOwnership::Mode value)
+        {
+            ownership_ = value;
+        }
+
+        IComponentLifetime* lifetime()
+        {
+            return lifetime_;
+        }
+
+        void lifetime(IComponentLifetime* value)
+        {
+            BOOST_ASSERT(value != nullptr);
+            lifetime_ = value;
+        }
 
 		std::vector< Service* > services()
 		{
@@ -47,6 +73,8 @@ namespace Hypodermic
 		Service* defaultService_;
 		bool defaultServiceOverriden_;
 		InstanceSharing::Mode sharing_;
+        InstanceOwnership::Mode ownership_;
+        IComponentLifetime* lifetime_;
 		std::vector< Service* > services_;
 	};
 

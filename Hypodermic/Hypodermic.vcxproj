@@ -74,20 +74,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
+    <ClInclude Include="CircularDependencyDetector.h" />
     <ClInclude Include="ComponentRegistration.h" />
     <ClInclude Include="ComponentRegistry.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="ContainerBuilder.h" />
+    <ClInclude Include="CurrentLifetimeScope.h" />
     <ClInclude Include="DelegateActivator.h" />
+    <ClInclude Include="DependencyResolutionException.h" />
     <ClInclude Include="Func.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="IComponentContext.h" />
+    <ClInclude Include="IComponentLifetime.h" />
     <ClInclude Include="IComponentRegistration.h" />
     <ClInclude Include="IComponentRegistry.h" />
     <ClInclude Include="IContainer.h" />
     <ClInclude Include="IInstanceActivator.h" />
+    <ClInclude Include="IInstanceLookup.h" />
     <ClInclude Include="ILifetimeScope.h" />
     <ClInclude Include="InstanceActivator.h" />
+    <ClInclude Include="InstanceLookup.h" />
+    <ClInclude Include="InstanceOwnership.h" />
     <ClInclude Include="InstanceSharing.h" />
     <ClInclude Include="IRegistrationBuilder.h" />
     <ClInclude Include="IResolveOperation.h" />
@@ -100,6 +107,7 @@
     <ClInclude Include="Service.h" />
     <ClInclude Include="ServiceKey.h" />
     <ClInclude Include="ServiceRegistrationInfo.h" />
+    <ClInclude Include="SingleRegistrationStyle.h" />
     <ClInclude Include="TypedService.h" />
   </ItemGroup>
   <ItemGroup>
