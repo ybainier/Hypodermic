@@ -167,5 +167,4 @@ BOOST_AUTO_TEST_CASE(Polymorphic_resolution_should_be_available_through_polymorp
     BOOST_CHECK(anotherServiceA != nullptr);
 }
 
-
 BOOST_AUTO_TEST_SUITE_END();

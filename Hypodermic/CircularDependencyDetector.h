@@ -2,79 +2,31 @@
 # define    HYPODERMIC_CIRCULAR_DEPENDENCY_DETECTOR_H_
 
 # include <deque>
-# include <stdexcept>
 # include <string>
 
-# include <boost/foreach.hpp>
-
-# include <Hypodermic/DependencyResolutionException.h>
-# include <Hypodermic/IComponentRegistration.h>
 # include <Hypodermic/InstanceLookup.h>
 
 
 namespace Hypodermic
 {
+    class IComponentRegistration;
+
 
     class CircularDependencyDetector
     {
     public:
         void checkForCircularDependency(IComponentRegistration* registration,
                                         const std::deque< InstanceLookup* >& activationStack,
-                                        int callDepth)
-        {
-            if (registration == nullptr)
-                throw std::invalid_argument("registration");
-
-            if (callDepth > maxResolveDepth_)
-            {
-                throw DependencyResolutionException("Max depth exceeded");
-                //throw new DependencyResolutionException(string.Format(CultureInfo.CurrentCulture,
-                //CircularDependencyDetectorResources.MaxDepthExceeded, registration));
-            }
-
-            if (isCircularDependency(registration, activationStack))
-            {
-                throw DependencyResolutionException("Circular dependency: " + createDependencyGraphTo(registration, activationStack));
-                //throw new DependencyResolutionException(string.Format(CultureInfo.CurrentCulture,
-                //CircularDependencyDetectorResources.CircularDependency, CreateDependencyGraphTo(registration, activationStack)));
-            }
-        }
+                                        int callDepth);
 
     private:
         static std::string createDependencyGraphTo(IComponentRegistration* registration,
-                                                   const std::deque< InstanceLookup* >& activationStack)
-        {
-            if (registration == nullptr)
-                throw std::invalid_argument("registration");
+                                                   const std::deque< InstanceLookup* >& activationStack);
 
-            std::string dependencyGraph = display(registration);
-
-            BOOST_FOREACH(auto activation, activationStack)
-            {
-                dependencyGraph = display(activation->componentRegistration()) + " -> " + dependencyGraph;
-            }
-
-            return dependencyGraph;
-        }
-
-        static std::string display(IComponentRegistration* registration)
-        {
-            return registration->activator()->typeInfo().name();
-        }
+        static std::string display(IComponentRegistration* registration);
 
         static bool isCircularDependency(IComponentRegistration* registration,
-                                         const std::deque< InstanceLookup* >& activationStack)
-        {
-            if (registration == nullptr)
-                throw std::invalid_argument("registration");
-            int registrationCount = 0;
-            BOOST_FOREACH(auto activation, activationStack)
-            {
-                if (activation->componentRegistration() == registration)
-                    ++registrationCount;
-            }
-            return registrationCount > 0;
-        }
+                                         const std::deque< InstanceLookup* >& activationStack);
 
         static const int maxResolveDepth_ = 50;
     };

@@ -112,7 +112,12 @@
     <ClInclude Include="TypedService.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CircularDependencyDetector.cpp" />
+    <ClCompile Include="ComponentRegistration.cpp" />
+    <ClCompile Include="ComponentRegistry.cpp" />
+    <ClCompile Include="Container.cpp" />
     <ClCompile Include="LifetimeScope.cpp" />
+    <ClCompile Include="RootScopeLifetime.cpp" />
     <ClCompile Include="ServiceKey.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

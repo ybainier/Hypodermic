@@ -8,6 +8,7 @@
 # include <Hypodermic/CurrentLifetimeScope.h>
 # include <Hypodermic/DelegateActivator.h>
 # include <Hypodermic/IComponentContext.h>
+# include <Hypodermic/IComponentRegistry.h>
 # include <Hypodermic/IInstanceActivator.h>
 # include <Hypodermic/IRegistrationBuilder.h>
 # include <Hypodermic/RegistrationData.h>

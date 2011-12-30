@@ -1,66 +1,27 @@
 #ifndef		HYPODERMIC_CONTAINER_H_
 # define	HYPODERMIC_CONTAINER_H_
 
-# include <stdexcept>
-# include <boost/assign.hpp>
-
-# include <Hypodermic/ComponentRegistration.h>
-# include <Hypodermic/ComponentRegistry.h>
-# include <Hypodermic/CurrentLifetimeScope.h>
-# include <Hypodermic/DelegateActivator.h>
 # include <Hypodermic/IComponentContext.h>
-# include <Hypodermic/IComponentRegistry.h>
 # include <Hypodermic/IContainer.h>
-# include <Hypodermic/ILifetimeScope.h>
-# include <Hypodermic/LifetimeScope.h>
-# include <Hypodermic/TypedService.h>
 
 
 namespace Hypodermic
 {
+    class IComponentRegistration;
+    class IComponentRegistry;
+    class ILifetimeScope;
+
+
 	class Container : public IContainer, public IComponentContext
 	{
 	public:
-		Container()
-		{
-            using namespace boost::assign;
+		Container();
 
-            std::vector< Service* > services = list_of(new TypedService(typeid(ILifetimeScope*)))
-                                                      (new TypedService(typeid(IComponentContext*)));
+		IComponentRegistry* componentRegistry();
 
-			componentRegistry_ = new ComponentRegistry;
+		void* resolveComponent(IComponentRegistration* registration);
 
-            componentRegistry_->addRegistration(new ComponentRegistration(
-                LifetimeScope::selfRegistrationId(),
-                new DelegateActivator< LifetimeScope* >(
-                    typeid(LifetimeScope*), Func< IComponentContext*, LifetimeScope* >(
-                        [](IComponentContext* c) -> LifetimeScope*
-                        {
-                            throw std::logic_error("Self registration cannot be activated");
-                        })),
-                new CurrentLifetimeScope,
-                InstanceSharing::Shared,
-                InstanceOwnership::ExternallyOwned,
-                services));
-
-            rootLifetimeScope_ = new LifetimeScope(componentRegistry_);
-        }
-
-		IComponentRegistry* componentRegistry()
-		{
-			return componentRegistry_;
-		}
-
-		void* resolveComponent(IComponentRegistration* registration)
-		{
-            return rootLifetimeScope_->resolveComponent(registration);
-		}
-
-		void* getOrCreateInstance(IComponentRegistration* registration)
-		{
-			auto i = registration->activator()->activateInstance(this);
-			return i;
-		}
+		void* getOrCreateInstance(IComponentRegistration* registration);
 
 	private:
 		IComponentRegistry* componentRegistry_;
