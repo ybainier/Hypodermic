@@ -5,6 +5,7 @@
 # include <boost/type_traits.hpp>
 
 # include <Hypodermic/ComponentRegistration.h>
+# include <Hypodermic/CurrentLifetimeScope.h>
 # include <Hypodermic/DelegateActivator.h>
 # include <Hypodermic/IComponentContext.h>
 # include <Hypodermic/IInstanceActivator.h>
@@ -44,10 +45,27 @@ namespace Hypodermic
 
 		IRegistrationBuilder< T, RegistrationStyleT >* singleInstance()
 		{
-			registrationData().sharing(InstanceSharing::Shared);
-			registrationData().lifetime(new RootScopeLifetime);
+            auto& rd = registrationData();
+			rd.sharing(InstanceSharing::Shared);
+			rd.lifetime(new RootScopeLifetime);
 			return this;
 		}
+
+        IRegistrationBuilder< T, RegistrationStyleT >* instancePerLifetimeScope()
+        {
+            auto& rd = registrationData();
+            rd.sharing(InstanceSharing::Shared);
+            rd.lifetime(new CurrentLifetimeScope);
+            return this;
+        }
+
+        IRegistrationBuilder< T, RegistrationStyleT >* instancePerDependency()
+        {
+            auto& rd = registrationData();
+            rd.sharing(InstanceSharing::None);
+            rd.lifetime(new CurrentLifetimeScope);
+            return this;
+        }
 
 		template <class ServiceT>
 		IRegistrationBuilder< T, RegistrationStyleT >* as()

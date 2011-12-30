@@ -5,6 +5,8 @@
 # include <stdexcept>
 # include <string>
 
+# include <boost/foreach.hpp>
+
 # include <Hypodermic/DependencyResolutionException.h>
 # include <Hypodermic/IComponentRegistration.h>
 # include <Hypodermic/InstanceLookup.h>
@@ -45,28 +47,33 @@ namespace Hypodermic
             if (registration == nullptr)
                 throw std::invalid_argument("registration");
 
-            std::string dependencyGraph;
-            //var dependencyGraph = Display(registration);
+            std::string dependencyGraph = display(registration);
 
-            //foreach (var requestor in activationStack.Select(a => a.ComponentRegistration))
-            //    dependencyGraph = Display(requestor) + " -> " + dependencyGraph;
+            BOOST_FOREACH(auto activation, activationStack)
+            {
+                dependencyGraph = display(activation->componentRegistration()) + " -> " + dependencyGraph;
+            }
 
             return dependencyGraph;
         }
 
         static std::string display(IComponentRegistration* registration)
         {
-            //return registration.Activator.LimitType.FullName ?? string.Empty;
-            return "";
+            return registration->activator()->typeInfo().name();
         }
 
         static bool isCircularDependency(IComponentRegistration* registration,
                                          const std::deque< InstanceLookup* >& activationStack)
         {
-            //if (registration == null) throw new ArgumentNullException("registration");
-            //if (activationStack == null) throw new ArgumentNullException("activationStack");
-            //return activationStack.Count(a => a.ComponentRegistration == registration) >= 1;
-            return false;
+            if (registration == nullptr)
+                throw std::invalid_argument("registration");
+            int registrationCount = 0;
+            BOOST_FOREACH(auto activation, activationStack)
+            {
+                if (activation->componentRegistration() == registration)
+                    ++registrationCount;
+            }
+            return registrationCount > 0;
         }
 
         static const int maxResolveDepth_ = 50;

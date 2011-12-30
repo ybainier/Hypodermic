@@ -10,23 +10,36 @@
 using namespace Hypodermic;
 
 
-struct IDep
+struct IServiceA
+{
+    virtual ~IServiceA()
+    {
+    }
+};
+
+struct IRunWithScissors
+{
+    virtual ~IRunWithScissors()
+    {
+    }
+};
+
+struct ServiceA : IServiceA, IRunWithScissors
 {
 };
 
-struct MyDep : public IDep
+struct IServiceB
 {
+    virtual ~IServiceB()
+    {
+    }
 };
 
-struct IMyType
+struct ServiceB : IServiceB
 {
-};
-
-struct MyType : public IMyType
-{
-	MyType(IDep* dep)
+	ServiceB(IServiceA* serviceA)
 	{
-        BOOST_ASSERT(dep != nullptr);
+        BOOST_ASSERT(serviceA != nullptr);
 	}
 };
 
@@ -37,13 +50,13 @@ BOOST_AUTO_TEST_CASE(Concrete_type_can_be_setup_and_get_resolved)
 {
 	ContainerBuilder builder;
 
-	builder.setup< MyDep* >();
+	builder.setup< ServiceA* >();
 
 	auto container = builder.build();
 
-	auto myDep = container->resolve< MyDep* >();
+	auto serviceA = container->resolve< ServiceA* >();
 
-	BOOST_CHECK(myDep != nullptr);
+	BOOST_CHECK(serviceA != nullptr);
 }
 
 
@@ -51,28 +64,27 @@ BOOST_AUTO_TEST_CASE(Should_be_setup_as_an_interface_and_get_resolved)
 {
 	ContainerBuilder builder;
 
-	builder.setup< MyDep* >()->as< IDep* >();
+	builder.setup< ServiceA* >()->as< IServiceA* >();
 
 	auto container = builder.build();
 
-	auto myDep = container->resolve< IDep* >();
+	auto serviceA = container->resolve< IServiceA* >();
 
-	BOOST_CHECK(myDep != nullptr);
+	BOOST_CHECK(serviceA != nullptr);
 }
-
 
 BOOST_AUTO_TEST_CASE(Should_be_setup_as_an_interface_and_resolve_abstract_dependencies)
 {
 	ContainerBuilder builder;
 
-	builder.setup< MyDep* >()->as< IDep* >();
-	builder.setup(CREATE(MyType*, new MyType(INJECT(IDep*))))->as< IMyType* >();
+	builder.setup< ServiceA* >()->as< IServiceA* >();
+	builder.setup(CREATE(ServiceB*, new ServiceB(INJECT(IServiceA*))))->as< IServiceB* >();
 
 	auto container = builder.build();
 
-	auto myType = container->resolve< IMyType* >();
+	auto serviceB = container->resolve< IServiceB* >();
 
-	BOOST_CHECK(myType != nullptr);
+	BOOST_CHECK(serviceB != nullptr);
 }
 
 
@@ -80,14 +92,14 @@ BOOST_AUTO_TEST_CASE(Default_lifetime_should_be_transient)
 {
 	ContainerBuilder builder;
 
-	builder.setup< MyDep* >()->as< IDep* >();
+	builder.setup< ServiceA* >()->as< IServiceA* >();
 
 	auto container = builder.build();
 
-	auto myDep = container->resolve< IDep* >();
-	auto myDep2 = container->resolve< IDep* >();
+	auto serviceA = container->resolve< IServiceA* >();
+	auto anotherServiceA = container->resolve< IServiceA* >();
 
-	BOOST_CHECK(myDep != myDep2);
+	BOOST_CHECK(serviceA != anotherServiceA);
 }
 
 
@@ -95,15 +107,15 @@ BOOST_AUTO_TEST_CASE(Setup_as_interface_should_prevent_from_resolving_concrete_t
 {
 	ContainerBuilder builder;
 
-	builder.setup< MyDep* >()->as< IDep* >();
+	builder.setup< ServiceA* >()->as< IServiceA* >();
 
 	auto container = builder.build();
 
-	auto myDep = container->resolve< MyDep* >();
-	auto myDep2 = container->resolve< IDep* >();
+	auto unresolvedServiceA = container->resolve< ServiceA* >();
+	auto serviceA = container->resolve< IServiceA* >();
 
-	BOOST_CHECK(myDep == nullptr);
-	BOOST_CHECK(myDep2 != nullptr);
+	BOOST_CHECK(unresolvedServiceA == nullptr);
+	BOOST_CHECK(serviceA != nullptr);
 }
 
 
@@ -111,15 +123,17 @@ BOOST_AUTO_TEST_CASE(Registered_instance_should_be_shared)
 {
 	ContainerBuilder builder;
 
-	builder.setup(new MyDep);
+    auto registeredServiceA = new ServiceA;
+	builder.setup(registeredServiceA);
 
 	auto container = builder.build();
 
-	auto myDep = container->resolve< MyDep* >();
-	auto myDep2 = container->resolve< MyDep* >();
+	auto serviceA = container->resolve< ServiceA* >();
+	auto sameServiceA = container->resolve< ServiceA* >();
 
-	BOOST_CHECK(myDep != nullptr);
-	BOOST_CHECK(myDep == myDep2);
+	BOOST_CHECK(serviceA != nullptr);
+    BOOST_CHECK(serviceA == registeredServiceA);
+	BOOST_CHECK(serviceA == sameServiceA);
 }
 
 
@@ -127,16 +141,30 @@ BOOST_AUTO_TEST_CASE(Invoking_singleInstance_should_enable_instance_sharing)
 {
     ContainerBuilder builder;
 
-    auto rb = builder.setup< MyDep* >()->as< IDep* >();
-
-    rb->singleInstance();
+    builder.setup< ServiceA* >()->as< IServiceA* >()->singleInstance();
 
     auto container = builder.build();
 
-    auto myDep = container->resolve< IDep* >();
-    auto myDep2 = container->resolve< IDep* >();
+    auto serviceA = container->resolve< IServiceA* >();
+    auto sameServiceA = container->resolve< IServiceA* >();
 
-    BOOST_CHECK(myDep == myDep2);
+    BOOST_CHECK(serviceA != nullptr);
+    BOOST_CHECK(serviceA == sameServiceA);
+}
+
+BOOST_AUTO_TEST_CASE(Polymorphic_resolution_should_be_available_through_polymorphic_registration)
+{
+    ContainerBuilder builder;
+
+    builder.setup< ServiceA* >()->as< IServiceA* >()->as< IRunWithScissors* >();
+
+    auto container = builder.build();
+
+    auto serviceA = container->resolve< IServiceA* >();
+    auto anotherServiceA = container->resolve< IRunWithScissors* >();
+
+    BOOST_CHECK(serviceA != nullptr);
+    BOOST_CHECK(anotherServiceA != nullptr);
 }
 
 
