@@ -43,9 +43,9 @@ struct ServiceB : IServiceB
 	}
 };
 
-struct ServiceBRunWithScissors : IServiceB
+struct ServiceRunningWithScissors : IServiceB
 {
-    ServiceBRunWithScissors(IRunWithScissors* serviceA)
+    ServiceRunningWithScissors(IRunWithScissors* serviceA)
     {
         BOOST_ASSERT(serviceA != nullptr);
     }
@@ -200,8 +200,8 @@ BOOST_AUTO_TEST_CASE(Multiple_inheritance_is_tricky_and_keep_in_mind_it_should_b
     auto serviceA = new ServiceA;
     builder.setup(serviceA)->as< IRunWithScissors* >()->singleInstance();
 
-    builder.setup(CREATE(ServiceBRunWithScissors*,
-                         new ServiceBRunWithScissors(
+    builder.setup(CREATE(ServiceRunningWithScissors*,
+                         new ServiceRunningWithScissors(
                             reinterpret_cast< ServiceA* >(c->resolve< IRunWithScissors* >())
                          )))->as< IServiceB* >();
 
