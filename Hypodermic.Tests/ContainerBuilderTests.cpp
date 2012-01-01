@@ -43,6 +43,14 @@ struct ServiceB : IServiceB
 	}
 };
 
+struct ServiceBRunWithScissors : IServiceB
+{
+    ServiceBRunWithScissors(IRunWithScissors* serviceA)
+    {
+        BOOST_ASSERT(serviceA != nullptr);
+    }
+};
+
 
 BOOST_AUTO_TEST_SUITE(ContainerBuilderTests);
 
@@ -165,6 +173,43 @@ BOOST_AUTO_TEST_CASE(Polymorphic_resolution_should_be_available_through_polymorp
 
     BOOST_CHECK(serviceA != nullptr);
     BOOST_CHECK(anotherServiceA != nullptr);
+}
+
+BOOST_AUTO_TEST_CASE(Polymorphic_resolution_is_tricky_and_should_be_cast_manually)
+{
+    ContainerBuilder builder;
+
+    auto registeredServiceA = new ServiceA;
+    builder.setup(registeredServiceA)->as< IServiceA* >()->as< IRunWithScissors* >();
+
+    auto container = builder.build();
+
+    auto serviceARunWithScissorsBadVTableAlignment = reinterpret_cast< ServiceA* >(container->resolve< IRunWithScissors* >());
+
+    IRunWithScissors* iRunWithScissors = serviceARunWithScissorsBadVTableAlignment;
+    auto serviceA = dynamic_cast< ServiceA* >(iRunWithScissors);
+
+    BOOST_CHECK(iRunWithScissors != nullptr);
+    BOOST_CHECK(serviceA == registeredServiceA);
+}
+
+BOOST_AUTO_TEST_CASE(Multiple_inheritance_is_tricky_and_keep_in_mind_it_should_be_cast_manually)
+{
+    ContainerBuilder builder;
+
+    auto serviceA = new ServiceA;
+    builder.setup(serviceA)->as< IRunWithScissors* >()->singleInstance();
+
+    builder.setup(CREATE(ServiceBRunWithScissors*,
+                         new ServiceBRunWithScissors(
+                            reinterpret_cast< ServiceA* >(c->resolve< IRunWithScissors* >())
+                         )))->as< IServiceB* >();
+
+    auto container = builder.build();
+
+    auto serviceB = container->resolve< IServiceB* >();
+
+    BOOST_CHECK(serviceB != nullptr);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
