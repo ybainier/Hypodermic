@@ -11,10 +11,7 @@ namespace Hypodermic
     class DependencyResolutionException : public std::logic_error
     {
     public:
-        DependencyResolutionException(std::string message)
-            : std::logic_error(message)
-        {
-        }
+        DependencyResolutionException(std::string message);
     };
 
 } // namespace Hypodermic

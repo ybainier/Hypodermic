@@ -12,30 +12,13 @@ namespace Hypodermic
 	class TypedService : public Service
 	{
 	public:
-		TypedService(const type_info& serviceTypeInfo)
-			: serviceTypeInfo_(serviceTypeInfo)
-		{
-		}
+		TypedService(const type_info& serviceTypeInfo);
 
-		const type_info& serviceTypeInfo() const
-		{
-			return serviceTypeInfo_;
-		}
+		const type_info& serviceTypeInfo() const;
 
-		bool operator==(const Service& rhs) const
-		{
-			const TypedService* that = static_cast< const TypedService* >(&rhs);
+		bool operator==(const Service& rhs) const;
 
-			if (that == nullptr)
-				return false;
-
-			return serviceTypeInfo_ == that->serviceTypeInfo_;
-		}
-
-		std::size_t hashValue()
-		{
-			return boost::hash< const char* >()(serviceTypeInfo_.name());
-		}
+		std::size_t hashValue();
 
 	private:
 		const type_info& serviceTypeInfo_;

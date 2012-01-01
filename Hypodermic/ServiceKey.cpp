@@ -1,8 +1,16 @@
+#include "Service.h"
 #include "ServiceKey.h"
 
 
 namespace Hypodermic
 {
+
+    ServiceKey::ServiceKey(Service* service)
+        : service_(service)
+    {
+
+    }
+
 	bool operator==(const ServiceKey& lhs, const ServiceKey& rhs)
 	{
 		return *lhs.service_ == *rhs.service_;

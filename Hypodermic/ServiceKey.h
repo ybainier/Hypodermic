@@ -1,18 +1,15 @@
 #ifndef		HYPODERMIC_SERVICE_KEY_H_
 # define	HYPODERMIC_SERVICE_KEY_H_
 
-# include <Hypodermic/Service.h>
-
 
 namespace Hypodermic
 {
+    class Service;
+
 
 	struct ServiceKey
 	{
-		ServiceKey(Service* service)
-			: service_(service)
-		{
-		}
+		ServiceKey(Service* service);
 
 		friend bool operator==(const ServiceKey& lhs, const ServiceKey& rhs);
 		friend std::size_t hash_value(const ServiceKey& serviceKey);

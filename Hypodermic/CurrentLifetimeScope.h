@@ -1,25 +1,21 @@
-#ifndef     CURRENT_LIFETIME_SCOPE_H_
-# define    CURRENT_LIFETIME_SCOPE_H_
+#ifndef     HYPODERMIC_CURRENT_LIFETIME_SCOPE_H_
+# define    HYPODERMIC_CURRENT_LIFETIME_SCOPE_H_
 
-# include <stdexcept>
 # include <Hypodermic/IComponentLifetime.h>
 
 
 namespace Hypodermic
 {
+    class ISharingLifetimeScope;
+
 
     class CurrentLifetimeScope : public IComponentLifetime
     {
     public:
-        ISharingLifetimeScope* findScope(ISharingLifetimeScope* mostNestedVisibleScope)
-        {
-            if (mostNestedVisibleScope == nullptr)
-                throw std::invalid_argument("mostNestedVisibleScope");
-            return mostNestedVisibleScope;
-        }
+        ISharingLifetimeScope* findScope(ISharingLifetimeScope* mostNestedVisibleScope);
     };
 
 } // namespace Hypodermic
 
 
-#endif /* !CURRENT_LIFETIME_SCOPE_H_ */
+#endif /* !HYPODERMIC_CURRENT_LIFETIME_SCOPE_H_ */

@@ -1,52 +1,30 @@
-#ifndef     SINGLE_REGISTRATION_STYLE_H_
-# define    SINGLE_REGISTRATION_STYLE_H_
+#ifndef     HYPODERMIC_SINGLE_REGISTRATION_STYLE_H_
+# define    HYPODERMIC_SINGLE_REGISTRATION_STYLE_H_
 
 # include <boost/uuid/uuid.hpp>
-# include <boost/uuid/random_generator.hpp>
 
 
 namespace Hypodermic
 {
+    class IComponentRegistration;
+
 
     class SingleRegistrationStyle
     {
     public:
-        SingleRegistrationStyle()
-            : id_(boost::uuids::random_generator()())
-            , preserveDefaults_(false)
-            , target_(nullptr)
-        {
-        }
+        SingleRegistrationStyle();
 
-        const boost::uuids::uuid& id() const
-        {
-            return id_;
-        }
+        const boost::uuids::uuid& id() const;
 
-        void id(const boost::uuids::uuid& value)
-        {
-            id_ = value;
-        }
+        void id(const boost::uuids::uuid& value);
 
-        bool preserveDefaults() const
-        {
-            return preserveDefaults_;
-        }
+        bool preserveDefaults() const;
 
-        void preserveDefaults(bool value)
-        {
-            preserveDefaults_ = value;
-        }
+        void preserveDefaults(bool value);
 
-        IComponentRegistration* target()
-        {
-            return target_;
-        }
+        IComponentRegistration* target();
 
-        void target(IComponentRegistration* value)
-        {
-            target_ = value;
-        }
+        void target(IComponentRegistration* value);
 
     private:
         boost::uuids::uuid id_;
@@ -57,4 +35,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !SINGLE_REGISTRATION_STYLE_H_ */
+#endif /* !HYPODERMIC_SINGLE_REGISTRATION_STYLE_H_ */

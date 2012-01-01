@@ -1,8 +1,6 @@
 #ifndef		HYPODERMIC_IREGISTRATION_BUILDER_H_
 # define	HYPODERMIC_IREGISTRATION_BUILDER_H_
 
-# include <vector>
-
 
 namespace Hypodermic
 {

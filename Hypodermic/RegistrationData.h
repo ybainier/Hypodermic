@@ -3,7 +3,6 @@
 
 # include <vector>
 
-# include <Hypodermic/CurrentLifetimeScope.h>
 # include <Hypodermic/InstanceOwnership.h>
 # include <Hypodermic/InstanceSharing.h>
 # include <Hypodermic/Service.h>
@@ -11,63 +10,29 @@
 
 namespace Hypodermic
 {
+    class IComponentLifetime;
+
 
 	class RegistrationData
 	{
 	public:
-		RegistrationData(Service* defaultService)
-			: defaultService_(defaultService)
-            , defaultServiceOverriden_(false)
-			, sharing_(InstanceSharing::None)
-            , ownership_(InstanceOwnership::OwnedByLifetimeScope)
-            , lifetime_(new CurrentLifetimeScope)
-		{
-		}
+		RegistrationData(Service* defaultService);
 
-		InstanceSharing::Mode sharing() const
-		{
-			return sharing_;
-		}
+		InstanceSharing::Mode sharing() const;
 
-		void sharing(InstanceSharing::Mode value)
-		{
-			sharing_ = value;
-		}
+		void sharing(InstanceSharing::Mode value);
 
-        InstanceOwnership::Mode ownership() const
-        {
-            return ownership_;
-        }
+        InstanceOwnership::Mode ownership() const;
 
-        void ownership(InstanceOwnership::Mode value)
-        {
-            ownership_ = value;
-        }
+        void ownership(InstanceOwnership::Mode value);
 
-        IComponentLifetime* lifetime()
-        {
-            return lifetime_;
-        }
+        IComponentLifetime* lifetime();
 
-        void lifetime(IComponentLifetime* value)
-        {
-            BOOST_ASSERT(value != nullptr);
-            lifetime_ = value;
-        }
+        void lifetime(IComponentLifetime* value);
 
-		std::vector< Service* > services()
-		{
-			if (defaultServiceOverriden_)
-				return services_;
+		std::vector< Service* > services();
 
-			return std::vector< Service* >(1, defaultService_);
-		}
-
-		void addService(Service* service)
-		{
-			defaultServiceOverriden_ = true;
-			services_.push_back(service);
-		}
+		void addService(Service* service);
 
 	private:
 		Service* defaultService_;

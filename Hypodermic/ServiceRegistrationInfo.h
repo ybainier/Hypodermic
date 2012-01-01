@@ -1,43 +1,28 @@
 #ifndef		HYPODERMIC_SERVICE_REGISTRATION_INFO_H_
 # define	HYPODERMIC_SERVICE_REGISTRATION_INFO_H_
 
-# include <deque>
+# include <vector>
 
-# include <Hypodermic/Service.h>
+# include <Hypodermic/IComponentRegistration.h>
 
 
 namespace Hypodermic
 {
+    class Service;
+
 
 	class ServiceRegistrationInfo
 	{
 	public:
-		ServiceRegistrationInfo(Service* service)
-			: service_(service), isInitialized_(false)
-		{
-		}
+		ServiceRegistrationInfo(Service* service);
 
-		std::vector< IComponentRegistration* >& implementations()
-		{
-			return implementations_;
-		}
+		std::vector< IComponentRegistration* >& implementations();
 
-		void addImplementation(IComponentRegistration* registration)
-		{
-			implementations_.push_back(registration);
-		}
+		void addImplementation(IComponentRegistration* registration);
 
-		IComponentRegistration* getRegistration()
-		{
-			if (implementations_.size() > 0)
-				return implementations_[0];
-			return nullptr;
-		}
+		IComponentRegistration* getRegistration();
 
-		bool isRegistered() 
-		{
-			return implementations_.size() > 0 && implementations_[0] != nullptr;
-		}
+		bool isRegistered();
 
 
 	private:

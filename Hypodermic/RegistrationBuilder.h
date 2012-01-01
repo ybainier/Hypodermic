@@ -24,56 +24,22 @@ namespace Hypodermic
 	{
 	public:
 		RegistrationBuilder(Service* defaultService, IInstanceActivator* activator,
-                            const RegistrationStyleT& registrationStyle)
-			: registrationData_(defaultService), activator_(activator), registrationStyle_(registrationStyle)
-		{
-		}
+                            const RegistrationStyleT& registrationStyle);
 
-		RegistrationData& registrationData()
-		{
-			return registrationData_;
-		}
+		RegistrationData& registrationData();
 
-		IInstanceActivator* activator()
-		{
-			return activator_;
-		}
+		IInstanceActivator* activator();
 
-        RegistrationStyleT& registrationStyle()
-        {
-            return registrationStyle_;
-        }
+        RegistrationStyleT& registrationStyle();
 
-		IRegistrationBuilder< T, RegistrationStyleT >* singleInstance()
-		{
-            auto& rd = registrationData();
-			rd.sharing(InstanceSharing::Shared);
-			rd.lifetime(new RootScopeLifetime);
-			return this;
-		}
+		IRegistrationBuilder< T, RegistrationStyleT >* singleInstance();
 
-        IRegistrationBuilder< T, RegistrationStyleT >* instancePerLifetimeScope()
-        {
-            auto& rd = registrationData();
-            rd.sharing(InstanceSharing::Shared);
-            rd.lifetime(new CurrentLifetimeScope);
-            return this;
-        }
+        IRegistrationBuilder< T, RegistrationStyleT >* instancePerLifetimeScope();
 
-        IRegistrationBuilder< T, RegistrationStyleT >* instancePerDependency()
-        {
-            auto& rd = registrationData();
-            rd.sharing(InstanceSharing::None);
-            rd.lifetime(new CurrentLifetimeScope);
-            return this;
-        }
+        IRegistrationBuilder< T, RegistrationStyleT >* instancePerDependency();
 
 		template <class ServiceT>
-		IRegistrationBuilder< T, RegistrationStyleT >* as()
-		{
-			registrationData_.addService(new TypedService(typeid(ServiceT)));
-			return this;
-		}
+		IRegistrationBuilder< T, RegistrationStyleT >* as();
 
 	private:
 		RegistrationData registrationData_;
@@ -161,6 +127,9 @@ namespace Hypodermic
 	};
 
 } // namespace Hypodermic
+
+
+# include <Hypodermic/RegistrationBuilder.hpp>
 
 
 #endif /* !HYPODERMIC_REGISTRATION_BUILDER_H_ */

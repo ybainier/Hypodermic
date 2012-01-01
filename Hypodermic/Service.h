@@ -1,7 +1,7 @@
 #ifndef		HYPODERMIC_SERVICE_H_
 # define	HYPODERMIC_SERVICE_H_
 
-# include <boost/functional/hash.hpp>
+# include <boost/cstdint.hpp>
 
 
 namespace Hypodermic
@@ -12,10 +12,7 @@ namespace Hypodermic
 	public:
 		virtual bool operator==(const Service& rhs) const = 0;
 		
-		bool operator!=(const Service& rhs) const
-		{
-			return !(*this == rhs);
-		}
+		bool operator!=(const Service& rhs) const;
 
 		virtual std::size_t hashValue() = 0;
 	};

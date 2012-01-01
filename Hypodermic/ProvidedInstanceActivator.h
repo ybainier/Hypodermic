@@ -1,8 +1,6 @@
 #ifndef		HYPODERMIC_PROVIDED_INSTANCE_ACTIVATOR_H_
 # define	HYPODERMIC_PROVIDED_INSTANCE_ACTIVATOR_H_
 
-# include <stdexcept>
-
 # include <Hypodermic/InstanceActivator.h>
 
 
@@ -13,39 +11,14 @@ namespace Hypodermic
 	class ProvidedInstanceActivator : public InstanceActivator
 	{
 	public:
-		ProvidedInstanceActivator(T instance)
-			: InstanceActivator(typeid(T)), instance_(instance)
-			, activated_(false), disposeInstance_(false)
-		{
-		}
+		ProvidedInstanceActivator(T instance);
+		~ProvidedInstanceActivator();
 
-		~ProvidedInstanceActivator()
-		{
-			if (disposeInstance_)
-			{
-				// TODO: dispose or delete instance?
-			}
-		}
+		void* activateInstance(IComponentContext* context);
 
-		void* activateInstance(IComponentContext* context)
-		{
-			if (activated_)
-				throw std::logic_error("Instance already activated");
+		bool disposeInstance() const;
 
-			activated_ = true;
-
-			return instance_;
-		}
-
-		bool disposeInstance() const
-		{
-			return disposeInstance_;
-		}
-
-		void disposeInstance(bool value)
-		{
-			disposeInstance_ = value;
-		}
+		void disposeInstance(bool value);
 
 	private:
 		T instance_;
@@ -54,6 +27,9 @@ namespace Hypodermic
 	};
 
 } // namespace Hypodermic
+
+
+# include <Hypodermic/ProvidedInstanceActivator.hpp>
 
 
 #endif /* !HYPODERMIC_PROVIDED_INSTANCE_ACTIVATOR_H_ */

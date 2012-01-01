@@ -1,5 +1,5 @@
-#ifndef     ROOT_SCOPE_LIFETIME_H_
-# define    ROOT_SCOPE_LIFETIME_H_
+#ifndef     HYPODERMIC_ROOT_SCOPE_LIFETIME_H_
+# define    HYPODERMIC_ROOT_SCOPE_LIFETIME_H_
 
 # include <Hypodermic/IComponentLifetime.h>
 
@@ -18,4 +18,4 @@ namespace Hypodermic
 } // namespace Hypodermic
 
 
-#endif /* !ROOT_SCOPE_LIFETIME_H_ */
+#endif /* !HYPODERMIC_ROOT_SCOPE_LIFETIME_H_ */

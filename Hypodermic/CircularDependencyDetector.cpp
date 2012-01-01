@@ -3,6 +3,7 @@
 
 #include "DependencyResolutionException.h"
 #include "IComponentRegistration.h"
+#include "IInstanceActivator.h"
 #include "CircularDependencyDetector.h"
 
 

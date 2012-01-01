@@ -53,6 +53,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(BOOST_HOME);..</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -79,6 +80,7 @@
     <ClInclude Include="ComponentRegistry.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="ContainerBuilder.h" />
+    <ClInclude Include="ContainerBuilder.hpp" />
     <ClInclude Include="CurrentLifetimeScope.h" />
     <ClInclude Include="DelegateActivator.h" />
     <ClInclude Include="DependencyResolutionException.h" />
@@ -101,7 +103,9 @@
     <ClInclude Include="ISharingLifetimeScope.h" />
     <ClInclude Include="LifetimeScope.h" />
     <ClInclude Include="ProvidedInstanceActivator.h" />
+    <ClInclude Include="ProvidedInstanceActivator.hpp" />
     <ClInclude Include="RegistrationBuilder.h" />
+    <ClInclude Include="RegistrationBuilder.hpp" />
     <ClInclude Include="RegistrationData.h" />
     <ClInclude Include="ResolveOperation.h" />
     <ClInclude Include="RootScopeLifetime.h" />
@@ -116,9 +120,20 @@
     <ClCompile Include="ComponentRegistration.cpp" />
     <ClCompile Include="ComponentRegistry.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="ContainerBuilder.cpp" />
+    <ClCompile Include="CurrentLifetimeScope.cpp" />
+    <ClCompile Include="DependencyResolutionException.cpp" />
+    <ClCompile Include="InstanceActivator.cpp" />
+    <ClCompile Include="InstanceLookup.cpp" />
     <ClCompile Include="LifetimeScope.cpp" />
+    <ClCompile Include="RegistrationData.cpp" />
+    <ClCompile Include="ResolveOperation.cpp" />
     <ClCompile Include="RootScopeLifetime.cpp" />
+    <ClCompile Include="Service.cpp" />
     <ClCompile Include="ServiceKey.cpp" />
+    <ClCompile Include="ServiceRegistrationInfo.cpp" />
+    <ClCompile Include="SingleRegistrationStyle.cpp" />
+    <ClCompile Include="TypedService.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

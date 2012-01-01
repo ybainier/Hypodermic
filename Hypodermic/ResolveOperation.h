@@ -4,128 +4,40 @@
 # include <deque>
 # include <stdexcept>
 
-# include <boost/foreach.hpp>
-
 # include <Hypodermic/CircularDependencyDetector.h>
-# include <Hypodermic/DependencyResolutionException.h>
 # include <Hypodermic/IComponentContext.h>
-# include <Hypodermic/InstanceLookup.h>
 # include <Hypodermic/IResolveOperation.h>
-# include <Hypodermic/ISharingLifetimeScope.h>
 
 
 namespace Hypodermic
 {
+    class ISharingLifetimeScope;
+    class IComponentRegistration;
+
 
     class ResolveOperation : public IComponentContext, public IResolveOperation
     {
     public:
-        ResolveOperation(ISharingLifetimeScope* mostNestedLifetimeScope)
-            : mostNestedLifetimeScope_(mostNestedLifetimeScope)
-            , callDepth_(0)
-            , ended_(false)
-        {
-            if (mostNestedLifetimeScope == nullptr)
-                throw std::invalid_argument("mostNestedLifetimeScope");
-            resetSuccessfulActivations();
-        }
+        ResolveOperation(ISharingLifetimeScope* mostNestedLifetimeScope);
 
-        IComponentRegistry* componentRegistry()
-        {
-            return mostNestedLifetimeScope_->componentRegistry();
-        }
+        IComponentRegistry* componentRegistry();
 
-        void* resolveComponent(IComponentRegistration* registration)
-        {
-            return getOrCreateInstance(mostNestedLifetimeScope_, registration);
-        }
+        void* resolveComponent(IComponentRegistration* registration);
 
-        void* execute(IComponentRegistration* registration)
-        {
-            void* result = nullptr;
-
-            try
-            {
-                result = resolveComponent(registration);
-            }
-            catch (DependencyResolutionException& ex)
-            {
-                end(ex);
-                throw;
-            }
-            catch (std::exception& ex)
-            {
-                end(ex);
-                throw DependencyResolutionException(ex.what());
-            }
-
-            end();
-            return result;
-        }
+        void* execute(IComponentRegistration* registration);
 
         void* getOrCreateInstance(ISharingLifetimeScope* currentOperationScope,
-                                  IComponentRegistration* registration)
-        {
-            if (currentOperationScope == nullptr)
-                throw std::invalid_argument("currentOperationScope");
-            if (registration == nullptr)
-                throw std::invalid_argument("registration");
-            //if (ended_)
-            //    throw ObjectDisposedException(ResolveOperationResources.TemporaryContextDisposed, innerException: null);
-
-            circularDependencyDetector_.checkForCircularDependency(registration, activationStack_, ++callDepth_);
-
-            auto activation = new InstanceLookup(registration, this, currentOperationScope);
-
-            activationStack_.push_back(activation);
-
-            //InstanceLookupBeginning(this, new InstanceLookupBeginningEventArgs(activation));
-
-            auto instance = activation->execute();
-            successfulActivations_.push_back(activation);
-
-            activationStack_.pop_back();
-
-            //if (activationStack_.size() == 0)
-            //    CompleteActivations();
-
-            --callDepth_;
-
-            return instance;
-        }
+                                  IComponentRegistration* registration);
 
     private:
-        void completeActivations()
-        {
-            auto completedActivations = successfulActivations_;
-            resetSuccessfulActivations();
+        void completeActivations();
 
-            BOOST_FOREACH(auto activation, completedActivations)
-                activation->complete();
-        }
+        void resetSuccessfulActivations();
 
-        void resetSuccessfulActivations()
-        {
-            successfulActivations_.clear();
-        }
+        void end(std::exception& exception);
 
-        void end(std::exception& exception)
-        {
-            if (!ended_)
-            {
-                ended_ = true;
-                //CurrentOperationEnding(this, new ResolveOperationEndingEventArgs(this, exception));
-            }
-        }
+        void end();
 
-        void end()
-        {
-            if (!ended_)
-            {
-                ended_ = true;
-                //CurrentOperationEnding(this, new ResolveOperationEndingEventArgs(this));
-            }
-        }
 
         ISharingLifetimeScope* mostNestedLifetimeScope_;
         int callDepth_;

@@ -12,15 +12,9 @@ namespace Hypodermic
 	class InstanceActivator : public IInstanceActivator
 	{
 	public:
-		InstanceActivator(const std::type_info& typeInfo)
-			: typeInfo_(typeInfo)
-		{
-		}
+		InstanceActivator(const std::type_info& typeInfo);
 
-		const std::type_info& typeInfo()
-		{
-			return typeInfo_;
-		}
+		const std::type_info& typeInfo();
 
 	private:
 		const std::type_info& typeInfo_;

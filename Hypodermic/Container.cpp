@@ -25,7 +25,7 @@ namespace Hypodermic
         componentRegistry_ = new ComponentRegistry;
 
         componentRegistry_->addRegistration(new ComponentRegistration(
-            LifetimeScope::selfRegistrationId(),
+            LifetimeScope::selfRegistrationId,
             new DelegateActivator< LifetimeScope* >(
                 typeid(LifetimeScope*), Func< IComponentContext*, LifetimeScope* >(
                 [](IComponentContext* c) -> LifetimeScope*
