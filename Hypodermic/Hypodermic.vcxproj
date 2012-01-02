@@ -101,6 +101,7 @@
     <ClInclude Include="IRegistrationBuilder.h" />
     <ClInclude Include="IResolveOperation.h" />
     <ClInclude Include="ISharingLifetimeScope.h" />
+    <ClInclude Include="ITypeCaster.h" />
     <ClInclude Include="LifetimeScope.h" />
     <ClInclude Include="ProvidedInstanceActivator.h" />
     <ClInclude Include="ProvidedInstanceActivator.hpp" />
@@ -113,6 +114,8 @@
     <ClInclude Include="ServiceKey.h" />
     <ClInclude Include="ServiceRegistrationInfo.h" />
     <ClInclude Include="SingleRegistrationStyle.h" />
+    <ClInclude Include="TypeCaster.h" />
+    <ClInclude Include="TypeCaster.hpp" />
     <ClInclude Include="TypedService.h" />
   </ItemGroup>
   <ItemGroup>

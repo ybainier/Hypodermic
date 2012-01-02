@@ -25,7 +25,8 @@ namespace Hypodermic
                               IComponentLifetime* lifetime,
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
-                              const std::vector< Service* >& services);
+                              const std::vector< Service* >& services,
+                              const std::vector< ITypeCaster* >& typeCasters);
 
         ComponentRegistration(const boost::uuids::uuid& id,
                               IInstanceActivator* activator,
@@ -33,6 +34,7 @@ namespace Hypodermic
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
                               const std::vector< Service* >& services,
+                              const std::vector< ITypeCaster* >& typeCasters,
                               IComponentRegistration* target);
 
         IComponentRegistration* target();
@@ -48,6 +50,8 @@ namespace Hypodermic
         InstanceOwnership::Mode ownership();
 
         std::vector< Service* >& services();
+
+        const std::vector< ITypeCaster* >& typeCasters() const;
 
         //public event EventHandler<PreparingEventArgs> Preparing = (s, e) => { };
 
@@ -70,6 +74,7 @@ namespace Hypodermic
         InstanceOwnership::Mode ownership_;
         IComponentLifetime* lifetime_;
         std::vector< Service* > services_;
+        std::vector< ITypeCaster* > typeCasters_;
         IComponentRegistration* target_;
 	};
 

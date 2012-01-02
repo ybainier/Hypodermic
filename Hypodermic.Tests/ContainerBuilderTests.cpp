@@ -175,7 +175,7 @@ BOOST_AUTO_TEST_CASE(Polymorphic_resolution_should_be_available_through_polymorp
     BOOST_CHECK(anotherServiceA != nullptr);
 }
 
-BOOST_AUTO_TEST_CASE(Polymorphic_resolution_is_tricky_and_should_be_cast_manually)
+BOOST_AUTO_TEST_CASE(Polymorphic_resolution_is_not_a_lie)
 {
     ContainerBuilder builder;
 
@@ -184,16 +184,14 @@ BOOST_AUTO_TEST_CASE(Polymorphic_resolution_is_tricky_and_should_be_cast_manuall
 
     auto container = builder.build();
 
-    auto serviceARunWithScissorsBadVTableAlignment = reinterpret_cast< ServiceA* >(container->resolve< IRunWithScissors* >());
+    auto serviceARunningWithScissors = container->resolve< IRunWithScissors* >();
+    auto serviceA = dynamic_cast< ServiceA* >(serviceARunningWithScissors);
 
-    IRunWithScissors* iRunWithScissors = serviceARunWithScissorsBadVTableAlignment;
-    auto serviceA = dynamic_cast< ServiceA* >(iRunWithScissors);
-
-    BOOST_CHECK(iRunWithScissors != nullptr);
+    BOOST_CHECK(serviceARunningWithScissors != nullptr);
     BOOST_CHECK(serviceA == registeredServiceA);
 }
 
-BOOST_AUTO_TEST_CASE(Multiple_inheritance_is_tricky_and_keep_in_mind_it_should_be_cast_manually)
+BOOST_AUTO_TEST_CASE(Polymorphic_resolution_can_be_used_to_express_dependencies)
 {
     ContainerBuilder builder;
 
@@ -201,9 +199,7 @@ BOOST_AUTO_TEST_CASE(Multiple_inheritance_is_tricky_and_keep_in_mind_it_should_b
     builder.setup(serviceA)->as< IRunWithScissors* >()->singleInstance();
 
     builder.setup(CREATE(ServiceRunningWithScissors*,
-                         new ServiceRunningWithScissors(
-                            reinterpret_cast< ServiceA* >(c->resolve< IRunWithScissors* >())
-                         )))->as< IServiceB* >();
+                         new ServiceRunningWithScissors(INJECT(IRunWithScissors*))))->as< IServiceB* >();
 
     auto container = builder.build();
 

@@ -32,6 +32,8 @@ namespace Hypodermic
 
         RegistrationStyleT& registrationStyle();
 
+        const std::vector< ITypeCaster* >& typeCasters() const;
+
 		IRegistrationBuilder< T, RegistrationStyleT >* singleInstance();
 
         IRegistrationBuilder< T, RegistrationStyleT >* instancePerLifetimeScope();
@@ -45,6 +47,7 @@ namespace Hypodermic
 		RegistrationData registrationData_;
 		IInstanceActivator* activator_;
         RegistrationStyleT registrationStyle_;
+        std::vector< ITypeCaster* > typeCasters_;
 	};
 
 
@@ -91,14 +94,16 @@ namespace Hypodermic
                                       rb->registrationData(),
                                       rb->activator(),
                                       rb->registrationData().services(),
-                                      rb->registrationStyle().target());
+                                      rb->registrationStyle().target(),
+                                      rb->typeCasters());
 		}
 
 		static IComponentRegistration* createRegistration(const boost::uuids::uuid& id,
                                                           RegistrationData& registrationData,
                                                           IInstanceActivator* activator,
 			                                              std::vector< Service* >& services,
-                                                          IComponentRegistration* target)
+                                                          IComponentRegistration* target,
+                                                          const std::vector< ITypeCaster* >& typeCasters)
 		{
             IComponentRegistration* registration;
 
@@ -109,7 +114,8 @@ namespace Hypodermic
                                                          registrationData.lifetime(),
                                                          registrationData.sharing(),
                                                          registrationData.ownership(),
-                                                         services);
+                                                         services,
+                                                         typeCasters);
             }
             else
             {
@@ -119,6 +125,7 @@ namespace Hypodermic
                                                          registrationData.sharing(),
                                                          registrationData.ownership(),
                                                          services,
+                                                         typeCasters,
                                                          target);
             }
 

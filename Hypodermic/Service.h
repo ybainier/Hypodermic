@@ -10,6 +10,8 @@ namespace Hypodermic
 	class Service
 	{
 	public:
+        virtual const type_info& serviceTypeInfo() const = 0;
+
 		virtual bool operator==(const Service& rhs) const = 0;
 		
 		bool operator!=(const Service& rhs) const;

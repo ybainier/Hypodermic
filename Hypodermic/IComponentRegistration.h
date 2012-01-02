@@ -9,6 +9,7 @@
 
 # include <Hypodermic/InstanceOwnership.h>
 # include <Hypodermic/InstanceSharing.h>
+# include <Hypodermic/ITypeCaster.h>
 # include <Hypodermic/Service.h>
 
 
@@ -33,6 +34,8 @@ namespace Hypodermic
         virtual InstanceOwnership::Mode ownership() = 0;
 
         virtual std::vector< Service* >& services() = 0;
+
+        virtual const std::vector< ITypeCaster* >& typeCasters() const = 0;
 
         virtual const boost::uuids::uuid& id() = 0;
 

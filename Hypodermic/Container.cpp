@@ -35,7 +35,8 @@ namespace Hypodermic
             new CurrentLifetimeScope,
             InstanceSharing::Shared,
             InstanceOwnership::ExternallyOwned,
-            services));
+            services,
+            std::vector< ITypeCaster* >()));
 
         rootLifetimeScope_ = new LifetimeScope(componentRegistry_);
     }

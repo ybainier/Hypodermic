@@ -13,13 +13,15 @@ namespace Hypodermic
                                                  IComponentLifetime* lifetime,
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
-                                                 const std::vector< Service* >& services)
+                                                 const std::vector< Service* >& services,
+                                                 const std::vector< ITypeCaster* >& typeCasters)
         : id_(id)
         , activator_(activator)
         , sharing_(sharing)
         , ownership_(ownership)
         , lifetime_(lifetime)
         , services_(services)
+        , typeCasters_(typeCasters)
         , target_(nullptr)
     {
         BOOST_ASSERT(activator != nullptr);
@@ -32,6 +34,7 @@ namespace Hypodermic
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
                                                  const std::vector< Service* >& services,
+                                                 const std::vector< ITypeCaster* >& typeCasters,
                                                  IComponentRegistration* target)
         : id_(id)
         , activator_(activator)
@@ -39,6 +42,7 @@ namespace Hypodermic
         , ownership_(ownership)
         , lifetime_(lifetime)
         , services_(services)
+        , typeCasters_(typeCasters)
         , target_(target)
     {
         BOOST_ASSERT(activator != nullptr);
@@ -79,6 +83,11 @@ namespace Hypodermic
     std::vector< Service* >& ComponentRegistration::services()
     {
         return services_;
+    }
+
+    const std::vector< ITypeCaster* >& ComponentRegistration::typeCasters() const
+    {
+        return typeCasters_;
     }
 
     void ComponentRegistration::raisePreparing(IComponentContext* context)

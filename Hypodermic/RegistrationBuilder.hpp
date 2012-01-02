@@ -2,6 +2,8 @@
 # ifndef    HYPODERMIC_REGISTRATION_BUILDER_HPP_
 #  define   HYPODERMIC_REGISTRATION_BUILDER_HPP_
 
+# include <Hypodermic/TypeCaster.h>
+
 
 namespace Hypodermic
 {
@@ -29,6 +31,12 @@ namespace Hypodermic
     RegistrationStyleT& RegistrationBuilder< T, RegistrationStyleT >::registrationStyle()
     {
         return registrationStyle_;
+    }
+
+    template <class T, class RegistrationStyleT>
+    const std::vector< ITypeCaster* >& RegistrationBuilder< T, RegistrationStyleT >::typeCasters() const
+    {
+        return typeCasters_;
     }
 
     template <class T, class RegistrationStyleT>
@@ -62,7 +70,11 @@ namespace Hypodermic
     template <class ServiceT>
     IRegistrationBuilder< T, RegistrationStyleT >* RegistrationBuilder< T, RegistrationStyleT >::as()
     {
-        registrationData_.addService(new TypedService(typeid(ServiceT)));
+        const std::type_info& serviceTypeInfo = typeid(ServiceT);
+        
+        registrationData_.addService(new TypedService(serviceTypeInfo));
+        typeCasters_.push_back(new TypeCaster< T, ServiceT >(serviceTypeInfo));
+
         return this;
     }
 

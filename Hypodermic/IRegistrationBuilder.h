@@ -1,6 +1,9 @@
 #ifndef		HYPODERMIC_IREGISTRATION_BUILDER_H_
 # define	HYPODERMIC_IREGISTRATION_BUILDER_H_
 
+# include <vector>
+# include <Hypodermic/ITypeCaster.h>
+
 
 namespace Hypodermic
 {
@@ -16,6 +19,8 @@ namespace Hypodermic
 		virtual RegistrationData& registrationData() = 0;
 		virtual IInstanceActivator* activator() = 0;
         virtual RegistrationStyleT& registrationStyle() = 0;
+
+        virtual const std::vector< ITypeCaster* >& typeCasters() const = 0;
 
 		virtual IRegistrationBuilder< T, RegistrationStyleT >* singleInstance() = 0;
         virtual IRegistrationBuilder< T, RegistrationStyleT >* instancePerLifetimeScope() = 0;
