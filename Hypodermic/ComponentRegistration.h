@@ -53,15 +53,9 @@ namespace Hypodermic
 
         const std::vector< ITypeCaster* >& typeCasters() const;
 
-        //public event EventHandler<PreparingEventArgs> Preparing = (s, e) => { };
-
         void raisePreparing(IComponentContext* context);
 
-        //public event EventHandler<ActivatingEventArgs<object>> Activating = (s, e) => { };
-
         void raiseActivating(IComponentContext* context);
-
-        //public event EventHandler<ActivatedEventArgs<object>> Activated = (s, e) => { };
 
         void raiseActivated(IComponentContext* context);
 

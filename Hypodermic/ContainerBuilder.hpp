@@ -11,7 +11,7 @@ namespace Hypodermic
 {
 
     template <class T>
-    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::setup(Func< IComponentContext*, T > delegate)
+    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::setupConcreteType(Func< IComponentContext*, T > delegate)
     {
         auto rb = RegistrationBuilderFactory::forDelegate(delegate);
 
@@ -25,7 +25,7 @@ namespace Hypodermic
     }
 
     template <class T>
-    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::setup()
+    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::setupConcreteType()
     {
         auto rb = RegistrationBuilderFactory::forType< T >();
 
@@ -39,7 +39,7 @@ namespace Hypodermic
     }
 
     template <class T>
-    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::setup(T instance)
+    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::setupInstanceOfConcreteType(T instance)
     {
         auto activator = new ProvidedInstanceActivator< T >(instance);
 
@@ -57,7 +57,6 @@ namespace Hypodermic
                 if (rootScopeLifetime == nullptr || rb->registrationData().sharing() != InstanceSharing::Shared)
                     throw std::logic_error("Instance registration are single instance only");
 
-                //activator.disposeInstance(rb.registrationData().ownership() == InstanceOwnership.OwnedByLifetimeScope);
                 RegistrationBuilderFactory::registerSingleComponent(cr, rb);
             }));
 

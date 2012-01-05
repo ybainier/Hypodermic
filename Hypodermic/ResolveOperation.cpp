@@ -59,8 +59,8 @@ namespace Hypodermic
             throw std::invalid_argument("currentOperationScope");
         if (registration == nullptr)
             throw std::invalid_argument("registration");
-        //if (ended_)
-        //    throw ObjectDisposedException(ResolveOperationResources.TemporaryContextDisposed, innerException: null);
+        if (ended_)
+            throw std::logic_error("Temporary context disposed");
 
         circularDependencyDetector_.checkForCircularDependency(registration, activationStack_, ++callDepth_);
 
@@ -68,15 +68,13 @@ namespace Hypodermic
 
         activationStack_.push_back(activation);
 
-        //InstanceLookupBeginning(this, new InstanceLookupBeginningEventArgs(activation));
-
         auto instance = activation->execute();
         successfulActivations_.push_back(activation);
 
         activationStack_.pop_back();
 
-        //if (activationStack_.size() == 0)
-        //    CompleteActivations();
+        if (activationStack_.size() == 0)
+            completeActivations();
 
         --callDepth_;
 
@@ -102,7 +100,6 @@ namespace Hypodermic
         if (!ended_)
         {
             ended_ = true;
-            //CurrentOperationEnding(this, new ResolveOperationEndingEventArgs(this, exception));
         }
     }
 
@@ -111,7 +108,6 @@ namespace Hypodermic
         if (!ended_)
         {
             ended_ = true;
-            //CurrentOperationEnding(this, new ResolveOperationEndingEventArgs(this));
         }
     }
 

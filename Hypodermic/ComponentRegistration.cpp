@@ -92,20 +92,17 @@ namespace Hypodermic
 
     void ComponentRegistration::raisePreparing(IComponentContext* context)
     {
-        //var args = new PreparingEventArgs(context, this);
-        //Preparing(this, args);
+        //TODO
     }
 
     void ComponentRegistration::raiseActivating(IComponentContext* context)
     {
-        //var args = new ActivatingEventArgs<object>(context, this, instance);
-        //Activating(this, args);
-        //instance = args.Instance;
+        //TODO
     }
 
     void ComponentRegistration::raiseActivated(IComponentContext* context)
     {
-        //Activated(this, new ActivatedEventArgs<object>(context, this, instance));
+        //TODO
     }
 
     std::string ComponentRegistration::toString()

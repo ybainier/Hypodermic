@@ -81,10 +81,6 @@ namespace Hypodermic
 		{
 			auto registration = createRegistration< T, RegistrationStyleT >(rb);
 			cr->addRegistration(registration);
-
-			//var registeredEventArgs = new ComponentRegisteredEventArgs(cr, registration);
-			//foreach (var rh in rb.RegistrationStyle.RegisteredHandlers)
-			//	rh(cr, registeredEventArgs);
 		}
 
 		template <class T, class RegistrationStyleT>

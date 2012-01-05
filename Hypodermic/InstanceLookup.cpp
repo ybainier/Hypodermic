@@ -48,7 +48,6 @@ namespace Hypodermic
                 Func< void, void* >(boost::bind(&InstanceLookup::activate, this))
                 );
         }
-        //InstanceLookupEnding(this, new InstanceLookupEndingEventArgs(this, NewInstanceActivated));
 
         return instance;
     }
@@ -80,32 +79,22 @@ namespace Hypodermic
 
     void* InstanceLookup::activate()
     {
-        //_componentRegistration.RaisePreparing(this, ref parameters);
-
         newInstance_ = componentRegistration_->activator()->activateInstance(this);
 
-        if (componentRegistration_->ownership() == InstanceOwnership::OwnedByLifetimeScope)
-        {
-            //var instanceAsDisposable = _newInstance as IDisposable;
-            //if (instanceAsDisposable != null)
-            //    _activationScope.Disposer.AddInstanceForDisposal(instanceAsDisposable);
-        }
-
-        //_componentRegistration.RaiseActivating(this, parameters, ref _newInstance);
+        //TODO
+        //if (componentRegistration_->ownership() == InstanceOwnership::OwnedByLifetimeScope)
+        //{
+        //}
 
         return newInstance_;
     }
 
     void InstanceLookup::complete()
     {
-        if (newInstanceActivated())
-        {
-            //CompletionBeginning(this, new InstanceLookupCompletionBeginningEventArgs(this));
-
-            //_componentRegistration.RaiseActivated(this, Parameters, _newInstance);
-
-            //CompletionEnding(this, new InstanceLookupCompletionEndingEventArgs(this));
-        }
+        //TODO
+        //if (newInstanceActivated())
+        //{
+        //}
     }
 
 } // namespace Hypodermic

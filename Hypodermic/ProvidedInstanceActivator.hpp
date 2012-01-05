@@ -19,7 +19,6 @@ namespace Hypodermic
     {
         if (disposeInstance_)
         {
-            // TODO: dispose or delete instance?
         }
     }
 

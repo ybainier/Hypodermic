@@ -46,8 +46,6 @@ namespace Hypodermic
         if (registration == nullptr)
             throw std::invalid_argument("registration");
 
-        //CheckNotDisposed();
-
         {
             boost::lock_guard< decltype(mutex_) > lock(mutex_);
 

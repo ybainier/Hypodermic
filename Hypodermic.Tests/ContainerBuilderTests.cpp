@@ -6,6 +6,7 @@
 #include <Hypodermic/Helpers.h>
 #include <Hypodermic/IComponentContext.h>
 
+#include <boost/date_time.hpp>
 
 using namespace Hypodermic;
 
@@ -58,7 +59,7 @@ BOOST_AUTO_TEST_CASE(Concrete_type_can_be_setup_and_get_resolved)
 {
 	ContainerBuilder builder;
 
-	builder.setup< ServiceA* >();
+	builder.setupConcreteType< ServiceA* >();
 
 	auto container = builder.build();
 
@@ -72,7 +73,7 @@ BOOST_AUTO_TEST_CASE(Should_be_setup_as_an_interface_and_get_resolved)
 {
 	ContainerBuilder builder;
 
-	builder.setup< ServiceA* >()->as< IServiceA* >();
+	builder.setupConcreteType< ServiceA* >()->as< IServiceA* >();
 
 	auto container = builder.build();
 
@@ -85,8 +86,8 @@ BOOST_AUTO_TEST_CASE(Should_be_setup_as_an_interface_and_resolve_abstract_depend
 {
 	ContainerBuilder builder;
 
-	builder.setup< ServiceA* >()->as< IServiceA* >();
-	builder.setup(CREATE(ServiceB*, new ServiceB(INJECT(IServiceA*))))->as< IServiceB* >();
+	builder.setupConcreteType< ServiceA* >()->as< IServiceA* >();
+	builder.setupConcreteType(CREATE(ServiceB*, new ServiceB(INJECT(IServiceA*))))->as< IServiceB* >();
 
 	auto container = builder.build();
 
@@ -100,7 +101,7 @@ BOOST_AUTO_TEST_CASE(Default_lifetime_should_be_transient)
 {
 	ContainerBuilder builder;
 
-	builder.setup< ServiceA* >()->as< IServiceA* >();
+	builder.setupConcreteType< ServiceA* >()->as< IServiceA* >();
 
 	auto container = builder.build();
 
@@ -115,7 +116,7 @@ BOOST_AUTO_TEST_CASE(Setup_as_interface_should_prevent_from_resolving_concrete_t
 {
 	ContainerBuilder builder;
 
-	builder.setup< ServiceA* >()->as< IServiceA* >();
+	builder.setupConcreteType< ServiceA* >()->as< IServiceA* >();
 
 	auto container = builder.build();
 
@@ -132,7 +133,7 @@ BOOST_AUTO_TEST_CASE(Registered_instance_should_be_shared)
 	ContainerBuilder builder;
 
     auto registeredServiceA = new ServiceA;
-	builder.setup(registeredServiceA);
+	builder.setupInstanceOfConcreteType(registeredServiceA);
 
 	auto container = builder.build();
 
@@ -149,7 +150,7 @@ BOOST_AUTO_TEST_CASE(Invoking_singleInstance_should_enable_instance_sharing)
 {
     ContainerBuilder builder;
 
-    builder.setup< ServiceA* >()->as< IServiceA* >()->singleInstance();
+    builder.setupConcreteType< ServiceA* >()->as< IServiceA* >()->singleInstance();
 
     auto container = builder.build();
 
@@ -164,7 +165,7 @@ BOOST_AUTO_TEST_CASE(Polymorphic_resolution_should_be_available_through_polymorp
 {
     ContainerBuilder builder;
 
-    builder.setup< ServiceA* >()->as< IServiceA* >()->as< IRunWithScissors* >();
+    builder.setupConcreteType< ServiceA* >()->as< IServiceA* >()->as< IRunWithScissors* >();
 
     auto container = builder.build();
 
@@ -180,7 +181,7 @@ BOOST_AUTO_TEST_CASE(Polymorphic_resolution_is_not_a_lie)
     ContainerBuilder builder;
 
     auto registeredServiceA = new ServiceA;
-    builder.setup(registeredServiceA)->as< IServiceA* >()->as< IRunWithScissors* >();
+    builder.setupInstanceOfConcreteType(registeredServiceA)->as< IServiceA* >()->as< IRunWithScissors* >();
 
     auto container = builder.build();
 
@@ -196,10 +197,10 @@ BOOST_AUTO_TEST_CASE(Polymorphic_resolution_can_be_used_to_express_dependencies)
     ContainerBuilder builder;
 
     auto serviceA = new ServiceA;
-    builder.setup(serviceA)->as< IRunWithScissors* >()->singleInstance();
+    builder.setupInstanceOfConcreteType(serviceA)->as< IRunWithScissors* >();
 
-    builder.setup(CREATE(ServiceRunningWithScissors*,
-                         new ServiceRunningWithScissors(INJECT(IRunWithScissors*))))->as< IServiceB* >();
+    builder.setupConcreteType(CREATE(ServiceRunningWithScissors*,
+                                     new ServiceRunningWithScissors(INJECT(IRunWithScissors*))))->as< IServiceB* >();
 
     auto container = builder.build();
 
