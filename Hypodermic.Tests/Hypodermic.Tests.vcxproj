@@ -84,9 +84,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ContainerBuilderTests.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Hypodermic\Hypodermic.vcxproj">
       <Project>{8dbc5914-bb29-46a9-b50c-4c37ea34c849}</Project>
       <Private>false</Private>
@@ -95,6 +92,9 @@
       <LinkLibraryDependencies>true</LinkLibraryDependencies>
       <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ContainerBuilderTests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

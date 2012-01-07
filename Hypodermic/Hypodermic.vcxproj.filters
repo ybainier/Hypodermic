@@ -11,186 +11,48 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ContainerBuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IRegistrationBuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationBuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Action.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IComponentRegistry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentRegistration.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentRegistry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Container.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DelegateActivator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IComponentContext.h">
+    <ClInclude Include="Helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IComponentRegistration.h">
+    <ClInclude Include="IService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IServiceLocator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IInstanceActivator.h">
+    <ClInclude Include="ContainerBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InstanceActivator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistrationData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Service.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ServiceKey.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ServiceRegistrationInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TypedService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProvidedInstanceActivator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InstanceSharing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ISharingLifetimeScope.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ILifetimeScope.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LifetimeScope.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IResolveOperation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResolveOperation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IInstanceLookup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InstanceLookup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IComponentLifetime.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InstanceOwnership.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SingleRegistrationStyle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CurrentLifetimeScope.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CircularDependencyDetector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DependencyResolutionException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RootScopeLifetime.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProvidedInstanceActivator.hpp">
+    <ClInclude Include="IContainer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ContainerBuilder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RegistrationBuilder.hpp">
+    <ClInclude Include="IRegistration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ITypeCaster.h">
+    <ClInclude Include="IRegistration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TypeCaster.h">
+    <ClInclude Include="Container.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TypeCaster.hpp">
+    <ClInclude Include="Container.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ServiceKey.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LifetimeScope.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CircularDependencyDetector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentRegistration.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentRegistry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Container.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RootScopeLifetime.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CurrentLifetimeScope.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DependencyResolutionException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InstanceActivator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InstanceLookup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RegistrationData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ResolveOperation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Service.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ServiceRegistrationInfo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TypedService.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SingleRegistrationStyle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ContainerBuilder.cpp">
