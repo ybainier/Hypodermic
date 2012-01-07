@@ -1,11 +1,13 @@
 #ifndef		HYPODERMIC_ICONTAINER_H_
 # define	HYPODERMIC_ICONTAINER_H_
 
+# include <Hypodermic/ILifetimeScope.h>
+
 
 namespace Hypodermic
 {
 
-	class IContainer
+	class IContainer : public ILifetimeScope
 	{
 	};
 

@@ -140,6 +140,12 @@
     <ClInclude Include="TypeCaster.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RegistrationBuilderFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RegistrationBuilderFactory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ServiceKey.cpp">
@@ -194,6 +200,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ContainerBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RegistrationBuilderFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

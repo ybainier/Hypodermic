@@ -1,7 +1,6 @@
 #ifndef		HYPODERMIC_CONTAINER_H_
 # define	HYPODERMIC_CONTAINER_H_
 
-# include <Hypodermic/IComponentContext.h>
 # include <Hypodermic/IContainer.h>
 
 
@@ -9,10 +8,9 @@ namespace Hypodermic
 {
     class IComponentRegistration;
     class IComponentRegistry;
-    class ILifetimeScope;
 
 
-	class Container : public IContainer, public IComponentContext
+	class Container : public IContainer
 	{
 	public:
 		Container();

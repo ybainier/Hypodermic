@@ -8,7 +8,6 @@ namespace Hypodermic
     ServiceKey::ServiceKey(Service* service)
         : service_(service)
     {
-
     }
 
 	bool operator==(const ServiceKey& lhs, const ServiceKey& rhs)

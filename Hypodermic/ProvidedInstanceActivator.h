@@ -31,5 +31,4 @@ namespace Hypodermic
 
 # include <Hypodermic/ProvidedInstanceActivator.hpp>
 
-
 #endif /* !HYPODERMIC_PROVIDED_INSTANCE_ACTIVATOR_H_ */

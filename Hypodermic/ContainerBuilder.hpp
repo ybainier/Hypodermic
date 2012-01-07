@@ -4,6 +4,7 @@
 
 # include <Hypodermic/ProvidedInstanceActivator.h>
 # include <Hypodermic/RegistrationBuilder.h>
+# include <Hypodermic/RegistrationBuilderFactory.h>
 # include <Hypodermic/RootScopeLifetime.h>
 
 

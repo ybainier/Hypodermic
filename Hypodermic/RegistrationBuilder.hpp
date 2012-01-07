@@ -2,16 +2,25 @@
 # ifndef    HYPODERMIC_REGISTRATION_BUILDER_HPP_
 #  define   HYPODERMIC_REGISTRATION_BUILDER_HPP_
 
+# include <typeinfo>
+
+# include <Hypodermic/IInstanceActivator.h>
+# include <Hypodermic/RegistrationData.h>
+# include <Hypodermic/Service.h>
 # include <Hypodermic/TypeCaster.h>
+# include <Hypodermic/TypedService.h>
 
 
 namespace Hypodermic
 {
 
     template <class T, class RegistrationStyleT>
-    RegistrationBuilder< T, RegistrationStyleT >::RegistrationBuilder(Service* defaultService, IInstanceActivator* activator,
-        const RegistrationStyleT& registrationStyle)
-        : registrationData_(defaultService), activator_(activator), registrationStyle_(registrationStyle)
+    RegistrationBuilder< T, RegistrationStyleT >::RegistrationBuilder(Service* defaultService,
+                                                                      IInstanceActivator* activator,
+                                                                      const RegistrationStyleT& registrationStyle)
+        : registrationData_(defaultService)
+        , activator_(activator)
+        , registrationStyle_(registrationStyle)
     {
     }
 

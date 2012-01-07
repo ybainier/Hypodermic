@@ -44,7 +44,7 @@ namespace Hypodermic
         else
         {
             instance = activationScope_->getOrCreateAndShare(
-                boost::uuids::uuid(),
+                componentRegistration_->id(),
                 Func< void, void* >(boost::bind(&InstanceLookup::activate, this))
                 );
         }

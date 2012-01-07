@@ -15,7 +15,7 @@ namespace Hypodermic
         configurationCallbacks_.push_back(configurationCallback);
     }
 
-    Container* ContainerBuilder::build()
+    IContainer* ContainerBuilder::build()
     {
         auto result = new Container;
         build(result->componentRegistry());

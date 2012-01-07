@@ -20,7 +20,7 @@ namespace Hypodermic
         return sharing_;
     }
 
-    void RegistrationData::sharing( InstanceSharing::Mode value )
+    void RegistrationData::sharing(InstanceSharing::Mode value)
     {
         sharing_ = value;
     }
@@ -30,7 +30,7 @@ namespace Hypodermic
         return ownership_;
     }
 
-    void RegistrationData::ownership( InstanceOwnership::Mode value )
+    void RegistrationData::ownership(InstanceOwnership::Mode value)
     {
         ownership_ = value;
     }

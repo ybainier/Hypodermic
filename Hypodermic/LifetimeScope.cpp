@@ -12,6 +12,7 @@ namespace Hypodermic
 	const boost::uuids::uuid LifetimeScope::selfRegistrationId = boost::uuids::random_generator()();
 	Action< ContainerBuilder* > LifetimeScope::noConfiguration_ = [](ContainerBuilder*) -> void { };
 
+
     LifetimeScope::LifetimeScope(IComponentRegistry* componentRegistry)
     {
         initialize(componentRegistry);
@@ -41,7 +42,7 @@ namespace Hypodermic
         return componentRegistry_;
     }
 
-    void* LifetimeScope::resolveComponent( IComponentRegistration* registration )
+    void* LifetimeScope::resolveComponent(IComponentRegistration* registration)
     {
         if (registration == nullptr)
             throw std::invalid_argument("registration");
@@ -55,7 +56,7 @@ namespace Hypodermic
         }
     }
 
-    void* LifetimeScope::getOrCreateAndShare( const boost::uuids::uuid& id, Func< void, void* > creator )
+    void* LifetimeScope::getOrCreateAndShare(const boost::uuids::uuid& id, Func< void, void* > creator)
     {
         boost::lock_guard< decltype(mutex_) > lock(mutex_);
 
@@ -76,7 +77,7 @@ namespace Hypodermic
         sharedInstances_[selfRegistrationId] = this;
     }
 
-    void LifetimeScope::initialize( IComponentRegistry* componentRegistry )
+    void LifetimeScope::initialize(IComponentRegistry* componentRegistry)
     {
         initialize();
 

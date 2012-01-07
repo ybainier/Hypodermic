@@ -50,89 +50,9 @@ namespace Hypodermic
         std::vector< ITypeCaster* > typeCasters_;
 	};
 
-
-	class RegistrationBuilderFactory
-	{
-	public:
-		template <class T>
-		static IRegistrationBuilder< T, SingleRegistrationStyle >* forDelegate(Func< IComponentContext*, T > delegate)
-		{
-			return new RegistrationBuilder< T, SingleRegistrationStyle >(
-				new TypedService(typeid(T)),
-				new DelegateActivator< T >(typeid(T), delegate),
-                SingleRegistrationStyle());
-		}
-
-		template <class T>
-		static IRegistrationBuilder< T, SingleRegistrationStyle >* forType()
-		{
-			return new RegistrationBuilder< T, SingleRegistrationStyle >(
-				new TypedService(typeid(T)),
-				new DelegateActivator< T >(typeid(T), Func< IComponentContext*, T >(
-					[](IComponentContext* c) -> T
-					{
-						return new boost::remove_pointer< T >::type;
-					})),
-                SingleRegistrationStyle());
-		}
-
-		template <class T, class RegistrationStyleT>
-		static void registerSingleComponent(IComponentRegistry* cr, IRegistrationBuilder< T, RegistrationStyleT >* rb)
-		{
-			auto registration = createRegistration< T, RegistrationStyleT >(rb);
-			cr->addRegistration(registration);
-		}
-
-		template <class T, class RegistrationStyleT>
-		static IComponentRegistration* createRegistration(IRegistrationBuilder< T, RegistrationStyleT >* rb)
-		{
-			return createRegistration(rb->registrationStyle().id(),
-                                      rb->registrationData(),
-                                      rb->activator(),
-                                      rb->registrationData().services(),
-                                      rb->registrationStyle().target(),
-                                      rb->typeCasters());
-		}
-
-		static IComponentRegistration* createRegistration(const boost::uuids::uuid& id,
-                                                          RegistrationData& registrationData,
-                                                          IInstanceActivator* activator,
-			                                              std::vector< Service* >& services,
-                                                          IComponentRegistration* target,
-                                                          const std::vector< ITypeCaster* >& typeCasters)
-		{
-            IComponentRegistration* registration;
-
-            if (target == nullptr)
-            {
-                registration = new ComponentRegistration(id,
-                                                         activator,
-                                                         registrationData.lifetime(),
-                                                         registrationData.sharing(),
-                                                         registrationData.ownership(),
-                                                         services,
-                                                         typeCasters);
-            }
-            else
-            {
-                registration = new ComponentRegistration(id,
-                                                         activator,
-                                                         registrationData.lifetime(),
-                                                         registrationData.sharing(),
-                                                         registrationData.ownership(),
-                                                         services,
-                                                         typeCasters,
-                                                         target);
-            }
-
-			return registration;
-		}
-	};
-
 } // namespace Hypodermic
 
 
 # include <Hypodermic/RegistrationBuilder.hpp>
-
 
 #endif /* !HYPODERMIC_REGISTRATION_BUILDER_H_ */

@@ -26,5 +26,4 @@ namespace Hypodermic
 
 # include <Hypodermic/TypeCaster.hpp>
 
-
 #endif /* !HYPODERMIC_TYPE_CASTER_H_ */

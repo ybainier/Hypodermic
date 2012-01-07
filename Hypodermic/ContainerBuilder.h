@@ -38,7 +38,7 @@ namespace Hypodermic
 
 		void registerCallback(ConfigurationCallback configurationCallback);
 
-		Container* build();
+		IContainer* build();
 
 		void build(IComponentRegistry* componentRegistry);
 
@@ -52,6 +52,5 @@ namespace Hypodermic
 
 
 # include <Hypodermic/ContainerBuilder.hpp>
-
 
 #endif /* !HYPODERMIC_CONTAINER_BUILDER_H_ */
