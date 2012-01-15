@@ -1,3 +1,5 @@
+#include <boost/foreach.hpp>
+
 #include "Container.h"
 #include "ContainerBuilder.h"
 

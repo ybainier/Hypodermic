@@ -4,19 +4,18 @@
 # include <stdexcept>
 # include <vector>
 
-# include <boost/foreach.hpp>
+# include <boost/shared_ptr.hpp>
 
 # include <Hypodermic/Action.h>
 # include <Hypodermic/Func.h>
+# include <Hypodermic/IContainer.h>
 # include <Hypodermic/SingleRegistrationStyle.h>
 
 
 namespace Hypodermic
 {
-    class Container;
 	class IComponentContext;
 	class IComponentRegistry;
-	class IContainer;
 	template <class T, class RegistrationStyleT> class IRegistrationBuilder;
 
 
@@ -28,13 +27,13 @@ namespace Hypodermic
 		ContainerBuilder();
 
 		template <class T>
-		IRegistrationBuilder< T, SingleRegistrationStyle >* registerType(Func< IComponentContext*, T > delegate);
+        boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType(Func< IComponentContext*, T > delegate);
 
 		template <class T>
-		IRegistrationBuilder< T, SingleRegistrationStyle >* registerType();
+		boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType();
 
 		template <class T>
-		IRegistrationBuilder< T, SingleRegistrationStyle >* registerType(T instance);
+		boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType(T instance);
 
 		void registerCallback(ConfigurationCallback configurationCallback);
 

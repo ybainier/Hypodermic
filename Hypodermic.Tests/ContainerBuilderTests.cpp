@@ -39,17 +39,37 @@ struct IServiceB
 struct ServiceB : IServiceB
 {
 	ServiceB(IServiceA* serviceA)
+        : serviceA_(serviceA)
 	{
         BOOST_ASSERT(serviceA != nullptr);
 	}
+
+private:
+    IServiceA* serviceA_;
 };
 
 struct ServiceRunningWithScissors : IServiceB
 {
     ServiceRunningWithScissors(IRunWithScissors* serviceA)
+        : serviceA_(serviceA)
     {
         BOOST_ASSERT(serviceA != nullptr);
     }
+
+private:
+    IRunWithScissors* serviceA_;
+};
+
+struct ServiceBController
+{
+    ServiceBController(const std::vector< IServiceB* >& serviceBs)
+        : serviceBs_(serviceBs)
+    {
+        BOOST_ASSERT(!serviceBs.empty());
+    }
+
+private:
+    std::vector< IServiceB* > serviceBs_;
 };
 
 
@@ -225,5 +245,50 @@ BOOST_AUTO_TEST_CASE(registerType_with_an_instance_argument_can_bypass_argument_
     BOOST_CHECK(dynamic_cast< ServiceA* >(serviceARunningWithScissors) == serviceA);
 }
 
+BOOST_AUTO_TEST_CASE(resolveAll_should_collect_all_registrations_and_return_a_vector_of_instances)
+{
+    ContainerBuilder builder;
+
+    auto serviceA = new ServiceA;
+    builder.registerType(serviceA)->as< IServiceA* >()->as< IRunWithScissors* >();
+
+    builder.registerType(CREATE(ServiceB*, new ServiceB(INJECT(IServiceA*))))->as< IServiceB* >()->singleInstance();
+    builder.registerType(CREATE(ServiceRunningWithScissors*,
+                                new ServiceRunningWithScissors(INJECT(IRunWithScissors*))))->as< IServiceB* >();
+
+    auto container = builder.build();
+
+    auto serviceB1 = container->resolveAll< IServiceB* >();
+    auto serviceB2 = container->resolveAll< IServiceB* >();
+
+    BOOST_CHECK(serviceB1.size() == serviceB2.size());
+    BOOST_CHECK(serviceB1.size() == 2);
+    BOOST_CHECK(serviceB1[0] == serviceB2[0]);
+    BOOST_CHECK(serviceB1[1] != serviceB2[1]);
+}
+
+BOOST_AUTO_TEST_CASE(resolveAll_can_be_used_to_collect_dependencies)
+{
+    ContainerBuilder builder;
+
+    auto serviceA = new ServiceA;
+    builder.registerType(serviceA)->as< IServiceA* >()->as< IRunWithScissors* >();
+
+    builder.registerType(CREATE(ServiceB*, new ServiceB(INJECT(IServiceA*))))->as< IServiceB* >()->singleInstance();
+    builder.registerType(CREATE(ServiceRunningWithScissors*,
+                                new ServiceRunningWithScissors(INJECT(IRunWithScissors*))))->as< IServiceB* >();
+
+    builder.registerType(CREATE(ServiceBController*,
+                                new ServiceBController(INJECT_ALL(IServiceB*))));
+
+    auto container = builder.build();
+
+    auto serviceBController = container->resolve< ServiceBController* >();
+    auto serviceBController2 = container->resolve< ServiceBController* >();
+
+    BOOST_CHECK(serviceBController != nullptr);
+    BOOST_CHECK(serviceBController2 != nullptr);
+    BOOST_CHECK(serviceBController != serviceBController2);
+}
 
 BOOST_AUTO_TEST_SUITE_END();

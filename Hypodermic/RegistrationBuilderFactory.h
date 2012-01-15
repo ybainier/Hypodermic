@@ -4,6 +4,7 @@
 # include <typeindex>
 # include <vector>
 
+# include <boost/shared_ptr.hpp>
 # include <boost/unordered_map.hpp>
 # include <boost/uuid/uuid.hpp>
 
@@ -26,16 +27,16 @@ namespace Hypodermic
 	{
 	public:
 		template <class T>
-		static IRegistrationBuilder< T, SingleRegistrationStyle >* forDelegate(Func< IComponentContext*, T > delegate);
+		static boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forDelegate(Func< IComponentContext*, T > delegate);
 
 		template <class T>
-		static IRegistrationBuilder< T, SingleRegistrationStyle >* forType();
+		static boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forType();
 
 		template <class T, class RegistrationStyleT>
-		static void registerSingleComponent(IComponentRegistry* cr, IRegistrationBuilder< T, RegistrationStyleT >* rb);
+		static void registerSingleComponent(IComponentRegistry* cr, boost::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
 
 		template <class T, class RegistrationStyleT>
-		static IComponentRegistration* createRegistration(IRegistrationBuilder< T, RegistrationStyleT >* rb);
+		static IComponentRegistration* createRegistration(boost::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
 
 		static IComponentRegistration* createRegistration(const boost::uuids::uuid& id,
                                                           RegistrationData& registrationData,

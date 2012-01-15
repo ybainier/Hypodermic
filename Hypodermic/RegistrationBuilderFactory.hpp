@@ -2,6 +2,8 @@
 # ifndef    HYPODERMIC_REGISTRATION_BUILDER_FACTORY_HPP_
 #  define   HYPODERMIC_REGISTRATION_BUILDER_FACTORY_HPP_
 
+# include <boost/make_shared.hpp>
+
 # include <Hypodermic/RegistrationBuilder.h>
 
 
@@ -11,20 +13,20 @@ namespace Hypodermic
 
 
     template <class T>
-	IRegistrationBuilder< T, SingleRegistrationStyle >* RegistrationBuilderFactory::forDelegate(Func< IComponentContext*, T > delegate)
+	boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forDelegate(Func< IComponentContext*, T > delegate)
 	{
         auto& typeInfo = typeid(T);
-		return new RegistrationBuilder< T, SingleRegistrationStyle >(
+		return boost::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
             new TypedService(typeInfo),
 			new DelegateActivator< T >(typeInfo, delegate),
             SingleRegistrationStyle());
 	}
 
 	template <class T>
-	IRegistrationBuilder< T, SingleRegistrationStyle >* RegistrationBuilderFactory::forType()
+	boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forType()
 	{
         auto& typeInfo = typeid(T);
-		return new RegistrationBuilder< T, SingleRegistrationStyle >(
+		return boost::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
             new TypedService(typeInfo),
 			new DelegateActivator< T >(typeInfo, Func< IComponentContext*, T >(
                 [](IComponentContext* c) -> T
@@ -35,14 +37,14 @@ namespace Hypodermic
 	}
 
 	template <class T, class RegistrationStyleT>
-	void RegistrationBuilderFactory::registerSingleComponent(IComponentRegistry* cr, IRegistrationBuilder< T, RegistrationStyleT >* rb)
+	void RegistrationBuilderFactory::registerSingleComponent(IComponentRegistry* cr, boost::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb)
 	{
 		auto registration = createRegistration< T, RegistrationStyleT >(rb);
 		cr->addRegistration(registration);
 	}
 
 	template <class T, class RegistrationStyleT>
-	IComponentRegistration* RegistrationBuilderFactory::createRegistration(IRegistrationBuilder< T, RegistrationStyleT >* rb)
+	IComponentRegistration* RegistrationBuilderFactory::createRegistration(boost::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb)
 	{
 		return createRegistration(rb->registrationStyle().id(),
                                   rb->registrationData(),

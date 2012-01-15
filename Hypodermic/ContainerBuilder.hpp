@@ -2,6 +2,8 @@
 # ifndef    HYPODERMIC_CONTAINER_BUILDER_HPP_
 #  define   HYPODERMIC_CONTAINER_BUILDER_HPP_
 
+# include <boost/make_shared.hpp>
+
 # include <Hypodermic/ProvidedInstanceActivator.h>
 # include <Hypodermic/RegistrationBuilder.h>
 # include <Hypodermic/RegistrationBuilderFactory.h>
@@ -12,7 +14,7 @@ namespace Hypodermic
 {
 
     template <class T>
-    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::registerType(Func< IComponentContext*, T > delegate)
+    boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(Func< IComponentContext*, T > delegate)
     {
         auto rb = RegistrationBuilderFactory::forDelegate(delegate);
 
@@ -26,7 +28,7 @@ namespace Hypodermic
     }
 
     template <class T>
-    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::registerType()
+    boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType()
     {
         auto rb = RegistrationBuilderFactory::forType< T >();
 
@@ -40,14 +42,15 @@ namespace Hypodermic
     }
 
     template <class T>
-    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::registerType(T instance)
+    boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(T instance)
     {
         auto activator = new ProvidedInstanceActivator< T >(instance);
 
-        auto rb = new RegistrationBuilder< T, SingleRegistrationStyle >(
-            new TypedService(typeid(T)),
-            activator,
-            SingleRegistrationStyle());
+        boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > rb =
+            boost::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
+                new TypedService(typeid(T)),
+                activator,
+                SingleRegistrationStyle());
 
         rb->singleInstance();
 
@@ -56,7 +59,7 @@ namespace Hypodermic
             {
                 auto rootScopeLifetime = dynamic_cast< RootScopeLifetime* >(rb->registrationData().lifetime());
                 if (rootScopeLifetime == nullptr || rb->registrationData().sharing() != InstanceSharing::Shared)
-                    throw std::logic_error("Instance registration are single instance only");
+                    throw std::logic_error("Instance registration is single instance only");
 
                 RegistrationBuilderFactory::registerSingleComponent(cr, rb);
             }));

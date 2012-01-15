@@ -2,6 +2,9 @@
 # define	HYPODERMIC_ICOMPONENT_CONTEXT_H_
 
 # include <typeinfo>
+# include <vector>
+
+# include <boost/foreach.hpp>
 
 # include <Hypodermic/IComponentRegistration.h>
 # include <Hypodermic/TypedService.h>
@@ -42,6 +45,34 @@ namespace Hypodermic
             void* result = registration->castOrForward(service->serviceTypeInfo(), resolveComponent(registration));
 
 			return static_cast< TService >(result);
+		}
+
+        template <class TService>
+        std::vector< TService > resolveAll()
+        {
+            return resolveAll< TService >(typeid(TService));
+        }
+
+		template <class TService>
+		std::vector< TService > resolveAll(const std::type_info& serviceTypeInfo)
+		{
+			return resolveAllForService< TService >(new TypedService(serviceTypeInfo));
+		}
+
+		template <class TService>
+		std::vector< TService > resolveAllForService(Service* service)
+		{
+			auto registrations = componentRegistry()->registrationsFor(service);
+			
+            std::vector< TService > allResults;
+
+            BOOST_FOREACH(auto registration, registrations)
+            {
+                void* result = registration->castOrForward(service->serviceTypeInfo(), resolveComponent(registration));
+                allResults.push_back(static_cast< TService >(result));
+            }
+
+            return allResults;
 		}
 	};
 
