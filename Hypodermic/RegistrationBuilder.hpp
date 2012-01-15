@@ -2,8 +2,6 @@
 # ifndef    HYPODERMIC_REGISTRATION_BUILDER_HPP_
 #  define   HYPODERMIC_REGISTRATION_BUILDER_HPP_
 
-# include <typeinfo>
-
 # include <Hypodermic/IInstanceActivator.h>
 # include <Hypodermic/RegistrationData.h>
 # include <Hypodermic/Service.h>
@@ -43,7 +41,7 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    const std::vector< ITypeCaster* >& RegistrationBuilder< T, RegistrationStyleT >::typeCasters() const
+    const boost::unordered_map< std::type_index, ITypeCaster* >& RegistrationBuilder< T, RegistrationStyleT >::typeCasters() const
     {
         return typeCasters_;
     }
@@ -82,7 +80,8 @@ namespace Hypodermic
         const std::type_info& serviceTypeInfo = typeid(ServiceT);
         
         registrationData_.addService(new TypedService(serviceTypeInfo));
-        typeCasters_.push_back(new TypeCaster< T, ServiceT >(serviceTypeInfo));
+        typeCasters_.insert(std::make_pair(std::type_index(serviceTypeInfo),
+                                           new TypeCaster< T, ServiceT >(serviceTypeInfo)));
 
         return this;
     }

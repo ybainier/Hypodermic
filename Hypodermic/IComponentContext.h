@@ -39,13 +39,7 @@ namespace Hypodermic
 			if (registration == nullptr)
 				return 0;
 			
-            void* result = resolveComponent(registration);
-            
-            BOOST_FOREACH(auto& typeCaster, registration->typeCasters())
-            {
-                if (typeCaster->typeInfo() == service->serviceTypeInfo())
-                    result = typeCaster->cast(result);
-            }
+            void* result = registration->castOrForward(service->serviceTypeInfo(), resolveComponent(registration));
 
 			return static_cast< TService >(result);
 		}

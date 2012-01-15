@@ -1,7 +1,9 @@
 #ifndef		HYPODERMIC_COMPONENT_REGISTRATION_H_
 # define	HYPODERMIC_COMPONENT_REGISTRATION_H_
 
+# include <typeindex>
 # include <vector>
+# include <boost/unordered_map.hpp>
 # include <boost/uuid/uuid.hpp>
 
 # include <Hypodermic/IComponentRegistration.h>
@@ -26,7 +28,7 @@ namespace Hypodermic
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
                               const std::vector< Service* >& services,
-                              const std::vector< ITypeCaster* >& typeCasters);
+                              const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters);
 
         ComponentRegistration(const boost::uuids::uuid& id,
                               IInstanceActivator* activator,
@@ -34,7 +36,7 @@ namespace Hypodermic
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
                               const std::vector< Service* >& services,
-                              const std::vector< ITypeCaster* >& typeCasters,
+                              const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters,
                               IComponentRegistration* target);
 
         IComponentRegistration* target();
@@ -51,7 +53,7 @@ namespace Hypodermic
 
         std::vector< Service* >& services();
 
-        const std::vector< ITypeCaster* >& typeCasters() const;
+        void* castOrForward(const std::type_info& typeInfo, void* instance);
 
         void raisePreparing(IComponentContext* context);
 
@@ -68,7 +70,7 @@ namespace Hypodermic
         InstanceOwnership::Mode ownership_;
         IComponentLifetime* lifetime_;
         std::vector< Service* > services_;
-        std::vector< ITypeCaster* > typeCasters_;
+        boost::unordered_map< std::type_index, ITypeCaster* > typeCasters_;
         IComponentRegistration* target_;
 	};
 

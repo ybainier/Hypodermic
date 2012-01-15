@@ -35,7 +35,7 @@ namespace Hypodermic
 
         virtual std::vector< Service* >& services() = 0;
 
-        virtual const std::vector< ITypeCaster* >& typeCasters() const = 0;
+        virtual void* castOrForward(const std::type_info& typeInfo, void* instance) = 0;
 
         virtual const boost::uuids::uuid& id() = 0;
 

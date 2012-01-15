@@ -1,8 +1,10 @@
 #ifndef		HYPODERMIC_REGISTRATION_BUILDER_H_
 # define	HYPODERMIC_REGISTRATION_BUILDER_H_
 
-# include <vector>
+# include <typeindex>
+
 # include <boost/type_traits.hpp>
+# include <boost/unordered_map.hpp>
 
 # include <Hypodermic/ComponentRegistration.h>
 # include <Hypodermic/CurrentLifetimeScope.h>
@@ -32,7 +34,7 @@ namespace Hypodermic
 
         RegistrationStyleT& registrationStyle();
 
-        const std::vector< ITypeCaster* >& typeCasters() const;
+        const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters() const;
 
 		IRegistrationBuilder< T, RegistrationStyleT >* singleInstance();
 
@@ -47,7 +49,7 @@ namespace Hypodermic
 		RegistrationData registrationData_;
 		IInstanceActivator* activator_;
         RegistrationStyleT registrationStyle_;
-        std::vector< ITypeCaster* > typeCasters_;
+        boost::unordered_map< std::type_index, ITypeCaster* > typeCasters_;
 	};
 
 } // namespace Hypodermic

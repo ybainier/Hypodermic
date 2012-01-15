@@ -14,7 +14,7 @@ namespace Hypodermic
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
                                                  const std::vector< Service* >& services,
-                                                 const std::vector< ITypeCaster* >& typeCasters)
+                                                 const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters)
         : id_(id)
         , activator_(activator)
         , sharing_(sharing)
@@ -34,7 +34,7 @@ namespace Hypodermic
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
                                                  const std::vector< Service* >& services,
-                                                 const std::vector< ITypeCaster* >& typeCasters,
+                                                 const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters,
                                                  IComponentRegistration* target)
         : id_(id)
         , activator_(activator)
@@ -85,9 +85,14 @@ namespace Hypodermic
         return services_;
     }
 
-    const std::vector< ITypeCaster* >& ComponentRegistration::typeCasters() const
+    void* ComponentRegistration::castOrForward(const std::type_info& typeInfo, void* instance)
     {
-        return typeCasters_;
+        std::type_index typeIndex(typeInfo);
+        if (instance == nullptr || typeCasters_.count(typeIndex) == 0)
+            return instance;
+
+        auto& typeCaster = typeCasters_[typeIndex];
+        return typeCaster->cast(instance);
     }
 
     void ComponentRegistration::raisePreparing(IComponentContext* context)

@@ -28,13 +28,13 @@ namespace Hypodermic
 		ContainerBuilder();
 
 		template <class T>
-		IRegistrationBuilder< T, SingleRegistrationStyle >* setupConcreteType(Func< IComponentContext*, T > delegate);
+		IRegistrationBuilder< T, SingleRegistrationStyle >* registerType(Func< IComponentContext*, T > delegate);
 
 		template <class T>
-		IRegistrationBuilder< T, SingleRegistrationStyle >* setupConcreteType();
+		IRegistrationBuilder< T, SingleRegistrationStyle >* registerType();
 
 		template <class T>
-		IRegistrationBuilder< T, SingleRegistrationStyle >* setupInstanceOfConcreteType(T instance);
+		IRegistrationBuilder< T, SingleRegistrationStyle >* registerType(T instance);
 
 		void registerCallback(ConfigurationCallback configurationCallback);
 

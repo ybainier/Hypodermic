@@ -12,7 +12,7 @@ namespace Hypodermic
 {
 
     template <class T>
-    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::setupConcreteType(Func< IComponentContext*, T > delegate)
+    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::registerType(Func< IComponentContext*, T > delegate)
     {
         auto rb = RegistrationBuilderFactory::forDelegate(delegate);
 
@@ -26,7 +26,7 @@ namespace Hypodermic
     }
 
     template <class T>
-    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::setupConcreteType()
+    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::registerType()
     {
         auto rb = RegistrationBuilderFactory::forType< T >();
 
@@ -40,7 +40,7 @@ namespace Hypodermic
     }
 
     template <class T>
-    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::setupInstanceOfConcreteType(T instance)
+    IRegistrationBuilder< T, SingleRegistrationStyle >* ContainerBuilder::registerType(T instance)
     {
         auto activator = new ProvidedInstanceActivator< T >(instance);
 

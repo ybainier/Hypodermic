@@ -1,7 +1,10 @@
 #ifndef     HYPODERMIC_REGISTRATION_BUILDER_FACTORY_H_
 # define    HYPODERMIC_REGISTRATION_BUILDER_FACTORY_H_
 
+# include <typeindex>
 # include <vector>
+
+# include <boost/unordered_map.hpp>
 # include <boost/uuid/uuid.hpp>
 
 # include <Hypodermic/Func.h>
@@ -39,7 +42,7 @@ namespace Hypodermic
                                                           IInstanceActivator* activator,
 			                                              std::vector< Service* >& services,
                                                           IComponentRegistration* target,
-                                                          const std::vector< ITypeCaster* >& typeCasters);
+                                                          const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters);
 	};
 
 } // namespace Hypodermic

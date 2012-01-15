@@ -55,11 +55,11 @@ struct ServiceRunningWithScissors : IServiceB
 
 BOOST_AUTO_TEST_SUITE(ContainerBuilderTests);
 
-BOOST_AUTO_TEST_CASE(Concrete_type_can_be_setup_and_get_resolved)
+BOOST_AUTO_TEST_CASE(can_register_and_resolve_concrete_type)
 {
 	ContainerBuilder builder;
 
-	builder.setupConcreteType< ServiceA* >();
+	builder.registerType< ServiceA* >();
 
 	auto container = builder.build();
 
@@ -69,11 +69,11 @@ BOOST_AUTO_TEST_CASE(Concrete_type_can_be_setup_and_get_resolved)
 }
 
 
-BOOST_AUTO_TEST_CASE(Should_be_setup_as_an_interface_and_get_resolved)
+BOOST_AUTO_TEST_CASE(should_resolve_registered_type)
 {
 	ContainerBuilder builder;
 
-	builder.setupConcreteType< ServiceA* >()->as< IServiceA* >();
+	builder.registerType< ServiceA* >()->as< IServiceA* >();
 
 	auto container = builder.build();
 
@@ -82,12 +82,12 @@ BOOST_AUTO_TEST_CASE(Should_be_setup_as_an_interface_and_get_resolved)
 	BOOST_CHECK(serviceA != nullptr);
 }
 
-BOOST_AUTO_TEST_CASE(Should_be_setup_as_an_interface_and_resolve_abstract_dependencies)
+BOOST_AUTO_TEST_CASE(should_resolve_abstract_dependencies)
 {
 	ContainerBuilder builder;
 
-	builder.setupConcreteType< ServiceA* >()->as< IServiceA* >();
-	builder.setupConcreteType(CREATE(ServiceB*, new ServiceB(INJECT(IServiceA*))))->as< IServiceB* >();
+	builder.registerType< ServiceA* >()->as< IServiceA* >();
+	builder.registerType(CREATE(ServiceB*, new ServiceB(INJECT(IServiceA*))))->as< IServiceB* >();
 
 	auto container = builder.build();
 
@@ -97,11 +97,11 @@ BOOST_AUTO_TEST_CASE(Should_be_setup_as_an_interface_and_resolve_abstract_depend
 }
 
 
-BOOST_AUTO_TEST_CASE(Default_lifetime_should_be_transient)
+BOOST_AUTO_TEST_CASE(default_lifetime_should_be_transient)
 {
 	ContainerBuilder builder;
 
-	builder.setupConcreteType< ServiceA* >()->as< IServiceA* >();
+	builder.registerType< ServiceA* >()->as< IServiceA* >();
 
 	auto container = builder.build();
 
@@ -112,11 +112,11 @@ BOOST_AUTO_TEST_CASE(Default_lifetime_should_be_transient)
 }
 
 
-BOOST_AUTO_TEST_CASE(Setup_as_interface_should_prevent_from_resolving_concrete_type)
+BOOST_AUTO_TEST_CASE(as_method_should_override_default_type_registration)
 {
 	ContainerBuilder builder;
 
-	builder.setupConcreteType< ServiceA* >()->as< IServiceA* >();
+	builder.registerType< ServiceA* >()->as< IServiceA* >();
 
 	auto container = builder.build();
 
@@ -128,12 +128,12 @@ BOOST_AUTO_TEST_CASE(Setup_as_interface_should_prevent_from_resolving_concrete_t
 }
 
 
-BOOST_AUTO_TEST_CASE(Registered_instance_should_be_shared)
+BOOST_AUTO_TEST_CASE(registered_instance_should_be_shared)
 {
 	ContainerBuilder builder;
 
     auto registeredServiceA = new ServiceA;
-	builder.setupInstanceOfConcreteType(registeredServiceA);
+	builder.registerType(registeredServiceA);
 
 	auto container = builder.build();
 
@@ -146,11 +146,11 @@ BOOST_AUTO_TEST_CASE(Registered_instance_should_be_shared)
 }
 
 
-BOOST_AUTO_TEST_CASE(Invoking_singleInstance_should_enable_instance_sharing)
+BOOST_AUTO_TEST_CASE(invoking_singleInstance_should_enable_instance_sharing)
 {
     ContainerBuilder builder;
 
-    builder.setupConcreteType< ServiceA* >()->as< IServiceA* >()->singleInstance();
+    builder.registerType< ServiceA* >()->as< IServiceA* >()->singleInstance();
 
     auto container = builder.build();
 
@@ -161,11 +161,11 @@ BOOST_AUTO_TEST_CASE(Invoking_singleInstance_should_enable_instance_sharing)
     BOOST_CHECK(serviceA == sameServiceA);
 }
 
-BOOST_AUTO_TEST_CASE(Polymorphic_resolution_should_be_available_through_polymorphic_registration)
+BOOST_AUTO_TEST_CASE(polymorphic_resolution_should_be_available_through_polymorphic_registration)
 {
     ContainerBuilder builder;
 
-    builder.setupConcreteType< ServiceA* >()->as< IServiceA* >()->as< IRunWithScissors* >();
+    builder.registerType< ServiceA* >()->as< IServiceA* >()->as< IRunWithScissors* >();
 
     auto container = builder.build();
 
@@ -176,12 +176,12 @@ BOOST_AUTO_TEST_CASE(Polymorphic_resolution_should_be_available_through_polymorp
     BOOST_CHECK(anotherServiceA != nullptr);
 }
 
-BOOST_AUTO_TEST_CASE(Polymorphic_resolution_is_not_a_lie)
+BOOST_AUTO_TEST_CASE(polymorphic_resolution_is_not_a_lie)
 {
     ContainerBuilder builder;
 
     auto registeredServiceA = new ServiceA;
-    builder.setupInstanceOfConcreteType(registeredServiceA)->as< IServiceA* >()->as< IRunWithScissors* >();
+    builder.registerType(registeredServiceA)->as< IServiceA* >()->as< IRunWithScissors* >();
 
     auto container = builder.build();
 
@@ -192,14 +192,14 @@ BOOST_AUTO_TEST_CASE(Polymorphic_resolution_is_not_a_lie)
     BOOST_CHECK(serviceA == registeredServiceA);
 }
 
-BOOST_AUTO_TEST_CASE(Polymorphic_resolution_can_be_used_to_express_dependencies)
+BOOST_AUTO_TEST_CASE(polymorphic_resolution_can_be_used_to_express_dependencies)
 {
     ContainerBuilder builder;
 
     auto serviceA = new ServiceA;
-    builder.setupInstanceOfConcreteType(serviceA)->as< IRunWithScissors* >();
+    builder.registerType(serviceA)->as< IRunWithScissors* >();
 
-    builder.setupConcreteType(CREATE(ServiceRunningWithScissors*,
+    builder.registerType(CREATE(ServiceRunningWithScissors*,
                                      new ServiceRunningWithScissors(INJECT(IRunWithScissors*))))->as< IServiceB* >();
 
     auto container = builder.build();
@@ -208,5 +208,22 @@ BOOST_AUTO_TEST_CASE(Polymorphic_resolution_can_be_used_to_express_dependencies)
 
     BOOST_CHECK(serviceB != nullptr);
 }
+
+BOOST_AUTO_TEST_CASE(registerType_with_an_instance_argument_can_bypass_argument_type_with_a_template_parameter)
+{
+    ContainerBuilder builder;
+
+    ServiceA* serviceA = new ServiceA;
+    builder.registerType< IRunWithScissors* >(serviceA);
+
+    auto container = builder.build();
+
+    auto serviceARunningWithScissors = container->resolve< IRunWithScissors* >();
+
+    BOOST_CHECK(serviceARunningWithScissors != nullptr);
+    BOOST_CHECK(dynamic_cast< ServiceA* >(serviceARunningWithScissors) != nullptr);
+    BOOST_CHECK(dynamic_cast< ServiceA* >(serviceARunningWithScissors) == serviceA);
+}
+
 
 BOOST_AUTO_TEST_SUITE_END();

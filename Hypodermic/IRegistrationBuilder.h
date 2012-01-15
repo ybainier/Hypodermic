@@ -20,7 +20,7 @@ namespace Hypodermic
 		virtual IInstanceActivator* activator() = 0;
         virtual RegistrationStyleT& registrationStyle() = 0;
 
-        virtual const std::vector< ITypeCaster* >& typeCasters() const = 0;
+        virtual const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters() const = 0;
 
 		virtual IRegistrationBuilder< T, RegistrationStyleT >* singleInstance() = 0;
         virtual IRegistrationBuilder< T, RegistrationStyleT >* instancePerLifetimeScope() = 0;
@@ -29,6 +29,9 @@ namespace Hypodermic
 		template <class ServiceT>
 		IRegistrationBuilder< T, RegistrationStyleT >* as()
 		{
+            static_assert(std::is_same< T, ServiceT >::value || std::is_convertible< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
+                          "IRegistrationBuilder< T, RegistrationStyleT >::as< ServiceT >() requires ServiceT to be a base of T");
+
 			return static_cast< RegistrationBuilder< T, RegistrationStyleT >* >(this)->as< ServiceT >();
 		}
 	};
