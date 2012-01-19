@@ -62,9 +62,6 @@
     <ClInclude Include="Service.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ServiceKey.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ServiceRegistrationInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -148,9 +145,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ServiceKey.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LifetimeScope.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

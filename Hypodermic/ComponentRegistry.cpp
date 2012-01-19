@@ -50,12 +50,14 @@ namespace Hypodermic
 
     ServiceRegistrationInfo* ComponentRegistry::getServiceInfo(Service* service)
     {
-        ServiceInfoByServiceKey::iterator iServiceInfoByServiceKey = serviceInfo_.find(ServiceKey(service));
-        if (iServiceInfoByServiceKey != serviceInfo_.end())
-            return iServiceInfoByServiceKey->second;
+        std::type_index typeIndex(service->serviceTypeInfo());
+
+        auto it = serviceInfo_.find(typeIndex);
+        if (it != serviceInfo_.end())
+            return it->second;
 
         ServiceRegistrationInfo* info = new ServiceRegistrationInfo(service);
-        serviceInfo_.insert(ServiceInfoByServiceKey::value_type(ServiceKey(service), info));
+        serviceInfo_.insert(ServiceRegistrationInfos::value_type(typeIndex, info));
         return info;
     }
 

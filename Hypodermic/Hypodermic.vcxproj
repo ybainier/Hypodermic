@@ -113,7 +113,6 @@
     <ClInclude Include="ResolveOperation.h" />
     <ClInclude Include="RootScopeLifetime.h" />
     <ClInclude Include="Service.h" />
-    <ClInclude Include="ServiceKey.h" />
     <ClInclude Include="ServiceRegistrationInfo.h" />
     <ClInclude Include="SingleRegistrationStyle.h" />
     <ClInclude Include="TypeCaster.h" />
@@ -136,7 +135,6 @@
     <ClCompile Include="ResolveOperation.cpp" />
     <ClCompile Include="RootScopeLifetime.cpp" />
     <ClCompile Include="Service.cpp" />
-    <ClCompile Include="ServiceKey.cpp" />
     <ClCompile Include="ServiceRegistrationInfo.cpp" />
     <ClCompile Include="SingleRegistrationStyle.cpp" />
     <ClCompile Include="TypedService.cpp" />

@@ -1,13 +1,14 @@
 #ifndef		HYPODERMIC_COMPONENT_REGISTRY_H_
 # define	HYPODERMIC_COMPONENT_REGISTRY_H_
 
+# include <typeindex>
 # include <vector>
+
 # include <boost/unordered_map.hpp>
 # include <boost/thread.hpp>
 
 # include <Hypodermic/IComponentRegistry.h>
 # include <Hypodermic/ServiceRegistrationInfo.h>
-# include <Hypodermic/ServiceKey.h>
 
 
 namespace Hypodermic
@@ -17,7 +18,7 @@ namespace Hypodermic
 
 	class ComponentRegistry : public IComponentRegistry
 	{
-		typedef boost::unordered_map< ServiceKey, ServiceRegistrationInfo* > ServiceInfoByServiceKey;
+		typedef boost::unordered_map< std::type_index, ServiceRegistrationInfo* > ServiceRegistrationInfos;
 
 	public:
 		IComponentRegistration* getRegistration(Service* service);
@@ -38,7 +39,7 @@ namespace Hypodermic
 
 	private:
 		std::vector< IComponentRegistration* > registrations_;
-		ServiceInfoByServiceKey serviceInfo_;
+		ServiceRegistrationInfos serviceInfo_;
 		boost::recursive_mutex mutex_;
 	};
 
