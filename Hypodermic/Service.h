@@ -1,7 +1,7 @@
 #ifndef		HYPODERMIC_SERVICE_H_
 # define	HYPODERMIC_SERVICE_H_
 
-# include <boost/cstdint.hpp>
+# include <typeinfo>
 
 
 namespace Hypodermic
@@ -10,13 +10,7 @@ namespace Hypodermic
 	class Service
 	{
 	public:
-        virtual const type_info& serviceTypeInfo() const = 0;
-
-		virtual bool operator==(const Service& rhs) const = 0;
-		
-		bool operator!=(const Service& rhs) const;
-
-		virtual std::size_t hashValue() = 0;
+        virtual const std::type_info& typeInfo() const = 0;
 	};
 
 } // namespace Hypodermic

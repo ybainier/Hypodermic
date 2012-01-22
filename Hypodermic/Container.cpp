@@ -26,12 +26,12 @@ namespace Hypodermic
 
         componentRegistry_->addRegistration(new ComponentRegistration(
             LifetimeScope::selfRegistrationId,
-            new DelegateActivator< LifetimeScope* >(
-                typeid(LifetimeScope*), Func< IComponentContext*, LifetimeScope* >(
+            new DelegateActivator< LifetimeScope >(
+                typeid(LifetimeScope*),
                 [](IComponentContext* c) -> LifetimeScope*
                 {
                     throw std::logic_error("Self registration cannot be activated");
-                })),
+                }),
             new CurrentLifetimeScope,
             InstanceSharing::Shared,
             InstanceOwnership::ExternallyOwned,

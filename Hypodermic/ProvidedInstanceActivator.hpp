@@ -8,8 +8,8 @@
 namespace Hypodermic
 {
     template <class T>
-    ProvidedInstanceActivator< T >::ProvidedInstanceActivator(T instance)
-        : InstanceActivator(typeid(T)), instance_(instance)
+    ProvidedInstanceActivator< T >::ProvidedInstanceActivator(T* instance)
+        : InstanceActivator(typeid(T*)), instance_(instance)
         , activated_(false), disposeInstance_(false)
     {
     }
@@ -34,7 +34,7 @@ namespace Hypodermic
     }
 
     template <class T>
-    bool ProvidedInstanceActivator< T> ::disposeInstance() const
+    bool ProvidedInstanceActivator< T >::disposeInstance() const
     {
         return disposeInstance_;
     }

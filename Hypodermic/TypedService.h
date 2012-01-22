@@ -1,8 +1,6 @@
 #ifndef		HYPODERMIC_TYPED_SERVICE_H_
 # define	HYPODERMIC_TYPED_SERVICE_H_
 
-# include <typeinfo>
-
 # include <Hypodermic/Service.h>
 
 
@@ -12,16 +10,12 @@ namespace Hypodermic
 	class TypedService : public Service
 	{
 	public:
-		TypedService(const type_info& serviceTypeInfo);
+		TypedService(const std::type_info& typeInfo);
 
-		const type_info& serviceTypeInfo() const;
-
-		bool operator==(const Service& rhs) const;
-
-		std::size_t hashValue();
+		const std::type_info& typeInfo() const;
 
 	private:
-		const type_info& serviceTypeInfo_;
+		const std::type_info& typeInfo_;
 	};
 
 } // namespace Hypodermic

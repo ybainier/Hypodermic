@@ -1,4 +1,4 @@
-#include <boost/assert.hpp>
+#include <stdexcept>
 
 #include "IComponentLifetime.h"
 #include "IInstanceActivator.h"
@@ -24,8 +24,10 @@ namespace Hypodermic
         , typeCasters_(typeCasters)
         , target_(nullptr)
     {
-        BOOST_ASSERT(activator != nullptr);
-        BOOST_ASSERT(lifetime != nullptr);
+        if (activator == nullptr)
+            throw std::invalid_argument("activator");
+        if (lifetime == nullptr)
+            throw std::invalid_argument("lifetime");
     }
 
     ComponentRegistration::ComponentRegistration(const boost::uuids::uuid& id,
@@ -45,9 +47,12 @@ namespace Hypodermic
         , typeCasters_(typeCasters)
         , target_(target)
     {
-        BOOST_ASSERT(activator != nullptr);
-        BOOST_ASSERT(lifetime != nullptr);
-        BOOST_ASSERT(target != nullptr);
+        if (activator == nullptr)
+            throw std::invalid_argument("activator");
+        if (lifetime == nullptr)
+            throw std::invalid_argument("lifetime");
+        if (target == nullptr)
+            throw std::invalid_argument("target");
     }
 
     IComponentRegistration* ComponentRegistration::target()

@@ -1,9 +1,9 @@
 #ifndef		HYPODERMIC_DELEGATE_ACTIVATOR_H_
 # define	HYPODERMIC_DELEGATE_ACTIVATOR_H_
 
+# include <functional>
 # include <typeinfo>
 
-# include <Hypodermic/Func.h>
 # include <Hypodermic/IComponentContext.h>
 # include <Hypodermic/IInstanceActivator.h>
 # include <Hypodermic/InstanceActivator.h>
@@ -15,8 +15,10 @@ namespace Hypodermic
 	template <class T>
 	class DelegateActivator : public InstanceActivator
 	{
+        typedef std::function< T*(IComponentContext*) > ActivationDelegate;
+
 	public:
-		DelegateActivator(const std::type_info& typeInfo, Func< IComponentContext*, T > activationFunction)
+		DelegateActivator(const std::type_info& typeInfo, ActivationDelegate activationFunction)
 			: InstanceActivator(typeInfo), activationFunction_(activationFunction)
 		{
 		}
@@ -27,7 +29,7 @@ namespace Hypodermic
 		}
 
 	private:
-		Func< IComponentContext*, T > activationFunction_;
+		ActivationDelegate activationFunction_;
 	};
 
 } // namespace Hypodermic

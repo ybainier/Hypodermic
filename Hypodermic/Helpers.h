@@ -4,17 +4,12 @@
 
 # ifndef		HYPODERMIC_NO_HELPERS
 
-#  include <Hypodermic/Func.h>
+#  include <type_traits>
 #  include <Hypodermic/IComponentContext.h>
 
-#  define		CREATE(TResult, Expr)\
-				Hypodermic::Func< Hypodermic::IComponentContext*, TResult >(\
-					[](Hypodermic::IComponentContext* c) -> TResult\
-					{\
-						return (Expr);\
-					})
+#  define		CREATE(TResult, Expr)   [](Hypodermic::IComponentContext* c) -> TResult* { return (Expr); }
 
-#  define		INJECT(Dependency)  (c->resolve< Dependency >())
+#  define		INJECT(Dependency)      (c->resolve< Dependency >())
 
 #  define		INJECT_ALL(Dependency)  (c->resolveAll< Dependency >())
 

@@ -11,7 +11,7 @@ namespace Hypodermic
 	class ProvidedInstanceActivator : public InstanceActivator
 	{
 	public:
-		ProvidedInstanceActivator(T instance);
+		ProvidedInstanceActivator(T* instance);
 		~ProvidedInstanceActivator();
 
 		void* activateInstance(IComponentContext* context);
@@ -21,7 +21,7 @@ namespace Hypodermic
 		void disposeInstance(bool value);
 
 	private:
-		T instance_;
+		T* instance_;
 		bool activated_;
 		bool disposeInstance_;
 	};

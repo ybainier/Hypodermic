@@ -1,7 +1,5 @@
+#include <functional>
 #include <stdexcept>
-
-#include <boost/assert.hpp>
-#include <boost/bind.hpp>
 
 #include "IComponentLifetime.h"
 #include "IComponentRegistration.h"
@@ -23,9 +21,10 @@ namespace Hypodermic
         , newInstance_(nullptr)
         , executed_(false)
     {
-        BOOST_ASSERT(registration != nullptr);
-        BOOST_ASSERT(context != nullptr);
-
+        if (registration == nullptr)
+            throw std::invalid_argument("registration");
+        if (context == nullptr)
+            throw std::invalid_argument("context");
         if (mostNestedVisibleScope == nullptr)
             throw std::invalid_argument("mostNestedVisibleScope");
         activationScope_ = componentRegistration_->lifetime()->findScope(mostNestedVisibleScope);
@@ -45,8 +44,7 @@ namespace Hypodermic
         {
             instance = activationScope_->getOrCreateAndShare(
                 componentRegistration_->id(),
-                Func< void, void* >(boost::bind(&InstanceLookup::activate, this))
-                );
+                std::bind(&InstanceLookup::activate, this));
         }
 
         return instance;

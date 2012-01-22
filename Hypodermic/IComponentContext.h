@@ -23,53 +23,53 @@ namespace Hypodermic
 		virtual void* resolveComponent(IComponentRegistration* registration) = 0;
 
 		template <class TService>
-		TService resolve()
+		TService* resolve()
 		{
 			return resolve< TService >(typeid(TService));
 		}
 
 		template <class TService>
-		TService resolve(const std::type_info& serviceTypeInfo)
+		TService* resolve(const std::type_info& serviceTypeInfo)
 		{
 			return resolveService< TService >(new TypedService(serviceTypeInfo));
 		}
 
 		template <class TService>
-		TService resolveService(Service* service)
+		TService* resolveService(Service* service)
 		{
 			IComponentRegistration* registration = componentRegistry()->getRegistration(service);
 			
 			if (registration == nullptr)
 				return 0;
 			
-            void* result = registration->castOrForward(service->serviceTypeInfo(), resolveComponent(registration));
+            void* result = registration->castOrForward(service->typeInfo(), resolveComponent(registration));
 
-			return static_cast< TService >(result);
+			return static_cast< TService* >(result);
 		}
 
         template <class TService>
-        std::vector< TService > resolveAll()
+        std::vector< TService* > resolveAll()
         {
             return resolveAll< TService >(typeid(TService));
         }
 
 		template <class TService>
-		std::vector< TService > resolveAll(const std::type_info& serviceTypeInfo)
+		std::vector< TService* > resolveAll(const std::type_info& serviceTypeInfo)
 		{
 			return resolveAllForService< TService >(new TypedService(serviceTypeInfo));
 		}
 
 		template <class TService>
-		std::vector< TService > resolveAllForService(Service* service)
+		std::vector< TService* > resolveAllForService(Service* service)
 		{
 			auto registrations = componentRegistry()->registrationsFor(service);
 			
-            std::vector< TService > allResults;
+            std::vector< TService* > allResults;
 
             BOOST_FOREACH(auto registration, registrations)
             {
-                void* result = registration->castOrForward(service->serviceTypeInfo(), resolveComponent(registration));
-                allResults.push_back(static_cast< TService >(result));
+                void* result = registration->castOrForward(service->typeInfo(), resolveComponent(registration));
+                allResults.push_back(static_cast< TService* >(result));
             }
 
             return allResults;

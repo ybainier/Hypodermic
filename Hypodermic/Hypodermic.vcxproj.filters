@@ -181,9 +181,6 @@
     <ClCompile Include="ResolveOperation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Service.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ServiceRegistrationInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

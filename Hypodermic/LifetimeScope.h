@@ -1,11 +1,12 @@
 #ifndef		HYPODERMIC_LIFETIME_SCOPE_H_
 # define	HYPODERMIC_LIFETIME_SCOPE_H_
 
+# include <functional>
+
 # include <boost/thread.hpp>
 # include <boost/unordered_map.hpp>
 # include <boost/uuid/uuid.hpp>
 
-# include <Hypodermic/Action.h>
 # include <Hypodermic/ContainerBuilder.h>
 # include <Hypodermic/ISharingLifetimeScope.h>
 
@@ -19,37 +20,30 @@ namespace Hypodermic
 	class LifetimeScope : public ISharingLifetimeScope
 	{
 	public:
-        static const boost::uuids::uuid selfRegistrationId;
-
-        
         LifetimeScope(IComponentRegistry* componentRegistry);
 
 		ISharingLifetimeScope* parentLifetimeScope();
-
 		ISharingLifetimeScope* rootLifetimeScope();
 
         IComponentRegistry* componentRegistry();
 
 		void* resolveComponent(IComponentRegistration* registration);
+		void* getOrCreateAndShare(const boost::uuids::uuid& id, std::function< void*() > creator);
 
-		void* getOrCreateAndShare(const boost::uuids::uuid& id, Func< void, void* > creator);
+        static const boost::uuids::uuid selfRegistrationId;
 
 	protected:
 		LifetimeScope(IComponentRegistry* componentRegistry, LifetimeScope* parent);
 
 	private:
-		void initialize();
-
-		void initialize(IComponentRegistry* componentRegistry);
-
-
-		boost::recursive_mutex mutex_;
-		boost::unordered_map< boost::uuids::uuid, void* > sharedInstances_;
 		IComponentRegistry* componentRegistry_;
-		ISharingLifetimeScope* root_;
 		ISharingLifetimeScope* parent_;
+		ISharingLifetimeScope* root_;
+		boost::unordered_map< boost::uuids::uuid, void* > sharedInstances_;
 
-		static Action< ContainerBuilder* > noConfiguration_;
+        boost::recursive_mutex mutex_;
+
+		static std::function< void(ContainerBuilder*) > noConfiguration_;
 	};
 
 } // namespace Hypodermic

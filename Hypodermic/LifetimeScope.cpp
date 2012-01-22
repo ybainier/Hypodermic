@@ -1,6 +1,5 @@
 #include <stdexcept>
 
-#include <boost/assert.hpp>
 #include <boost/uuid/random_generator.hpp>
 
 #include "ResolveOperation.h"
@@ -10,21 +9,29 @@
 namespace Hypodermic
 {
 	const boost::uuids::uuid LifetimeScope::selfRegistrationId = boost::uuids::random_generator()();
-	Action< ContainerBuilder* > LifetimeScope::noConfiguration_ = [](ContainerBuilder*) -> void { };
+	std::function< void(ContainerBuilder*) > LifetimeScope::noConfiguration_ = [](ContainerBuilder*) -> void {};
 
 
     LifetimeScope::LifetimeScope(IComponentRegistry* componentRegistry)
+        : componentRegistry_(componentRegistry)
+        , parent_(nullptr)
     {
-        initialize(componentRegistry);
+        if (componentRegistry == nullptr)
+            throw std::invalid_argument("componentRegistry");
+        root_ = this;
+        sharedInstances_[selfRegistrationId] = this;
     }
 
-    LifetimeScope::LifetimeScope( IComponentRegistry* componentRegistry, LifetimeScope* parent )
+    LifetimeScope::LifetimeScope(IComponentRegistry* componentRegistry, LifetimeScope* parent)
+        : componentRegistry_(componentRegistry)
+        , parent_(parent)
     {
-        initialize(componentRegistry);
-
-        BOOST_ASSERT(parent != nullptr);
-        parent_ = parent;
+        if (componentRegistry == nullptr)
+            throw std::invalid_argument("componentRegistry");
+        if (parent == nullptr)
+            throw std::invalid_argument("parent");
         root_ = parent_->rootLifetimeScope();
+        sharedInstances_[selfRegistrationId] = this;
     }
 
     ISharingLifetimeScope* LifetimeScope::parentLifetimeScope()
@@ -51,12 +58,11 @@ namespace Hypodermic
             boost::lock_guard< decltype(mutex_) > lock(mutex_);
 
             ResolveOperation operation(this);
-            //ResolveOperationBeginning(this, new ResolveOperationBeginningEventArgs(operation));
             return operation.execute(registration);
         }
     }
 
-    void* LifetimeScope::getOrCreateAndShare(const boost::uuids::uuid& id, Func< void, void* > creator)
+    void* LifetimeScope::getOrCreateAndShare(const boost::uuids::uuid& id, std::function< void*() > creator)
     {
         boost::lock_guard< decltype(mutex_) > lock(mutex_);
 
@@ -70,20 +76,6 @@ namespace Hypodermic
             result = sharedInstances_[id];
 
         return result;
-    }
-
-    void LifetimeScope::initialize()
-    {
-        sharedInstances_[selfRegistrationId] = this;
-    }
-
-    void LifetimeScope::initialize(IComponentRegistry* componentRegistry)
-    {
-        initialize();
-
-        BOOST_ASSERT(componentRegistry != nullptr);
-        componentRegistry_ = componentRegistry;
-        root_ = this;
     }
 
 } // namespace Hypodermic

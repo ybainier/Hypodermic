@@ -134,7 +134,6 @@
     <ClCompile Include="RegistrationData.cpp" />
     <ClCompile Include="ResolveOperation.cpp" />
     <ClCompile Include="RootScopeLifetime.cpp" />
-    <ClCompile Include="Service.cpp" />
     <ClCompile Include="ServiceRegistrationInfo.cpp" />
     <ClCompile Include="SingleRegistrationStyle.cpp" />
     <ClCompile Include="TypedService.cpp" />

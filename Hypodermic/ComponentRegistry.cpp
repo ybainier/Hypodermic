@@ -50,7 +50,7 @@ namespace Hypodermic
 
     ServiceRegistrationInfo* ComponentRegistry::getServiceInfo(Service* service)
     {
-        std::type_index typeIndex(service->serviceTypeInfo());
+        std::type_index typeIndex(service->typeInfo());
 
         auto it = serviceInfo_.find(typeIndex);
         if (it != serviceInfo_.end())

@@ -3,7 +3,6 @@
 
 # include <typeindex>
 
-# include <boost/type_traits.hpp>
 # include <boost/unordered_map.hpp>
 
 # include <Hypodermic/ComponentRegistration.h>

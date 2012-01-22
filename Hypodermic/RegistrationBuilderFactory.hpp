@@ -2,8 +2,7 @@
 # ifndef    HYPODERMIC_REGISTRATION_BUILDER_FACTORY_HPP_
 #  define   HYPODERMIC_REGISTRATION_BUILDER_FACTORY_HPP_
 
-# include <boost/make_shared.hpp>
-
+# include <Hypodermic/ProvidedInstanceActivator.h>
 # include <Hypodermic/RegistrationBuilder.h>
 
 
@@ -13,38 +12,47 @@ namespace Hypodermic
 
 
     template <class T>
-	boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forDelegate(Func< IComponentContext*, T > delegate)
+	std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forDelegate(std::function< T*(IComponentContext*) > delegate)
 	{
         auto& typeInfo = typeid(T);
-		return boost::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
+		return std::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
             new TypedService(typeInfo),
 			new DelegateActivator< T >(typeInfo, delegate),
             SingleRegistrationStyle());
 	}
 
 	template <class T>
-	boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forType()
+	std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forType()
 	{
         auto& typeInfo = typeid(T);
-		return boost::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
+		return std::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
             new TypedService(typeInfo),
-			new DelegateActivator< T >(typeInfo, Func< IComponentContext*, T >(
-                [](IComponentContext* c) -> T
-			    {
-				    return new boost::remove_pointer< T >::type;
-			    })),
+			new DelegateActivator< T >(typeInfo,
+                                       [](IComponentContext* c) -> T*
+			                           {
+				                           return new T;
+			                           }),
             SingleRegistrationStyle());
 	}
 
-	template <class T, class RegistrationStyleT>
-	void RegistrationBuilderFactory::registerSingleComponent(IComponentRegistry* cr, boost::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb)
+	template <class T>
+	std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forInstance(T* instance)
+	{
+        return std::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
+            new TypedService(typeid(T)),
+            new ProvidedInstanceActivator< T >(instance),
+            SingleRegistrationStyle());
+	}
+
+    template <class T, class RegistrationStyleT>
+	void RegistrationBuilderFactory::registerSingleComponent(IComponentRegistry* cr, std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb)
 	{
 		auto registration = createRegistration< T, RegistrationStyleT >(rb);
 		cr->addRegistration(registration);
 	}
 
 	template <class T, class RegistrationStyleT>
-	IComponentRegistration* RegistrationBuilderFactory::createRegistration(boost::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb)
+	IComponentRegistration* RegistrationBuilderFactory::createRegistration(std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb)
 	{
 		return createRegistration(rb->registrationStyle().id(),
                                   rb->registrationData(),

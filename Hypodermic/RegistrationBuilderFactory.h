@@ -1,14 +1,14 @@
 #ifndef     HYPODERMIC_REGISTRATION_BUILDER_FACTORY_H_
 # define    HYPODERMIC_REGISTRATION_BUILDER_FACTORY_H_
 
+# include <functional>
+# include <memory>
 # include <typeindex>
 # include <vector>
 
-# include <boost/shared_ptr.hpp>
 # include <boost/unordered_map.hpp>
 # include <boost/uuid/uuid.hpp>
 
-# include <Hypodermic/Func.h>
 # include <Hypodermic/SingleRegistrationStyle.h>
 
 
@@ -27,16 +27,19 @@ namespace Hypodermic
 	{
 	public:
 		template <class T>
-		static boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forDelegate(Func< IComponentContext*, T > delegate);
+		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forDelegate(std::function< T*(IComponentContext*) > delegate);
 
 		template <class T>
-		static boost::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forType();
+		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forType();
+
+        template <class T>
+		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forInstance(T* instance);
 
 		template <class T, class RegistrationStyleT>
-		static void registerSingleComponent(IComponentRegistry* cr, boost::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
+		static void registerSingleComponent(IComponentRegistry* cr, std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
 
 		template <class T, class RegistrationStyleT>
-		static IComponentRegistration* createRegistration(boost::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
+		static IComponentRegistration* createRegistration(std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
 
 		static IComponentRegistration* createRegistration(const boost::uuids::uuid& id,
                                                           RegistrationData& registrationData,

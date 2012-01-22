@@ -1,7 +1,9 @@
 #ifndef		HYPODERMIC_IREGISTRATION_BUILDER_H_
 # define	HYPODERMIC_IREGISTRATION_BUILDER_H_
 
+# include <type_traits>
 # include <vector>
+
 # include <Hypodermic/ITypeCaster.h>
 
 
@@ -30,7 +32,7 @@ namespace Hypodermic
 		IRegistrationBuilder< T, RegistrationStyleT >* as()
 		{
             static_assert(std::is_same< T, ServiceT >::value || std::is_convertible< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
-                          "IRegistrationBuilder< T, RegistrationStyleT >::as< ServiceT >() requires ServiceT to be a base of T");
+                          "IRegistrationBuilder< T, RegistrationStyleT >::as< ServiceT >() requires T to be convertible to ServiceT");
 
 			return static_cast< RegistrationBuilder< T, RegistrationStyleT >* >(this)->as< ServiceT >();
 		}

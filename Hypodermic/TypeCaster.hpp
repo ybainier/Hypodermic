@@ -21,8 +21,8 @@ namespace Hypodermic
     template <class ConcreteType, class InterfaceType>
     void* TypeCaster< ConcreteType, InterfaceType >::cast(void* concreteInstance) const
     {
-        ConcreteType concreteTypeInstance = static_cast< ConcreteType >(concreteInstance);
-        InterfaceType interfaceTypeInstance = concreteTypeInstance;
+        ConcreteType* concreteTypeInstance = static_cast< ConcreteType* >(concreteInstance);
+        InterfaceType* interfaceTypeInstance = concreteTypeInstance;
 
         return interfaceTypeInstance;
     }
