@@ -2,6 +2,8 @@
 # ifndef    HYPODERMIC_CONTAINER_BUILDER_HPP_
 #  define   HYPODERMIC_CONTAINER_BUILDER_HPP_
 
+# include <type_traits>
+
 # include <Hypodermic/RegistrationBuilder.h>
 # include <Hypodermic/RegistrationBuilderFactory.h>
 # include <Hypodermic/RootScopeLifetime.h>
@@ -13,6 +15,8 @@ namespace Hypodermic
     template <class T>
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(std::function< T*(IComponentContext*) > delegate)
     {
+        static_assert(!std::is_pod< T >::value, "ContainerBuilder::registerType< T >() is incompatible with POD types");
+
         auto rb = RegistrationBuilderFactory::forDelegate(delegate);
 
         registerCallback(
@@ -27,6 +31,8 @@ namespace Hypodermic
     template <class T>
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType()
     {
+        static_assert(!std::is_pod< T >::value, "ContainerBuilder::registerType< T >() is incompatible with POD types");
+
         auto rb = RegistrationBuilderFactory::forType< T >();
 
         registerCallback(
@@ -41,6 +47,8 @@ namespace Hypodermic
     template <class T>
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(T* instance)
     {
+        static_assert(!std::is_pod< T >::value, "ContainerBuilder::registerType< T >(T* instance) is incompatible with POD types");
+
         auto rb = RegistrationBuilderFactory::forInstance(instance);
 
         rb->singleInstance();

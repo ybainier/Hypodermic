@@ -7,7 +7,7 @@
 #  include <type_traits>
 #  include <Hypodermic/IComponentContext.h>
 
-#  define		CREATE(TResult, Expr)   [](Hypodermic::IComponentContext* c) -> TResult* { return (Expr); }
+#  define		CREATE(Expr)            [](Hypodermic::IComponentContext* c) -> decltype(Expr) { return (Expr); }
 
 #  define		INJECT(Dependency)      (c->resolve< Dependency >())
 

@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE(should_resolve_abstract_dependencies)
 	ContainerBuilder builder;
 
 	builder.registerType< ServiceA >()->as< IServiceA >();
-	builder.registerType< ServiceB >(CREATE(ServiceB, new ServiceB(INJECT(IServiceA))))->as< IServiceB >();
+	builder.registerType< ServiceB >(CREATE(new ServiceB(INJECT(IServiceA))))->as< IServiceB >();
 
 	auto container = builder.build();
 
@@ -218,7 +218,7 @@ BOOST_AUTO_TEST_CASE(polymorphic_resolution_can_be_used_to_express_dependencies)
     builder.registerType(serviceA)->as< IRunWithScissors >();
 
     builder.registerType< ServiceRunningWithScissors >(
-        CREATE(ServiceRunningWithScissors, new ServiceRunningWithScissors(INJECT(IRunWithScissors))))->as< IServiceB >();
+        CREATE(new ServiceRunningWithScissors(INJECT(IRunWithScissors))))->as< IServiceB >();
 
     auto container = builder.build();
 
@@ -233,14 +233,18 @@ BOOST_AUTO_TEST_CASE(registerType_with_an_instance_argument_can_bypass_argument_
 
     ServiceA* serviceA = new ServiceA;
     builder.registerType< IRunWithScissors >(serviceA);
+    builder.registerType< IServiceA >(serviceA);
+    builder.registerType< IServiceB >(CREATE(new ServiceB(INJECT(IServiceA))));
 
     auto container = builder.build();
 
     auto serviceARunningWithScissors = container->resolve< IRunWithScissors >();
+    auto serviceB = container->resolve< IServiceB >();
 
     BOOST_CHECK(serviceARunningWithScissors != nullptr);
     BOOST_CHECK(dynamic_cast< ServiceA* >(serviceARunningWithScissors) != nullptr);
     BOOST_CHECK(dynamic_cast< ServiceA* >(serviceARunningWithScissors) == serviceA);
+    BOOST_CHECK(serviceB != nullptr);
 }
 
 BOOST_AUTO_TEST_CASE(resolveAll_should_collect_all_registrations_and_return_a_vector_of_instances)
@@ -250,9 +254,9 @@ BOOST_AUTO_TEST_CASE(resolveAll_should_collect_all_registrations_and_return_a_ve
     auto serviceA = new ServiceA;
     builder.registerType(serviceA)->as< IServiceA >()->as< IRunWithScissors >();
 
-    builder.registerType< ServiceB >(CREATE(ServiceB, new ServiceB(INJECT(IServiceA))))->as< IServiceB >()->singleInstance();
+    builder.registerType< ServiceB >(CREATE(new ServiceB(INJECT(IServiceA))))->as< IServiceB >()->singleInstance();
     builder.registerType< ServiceRunningWithScissors >(
-        CREATE(ServiceRunningWithScissors, new ServiceRunningWithScissors(INJECT(IRunWithScissors))))->as< IServiceB >();
+        CREATE(new ServiceRunningWithScissors(INJECT(IRunWithScissors))))->as< IServiceB >();
 
     auto container = builder.build();
 
@@ -272,11 +276,11 @@ BOOST_AUTO_TEST_CASE(resolveAll_can_be_used_to_collect_dependencies)
     auto serviceA = new ServiceA;
     builder.registerType(serviceA)->as< IServiceA >()->as< IRunWithScissors >();
 
-    builder.registerType< ServiceB >(CREATE(ServiceB, new ServiceB(INJECT(IServiceA))))->as< IServiceB >()->singleInstance();
+    builder.registerType< ServiceB >(CREATE(new ServiceB(INJECT(IServiceA))))->as< IServiceB >()->singleInstance();
     builder.registerType< ServiceRunningWithScissors >(
-        CREATE(ServiceRunningWithScissors, new ServiceRunningWithScissors(INJECT(IRunWithScissors))))->as< IServiceB >();
+        CREATE(new ServiceRunningWithScissors(INJECT(IRunWithScissors))))->as< IServiceB >();
 
-    builder.registerType< ServiceBController >(CREATE(ServiceBController, new ServiceBController(INJECT_ALL(IServiceB))));
+    builder.registerType< ServiceBController >(CREATE(new ServiceBController(INJECT_ALL(IServiceB))));
 
     auto container = builder.build();
 
