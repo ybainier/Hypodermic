@@ -8,6 +8,7 @@
 #include "IComponentRegistry.h"
 #include "ILifetimeScope.h"
 #include "LifetimeScope.h"
+#include "ProvidedInstanceActivator.h"
 #include "TypedService.h"
 #include "Container.h"
 
@@ -19,19 +20,30 @@ namespace Hypodermic
     {
         using namespace boost::assign;
 
-        std::vector< Service* > services = list_of(new TypedService(typeid(ILifetimeScope*)))
-                                                  (new TypedService(typeid(IComponentContext*)));
+        std::vector< Service* > services = list_of(new TypedService(typeid(ILifetimeScope)))
+                                                  (new TypedService(typeid(IComponentContext)));
 
         componentRegistry_ = new ComponentRegistry;
 
         componentRegistry_->addRegistration(new ComponentRegistration(
             LifetimeScope::selfRegistrationId,
             new DelegateActivator< LifetimeScope >(
-                typeid(LifetimeScope*),
+                typeid(LifetimeScope),
                 [](IComponentContext* c) -> LifetimeScope*
                 {
                     throw std::logic_error("Self registration cannot be activated");
                 }),
+            new CurrentLifetimeScope,
+            InstanceSharing::Shared,
+            InstanceOwnership::ExternallyOwned,
+            services,
+            std::unordered_map< std::type_index, ITypeCaster* >()));
+        
+        services = list_of(new TypedService(typeid(IContainer)));
+
+        componentRegistry_->addRegistration(new ComponentRegistration(
+            LifetimeScope::selfRegistrationId,
+            new ProvidedInstanceActivator< Container >(this),
             new CurrentLifetimeScope,
             InstanceSharing::Shared,
             InstanceOwnership::ExternallyOwned,

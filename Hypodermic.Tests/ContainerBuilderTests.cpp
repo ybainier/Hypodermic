@@ -70,6 +70,18 @@ private:
     std::vector< IServiceB* > serviceBs_;
 };
 
+struct ContainerHolder
+{
+    ContainerHolder(IContainer* container)
+        : container_(container)
+    {
+        BOOST_ASSERT(container != nullptr);
+    }
+
+private:
+    IContainer* container_;
+};
+
 
 BOOST_AUTO_TEST_SUITE(ContainerBuilderTests);
 
@@ -290,6 +302,19 @@ BOOST_AUTO_TEST_CASE(resolveAll_can_be_used_to_collect_dependencies)
     BOOST_CHECK(serviceBController != nullptr);
     BOOST_CHECK(serviceBController2 != nullptr);
     BOOST_CHECK(serviceBController != serviceBController2);
+}
+
+BOOST_AUTO_TEST_CASE(container_should_be_injectable_as_well)
+{
+    ContainerBuilder builder;
+
+    builder.registerType< ContainerHolder >(CREATE(new ContainerHolder(INJECT(IContainer))));
+
+    auto container = builder.build();
+
+    auto containerHolder = container->resolve< ContainerHolder >();
+
+    BOOST_CHECK(containerHolder != nullptr);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
