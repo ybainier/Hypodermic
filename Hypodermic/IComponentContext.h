@@ -7,14 +7,12 @@
 # include <boost/foreach.hpp>
 
 # include <Hypodermic/IComponentRegistration.h>
+# include <Hypodermic/IComponentRegistry.h>
 # include <Hypodermic/TypedService.h>
 
 
 namespace Hypodermic
 {
-	class IComponentRegistry;
-
-
 	class IComponentContext
 	{
 	public:

@@ -1,5 +1,5 @@
-#ifndef     BOOST_UUID_HASH_FUNCTOR
-# define    BOOST_UUID_HASH_FUNCTOR
+#ifndef     HYPODERMIC_BOOST_UUID_HASH_FUNCTOR_H_
+# define    HYPODERMIC_BOOST_UUID_HASH_FUNCTOR_H_
 
 # include <xfunctional>
 # include <boost/uuid/uuid.hpp>
@@ -9,10 +9,10 @@ namespace std
 {
 
     template <>
-    class hash< boost::uuids::uuid > : public unary_function< boost::uuids::uuid, size_t >
+    class hash< boost::uuids::uuid > : public std::unary_function< boost::uuids::uuid, size_t >
     {	// hash functor
     public:
-        size_t operator()(const boost::uuids::uuid& _Keyval) const
+        std::size_t operator()(const boost::uuids::uuid& _Keyval) const
         {	// hash _Keyval to size_t value by pseudorandomizing transform
             return boost::uuids::hash_value(_Keyval);
         }
@@ -21,4 +21,4 @@ namespace std
 } // namespace std
 
 
-#endif /* !BOOST_UUID_HASH_FUNCTOR */
+#endif /* !HYPODERMIC_BOOST_UUID_HASH_FUNCTOR_H_ */
