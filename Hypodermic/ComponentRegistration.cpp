@@ -14,7 +14,7 @@ namespace Hypodermic
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
                                                  const std::vector< Service* >& services,
-                                                 const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters)
+                                                 const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters)
         : id_(id)
         , activator_(activator)
         , sharing_(sharing)
@@ -36,7 +36,7 @@ namespace Hypodermic
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
                                                  const std::vector< Service* >& services,
-                                                 const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters,
+                                                 const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters,
                                                  IComponentRegistration* target)
         : id_(id)
         , activator_(activator)

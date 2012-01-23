@@ -4,9 +4,9 @@
 # include <functional>
 # include <memory>
 # include <typeindex>
+# include <unordered_map>
 # include <vector>
 
-# include <boost/unordered_map.hpp>
 # include <boost/uuid/uuid.hpp>
 
 # include <Hypodermic/SingleRegistrationStyle.h>
@@ -46,7 +46,7 @@ namespace Hypodermic
                                                           IInstanceActivator* activator,
 			                                              std::vector< Service* >& services,
                                                           IComponentRegistration* target,
-                                                          const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters);
+                                                          const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters);
 	};
 
 } // namespace Hypodermic

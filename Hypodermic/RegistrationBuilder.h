@@ -3,8 +3,6 @@
 
 # include <typeindex>
 
-# include <boost/unordered_map.hpp>
-
 # include <Hypodermic/ComponentRegistration.h>
 # include <Hypodermic/CurrentLifetimeScope.h>
 # include <Hypodermic/DelegateActivator.h>
@@ -33,7 +31,7 @@ namespace Hypodermic
 
         RegistrationStyleT& registrationStyle();
 
-        const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters() const;
+        const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters() const;
 
 		IRegistrationBuilder< T, RegistrationStyleT >* singleInstance();
 
@@ -48,7 +46,7 @@ namespace Hypodermic
 		RegistrationData registrationData_;
 		IInstanceActivator* activator_;
         RegistrationStyleT registrationStyle_;
-        boost::unordered_map< std::type_index, ITypeCaster* > typeCasters_;
+        std::unordered_map< std::type_index, ITypeCaster* > typeCasters_;
 	};
 
 } // namespace Hypodermic

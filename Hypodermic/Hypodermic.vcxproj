@@ -75,6 +75,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Action.h" />
+    <ClInclude Include="BoostUuidHashFunctor.h" />
     <ClInclude Include="CircularDependencyDetector.h" />
     <ClInclude Include="ComponentRegistration.h" />
     <ClInclude Include="ComponentRegistry.h" />

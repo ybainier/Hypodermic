@@ -36,7 +36,7 @@ namespace Hypodermic
             InstanceSharing::Shared,
             InstanceOwnership::ExternallyOwned,
             services,
-            boost::unordered_map< std::type_index, ITypeCaster* >()));
+            std::unordered_map< std::type_index, ITypeCaster* >()));
 
         rootLifetimeScope_ = new LifetimeScope(componentRegistry_);
     }

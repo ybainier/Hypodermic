@@ -2,6 +2,7 @@
 # define	HYPODERMIC_IREGISTRATION_BUILDER_H_
 
 # include <type_traits>
+# include <unordered_map>
 # include <vector>
 
 # include <Hypodermic/ITypeCaster.h>
@@ -22,7 +23,7 @@ namespace Hypodermic
 		virtual IInstanceActivator* activator() = 0;
         virtual RegistrationStyleT& registrationStyle() = 0;
 
-        virtual const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters() const = 0;
+        virtual const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters() const = 0;
 
 		virtual IRegistrationBuilder< T, RegistrationStyleT >* singleInstance() = 0;
         virtual IRegistrationBuilder< T, RegistrationStyleT >* instancePerLifetimeScope() = 0;

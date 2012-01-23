@@ -11,7 +11,7 @@ namespace Hypodermic
                                                                            IInstanceActivator* activator,
 			                                                               std::vector< Service* >& services,
                                                                            IComponentRegistration* target,
-                                                                           const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters)
+                                                                           const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters)
 	{
         IComponentRegistration* registration;
 

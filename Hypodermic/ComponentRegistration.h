@@ -2,8 +2,9 @@
 # define	HYPODERMIC_COMPONENT_REGISTRATION_H_
 
 # include <typeindex>
+# include <unordered_map>
 # include <vector>
-# include <boost/unordered_map.hpp>
+
 # include <boost/uuid/uuid.hpp>
 
 # include <Hypodermic/IComponentRegistration.h>
@@ -28,7 +29,7 @@ namespace Hypodermic
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
                               const std::vector< Service* >& services,
-                              const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters);
+                              const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters);
 
         ComponentRegistration(const boost::uuids::uuid& id,
                               IInstanceActivator* activator,
@@ -36,7 +37,7 @@ namespace Hypodermic
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
                               const std::vector< Service* >& services,
-                              const boost::unordered_map< std::type_index, ITypeCaster* >& typeCasters,
+                              const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters,
                               IComponentRegistration* target);
 
         IComponentRegistration* target();
@@ -70,7 +71,7 @@ namespace Hypodermic
         InstanceOwnership::Mode ownership_;
         IComponentLifetime* lifetime_;
         std::vector< Service* > services_;
-        boost::unordered_map< std::type_index, ITypeCaster* > typeCasters_;
+        std::unordered_map< std::type_index, ITypeCaster* > typeCasters_;
         IComponentRegistration* target_;
 	};
 

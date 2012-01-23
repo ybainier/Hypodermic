@@ -41,7 +41,7 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    const boost::unordered_map< std::type_index, ITypeCaster* >& RegistrationBuilder< T, RegistrationStyleT >::typeCasters() const
+    const std::unordered_map< std::type_index, ITypeCaster* >& RegistrationBuilder< T, RegistrationStyleT >::typeCasters() const
     {
         return typeCasters_;
     }

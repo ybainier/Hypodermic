@@ -2,11 +2,12 @@
 # define	HYPODERMIC_LIFETIME_SCOPE_H_
 
 # include <functional>
+# include <unordered_map>
 
 # include <boost/thread.hpp>
-# include <boost/unordered_map.hpp>
 # include <boost/uuid/uuid.hpp>
 
+# include <Hypodermic/BoostUuidHashFunctor.h>
 # include <Hypodermic/ContainerBuilder.h>
 # include <Hypodermic/ISharingLifetimeScope.h>
 
@@ -39,7 +40,7 @@ namespace Hypodermic
 		IComponentRegistry* componentRegistry_;
 		ISharingLifetimeScope* parent_;
 		ISharingLifetimeScope* root_;
-		boost::unordered_map< boost::uuids::uuid, void* > sharedInstances_;
+		std::unordered_map< boost::uuids::uuid, void* > sharedInstances_;
 
         boost::recursive_mutex mutex_;
 
