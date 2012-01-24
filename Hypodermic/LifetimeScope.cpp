@@ -12,17 +12,15 @@ namespace Hypodermic
 	std::function< void(ContainerBuilder*) > LifetimeScope::noConfiguration_ = [](ContainerBuilder*) -> void {};
 
 
-    LifetimeScope::LifetimeScope(IComponentRegistry* componentRegistry)
+    LifetimeScope::LifetimeScope(std::shared_ptr< IComponentRegistry > componentRegistry)
         : componentRegistry_(componentRegistry)
         , parent_(nullptr)
     {
         if (componentRegistry == nullptr)
             throw std::invalid_argument("componentRegistry");
-        root_ = this;
-        //sharedInstances_[selfRegistrationId] = sharedSelf_;
     }
 
-    LifetimeScope::LifetimeScope(IComponentRegistry* componentRegistry, LifetimeScope* parent)
+    LifetimeScope::LifetimeScope(std::shared_ptr< IComponentRegistry > componentRegistry, std::shared_ptr< LifetimeScope > parent)
         : componentRegistry_(componentRegistry)
         , parent_(parent)
     {
@@ -30,26 +28,24 @@ namespace Hypodermic
             throw std::invalid_argument("componentRegistry");
         if (parent == nullptr)
             throw std::invalid_argument("parent");
-        root_ = parent_->rootLifetimeScope();
-        //sharedInstances_[selfRegistrationId] = sharedSelf_;
     }
 
-    ISharingLifetimeScope* LifetimeScope::parentLifetimeScope()
+    std::shared_ptr< ISharingLifetimeScope > LifetimeScope::parentLifetimeScope()
     {
         return parent_;
     }
 
-    ISharingLifetimeScope* LifetimeScope::rootLifetimeScope()
+    std::shared_ptr< ISharingLifetimeScope > LifetimeScope::rootLifetimeScope()
     {
         return root_;
     }
 
-    IComponentRegistry* LifetimeScope::componentRegistry()
+    std::shared_ptr< IComponentRegistry > LifetimeScope::componentRegistry()
     {
         return componentRegistry_;
     }
 
-    std::shared_ptr< void > LifetimeScope::resolveComponent(IComponentRegistration* registration)
+    std::shared_ptr< void > LifetimeScope::resolveComponent(std::shared_ptr< IComponentRegistration > registration)
     {
         if (registration == nullptr)
             throw std::invalid_argument("registration");
@@ -57,8 +53,8 @@ namespace Hypodermic
         {
             boost::lock_guard< decltype(mutex_) > lock(mutex_);
 
-            ResolveOperation operation(this);
-            return operation.execute(registration);
+            auto operation = std::make_shared< ResolveOperation >(shared_from_this());
+            return operation->execute(registration);
         }
     }
 
@@ -77,6 +73,13 @@ namespace Hypodermic
             result = sharedInstances_[id];
 
         return result;
+    }
+
+    void LifetimeScope::initialize()
+    {
+        auto sharedSelf = shared_from_this();
+        root_ = parent_ != nullptr ? parent_ : sharedSelf;
+        sharedInstances_[selfRegistrationId] = sharedSelf;
     }
 
 } // namespace Hypodermic

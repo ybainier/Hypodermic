@@ -13,14 +13,14 @@ namespace Hypodermic
 {
 
     template <class T>
-    std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(std::function< T*(IComponentContext*) > delegate)
+    std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(std::function< T*(IComponentContext&) > delegate)
     {
         static_assert(!std::is_pod< T >::value, "ContainerBuilder::registerType< T >() is incompatible with POD types");
 
         auto rb = RegistrationBuilderFactory::forDelegate(delegate);
 
         registerCallback(
-            [rb](IComponentRegistry* cr) -> void
+            [rb](std::shared_ptr< IComponentRegistry > cr) -> void
             {
                 RegistrationBuilderFactory::registerSingleComponent(cr, rb);
             });
@@ -36,7 +36,7 @@ namespace Hypodermic
         auto rb = RegistrationBuilderFactory::forType< T >();
 
         registerCallback(
-            [rb](IComponentRegistry* cr) -> void
+            [rb](std::shared_ptr< IComponentRegistry > cr) -> void
             {
                 RegistrationBuilderFactory::registerSingleComponent(cr, rb);
             });
@@ -54,9 +54,9 @@ namespace Hypodermic
         rb->singleInstance();
 
         registerCallback(
-            [rb](IComponentRegistry* cr) -> void
+            [rb](std::shared_ptr< IComponentRegistry > cr) -> void
             {
-                auto rootScopeLifetime = dynamic_cast< RootScopeLifetime* >(rb->registrationData().lifetime());
+                auto rootScopeLifetime = std::dynamic_pointer_cast< RootScopeLifetime >(rb->registrationData().lifetime());
                 if (rootScopeLifetime == nullptr || rb->registrationData().sharing() != InstanceSharing::Shared)
                     throw std::logic_error("Instance registration is single instance only");
 

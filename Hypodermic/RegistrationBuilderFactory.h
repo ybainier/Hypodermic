@@ -27,7 +27,7 @@ namespace Hypodermic
 	{
 	public:
 		template <class T>
-		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forDelegate(std::function< T*(IComponentContext*) > delegate);
+		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forDelegate(std::function< T*(IComponentContext&) > delegate);
 
 		template <class T>
 		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forType();
@@ -36,17 +36,17 @@ namespace Hypodermic
 		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forInstance(T* instance);
 
 		template <class T, class RegistrationStyleT>
-		static void registerSingleComponent(IComponentRegistry* cr, std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
+		static void registerSingleComponent(std::shared_ptr< IComponentRegistry > cr, std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
 
 		template <class T, class RegistrationStyleT>
-		static IComponentRegistration* createRegistration(std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
+		static std::shared_ptr< IComponentRegistration > createRegistration(std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
 
-		static IComponentRegistration* createRegistration(const boost::uuids::uuid& id,
-                                                          RegistrationData& registrationData,
-                                                          IInstanceActivator* activator,
-			                                              std::vector< Service* >& services,
-                                                          IComponentRegistration* target,
-                                                          const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters);
+		static std::shared_ptr< IComponentRegistration > createRegistration(const boost::uuids::uuid& id,
+                                                                            RegistrationData& registrationData,
+                                                                            std::shared_ptr< IInstanceActivator > activator,
+			                                                                std::vector< std::shared_ptr< Service > >& services,
+                                                                            std::shared_ptr< IComponentRegistration > target,
+                                                                            const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters);
 	};
 
 } // namespace Hypodermic

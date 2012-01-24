@@ -92,6 +92,7 @@
     <ClInclude Include="IComponentRegistration.h" />
     <ClInclude Include="IComponentRegistry.h" />
     <ClInclude Include="IContainer.h" />
+    <ClInclude Include="IInitializable.h" />
     <ClInclude Include="IInstanceActivator.h" />
     <ClInclude Include="IInstanceLookup.h" />
     <ClInclude Include="ILifetimeScope.h" />

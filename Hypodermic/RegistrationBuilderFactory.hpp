@@ -13,12 +13,12 @@ namespace Hypodermic
 
 
     template <class T>
-	std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forDelegate(std::function< T*(IComponentContext*) > delegate)
+	std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forDelegate(std::function< T*(IComponentContext&) > delegate)
 	{
         auto& typeInfo = typeid(T);
 		return std::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
-            new TypedService(typeInfo),
-			new DelegateActivator< T >(typeInfo, delegate),
+            std::make_shared< TypedService >(typeInfo),
+			std::make_shared< DelegateActivator< T > >(typeInfo, delegate),
             SingleRegistrationStyle());
 	}
 
@@ -27,9 +27,9 @@ namespace Hypodermic
 	{
         auto& typeInfo = typeid(T);
 		return std::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
-            new TypedService(typeInfo),
-			new DelegateActivator< T >(typeInfo,
-                                       [](IComponentContext* c) -> T*
+            std::make_shared< TypedService >(typeInfo),
+			std::make_shared< DelegateActivator< T > >(typeInfo,
+                                       [](IComponentContext&) -> T*
 			                           {
 				                           return new T;
 			                           }),
@@ -40,20 +40,20 @@ namespace Hypodermic
 	std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forInstance(T* instance)
 	{
         return std::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
-            new TypedService(typeid(T)),
-            new ProvidedInstanceActivator< T >(instance),
+            std::make_shared< TypedService >(typeid(T)),
+            std::make_shared< ProvidedInstanceActivator< T > >(std::shared_ptr< T >(instance)),
             SingleRegistrationStyle());
 	}
 
     template <class T, class RegistrationStyleT>
-	void RegistrationBuilderFactory::registerSingleComponent(IComponentRegistry* cr, std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb)
+	void RegistrationBuilderFactory::registerSingleComponent(std::shared_ptr< IComponentRegistry > cr, std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb)
 	{
 		auto registration = createRegistration< T, RegistrationStyleT >(rb);
 		cr->addRegistration(registration);
 	}
 
 	template <class T, class RegistrationStyleT>
-	IComponentRegistration* RegistrationBuilderFactory::createRegistration(std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb)
+	std::shared_ptr< IComponentRegistration > RegistrationBuilderFactory::createRegistration(std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb)
 	{
 		return createRegistration(rb->registrationStyle().id(),
                                   rb->registrationData(),

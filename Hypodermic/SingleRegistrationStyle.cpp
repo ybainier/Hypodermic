@@ -34,12 +34,12 @@ namespace Hypodermic
         preserveDefaults_ = value;
     }
 
-    IComponentRegistration* SingleRegistrationStyle::target()
+    std::shared_ptr< IComponentRegistration > SingleRegistrationStyle::target()
     {
         return target_;
     }
 
-    void SingleRegistrationStyle::target(IComponentRegistration* value)
+    void SingleRegistrationStyle::target(std::shared_ptr< IComponentRegistration > value)
     {
         target_ = value;
     }

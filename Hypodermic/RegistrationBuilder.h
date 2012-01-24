@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_REGISTRATION_BUILDER_H_
 # define	HYPODERMIC_REGISTRATION_BUILDER_H_
 
+# include <memory>
 # include <typeindex>
 
 # include <Hypodermic/ComponentRegistration.h>
@@ -19,34 +20,36 @@
 namespace Hypodermic
 {
 	template <class T, class RegistrationStyleT>
-	class RegistrationBuilder : public IRegistrationBuilder< T, RegistrationStyleT >
+	class RegistrationBuilder
+        : public std::enable_shared_from_this< RegistrationBuilder< T, RegistrationStyleT > >
+        , public IRegistrationBuilder< T, RegistrationStyleT >
 	{
 	public:
-		RegistrationBuilder(Service* defaultService, IInstanceActivator* activator,
+		RegistrationBuilder(std::shared_ptr< Service > defaultService, std::shared_ptr< IInstanceActivator > activator,
                             const RegistrationStyleT& registrationStyle);
 
 		RegistrationData& registrationData();
 
-		IInstanceActivator* activator();
+		std::shared_ptr< IInstanceActivator > activator();
 
         RegistrationStyleT& registrationStyle();
 
-        const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters() const;
+        const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters() const;
 
-		IRegistrationBuilder< T, RegistrationStyleT >* singleInstance();
+		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > singleInstance();
 
-        IRegistrationBuilder< T, RegistrationStyleT >* instancePerLifetimeScope();
+        std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > instancePerLifetimeScope();
 
-        IRegistrationBuilder< T, RegistrationStyleT >* instancePerDependency();
+        std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > instancePerDependency();
 
 		template <class ServiceT>
-		IRegistrationBuilder< T, RegistrationStyleT >* as();
+		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > as();
 
 	private:
 		RegistrationData registrationData_;
-		IInstanceActivator* activator_;
+		std::shared_ptr< IInstanceActivator > activator_;
         RegistrationStyleT registrationStyle_;
-        std::unordered_map< std::type_index, ITypeCaster* > typeCasters_;
+        std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > > typeCasters_;
 	};
 
 } // namespace Hypodermic

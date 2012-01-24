@@ -146,6 +146,9 @@
     <ClInclude Include="BoostUuidHashFunctor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IInitializable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LifetimeScope.cpp">

@@ -17,9 +17,9 @@ namespace Hypodermic
 	class IComponentContext
 	{
 	public:
-		virtual IComponentRegistry* componentRegistry() = 0;
+		virtual std::shared_ptr< IComponentRegistry > componentRegistry() = 0;
 
-		virtual std::shared_ptr< void > resolveComponent(IComponentRegistration* registration) = 0;
+		virtual std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration) = 0;
 
 		template <class TService>
 		std::shared_ptr< TService > resolve()
@@ -30,20 +30,8 @@ namespace Hypodermic
 		template <class TService>
 		std::shared_ptr< TService > resolve(const std::type_info& serviceTypeInfo)
 		{
-			return resolveService< TService >(new TypedService(serviceTypeInfo));
-		}
-
-		template <class TService>
-		std::shared_ptr< TService > resolveService(Service* service)
-		{
-			IComponentRegistration* registration = componentRegistry()->getRegistration(service);
-			
-			if (registration == nullptr)
-				return 0;
-			
-            std::shared_ptr< void > result = registration->castOrForward(service->typeInfo(), resolveComponent(registration));
-
-			return std::static_pointer_cast< TService >(result);
+            auto service = std::make_shared< TypedService >(serviceTypeInfo);
+			return resolveService< TService >(service);
 		}
 
         template <class TService>
@@ -55,11 +43,26 @@ namespace Hypodermic
 		template <class TService>
 		std::vector< std::shared_ptr< TService > > resolveAll(const std::type_info& serviceTypeInfo)
 		{
-			return resolveAllForService< TService >(new TypedService(serviceTypeInfo));
+            auto service = std::make_shared< TypedService >(serviceTypeInfo);
+			return resolveAllForService< TService >(service);
 		}
 
+    private:
+        template <class TService>
+        std::shared_ptr< TService > resolveService(std::shared_ptr< Service > service)
+        {
+            std::shared_ptr< IComponentRegistration > registration = componentRegistry()->getRegistration(service);
+
+            if (registration == nullptr)
+                return 0;
+
+            std::shared_ptr< void > result = registration->castOrForward(service->typeInfo(), resolveComponent(registration));
+
+            return std::static_pointer_cast< TService >(result);
+        }
+
 		template <class TService>
-		std::vector< std::shared_ptr< TService > > resolveAllForService(Service* service)
+		std::vector< std::shared_ptr< TService > > resolveAllForService(std::shared_ptr< Service > service)
 		{
 			auto registrations = componentRegistry()->registrationsFor(service);
 			

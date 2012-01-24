@@ -12,9 +12,9 @@
 namespace Hypodermic
 {
 
-    InstanceLookup::InstanceLookup(IComponentRegistration* registration,
-                                   IResolveOperation* context,
-                                   ISharingLifetimeScope* mostNestedVisibleScope)
+    InstanceLookup::InstanceLookup(std::shared_ptr< IComponentRegistration > registration,
+                                   std::shared_ptr< IResolveOperation > context,
+                                   std::shared_ptr< ISharingLifetimeScope > mostNestedVisibleScope)
         : componentRegistration_(registration)
         , context_(context)
         , activationScope_(nullptr)
@@ -50,22 +50,22 @@ namespace Hypodermic
         return instance;
     }
 
-    IComponentRegistry* InstanceLookup::componentRegistry()
+    std::shared_ptr< IComponentRegistry > InstanceLookup::componentRegistry()
     {
         return activationScope_->componentRegistry();
     }
 
-    std::shared_ptr< void > InstanceLookup::resolveComponent(IComponentRegistration* registration)
+    std::shared_ptr< void > InstanceLookup::resolveComponent(std::shared_ptr< IComponentRegistration > registration)
     {
         return context_->getOrCreateInstance(activationScope_, registration);
     }
 
-    IComponentRegistration* InstanceLookup::componentRegistration()
+    std::shared_ptr< IComponentRegistration > InstanceLookup::componentRegistration()
     {
         return componentRegistration_;
     }
 
-    ILifetimeScope* InstanceLookup::activationScope()
+    std::shared_ptr< ILifetimeScope > InstanceLookup::activationScope()
     {
         return activationScope_;
     }
@@ -77,7 +77,7 @@ namespace Hypodermic
 
     std::shared_ptr< void > InstanceLookup::activate()
     {
-        newInstance_ = std::shared_ptr< void >(componentRegistration_->activator()->activateInstance(this));
+        newInstance_ = std::shared_ptr< void >(componentRegistration_->activator()->activateInstance(shared_from_this()));
 
         //TODO
         //if (componentRegistration_->ownership() == InstanceOwnership::OwnedByLifetimeScope)

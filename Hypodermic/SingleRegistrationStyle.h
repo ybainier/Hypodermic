@@ -22,14 +22,14 @@ namespace Hypodermic
 
         void preserveDefaults(bool value);
 
-        IComponentRegistration* target();
+        std::shared_ptr< IComponentRegistration > target();
 
-        void target(IComponentRegistration* value);
+        void target(std::shared_ptr< IComponentRegistration > value);
 
     private:
         boost::uuids::uuid id_;
         bool preserveDefaults_;
-        IComponentRegistration* target_;
+        std::shared_ptr< IComponentRegistration > target_;
     };
 
 } // namespace Hypodermic

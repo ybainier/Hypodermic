@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_REGISTRATION_DATA_H_
 # define	HYPODERMIC_REGISTRATION_DATA_H_
 
+# include <memory>
 # include <vector>
 
 # include <Hypodermic/InstanceOwnership.h>
@@ -16,7 +17,7 @@ namespace Hypodermic
 	class RegistrationData
 	{
 	public:
-		RegistrationData(Service* defaultService);
+		RegistrationData(std::shared_ptr< Service > defaultService);
 
 		InstanceSharing::Mode sharing() const;
 
@@ -26,21 +27,21 @@ namespace Hypodermic
 
         void ownership(InstanceOwnership::Mode value);
 
-        IComponentLifetime* lifetime();
+        std::shared_ptr< IComponentLifetime > lifetime();
 
-        void lifetime(IComponentLifetime* value);
+        void lifetime(std::shared_ptr< IComponentLifetime > value);
 
-		std::vector< Service* > services();
+		std::vector< std::shared_ptr< Service > > services();
 
-		void addService(Service* service);
+		void addService(std::shared_ptr< Service > service);
 
 	private:
-		Service* defaultService_;
+		std::shared_ptr< Service > defaultService_;
 		bool defaultServiceOverriden_;
 		InstanceSharing::Mode sharing_;
         InstanceOwnership::Mode ownership_;
-        IComponentLifetime* lifetime_;
-		std::vector< Service* > services_;
+        std::shared_ptr< IComponentLifetime > lifetime_;
+		std::vector< std::shared_ptr< Service > > services_;
 	};
 
 } // namespace Hypodermic

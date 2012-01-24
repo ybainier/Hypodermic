@@ -11,10 +11,10 @@ namespace Hypodermic
 	class ProvidedInstanceActivator : public InstanceActivator
 	{
 	public:
-		ProvidedInstanceActivator(T* instance);
+		ProvidedInstanceActivator(std::shared_ptr< T > instance);
 		~ProvidedInstanceActivator();
 
-		std::shared_ptr< void > activateInstance(IComponentContext* context);
+		std::shared_ptr< void > activateInstance(std::shared_ptr< IComponentContext > context);
 
 		bool disposeInstance() const;
 

@@ -13,8 +13,8 @@ namespace Hypodermic
 	class IResolveOperation
 	{
     public:
-		virtual std::shared_ptr< void > getOrCreateInstance(ISharingLifetimeScope* currentOperationScope,
-										                    IComponentRegistration* registration) = 0;
+		virtual std::shared_ptr< void > getOrCreateInstance(std::shared_ptr< ISharingLifetimeScope > currentOperationScope,
+										                    std::shared_ptr< IComponentRegistration > registration) = 0;
 	};
 
 } // namespace Hypodermic

@@ -12,7 +12,7 @@ namespace Hypodermic
     class RootScopeLifetime : public IComponentLifetime
     {
     public:
-        ISharingLifetimeScope* findScope(ISharingLifetimeScope* mostNestedVisibleScope);
+        std::shared_ptr< ISharingLifetimeScope > findScope(std::shared_ptr< ISharingLifetimeScope > mostNestedVisibleScope);
     };
 
 } // namespace Hypodermic

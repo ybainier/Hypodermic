@@ -7,7 +7,7 @@
 namespace Hypodermic
 {
 
-    ISharingLifetimeScope* RootScopeLifetime::findScope(ISharingLifetimeScope* mostNestedVisibleScope)
+    std::shared_ptr< ISharingLifetimeScope > RootScopeLifetime::findScope(std::shared_ptr< ISharingLifetimeScope > mostNestedVisibleScope)
     {
         if (mostNestedVisibleScope == nullptr)
             throw std::invalid_argument("mostNestedVisibleScope");

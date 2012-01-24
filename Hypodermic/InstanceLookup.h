@@ -16,32 +16,32 @@ namespace Hypodermic
     class ISharingLifetimeScope;
 
 
-    class InstanceLookup : public IComponentContext, public IInstanceLookup
+    class InstanceLookup : public std::enable_shared_from_this< InstanceLookup >, public IComponentContext, public IInstanceLookup
     {
     public:
-        InstanceLookup(IComponentRegistration* registration, IResolveOperation* context,
-                       ISharingLifetimeScope* mostNestedVisibleScope);
+        InstanceLookup(std::shared_ptr< IComponentRegistration > registration, std::shared_ptr< IResolveOperation > context,
+                       std::shared_ptr< ISharingLifetimeScope > mostNestedVisibleScope);
 
         std::shared_ptr< void > execute();
 
         void complete();
 
-        IComponentRegistry* componentRegistry();
+        std::shared_ptr< IComponentRegistry > componentRegistry();
 
-        std::shared_ptr< void > resolveComponent(IComponentRegistration* registration);
+        std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration);
 
-        IComponentRegistration* componentRegistration();
+        std::shared_ptr< IComponentRegistration > componentRegistration();
 
-        ILifetimeScope* activationScope();
+        std::shared_ptr< ILifetimeScope > activationScope();
 
     private:
         bool newInstanceActivated();
 
         std::shared_ptr< void > activate();
 
-        IComponentRegistration* componentRegistration_;
-        IResolveOperation* context_;
-        ISharingLifetimeScope* activationScope_;
+        std::shared_ptr< IComponentRegistration > componentRegistration_;
+        std::shared_ptr< IResolveOperation > context_;
+        std::shared_ptr< ISharingLifetimeScope > activationScope_;
         std::shared_ptr< void > newInstance_;
         bool executed_;
     };

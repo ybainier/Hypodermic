@@ -24,17 +24,17 @@ namespace Hypodermic
 	class IComponentRegistration
 	{
 	public:
-		virtual IInstanceActivator* activator() = 0;
+		virtual std::shared_ptr< IInstanceActivator > activator() = 0;
         
-        virtual IComponentLifetime* lifetime() = 0;
+        virtual std::shared_ptr< IComponentLifetime > lifetime() = 0;
 
-        virtual IComponentRegistration* target() = 0;
+        virtual std::shared_ptr< IComponentRegistration > target() = 0;
 
         virtual InstanceSharing::Mode sharing() = 0;
 
         virtual InstanceOwnership::Mode ownership() = 0;
 
-        virtual std::vector< Service* >& services() = 0;
+        virtual std::vector< std::shared_ptr< Service > >& services() = 0;
 
         virtual std::shared_ptr< void > castOrForward(const std::type_info& typeInfo, std::shared_ptr< void > instance) = 0;
 

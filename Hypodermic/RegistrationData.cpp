@@ -6,7 +6,7 @@
 namespace Hypodermic
 {
 
-    RegistrationData::RegistrationData(Service* defaultService)
+    RegistrationData::RegistrationData(std::shared_ptr< Service > defaultService)
         : defaultService_(defaultService)
         , defaultServiceOverriden_(false)
         , sharing_(InstanceSharing::None)
@@ -35,27 +35,27 @@ namespace Hypodermic
         ownership_ = value;
     }
 
-    IComponentLifetime* RegistrationData::lifetime()
+    std::shared_ptr< IComponentLifetime > RegistrationData::lifetime()
     {
         return lifetime_;
     }
 
-    void RegistrationData::lifetime(IComponentLifetime* value)
+    void RegistrationData::lifetime(std::shared_ptr< IComponentLifetime > value)
     {
         if (value == nullptr)
             std::invalid_argument("value");
         lifetime_ = value;
     }
 
-    std::vector< Service* > RegistrationData::services()
+    std::vector< std::shared_ptr< Service > > RegistrationData::services()
     {
         if (defaultServiceOverriden_)
             return services_;
 
-        return std::vector< Service* >(1, defaultService_);
+        return std::vector< std::shared_ptr< Service > >(1, defaultService_);
     }
 
-    void RegistrationData::addService(Service* service)
+    void RegistrationData::addService(std::shared_ptr< Service > service)
     {
         defaultServiceOverriden_ = true;
         services_.push_back(service);

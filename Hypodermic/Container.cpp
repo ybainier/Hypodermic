@@ -16,57 +16,57 @@
 namespace Hypodermic
 {
 
-    Container::Container()
-    {
-        using namespace boost::assign;
-
-        std::vector< Service* > services = list_of(new TypedService(typeid(ILifetimeScope)))
-                                                  (new TypedService(typeid(IComponentContext)));
-
-        componentRegistry_ = new ComponentRegistry;
-
-        componentRegistry_->addRegistration(new ComponentRegistration(
-            LifetimeScope::selfRegistrationId,
-            new DelegateActivator< LifetimeScope >(
-                typeid(LifetimeScope),
-                [](IComponentContext* c) -> LifetimeScope*
-                {
-                    throw std::logic_error("Self registration cannot be activated");
-                }),
-            new CurrentLifetimeScope,
-            InstanceSharing::Shared,
-            InstanceOwnership::ExternallyOwned,
-            services,
-            std::unordered_map< std::type_index, ITypeCaster* >()));
-        
-        services = list_of(new TypedService(typeid(IContainer)));
-
-        componentRegistry_->addRegistration(new ComponentRegistration(
-            LifetimeScope::selfRegistrationId,
-            new ProvidedInstanceActivator< Container >(this),
-            new CurrentLifetimeScope,
-            InstanceSharing::Shared,
-            InstanceOwnership::ExternallyOwned,
-            services,
-            std::unordered_map< std::type_index, ITypeCaster* >()));
-
-        rootLifetimeScope_ = new LifetimeScope(componentRegistry_);
-    }
-
-    IComponentRegistry* Container::componentRegistry()
+    std::shared_ptr< IComponentRegistry > Container::componentRegistry()
     {
         return componentRegistry_;
     }
 
-    std::shared_ptr< void > Container::resolveComponent(IComponentRegistration* registration)
+    std::shared_ptr< void > Container::resolveComponent(std::shared_ptr< IComponentRegistration > registration)
     {
         return rootLifetimeScope_->resolveComponent(registration);
     }
 
-    std::shared_ptr< void > Container::getOrCreateInstance(IComponentRegistration* registration)
+    std::shared_ptr< void > Container::getOrCreateInstance(std::shared_ptr< IComponentRegistration > registration)
     {
-        auto i = registration->activator()->activateInstance(this);
-        return i;
+        return registration->activator()->activateInstance(shared_from_this());
+    }
+
+    void Container::initialize()
+    {
+        using namespace boost::assign;
+
+        std::vector< std::shared_ptr< Service > > services = list_of(std::make_shared< TypedService >(typeid(ILifetimeScope)))
+            (std::make_shared< TypedService >(typeid(IComponentContext)));
+
+        componentRegistry_ = std::make_shared< ComponentRegistry >();
+
+        componentRegistry_->addRegistration(std::make_shared< ComponentRegistration >(
+            LifetimeScope::selfRegistrationId,
+            std::make_shared< DelegateActivator< LifetimeScope > >(
+                typeid(LifetimeScope),
+                [](IComponentContext&) -> LifetimeScope*
+                {
+                    throw std::logic_error("Self registration cannot be activated");
+                }),
+            std::make_shared< CurrentLifetimeScope >(),
+            InstanceSharing::Shared,
+            InstanceOwnership::ExternallyOwned,
+            services,
+            std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >()));
+
+        services = list_of(std::make_shared< TypedService >(typeid(IContainer)));
+
+        componentRegistry_->addRegistration(std::make_shared< ComponentRegistration >(
+            LifetimeScope::selfRegistrationId,
+            std::make_shared< ProvidedInstanceActivator< Container > >(shared_from_this()),
+            std::make_shared< CurrentLifetimeScope >(),
+            InstanceSharing::Shared,
+            InstanceOwnership::ExternallyOwned,
+            services,
+            std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >()));
+
+        rootLifetimeScope_ = std::make_shared< LifetimeScope >(componentRegistry_);
+        rootLifetimeScope_->initialize();
     }
 
 } // namespace Hypodermic

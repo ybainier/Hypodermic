@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_SERVICE_REGISTRATION_INFO_H_
 # define	HYPODERMIC_SERVICE_REGISTRATION_INFO_H_
 
+# include <memory>
 # include <vector>
 
 # include <Hypodermic/IComponentRegistration.h>
@@ -14,21 +15,21 @@ namespace Hypodermic
 	class ServiceRegistrationInfo
 	{
 	public:
-		ServiceRegistrationInfo(Service* service);
+		ServiceRegistrationInfo(std::shared_ptr< Service > service);
 
-		std::vector< IComponentRegistration* >& implementations();
+		std::vector< std::shared_ptr< IComponentRegistration > >& implementations();
 
-		void addImplementation(IComponentRegistration* registration);
+		void addImplementation(std::shared_ptr< IComponentRegistration > registration);
 
-		IComponentRegistration* getRegistration();
+		std::shared_ptr< IComponentRegistration > getRegistration();
 
 		bool isRegistered();
 
 
 	private:
-		Service* service_;
+		std::shared_ptr< Service > service_;
 		bool isInitialized_;
-		std::vector< IComponentRegistration* > implementations_;
+		std::vector< std::shared_ptr< IComponentRegistration > > implementations_;
 	};
 
 } // namespace Hypodermic
