@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_IREGISTRATION_BUILDER_H_
 # define	HYPODERMIC_IREGISTRATION_BUILDER_H_
 
+# include <memory>
 # include <type_traits>
 # include <unordered_map>
 # include <vector>
@@ -20,17 +21,17 @@ namespace Hypodermic
 	{
 	public:
 		virtual RegistrationData& registrationData() = 0;
-		virtual IInstanceActivator* activator() = 0;
+		virtual std::shared_ptr< IInstanceActivator > activator() = 0;
         virtual RegistrationStyleT& registrationStyle() = 0;
 
-        virtual const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters() const = 0;
+        virtual const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters() const = 0;
 
-		virtual IRegistrationBuilder< T, RegistrationStyleT >* singleInstance() = 0;
-        virtual IRegistrationBuilder< T, RegistrationStyleT >* instancePerLifetimeScope() = 0;
-        virtual IRegistrationBuilder< T, RegistrationStyleT >* instancePerDependency() = 0;
+		virtual std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > singleInstance() = 0;
+        virtual std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > instancePerLifetimeScope() = 0;
+        virtual std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > instancePerDependency() = 0;
 
 		template <class ServiceT>
-		IRegistrationBuilder< T, RegistrationStyleT >* as()
+		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > as()
 		{
             static_assert(std::is_same< T, ServiceT >::value || std::is_convertible< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
                           "IRegistrationBuilder< T, RegistrationStyleT >::as< ServiceT >() requires T to be convertible to ServiceT");

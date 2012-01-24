@@ -17,11 +17,11 @@ namespace Hypodermic
 	public:
 		ServiceRegistrationInfo(std::shared_ptr< Service > service);
 
-		std::vector< IComponentRegistration* >& implementations();
+		std::vector< std::shared_ptr< IComponentRegistration > >& implementations();
 
-		void addImplementation(IComponentRegistration* registration);
+		void addImplementation(std::shared_ptr< IComponentRegistration > registration);
 
-		IComponentRegistration* getRegistration();
+		std::shared_ptr< IComponentRegistration > getRegistration();
 
 		bool isRegistered();
 
@@ -29,7 +29,7 @@ namespace Hypodermic
 	private:
 		std::shared_ptr< Service > service_;
 		bool isInitialized_;
-		std::vector< IComponentRegistration* > implementations_;
+		std::vector< std::shared_ptr< IComponentRegistration > > implementations_;
 	};
 
 } // namespace Hypodermic

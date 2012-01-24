@@ -13,7 +13,7 @@ namespace Hypodermic
 	class IInstanceActivator
 	{
 	public:
-		virtual std::shared_ptr< void > activateInstance(IComponentContext* context) = 0;
+		virtual std::shared_ptr< void > activateInstance(std::shared_ptr< IComponentContext > context) = 0;
 
         virtual const std::type_info& typeInfo() = 0;
 	};

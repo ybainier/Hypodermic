@@ -2,12 +2,13 @@
 # define	HYPODERMIC_ILIFETIME_SCOPE_H_
 
 # include <Hypodermic/IComponentContext.h>
+# include <Hypodermic/IInitializable.h>
 
 
 namespace Hypodermic
 {
 
-	class ILifetimeScope : public IComponentContext
+	class ILifetimeScope : public IComponentContext, public IInitializable
 	{
 	};
 

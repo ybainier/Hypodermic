@@ -9,7 +9,7 @@
 namespace Hypodermic
 {
 
-    ResolveOperation::ResolveOperation(ISharingLifetimeScope* mostNestedLifetimeScope)
+    ResolveOperation::ResolveOperation(std::shared_ptr< ISharingLifetimeScope > mostNestedLifetimeScope)
         : mostNestedLifetimeScope_(mostNestedLifetimeScope)
         , callDepth_(0)
         , ended_(false)
@@ -19,17 +19,17 @@ namespace Hypodermic
         resetSuccessfulActivations();
     }
 
-    IComponentRegistry* ResolveOperation::componentRegistry()
+    std::shared_ptr< IComponentRegistry > ResolveOperation::componentRegistry()
     {
         return mostNestedLifetimeScope_->componentRegistry();
     }
 
-    std::shared_ptr< void > ResolveOperation::resolveComponent(IComponentRegistration* registration)
+    std::shared_ptr< void > ResolveOperation::resolveComponent(std::shared_ptr< IComponentRegistration > registration)
     {
         return getOrCreateInstance(mostNestedLifetimeScope_, registration);
     }
 
-    std::shared_ptr< void > ResolveOperation::execute(IComponentRegistration* registration)
+    std::shared_ptr< void > ResolveOperation::execute(std::shared_ptr< IComponentRegistration > registration)
     {
         std::shared_ptr< void > result = nullptr;
 
@@ -52,8 +52,8 @@ namespace Hypodermic
         return result;
     }
 
-    std::shared_ptr< void > ResolveOperation::getOrCreateInstance(ISharingLifetimeScope* currentOperationScope,
-                                                IComponentRegistration* registration)
+    std::shared_ptr< void > ResolveOperation::getOrCreateInstance(std::shared_ptr< ISharingLifetimeScope > currentOperationScope,
+                                                                  std::shared_ptr< IComponentRegistration > registration)
     {
         if (currentOperationScope == nullptr)
             throw std::invalid_argument("currentOperationScope");
@@ -64,7 +64,7 @@ namespace Hypodermic
 
         circularDependencyDetector_.checkForCircularDependency(registration, activationStack_, ++callDepth_);
 
-        auto activation = new InstanceLookup(registration, this, currentOperationScope);
+        auto activation = std::make_shared< InstanceLookup >(registration, shared_from_this(), currentOperationScope);
 
         activationStack_.push_back(activation);
 

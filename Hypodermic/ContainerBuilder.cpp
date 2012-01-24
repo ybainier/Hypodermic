@@ -17,15 +17,17 @@ namespace Hypodermic
         configurationCallbacks_.push_back(configurationCallback);
     }
 
-    IContainer* ContainerBuilder::build()
+    std::shared_ptr< IContainer > ContainerBuilder::build()
     {
-        auto result = new Container;
+        auto result = std::make_shared< Container >();
+        result->initialize();
+
         build(result->componentRegistry());
 
         return result;
     }
 
-    void ContainerBuilder::build(IComponentRegistry* componentRegistry)
+    void ContainerBuilder::build(std::shared_ptr< IComponentRegistry > componentRegistry)
     {
         if (componentRegistry == nullptr)
             throw std::invalid_argument("componentRegistry");
