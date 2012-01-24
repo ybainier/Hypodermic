@@ -36,50 +36,50 @@ struct IServiceB
 
 struct ServiceB : IServiceB
 {
-	ServiceB(IServiceA* serviceA)
+	ServiceB(std::shared_ptr< IServiceA > serviceA)
         : serviceA_(serviceA)
 	{
         BOOST_ASSERT(serviceA != nullptr);
 	}
 
 private:
-    IServiceA* serviceA_;
+    std::shared_ptr< IServiceA > serviceA_;
 };
 
 struct ServiceRunningWithScissors : IServiceB
 {
-    ServiceRunningWithScissors(IRunWithScissors* serviceA)
+    ServiceRunningWithScissors(std::shared_ptr< IRunWithScissors > serviceA)
         : serviceA_(serviceA)
     {
         BOOST_ASSERT(serviceA != nullptr);
     }
 
 private:
-    IRunWithScissors* serviceA_;
+    std::shared_ptr< IRunWithScissors > serviceA_;
 };
 
 struct ServiceBController
 {
-    ServiceBController(const std::vector< IServiceB* >& serviceBs)
+    ServiceBController(const std::vector< std::shared_ptr< IServiceB > >& serviceBs)
         : serviceBs_(serviceBs)
     {
         BOOST_ASSERT(!serviceBs.empty());
     }
 
 private:
-    std::vector< IServiceB* > serviceBs_;
+    std::vector< std::shared_ptr< IServiceB > > serviceBs_;
 };
 
 struct ContainerHolder
 {
-    ContainerHolder(IContainer* container)
+    ContainerHolder(std::shared_ptr< IContainer > container)
         : container_(container)
     {
         BOOST_ASSERT(container != nullptr);
     }
 
 private:
-    IContainer* container_;
+    std::shared_ptr< IContainer > container_;
 };
 
 
@@ -171,7 +171,7 @@ BOOST_AUTO_TEST_CASE(registered_instance_should_be_shared)
 	auto sameServiceA = container->resolve< ServiceA >();
 
 	BOOST_CHECK(serviceA != nullptr);
-    BOOST_CHECK(serviceA == registeredServiceA);
+    BOOST_CHECK(serviceA.get() == registeredServiceA);
 	BOOST_CHECK(serviceA == sameServiceA);
 }
 
@@ -216,10 +216,11 @@ BOOST_AUTO_TEST_CASE(polymorphic_resolution_is_not_a_lie)
     auto container = builder.build();
 
     auto serviceARunningWithScissors = container->resolve< IRunWithScissors >();
-    auto serviceA = dynamic_cast< ServiceA* >(serviceARunningWithScissors);
+    auto serviceA = std::dynamic_pointer_cast< ServiceA >(serviceARunningWithScissors);
 
     BOOST_CHECK(serviceARunningWithScissors != nullptr);
-    BOOST_CHECK(serviceA == registeredServiceA);
+    BOOST_CHECK(serviceA != nullptr);
+    BOOST_CHECK(serviceA.get() == registeredServiceA);
 }
 
 BOOST_AUTO_TEST_CASE(polymorphic_resolution_can_be_used_to_express_dependencies)
@@ -254,8 +255,8 @@ BOOST_AUTO_TEST_CASE(registerType_with_an_instance_argument_can_bypass_argument_
     auto serviceB = container->resolve< IServiceB >();
 
     BOOST_CHECK(serviceARunningWithScissors != nullptr);
-    BOOST_CHECK(dynamic_cast< ServiceA* >(serviceARunningWithScissors) != nullptr);
-    BOOST_CHECK(dynamic_cast< ServiceA* >(serviceARunningWithScissors) == serviceA);
+    BOOST_CHECK(std::dynamic_pointer_cast< ServiceA >(serviceARunningWithScissors) != nullptr);
+    BOOST_CHECK(std::dynamic_pointer_cast< ServiceA >(serviceARunningWithScissors).get() == serviceA);
     BOOST_CHECK(serviceB != nullptr);
 }
 

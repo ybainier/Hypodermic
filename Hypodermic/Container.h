@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_CONTAINER_H_
 # define	HYPODERMIC_CONTAINER_H_
 
+# include <memory>
 # include <Hypodermic/IContainer.h>
 
 
@@ -17,9 +18,9 @@ namespace Hypodermic
 
 		IComponentRegistry* componentRegistry();
 
-		void* resolveComponent(IComponentRegistration* registration);
+		std::shared_ptr< void > resolveComponent(IComponentRegistration* registration);
 
-		void* getOrCreateInstance(IComponentRegistration* registration);
+		std::shared_ptr< void > getOrCreateInstance(IComponentRegistration* registration);
 
 	private:
 		IComponentRegistry* componentRegistry_;

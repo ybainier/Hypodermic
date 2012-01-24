@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_ICOMPONENT_CONTEXT_H_
 # define	HYPODERMIC_ICOMPONENT_CONTEXT_H_
 
+# include <memory>
 # include <typeinfo>
 # include <vector>
 
@@ -18,56 +19,58 @@ namespace Hypodermic
 	public:
 		virtual IComponentRegistry* componentRegistry() = 0;
 
-		virtual void* resolveComponent(IComponentRegistration* registration) = 0;
+		virtual std::shared_ptr< void > resolveComponent(IComponentRegistration* registration) = 0;
 
 		template <class TService>
-		TService* resolve()
+		std::shared_ptr< TService > resolve()
 		{
 			return resolve< TService >(typeid(TService));
 		}
 
 		template <class TService>
-		TService* resolve(const std::type_info& serviceTypeInfo)
+		std::shared_ptr< TService > resolve(const std::type_info& serviceTypeInfo)
 		{
 			return resolveService< TService >(new TypedService(serviceTypeInfo));
 		}
 
 		template <class TService>
-		TService* resolveService(Service* service)
+		std::shared_ptr< TService > resolveService(Service* service)
 		{
 			IComponentRegistration* registration = componentRegistry()->getRegistration(service);
 			
 			if (registration == nullptr)
 				return 0;
 			
-            void* result = registration->castOrForward(service->typeInfo(), resolveComponent(registration));
+            std::shared_ptr< void > result = registration->castOrForward(service->typeInfo(), resolveComponent(registration));
 
-			return static_cast< TService* >(result);
+			return std::static_pointer_cast< TService >(result);
 		}
 
         template <class TService>
-        std::vector< TService* > resolveAll()
+        std::vector< std::shared_ptr< TService > > resolveAll()
         {
             return resolveAll< TService >(typeid(TService));
         }
 
 		template <class TService>
-		std::vector< TService* > resolveAll(const std::type_info& serviceTypeInfo)
+		std::vector< std::shared_ptr< TService > > resolveAll(const std::type_info& serviceTypeInfo)
 		{
 			return resolveAllForService< TService >(new TypedService(serviceTypeInfo));
 		}
 
 		template <class TService>
-		std::vector< TService* > resolveAllForService(Service* service)
+		std::vector< std::shared_ptr< TService > > resolveAllForService(Service* service)
 		{
 			auto registrations = componentRegistry()->registrationsFor(service);
 			
-            std::vector< TService* > allResults;
+            std::vector< std::shared_ptr< TService > > allResults;
 
             BOOST_FOREACH(auto registration, registrations)
             {
-                void* result = registration->castOrForward(service->typeInfo(), resolveComponent(registration));
-                allResults.push_back(static_cast< TService* >(result));
+                std::shared_ptr< void > result = registration->castOrForward(service->typeInfo(),
+                                                                             resolveComponent(registration));
+                
+                allResults.push_back(std::static_pointer_cast< TService >(result));
             }
 
             return allResults;

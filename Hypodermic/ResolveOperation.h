@@ -22,12 +22,12 @@ namespace Hypodermic
 
         IComponentRegistry* componentRegistry();
 
-        void* resolveComponent(IComponentRegistration* registration);
+        std::shared_ptr< void > resolveComponent(IComponentRegistration* registration);
 
-        void* execute(IComponentRegistration* registration);
+        std::shared_ptr< void > execute(IComponentRegistration* registration);
 
-        void* getOrCreateInstance(ISharingLifetimeScope* currentOperationScope,
-                                  IComponentRegistration* registration);
+        std::shared_ptr< void > getOrCreateInstance(ISharingLifetimeScope* currentOperationScope,
+                                                    IComponentRegistration* registration);
 
     private:
         void completeActivations();

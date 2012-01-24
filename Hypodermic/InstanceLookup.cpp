@@ -30,14 +30,14 @@ namespace Hypodermic
         activationScope_ = componentRegistration_->lifetime()->findScope(mostNestedVisibleScope);
     }
 
-    void* InstanceLookup::execute()
+    std::shared_ptr< void > InstanceLookup::execute()
     {
         if (executed_)
             throw std::logic_error("Activation already executed");
 
         executed_ = true;
 
-        void* instance = nullptr;
+        std::shared_ptr< void > instance = nullptr;
         if (componentRegistration_->sharing() == InstanceSharing::None)
             instance = activate();
         else
@@ -55,7 +55,7 @@ namespace Hypodermic
         return activationScope_->componentRegistry();
     }
 
-    void* InstanceLookup::resolveComponent(IComponentRegistration* registration)
+    std::shared_ptr< void > InstanceLookup::resolveComponent(IComponentRegistration* registration)
     {
         return context_->getOrCreateInstance(activationScope_, registration);
     }
@@ -75,9 +75,9 @@ namespace Hypodermic
         return newInstance_ != nullptr;
     }
 
-    void* InstanceLookup::activate()
+    std::shared_ptr< void > InstanceLookup::activate()
     {
-        newInstance_ = componentRegistration_->activator()->activateInstance(this);
+        newInstance_ = std::shared_ptr< void >(componentRegistration_->activator()->activateInstance(this));
 
         //TODO
         //if (componentRegistration_->ownership() == InstanceOwnership::OwnedByLifetimeScope)

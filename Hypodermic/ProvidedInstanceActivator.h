@@ -14,14 +14,14 @@ namespace Hypodermic
 		ProvidedInstanceActivator(T* instance);
 		~ProvidedInstanceActivator();
 
-		void* activateInstance(IComponentContext* context);
+		std::shared_ptr< void > activateInstance(IComponentContext* context);
 
 		bool disposeInstance() const;
 
 		void disposeInstance(bool value);
 
 	private:
-		T* instance_;
+		std::shared_ptr< T > instance_;
 		bool activated_;
 		bool disposeInstance_;
 	};

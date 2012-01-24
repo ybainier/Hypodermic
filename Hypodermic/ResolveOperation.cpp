@@ -24,14 +24,14 @@ namespace Hypodermic
         return mostNestedLifetimeScope_->componentRegistry();
     }
 
-    void* ResolveOperation::resolveComponent(IComponentRegistration* registration)
+    std::shared_ptr< void > ResolveOperation::resolveComponent(IComponentRegistration* registration)
     {
         return getOrCreateInstance(mostNestedLifetimeScope_, registration);
     }
 
-    void* ResolveOperation::execute(IComponentRegistration* registration)
+    std::shared_ptr< void > ResolveOperation::execute(IComponentRegistration* registration)
     {
-        void* result = nullptr;
+        std::shared_ptr< void > result = nullptr;
 
         try
         {
@@ -52,7 +52,7 @@ namespace Hypodermic
         return result;
     }
 
-    void* ResolveOperation::getOrCreateInstance(ISharingLifetimeScope* currentOperationScope,
+    std::shared_ptr< void > ResolveOperation::getOrCreateInstance(ISharingLifetimeScope* currentOperationScope,
                                                 IComponentRegistration* registration)
     {
         if (currentOperationScope == nullptr)

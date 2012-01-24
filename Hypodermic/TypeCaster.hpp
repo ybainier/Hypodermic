@@ -19,10 +19,10 @@ namespace Hypodermic
     }
 
     template <class ConcreteType, class InterfaceType>
-    void* TypeCaster< ConcreteType, InterfaceType >::cast(void* concreteInstance) const
+    std::shared_ptr< void > TypeCaster< ConcreteType, InterfaceType >::cast(std::shared_ptr< void > concreteInstance) const
     {
-        ConcreteType* concreteTypeInstance = static_cast< ConcreteType* >(concreteInstance);
-        InterfaceType* interfaceTypeInstance = concreteTypeInstance;
+        std::shared_ptr< ConcreteType > concreteTypeInstance = std::static_pointer_cast< ConcreteType >(concreteInstance);
+        std::shared_ptr< InterfaceType > interfaceTypeInstance = concreteTypeInstance;
 
         return interfaceTypeInstance;
     }

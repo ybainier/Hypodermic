@@ -54,7 +54,7 @@ namespace Hypodermic
 
         std::vector< Service* >& services();
 
-        void* castOrForward(const std::type_info& typeInfo, void* instance);
+        std::shared_ptr< void > castOrForward(const std::type_info& typeInfo, std::shared_ptr< void > instance);
 
         void raisePreparing(IComponentContext* context);
 

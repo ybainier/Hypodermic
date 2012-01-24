@@ -58,12 +58,12 @@ namespace Hypodermic
         return componentRegistry_;
     }
 
-    void* Container::resolveComponent(IComponentRegistration* registration)
+    std::shared_ptr< void > Container::resolveComponent(IComponentRegistration* registration)
     {
         return rootLifetimeScope_->resolveComponent(registration);
     }
 
-    void* Container::getOrCreateInstance(IComponentRegistration* registration)
+    std::shared_ptr< void > Container::getOrCreateInstance(IComponentRegistration* registration)
     {
         auto i = registration->activator()->activateInstance(this);
         return i;

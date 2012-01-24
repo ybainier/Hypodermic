@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_ICOMPONENT_REGISTRATION_H_
 # define	HYPODERMIC_ICOMPONENT_REGISTRATION_H_
 
+# include <memory>
 # include <ostream>
 # include <string>
 # include <vector>
@@ -35,7 +36,7 @@ namespace Hypodermic
 
         virtual std::vector< Service* >& services() = 0;
 
-        virtual void* castOrForward(const std::type_info& typeInfo, void* instance) = 0;
+        virtual std::shared_ptr< void > castOrForward(const std::type_info& typeInfo, std::shared_ptr< void > instance) = 0;
 
         virtual const boost::uuids::uuid& id() = 0;
 

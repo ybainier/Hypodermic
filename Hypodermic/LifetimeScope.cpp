@@ -19,7 +19,7 @@ namespace Hypodermic
         if (componentRegistry == nullptr)
             throw std::invalid_argument("componentRegistry");
         root_ = this;
-        sharedInstances_[selfRegistrationId] = this;
+        //sharedInstances_[selfRegistrationId] = sharedSelf_;
     }
 
     LifetimeScope::LifetimeScope(IComponentRegistry* componentRegistry, LifetimeScope* parent)
@@ -31,7 +31,7 @@ namespace Hypodermic
         if (parent == nullptr)
             throw std::invalid_argument("parent");
         root_ = parent_->rootLifetimeScope();
-        sharedInstances_[selfRegistrationId] = this;
+        //sharedInstances_[selfRegistrationId] = sharedSelf_;
     }
 
     ISharingLifetimeScope* LifetimeScope::parentLifetimeScope()
@@ -49,7 +49,7 @@ namespace Hypodermic
         return componentRegistry_;
     }
 
-    void* LifetimeScope::resolveComponent(IComponentRegistration* registration)
+    std::shared_ptr< void > LifetimeScope::resolveComponent(IComponentRegistration* registration)
     {
         if (registration == nullptr)
             throw std::invalid_argument("registration");
@@ -62,11 +62,12 @@ namespace Hypodermic
         }
     }
 
-    void* LifetimeScope::getOrCreateAndShare(const boost::uuids::uuid& id, std::function< void*() > creator)
+    std::shared_ptr< void > LifetimeScope::getOrCreateAndShare(const boost::uuids::uuid& id,
+                                                               std::function< std::shared_ptr< void >() > creator)
     {
         boost::lock_guard< decltype(mutex_) > lock(mutex_);
 
-        void* result = nullptr;
+        std::shared_ptr< void > result = nullptr;
         if (sharedInstances_.count(id) == 0)
         {
             result = creator();

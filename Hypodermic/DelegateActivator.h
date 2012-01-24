@@ -23,9 +23,9 @@ namespace Hypodermic
 		{
 		}
 
-		void* activateInstance(IComponentContext* context)
+		std::shared_ptr< void > activateInstance(IComponentContext* context)
 		{
-			return activationFunction_(context);
+			return std::shared_ptr< void >(activationFunction_(context));
 		}
 
 	private:

@@ -28,8 +28,8 @@ namespace Hypodermic
 
         IComponentRegistry* componentRegistry();
 
-		void* resolveComponent(IComponentRegistration* registration);
-		void* getOrCreateAndShare(const boost::uuids::uuid& id, std::function< void*() > creator);
+		std::shared_ptr< void > resolveComponent(IComponentRegistration* registration);
+		std::shared_ptr< void > getOrCreateAndShare(const boost::uuids::uuid& id, std::function< std::shared_ptr< void >() > creator);
 
         static const boost::uuids::uuid selfRegistrationId;
 
@@ -40,7 +40,7 @@ namespace Hypodermic
 		IComponentRegistry* componentRegistry_;
 		ISharingLifetimeScope* parent_;
 		ISharingLifetimeScope* root_;
-		std::unordered_map< boost::uuids::uuid, void* > sharedInstances_;
+		std::unordered_map< boost::uuids::uuid, std::shared_ptr< void > > sharedInstances_;
 
         boost::recursive_mutex mutex_;
 

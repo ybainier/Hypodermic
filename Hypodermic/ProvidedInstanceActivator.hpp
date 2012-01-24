@@ -9,7 +9,7 @@ namespace Hypodermic
 {
     template <class T>
     ProvidedInstanceActivator< T >::ProvidedInstanceActivator(T* instance)
-        : InstanceActivator(typeid(T*)), instance_(instance)
+        : InstanceActivator(typeid(T)), instance_(instance)
         , activated_(false), disposeInstance_(false)
     {
     }
@@ -23,7 +23,7 @@ namespace Hypodermic
     }
 
     template <class T>
-    void* ProvidedInstanceActivator< T >::activateInstance(IComponentContext* context)
+    std::shared_ptr< void > ProvidedInstanceActivator< T >::activateInstance(IComponentContext* context)
     {
         if (activated_)
             throw std::logic_error("Instance already activated");

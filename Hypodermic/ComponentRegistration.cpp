@@ -90,7 +90,7 @@ namespace Hypodermic
         return services_;
     }
 
-    void* ComponentRegistration::castOrForward(const std::type_info& typeInfo, void* instance)
+    std::shared_ptr< void > ComponentRegistration::castOrForward(const std::type_info& typeInfo, std::shared_ptr< void > instance)
     {
         std::type_index typeIndex(typeInfo);
         if (instance == nullptr || typeCasters_.count(typeIndex) == 0)

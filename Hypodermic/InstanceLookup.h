@@ -1,6 +1,8 @@
 #ifndef     HYPODERMIC_INSTANCE_LOOKUP_H_
 # define    HYPODERMIC_INSTANCE_LOOKUP_H_
 
+# include <memory>
+
 # include <Hypodermic/IComponentContext.h>
 # include <Hypodermic/IInstanceLookup.h>
 
@@ -20,13 +22,13 @@ namespace Hypodermic
         InstanceLookup(IComponentRegistration* registration, IResolveOperation* context,
                        ISharingLifetimeScope* mostNestedVisibleScope);
 
-        void* execute();
+        std::shared_ptr< void > execute();
 
         void complete();
 
         IComponentRegistry* componentRegistry();
 
-        void* resolveComponent(IComponentRegistration* registration);
+        std::shared_ptr< void > resolveComponent(IComponentRegistration* registration);
 
         IComponentRegistration* componentRegistration();
 
@@ -35,12 +37,12 @@ namespace Hypodermic
     private:
         bool newInstanceActivated();
 
-        void* activate();
+        std::shared_ptr< void > activate();
 
         IComponentRegistration* componentRegistration_;
         IResolveOperation* context_;
         ISharingLifetimeScope* activationScope_;
-        void* newInstance_;
+        std::shared_ptr< void > newInstance_;
         bool executed_;
     };
 
