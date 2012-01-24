@@ -11,17 +11,17 @@ namespace Hypodermic
     {
     }
 
-    std::vector< IComponentRegistration* >& ServiceRegistrationInfo::implementations()
+    std::vector< std::shared_ptr< IComponentRegistration > >& ServiceRegistrationInfo::implementations()
     {
         return implementations_;
     }
 
-    void ServiceRegistrationInfo::addImplementation(IComponentRegistration* registration)
+    void ServiceRegistrationInfo::addImplementation(std::shared_ptr< IComponentRegistration > registration)
     {
         implementations_.push_back(registration);
     }
 
-    IComponentRegistration* ServiceRegistrationInfo::getRegistration()
+    std::shared_ptr< IComponentRegistration > ServiceRegistrationInfo::getRegistration()
     {
         if (implementations_.size() > 0)
             return implementations_[0];

@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_PROVIDED_INSTANCE_ACTIVATOR_H_
 # define	HYPODERMIC_PROVIDED_INSTANCE_ACTIVATOR_H_
 
+# include <memory>
 # include <Hypodermic/InstanceActivator.h>
 
 
@@ -11,10 +12,10 @@ namespace Hypodermic
 	class ProvidedInstanceActivator : public InstanceActivator
 	{
 	public:
-		ProvidedInstanceActivator(T* instance);
+		ProvidedInstanceActivator(std::shared_ptr< T > instance);
 		~ProvidedInstanceActivator();
 
-		std::shared_ptr< void > activateInstance(IComponentContext* context);
+		std::shared_ptr< void > activateInstance(std::shared_ptr< IComponentContext > context);
 
 		bool disposeInstance() const;
 

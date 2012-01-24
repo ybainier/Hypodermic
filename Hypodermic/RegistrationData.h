@@ -27,9 +27,9 @@ namespace Hypodermic
 
         void ownership(InstanceOwnership::Mode value);
 
-        IComponentLifetime* lifetime();
+        std::shared_ptr< IComponentLifetime > lifetime();
 
-        void lifetime(IComponentLifetime* value);
+        void lifetime(std::shared_ptr< IComponentLifetime > value);
 
 		std::vector< std::shared_ptr< Service > > services();
 
@@ -40,7 +40,7 @@ namespace Hypodermic
 		bool defaultServiceOverriden_;
 		InstanceSharing::Mode sharing_;
         InstanceOwnership::Mode ownership_;
-        IComponentLifetime* lifetime_;
+        std::shared_ptr< IComponentLifetime > lifetime_;
 		std::vector< std::shared_ptr< Service > > services_;
 	};
 

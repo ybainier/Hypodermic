@@ -2,6 +2,7 @@
 # define	HYPODERMIC_DELEGATE_ACTIVATOR_H_
 
 # include <functional>
+# include <memory>
 # include <typeinfo>
 
 # include <Hypodermic/IComponentContext.h>
@@ -15,7 +16,7 @@ namespace Hypodermic
 	template <class T>
 	class DelegateActivator : public InstanceActivator
 	{
-        typedef std::function< T*(IComponentContext*) > ActivationDelegate;
+        typedef std::function< T*(IComponentContext&) > ActivationDelegate;
 
 	public:
 		DelegateActivator(const std::type_info& typeInfo, ActivationDelegate activationFunction)
@@ -23,9 +24,9 @@ namespace Hypodermic
 		{
 		}
 
-		std::shared_ptr< void > activateInstance(IComponentContext* context)
+		std::shared_ptr< void > activateInstance(std::shared_ptr< IComponentContext > context)
 		{
-			return std::shared_ptr< void >(activationFunction_(context));
+			return std::shared_ptr< void >(activationFunction_(*context));
 		}
 
 	private:

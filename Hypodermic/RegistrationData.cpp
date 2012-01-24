@@ -35,12 +35,12 @@ namespace Hypodermic
         ownership_ = value;
     }
 
-    IComponentLifetime* RegistrationData::lifetime()
+    std::shared_ptr< IComponentLifetime > RegistrationData::lifetime()
     {
         return lifetime_;
     }
 
-    void RegistrationData::lifetime(IComponentLifetime* value)
+    void RegistrationData::lifetime(std::shared_ptr< IComponentLifetime > value)
     {
         if (value == nullptr)
             std::invalid_argument("value");

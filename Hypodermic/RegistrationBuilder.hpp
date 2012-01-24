@@ -14,7 +14,7 @@ namespace Hypodermic
 
     template <class T, class RegistrationStyleT>
     RegistrationBuilder< T, RegistrationStyleT >::RegistrationBuilder(std::shared_ptr< Service > defaultService,
-                                                                      IInstanceActivator* activator,
+                                                                      std::shared_ptr< IInstanceActivator > activator,
                                                                       const RegistrationStyleT& registrationStyle)
         : registrationData_(defaultService)
         , activator_(activator)
@@ -29,7 +29,7 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    IInstanceActivator* RegistrationBuilder< T, RegistrationStyleT >::activator()
+    std::shared_ptr< IInstanceActivator > RegistrationBuilder< T, RegistrationStyleT >::activator()
     {
         return activator_;
     }
@@ -41,49 +41,48 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    const std::unordered_map< std::type_index, ITypeCaster* >& RegistrationBuilder< T, RegistrationStyleT >::typeCasters() const
+    const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& RegistrationBuilder< T, RegistrationStyleT >::typeCasters() const
     {
         return typeCasters_;
     }
 
     template <class T, class RegistrationStyleT>
-    IRegistrationBuilder< T, RegistrationStyleT >* RegistrationBuilder< T, RegistrationStyleT >::singleInstance()
+    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::singleInstance()
     {
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::Shared);
-        rd.lifetime(new RootScopeLifetime);
-        return this;
+        rd.lifetime(std::make_shared< RootScopeLifetime >());
+        return shared_from_this();
     }
 
     template <class T, class RegistrationStyleT>
-    IRegistrationBuilder< T, RegistrationStyleT >* RegistrationBuilder< T, RegistrationStyleT >::instancePerLifetimeScope()
+    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::instancePerLifetimeScope()
     {
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::Shared);
-        rd.lifetime(new CurrentLifetimeScope);
-        return this;
+        rd.lifetime(std::make_shared< CurrentLifetimeScope >());
+        return shared_from_this();
     }
 
     template <class T, class RegistrationStyleT>
-    IRegistrationBuilder< T, RegistrationStyleT >* RegistrationBuilder< T, RegistrationStyleT >::instancePerDependency()
+    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::instancePerDependency()
     {
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::None);
-        rd.lifetime(new CurrentLifetimeScope);
-        return this;
+        rd.lifetime(std::make_shared< CurrentLifetimeScope >());
+        return shared_from_this();
     }
 
     template <class T, class RegistrationStyleT>
     template <class ServiceT>
-    IRegistrationBuilder< T, RegistrationStyleT >* RegistrationBuilder< T, RegistrationStyleT >::as()
+    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::as()
     {
         const std::type_info& serviceTypeInfo = typeid(ServiceT);
         
         registrationData_.addService(std::make_shared< TypedService >(serviceTypeInfo));
-        typeCasters_.insert(std::make_pair(std::type_index(serviceTypeInfo),
-                                           new TypeCaster< T, ServiceT >(serviceTypeInfo)));
+        typeCasters_.insert(std::make_pair(std::type_index(serviceTypeInfo), std::make_shared< TypeCaster< T, ServiceT > >(serviceTypeInfo)));
 
-        return this;
+        return shared_from_this();
     }
 
 } // namespace Hypodermic

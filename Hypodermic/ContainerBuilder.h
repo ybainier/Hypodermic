@@ -19,13 +19,13 @@ namespace Hypodermic
 
 	class ContainerBuilder
 	{
-        typedef std::function< void(IComponentRegistry*) > ConfigurationCallback;
+        typedef std::function< void(std::shared_ptr< IComponentRegistry >) > ConfigurationCallback;
 
 	public:
 		ContainerBuilder();
 
 		template <class T>
-        std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType(std::function< T*(IComponentContext*) > delegate);
+        std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType(std::function< T*(IComponentContext&) > delegate);
 
 		template <class T>
 		std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType();
@@ -35,9 +35,9 @@ namespace Hypodermic
 
 		void registerCallback(ConfigurationCallback configurationCallback);
 
-		IContainer* build();
+		std::shared_ptr< IContainer > build();
 
-		void build(IComponentRegistry* componentRegistry);
+		void build(std::shared_ptr< IComponentRegistry > componentRegistry);
 
 
 	private:

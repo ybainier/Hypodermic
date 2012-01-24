@@ -21,33 +21,33 @@ namespace Hypodermic
     class IInstanceActivator;
 
 
-	class ComponentRegistration : public IComponentRegistration
+	class ComponentRegistration : public std::enable_shared_from_this< ComponentRegistration >, public IComponentRegistration
 	{
 	public:
         ComponentRegistration(const boost::uuids::uuid& id,
-                              IInstanceActivator* activator,
-                              IComponentLifetime* lifetime,
+                              std::shared_ptr< IInstanceActivator > activator,
+                              std::shared_ptr< IComponentLifetime > lifetime,
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
                               const std::vector< std::shared_ptr< Service > >& services,
-                              const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters);
+                              const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters);
 
         ComponentRegistration(const boost::uuids::uuid& id,
-                              IInstanceActivator* activator,
-                              IComponentLifetime* lifetime,
+                              std::shared_ptr< IInstanceActivator > activator,
+                              std::shared_ptr< IComponentLifetime > lifetime,
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
                               const std::vector< std::shared_ptr< Service > >& services,
-                              const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters,
-                              IComponentRegistration* target);
+                              const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters,
+                              std::shared_ptr< IComponentRegistration > target);
 
-        IComponentRegistration* target();
+        std::shared_ptr< IComponentRegistration > target();
 
         const boost::uuids::uuid& id();
 
-        IInstanceActivator* activator();
+        std::shared_ptr< IInstanceActivator > activator();
 
-        IComponentLifetime* lifetime();
+        std::shared_ptr< IComponentLifetime > lifetime();
 
         InstanceSharing::Mode sharing();
 
@@ -57,23 +57,23 @@ namespace Hypodermic
 
         std::shared_ptr< void > castOrForward(const std::type_info& typeInfo, std::shared_ptr< void > instance);
 
-        void raisePreparing(IComponentContext* context);
+        void raisePreparing(std::shared_ptr< IComponentContext > context);
 
-        void raiseActivating(IComponentContext* context);
+        void raiseActivating(std::shared_ptr< IComponentContext > context);
 
-        void raiseActivated(IComponentContext* context);
+        void raiseActivated(std::shared_ptr< IComponentContext > context);
 
         std::string toString();
 
 	private:
         boost::uuids::uuid id_;
-        IInstanceActivator* activator_;
+        std::shared_ptr< IInstanceActivator > activator_;
         InstanceSharing::Mode sharing_;
         InstanceOwnership::Mode ownership_;
-        IComponentLifetime* lifetime_;
+        std::shared_ptr< IComponentLifetime > lifetime_;
         std::vector< std::shared_ptr< Service > > services_;
-        std::unordered_map< std::type_index, ITypeCaster* > typeCasters_;
-        IComponentRegistration* target_;
+        std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > > typeCasters_;
+        std::shared_ptr< IComponentRegistration > target_;
 	};
 
 } // namespace Hypodermic

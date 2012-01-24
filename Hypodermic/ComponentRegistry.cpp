@@ -7,7 +7,7 @@
 namespace Hypodermic
 {
 
-    IComponentRegistration* ComponentRegistry::getRegistration(std::shared_ptr< Service > service)
+    std::shared_ptr< IComponentRegistration > ComponentRegistry::getRegistration(std::shared_ptr< Service > service)
     {
         boost::lock_guard< decltype (mutex_) > lock(mutex_);
 
@@ -20,12 +20,12 @@ namespace Hypodermic
         return getInitializedServiceInfo(service)->isRegistered();
     }
 
-    void ComponentRegistry::addRegistration(IComponentRegistration* registration)
+    void ComponentRegistry::addRegistration(std::shared_ptr< IComponentRegistration > registration)
     {
         addRegistration(registration, false);
     }
 
-    void ComponentRegistry::addRegistration(IComponentRegistration* registration, bool preserveDefaults)
+    void ComponentRegistry::addRegistration(std::shared_ptr< IComponentRegistration > registration, bool preserveDefaults)
     {
         BOOST_FOREACH(auto service, registration->services())
         {
@@ -35,12 +35,12 @@ namespace Hypodermic
         registrations_.push_back(registration);
     }
 
-    std::vector< IComponentRegistration* > ComponentRegistry::registrations()
+    std::vector< std::shared_ptr< IComponentRegistration > > ComponentRegistry::registrations()
     {
         return registrations_;
     }
 
-    std::vector< IComponentRegistration* > ComponentRegistry::registrationsFor(std::shared_ptr< Service > service)
+    std::vector< std::shared_ptr< IComponentRegistration > > ComponentRegistry::registrationsFor(std::shared_ptr< Service > service)
     {
         boost::lock_guard< boost::recursive_mutex > lock(mutex_);
 

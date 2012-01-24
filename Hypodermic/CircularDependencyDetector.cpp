@@ -10,8 +10,8 @@
 namespace Hypodermic
 {
 
-    void CircularDependencyDetector::checkForCircularDependency(IComponentRegistration* registration,
-                                                                const std::deque< InstanceLookup* >& activationStack,
+    void CircularDependencyDetector::checkForCircularDependency(std::shared_ptr< IComponentRegistration > registration,
+                                                                const std::deque< std::shared_ptr< InstanceLookup > >& activationStack,
                                                                 int callDepth)
     {
         if (registration == nullptr)
@@ -28,8 +28,8 @@ namespace Hypodermic
         }
     }
 
-    std::string CircularDependencyDetector::createDependencyGraphTo(IComponentRegistration* registration,
-                                                                    const std::deque< InstanceLookup* >& activationStack)
+    std::string CircularDependencyDetector::createDependencyGraphTo(std::shared_ptr< IComponentRegistration > registration,
+                                                                    const std::deque< std::shared_ptr< InstanceLookup > >& activationStack)
     {
         if (registration == nullptr)
             throw std::invalid_argument("registration");
@@ -44,13 +44,13 @@ namespace Hypodermic
         return dependencyGraph;
     }
 
-    std::string CircularDependencyDetector::display(IComponentRegistration* registration)
+    std::string CircularDependencyDetector::display(std::shared_ptr< IComponentRegistration > registration)
     {
         return registration->activator()->typeInfo().name();
     }
 
-    bool CircularDependencyDetector::isCircularDependency(IComponentRegistration* registration,
-                                                          const std::deque< InstanceLookup* >& activationStack)
+    bool CircularDependencyDetector::isCircularDependency(std::shared_ptr< IComponentRegistration > registration,
+                                                          const std::deque< std::shared_ptr< InstanceLookup > >& activationStack)
     {
         if (registration == nullptr)
             throw std::invalid_argument("registration");

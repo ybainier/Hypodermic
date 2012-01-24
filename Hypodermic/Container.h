@@ -11,20 +11,24 @@ namespace Hypodermic
     class IComponentRegistry;
 
 
-	class Container : public IContainer
+	class Container : public std::enable_shared_from_this< Container >, public IContainer
 	{
 	public:
-		Container();
+        ~Container()
+        {
+        }
 
-		IComponentRegistry* componentRegistry();
+		std::shared_ptr< IComponentRegistry > componentRegistry();
 
-		std::shared_ptr< void > resolveComponent(IComponentRegistration* registration);
+		std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration);
 
-		std::shared_ptr< void > getOrCreateInstance(IComponentRegistration* registration);
+		std::shared_ptr< void > getOrCreateInstance(std::shared_ptr< IComponentRegistration > registration);
+
+        void initialize();
 
 	private:
-		IComponentRegistry* componentRegistry_;
-        ILifetimeScope* rootLifetimeScope_;
+		std::shared_ptr< IComponentRegistry > componentRegistry_;
+        std::shared_ptr< ILifetimeScope > rootLifetimeScope_;
 	};
 
 } // namespace Hypodermic
