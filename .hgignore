@@ -1,0 +1,8 @@
+syntax: glob
+*.opensdf
+*.sdf
+*.suo
+*.vcxproj.user
+*/build/**
+*/ipch/**
+*.ipch
