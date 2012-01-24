@@ -13,7 +13,7 @@ namespace Hypodermic
 {
 
     template <class T, class RegistrationStyleT>
-    RegistrationBuilder< T, RegistrationStyleT >::RegistrationBuilder(Service* defaultService,
+    RegistrationBuilder< T, RegistrationStyleT >::RegistrationBuilder(std::shared_ptr< Service > defaultService,
                                                                       IInstanceActivator* activator,
                                                                       const RegistrationStyleT& registrationStyle)
         : registrationData_(defaultService)
@@ -79,7 +79,7 @@ namespace Hypodermic
     {
         const std::type_info& serviceTypeInfo = typeid(ServiceT);
         
-        registrationData_.addService(new TypedService(serviceTypeInfo));
+        registrationData_.addService(std::make_shared< TypedService >(serviceTypeInfo));
         typeCasters_.insert(std::make_pair(std::type_index(serviceTypeInfo),
                                            new TypeCaster< T, ServiceT >(serviceTypeInfo)));
 

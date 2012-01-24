@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_COMPONENT_REGISTRY_H_
 # define	HYPODERMIC_COMPONENT_REGISTRY_H_
 
+# include <memory>
 # include <typeindex>
 # include <unordered_map>
 # include <vector>
@@ -18,12 +19,12 @@ namespace Hypodermic
 
 	class ComponentRegistry : public IComponentRegistry
 	{
-		typedef std::unordered_map< std::type_index, ServiceRegistrationInfo* > ServiceRegistrationInfos;
+		typedef std::unordered_map< std::type_index, std::shared_ptr< ServiceRegistrationInfo > > ServiceRegistrationInfos;
 
 	public:
-		IComponentRegistration* getRegistration(Service* service);
+		IComponentRegistration* getRegistration(std::shared_ptr< Service > service);
 
-		bool isRegistered(Service* service);
+		bool isRegistered(std::shared_ptr< Service > service);
 
 		void addRegistration(IComponentRegistration* registration);
 
@@ -31,11 +32,11 @@ namespace Hypodermic
 
 		std::vector< IComponentRegistration* > registrations();
 
-		std::vector< IComponentRegistration* > registrationsFor(Service* service);
+		std::vector< IComponentRegistration* > registrationsFor(std::shared_ptr< Service > service);
 
-		ServiceRegistrationInfo* getServiceInfo(Service* service);
+		std::shared_ptr< ServiceRegistrationInfo > getServiceInfo(std::shared_ptr< Service > service);
 
-		ServiceRegistrationInfo* getInitializedServiceInfo(Service* service);
+		std::shared_ptr< ServiceRegistrationInfo > getInitializedServiceInfo(std::shared_ptr< Service > service);
 
 	private:
 		std::vector< IComponentRegistration* > registrations_;

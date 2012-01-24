@@ -20,8 +20,8 @@ namespace Hypodermic
     {
         using namespace boost::assign;
 
-        std::vector< Service* > services = list_of(new TypedService(typeid(ILifetimeScope)))
-                                                  (new TypedService(typeid(IComponentContext)));
+        std::vector< std::shared_ptr< Service > > services = list_of(std::make_shared< TypedService >(typeid(ILifetimeScope)))
+                                                                    (std::make_shared< TypedService >(typeid(IComponentContext)));
 
         componentRegistry_ = new ComponentRegistry;
 
@@ -39,7 +39,7 @@ namespace Hypodermic
             services,
             std::unordered_map< std::type_index, ITypeCaster* >()));
         
-        services = list_of(new TypedService(typeid(IContainer)));
+        services = list_of(std::make_shared< TypedService >(typeid(IContainer)));
 
         componentRegistry_->addRegistration(new ComponentRegistration(
             LifetimeScope::selfRegistrationId,

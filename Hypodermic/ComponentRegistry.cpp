@@ -7,7 +7,7 @@
 namespace Hypodermic
 {
 
-    IComponentRegistration* ComponentRegistry::getRegistration(Service* service)
+    IComponentRegistration* ComponentRegistry::getRegistration(std::shared_ptr< Service > service)
     {
         boost::lock_guard< decltype (mutex_) > lock(mutex_);
 
@@ -15,7 +15,7 @@ namespace Hypodermic
         return info->getRegistration();
     }
 
-    bool ComponentRegistry::isRegistered(Service* service)
+    bool ComponentRegistry::isRegistered(std::shared_ptr< Service > service)
     {
         return getInitializedServiceInfo(service)->isRegistered();
     }
@@ -27,9 +27,9 @@ namespace Hypodermic
 
     void ComponentRegistry::addRegistration(IComponentRegistration* registration, bool preserveDefaults)
     {
-        BOOST_FOREACH(Service* service, registration->services())
+        BOOST_FOREACH(auto service, registration->services())
         {
-            ServiceRegistrationInfo* info = getServiceInfo(service);
+            auto info = getServiceInfo(service);
             info->addImplementation(registration);
         }
         registrations_.push_back(registration);
@@ -40,7 +40,7 @@ namespace Hypodermic
         return registrations_;
     }
 
-    std::vector< IComponentRegistration* > ComponentRegistry::registrationsFor(Service* service)
+    std::vector< IComponentRegistration* > ComponentRegistry::registrationsFor(std::shared_ptr< Service > service)
     {
         boost::lock_guard< boost::recursive_mutex > lock(mutex_);
 
@@ -48,7 +48,7 @@ namespace Hypodermic
         return info->implementations();
     }
 
-    ServiceRegistrationInfo* ComponentRegistry::getServiceInfo(Service* service)
+    std::shared_ptr< ServiceRegistrationInfo > ComponentRegistry::getServiceInfo(std::shared_ptr< Service > service)
     {
         std::type_index typeIndex(service->typeInfo());
 
@@ -56,12 +56,12 @@ namespace Hypodermic
         if (it != serviceInfo_.end())
             return it->second;
 
-        ServiceRegistrationInfo* info = new ServiceRegistrationInfo(service);
+        auto info = std::make_shared< ServiceRegistrationInfo >(service);
         serviceInfo_.insert(ServiceRegistrationInfos::value_type(typeIndex, info));
         return info;
     }
 
-    ServiceRegistrationInfo* ComponentRegistry::getInitializedServiceInfo(Service* service)
+    std::shared_ptr< ServiceRegistrationInfo > ComponentRegistry::getInitializedServiceInfo(std::shared_ptr< Service > service)
     {
         //TODO: retrieve actually initialized ServiceRegistrationInfo
         return getServiceInfo(service);

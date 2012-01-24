@@ -34,7 +34,7 @@ namespace Hypodermic
 
         virtual InstanceOwnership::Mode ownership() = 0;
 
-        virtual std::vector< Service* >& services() = 0;
+        virtual std::vector< std::shared_ptr< Service > >& services() = 0;
 
         virtual std::shared_ptr< void > castOrForward(const std::type_info& typeInfo, std::shared_ptr< void > instance) = 0;
 

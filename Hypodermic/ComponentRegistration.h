@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_COMPONENT_REGISTRATION_H_
 # define	HYPODERMIC_COMPONENT_REGISTRATION_H_
 
+# include <memory>
 # include <typeindex>
 # include <unordered_map>
 # include <vector>
@@ -28,7 +29,7 @@ namespace Hypodermic
                               IComponentLifetime* lifetime,
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
-                              const std::vector< Service* >& services,
+                              const std::vector< std::shared_ptr< Service > >& services,
                               const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters);
 
         ComponentRegistration(const boost::uuids::uuid& id,
@@ -36,7 +37,7 @@ namespace Hypodermic
                               IComponentLifetime* lifetime,
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
-                              const std::vector< Service* >& services,
+                              const std::vector< std::shared_ptr< Service > >& services,
                               const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters,
                               IComponentRegistration* target);
 
@@ -52,7 +53,7 @@ namespace Hypodermic
 
         InstanceOwnership::Mode ownership();
 
-        std::vector< Service* >& services();
+        std::vector< std::shared_ptr< Service > >& services();
 
         std::shared_ptr< void > castOrForward(const std::type_info& typeInfo, std::shared_ptr< void > instance);
 
@@ -70,7 +71,7 @@ namespace Hypodermic
         InstanceSharing::Mode sharing_;
         InstanceOwnership::Mode ownership_;
         IComponentLifetime* lifetime_;
-        std::vector< Service* > services_;
+        std::vector< std::shared_ptr< Service > > services_;
         std::unordered_map< std::type_index, ITypeCaster* > typeCasters_;
         IComponentRegistration* target_;
 	};

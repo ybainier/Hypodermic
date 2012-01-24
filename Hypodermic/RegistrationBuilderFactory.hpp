@@ -17,7 +17,7 @@ namespace Hypodermic
 	{
         auto& typeInfo = typeid(T);
 		return std::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
-            new TypedService(typeInfo),
+            std::make_shared< TypedService >(typeInfo),
 			new DelegateActivator< T >(typeInfo, delegate),
             SingleRegistrationStyle());
 	}
@@ -27,7 +27,7 @@ namespace Hypodermic
 	{
         auto& typeInfo = typeid(T);
 		return std::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
-            new TypedService(typeInfo),
+            std::make_shared< TypedService >(typeInfo),
 			new DelegateActivator< T >(typeInfo,
                                        [](IComponentContext* c) -> T*
 			                           {
@@ -40,7 +40,7 @@ namespace Hypodermic
 	std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forInstance(T* instance)
 	{
         return std::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
-            new TypedService(typeid(T)),
+            std::make_shared< TypedService >(typeid(T)),
             new ProvidedInstanceActivator< T >(instance),
             SingleRegistrationStyle());
 	}

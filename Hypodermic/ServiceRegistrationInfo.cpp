@@ -5,7 +5,7 @@
 namespace Hypodermic
 {
 
-    ServiceRegistrationInfo::ServiceRegistrationInfo(Service* service)
+    ServiceRegistrationInfo::ServiceRegistrationInfo(std::shared_ptr< Service > service)
         : service_(service)
         , isInitialized_(false)
     {

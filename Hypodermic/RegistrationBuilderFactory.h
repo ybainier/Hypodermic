@@ -44,7 +44,7 @@ namespace Hypodermic
 		static IComponentRegistration* createRegistration(const boost::uuids::uuid& id,
                                                           RegistrationData& registrationData,
                                                           IInstanceActivator* activator,
-			                                              std::vector< Service* >& services,
+			                                              std::vector< std::shared_ptr< Service > >& services,
                                                           IComponentRegistration* target,
                                                           const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters);
 	};

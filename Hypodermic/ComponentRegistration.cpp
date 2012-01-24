@@ -13,7 +13,7 @@ namespace Hypodermic
                                                  IComponentLifetime* lifetime,
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
-                                                 const std::vector< Service* >& services,
+                                                 const std::vector< std::shared_ptr< Service > >& services,
                                                  const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters)
         : id_(id)
         , activator_(activator)
@@ -35,7 +35,7 @@ namespace Hypodermic
                                                  IComponentLifetime* lifetime,
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
-                                                 const std::vector< Service* >& services,
+                                                 const std::vector< std::shared_ptr< Service > >& services,
                                                  const std::unordered_map< std::type_index, ITypeCaster* >& typeCasters,
                                                  IComponentRegistration* target)
         : id_(id)
@@ -85,7 +85,7 @@ namespace Hypodermic
         return ownership_;
     }
 
-    std::vector< Service* >& ComponentRegistration::services()
+    std::vector< std::shared_ptr< Service > >& ComponentRegistration::services()
     {
         return services_;
     }

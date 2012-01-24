@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_REGISTRATION_BUILDER_H_
 # define	HYPODERMIC_REGISTRATION_BUILDER_H_
 
+# include <memory>
 # include <typeindex>
 
 # include <Hypodermic/ComponentRegistration.h>
@@ -22,7 +23,7 @@ namespace Hypodermic
 	class RegistrationBuilder : public IRegistrationBuilder< T, RegistrationStyleT >
 	{
 	public:
-		RegistrationBuilder(Service* defaultService, IInstanceActivator* activator,
+		RegistrationBuilder(std::shared_ptr< Service > defaultService, IInstanceActivator* activator,
                             const RegistrationStyleT& registrationStyle);
 
 		RegistrationData& registrationData();
