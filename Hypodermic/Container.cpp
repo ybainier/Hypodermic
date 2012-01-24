@@ -3,6 +3,7 @@
 
 #include "ComponentRegistration.h"
 #include "ComponentRegistry.h"
+#include "ContainerActivator.h"
 #include "CurrentLifetimeScope.h"
 #include "DelegateActivator.h"
 #include "IComponentRegistry.h"
@@ -36,7 +37,7 @@ namespace Hypodermic
         using namespace boost::assign;
 
         std::vector< std::shared_ptr< Service > > services = list_of(std::make_shared< TypedService >(typeid(ILifetimeScope)))
-            (std::make_shared< TypedService >(typeid(IComponentContext)));
+                                                                    (std::make_shared< TypedService >(typeid(IComponentContext)));
 
         componentRegistry_ = std::make_shared< ComponentRegistry >();
 
@@ -58,9 +59,9 @@ namespace Hypodermic
 
         componentRegistry_->addRegistration(std::make_shared< ComponentRegistration >(
             LifetimeScope::selfRegistrationId,
-            std::make_shared< ProvidedInstanceActivator< Container > >(shared_from_this()),
+            std::make_shared< ContainerActivator >(shared_from_this()),
             std::make_shared< CurrentLifetimeScope >(),
-            InstanceSharing::Shared,
+            InstanceSharing::None, // this instance will actually be shared, but this prevents shared pointer circular references
             InstanceOwnership::ExternallyOwned,
             services,
             std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >()));

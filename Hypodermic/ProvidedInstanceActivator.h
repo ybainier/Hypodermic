@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_PROVIDED_INSTANCE_ACTIVATOR_H_
 # define	HYPODERMIC_PROVIDED_INSTANCE_ACTIVATOR_H_
 
+# include <memory>
 # include <Hypodermic/InstanceActivator.h>
 
 

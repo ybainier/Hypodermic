@@ -74,18 +74,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Action.h" />
     <ClInclude Include="BoostUuidHashFunctor.h" />
     <ClInclude Include="CircularDependencyDetector.h" />
     <ClInclude Include="ComponentRegistration.h" />
     <ClInclude Include="ComponentRegistry.h" />
     <ClInclude Include="Container.h" />
+    <ClInclude Include="ContainerActivator.h" />
     <ClInclude Include="ContainerBuilder.h" />
     <ClInclude Include="ContainerBuilder.hpp" />
     <ClInclude Include="CurrentLifetimeScope.h" />
     <ClInclude Include="DelegateActivator.h" />
     <ClInclude Include="DependencyResolutionException.h" />
-    <ClInclude Include="Func.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="IComponentContext.h" />
     <ClInclude Include="IComponentLifetime.h" />
@@ -126,6 +125,7 @@
     <ClCompile Include="ComponentRegistration.cpp" />
     <ClCompile Include="ComponentRegistry.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="ContainerActivator.cpp" />
     <ClCompile Include="ContainerBuilder.cpp" />
     <ClCompile Include="CurrentLifetimeScope.cpp" />
     <ClCompile Include="DependencyResolutionException.cpp" />

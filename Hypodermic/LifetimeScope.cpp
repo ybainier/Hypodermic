@@ -37,7 +37,7 @@ namespace Hypodermic
 
     std::shared_ptr< ISharingLifetimeScope > LifetimeScope::rootLifetimeScope()
     {
-        return root_;
+        return root_.lock();
     }
 
     std::shared_ptr< IComponentRegistry > LifetimeScope::componentRegistry()
@@ -79,7 +79,6 @@ namespace Hypodermic
     {
         auto sharedSelf = shared_from_this();
         root_ = parent_ != nullptr ? parent_ : sharedSelf;
-        sharedInstances_[selfRegistrationId] = sharedSelf;
     }
 
 } // namespace Hypodermic

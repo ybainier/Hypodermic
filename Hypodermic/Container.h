@@ -14,6 +14,10 @@ namespace Hypodermic
 	class Container : public std::enable_shared_from_this< Container >, public IContainer
 	{
 	public:
+        ~Container()
+        {
+        }
+
 		std::shared_ptr< IComponentRegistry > componentRegistry();
 
 		std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration);

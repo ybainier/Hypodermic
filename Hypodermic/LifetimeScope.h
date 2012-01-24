@@ -41,7 +41,7 @@ namespace Hypodermic
 
         std::shared_ptr< IComponentRegistry > componentRegistry_;
 		std::shared_ptr< ISharingLifetimeScope > parent_;
-		std::shared_ptr< ISharingLifetimeScope > root_;
+		std::weak_ptr< ISharingLifetimeScope > root_;
 		std::unordered_map< boost::uuids::uuid, std::shared_ptr< void > > sharedInstances_;
 
         boost::recursive_mutex mutex_;
