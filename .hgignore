@@ -6,3 +6,4 @@ syntax: glob
 */build/**
 */ipch/**
 *.ipch
+*ReSharper*
