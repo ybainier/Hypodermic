@@ -15,7 +15,8 @@ namespace Hypodermic
     template <class T>
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(std::function< T*(IComponentContext&) > delegate)
     {
-        static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value, "ContainerBuilder::registerType< T >() is incompatible with POD types");
+        static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
+                      "ContainerBuilder::registerType< T >() is incompatible with POD types");
 
         auto rb = RegistrationBuilderFactory::forDelegate(delegate);
 
@@ -31,7 +32,8 @@ namespace Hypodermic
     template <class T>
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType()
     {
-        static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value, "ContainerBuilder::registerType< T >() is incompatible with POD types");
+        static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
+                      "ContainerBuilder::registerType< T >() is incompatible with POD types");
 
         auto rb = RegistrationBuilderFactory::forType< T >();
 
@@ -45,9 +47,10 @@ namespace Hypodermic
     }
 
     template <class T>
-    std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(T* instance)
+    std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerInstance(std::shared_ptr< T > instance)
     {
-        static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value, "ContainerBuilder::registerType< T >(T* instance) is incompatible with POD types");
+        static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
+                      "ContainerBuilder::registerType< T >(std::shared_ptr< T > instance) is incompatible with POD types");
 
         auto rb = RegistrationBuilderFactory::forInstance(instance);
 

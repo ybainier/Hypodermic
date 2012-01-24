@@ -158,8 +158,8 @@ BOOST_AUTO_TEST_CASE(registered_instance_should_be_shared)
 {
 	ContainerBuilder builder;
 
-    auto registeredServiceA = new ServiceA;
-	builder.registerType(registeredServiceA);
+    auto registeredServiceA = std::make_shared< ServiceA >();
+	builder.registerInstance(registeredServiceA);
 
 	auto container = builder.build();
 
@@ -167,7 +167,7 @@ BOOST_AUTO_TEST_CASE(registered_instance_should_be_shared)
 	auto sameServiceA = container->resolve< ServiceA >();
 
 	BOOST_CHECK(serviceA != nullptr);
-    BOOST_CHECK(serviceA.get() == registeredServiceA);
+    BOOST_CHECK(serviceA == registeredServiceA);
 	BOOST_CHECK(serviceA == sameServiceA);
 }
 
@@ -205,8 +205,8 @@ BOOST_AUTO_TEST_CASE(polymorphic_resolution_is_not_a_lie)
 {
     ContainerBuilder builder;
 
-    auto registeredServiceA = new ServiceA;
-    builder.registerType(registeredServiceA)->as< IServiceA >()->as< IRunWithScissors >();
+    auto registeredServiceA = std::make_shared< ServiceA >();
+    builder.registerInstance(registeredServiceA)->as< IServiceA >()->as< IRunWithScissors >();
 
     auto container = builder.build();
 
@@ -215,15 +215,15 @@ BOOST_AUTO_TEST_CASE(polymorphic_resolution_is_not_a_lie)
 
     BOOST_CHECK(serviceARunningWithScissors != nullptr);
     BOOST_CHECK(serviceA != nullptr);
-    BOOST_CHECK(serviceA.get() == registeredServiceA);
+    BOOST_CHECK(serviceA == registeredServiceA);
 }
 
 BOOST_AUTO_TEST_CASE(polymorphic_resolution_can_be_used_to_express_dependencies)
 {
     ContainerBuilder builder;
 
-    auto serviceA = new ServiceA;
-    builder.registerType(serviceA)->as< IRunWithScissors >();
+    auto serviceA = std::make_shared< ServiceA >();
+    builder.registerInstance(serviceA)->as< IRunWithScissors >();
 
     builder.registerType< ServiceRunningWithScissors >(
         CREATE(new ServiceRunningWithScissors(INJECT(IRunWithScissors))))->as< IServiceB >();
@@ -235,32 +235,32 @@ BOOST_AUTO_TEST_CASE(polymorphic_resolution_can_be_used_to_express_dependencies)
     BOOST_CHECK(serviceB != nullptr);
 }
 
-BOOST_AUTO_TEST_CASE(registerType_with_an_instance_argument_can_bypass_argument_type_with_a_template_parameter)
+BOOST_AUTO_TEST_CASE(registerInstance_template_parameter_can_override_the_argument_type)
 {
     ContainerBuilder builder;
 
-    ServiceA* serviceA = new ServiceA;
-    builder.registerType< IRunWithScissors >(serviceA);
-    builder.registerType< IServiceA >(serviceA);
-    //builder.registerType< IServiceB >(CREATE(new ServiceB(INJECT(IServiceA))));
+    auto serviceA = std::make_shared< ServiceA >();
+    builder.registerInstance< IRunWithScissors >(serviceA);
+    builder.registerInstance< IServiceA >(serviceA);
+    builder.registerType< IServiceB >(CREATE(new ServiceB(INJECT(IServiceA))));
 
     auto container = builder.build();
 
-    //auto serviceARunningWithScissors = container->resolve< IRunWithScissors >();
-    //auto serviceB = container->resolve< IServiceB >();
+    auto serviceARunningWithScissors = container->resolve< IRunWithScissors >();
+    auto serviceB = container->resolve< IServiceB >();
 
-    //BOOST_CHECK(serviceARunningWithScissors != nullptr);
-    //BOOST_CHECK(std::dynamic_pointer_cast< ServiceA >(serviceARunningWithScissors) != nullptr);
-    //BOOST_CHECK(std::dynamic_pointer_cast< ServiceA >(serviceARunningWithScissors).get() == serviceA);
-    //BOOST_CHECK(serviceB != nullptr);
+    BOOST_CHECK(serviceARunningWithScissors != nullptr);
+    BOOST_CHECK(std::dynamic_pointer_cast< ServiceA >(serviceARunningWithScissors) != nullptr);
+    BOOST_CHECK(std::dynamic_pointer_cast< ServiceA >(serviceARunningWithScissors) == serviceA);
+    BOOST_CHECK(serviceB != nullptr);
 }
 
 BOOST_AUTO_TEST_CASE(resolveAll_should_collect_all_registrations_and_return_a_vector_of_instances)
 {
     ContainerBuilder builder;
 
-    auto serviceA = new ServiceA;
-    builder.registerType(serviceA)->as< IServiceA >()->as< IRunWithScissors >();
+    auto serviceA = std::make_shared< ServiceA >();
+    builder.registerInstance(serviceA)->as< IServiceA >()->as< IRunWithScissors >();
 
     builder.registerType< ServiceB >(CREATE(new ServiceB(INJECT(IServiceA))))->as< IServiceB >()->singleInstance();
     builder.registerType< ServiceRunningWithScissors >(
@@ -281,8 +281,8 @@ BOOST_AUTO_TEST_CASE(resolveAll_can_be_used_to_collect_dependencies)
 {
     ContainerBuilder builder;
 
-    auto serviceA = new ServiceA;
-    builder.registerType(serviceA)->as< IServiceA >()->as< IRunWithScissors >();
+    auto serviceA = std::make_shared< ServiceA >();
+    builder.registerInstance(serviceA)->as< IServiceA >()->as< IRunWithScissors >();
 
     builder.registerType< ServiceB >(CREATE(new ServiceB(INJECT(IServiceA))))->as< IServiceB >()->singleInstance();
     builder.registerType< ServiceRunningWithScissors >(

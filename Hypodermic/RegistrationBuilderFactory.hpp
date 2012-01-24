@@ -37,11 +37,11 @@ namespace Hypodermic
 	}
 
 	template <class T>
-	std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forInstance(T* instance)
+	std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > RegistrationBuilderFactory::forInstance(std::shared_ptr< T > instance)
 	{
         return std::make_shared< RegistrationBuilder< T, SingleRegistrationStyle > >(
             std::make_shared< TypedService >(typeid(T)),
-            std::make_shared< ProvidedInstanceActivator< T > >(std::shared_ptr< T >(instance)),
+            std::make_shared< ProvidedInstanceActivator< T > >(instance),
             SingleRegistrationStyle());
 	}
 

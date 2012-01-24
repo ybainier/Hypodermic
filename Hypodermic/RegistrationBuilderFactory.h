@@ -33,7 +33,7 @@ namespace Hypodermic
 		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forType();
 
         template <class T>
-		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forInstance(T* instance);
+		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forInstance(std::shared_ptr< T > instance);
 
 		template <class T, class RegistrationStyleT>
 		static void registerSingleComponent(std::shared_ptr< IComponentRegistry > cr, std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);

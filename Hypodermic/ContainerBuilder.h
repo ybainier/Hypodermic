@@ -31,7 +31,7 @@ namespace Hypodermic
 		std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType();
 
 		template <class T>
-		std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType(T* instance);
+		std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerInstance(std::shared_ptr< T > instance);
 
 		void registerCallback(ConfigurationCallback configurationCallback);
 
