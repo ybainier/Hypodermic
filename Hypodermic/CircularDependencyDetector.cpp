@@ -4,6 +4,7 @@
 #include "DependencyResolutionException.h"
 #include "IComponentRegistration.h"
 #include "IInstanceActivator.h"
+#include "NullptrWorkaround.h"
 #include "CircularDependencyDetector.h"
 
 

@@ -14,7 +14,6 @@ namespace Hypodermic
 
     LifetimeScope::LifetimeScope(std::shared_ptr< IComponentRegistry > componentRegistry)
         : componentRegistry_(componentRegistry)
-        , parent_(nullptr)
     {
         if (componentRegistry == nullptr)
             throw std::invalid_argument("componentRegistry");
@@ -63,7 +62,7 @@ namespace Hypodermic
     {
         boost::lock_guard< decltype(mutex_) > lock(mutex_);
 
-        std::shared_ptr< void > result = nullptr;
+        std::shared_ptr< void > result;
         if (sharedInstances_.count(id) == 0)
         {
             result = creator();
@@ -78,7 +77,7 @@ namespace Hypodermic
     void LifetimeScope::initialize()
     {
         auto sharedSelf = shared_from_this();
-        root_ = parent_ != nullptr ? parent_ : sharedSelf;
+        root_ = parent_ != nullptr ? parent_ : std::static_pointer_cast< ISharingLifetimeScope >(sharedSelf);
     }
 
 } // namespace Hypodermic

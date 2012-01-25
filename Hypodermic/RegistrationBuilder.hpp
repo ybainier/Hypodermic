@@ -52,7 +52,7 @@ namespace Hypodermic
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::Shared);
         rd.lifetime(std::make_shared< RootScopeLifetime >());
-        return shared_from_this();
+        return this->shared_from_this();
     }
 
     template <class T, class RegistrationStyleT>
@@ -61,7 +61,7 @@ namespace Hypodermic
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::Shared);
         rd.lifetime(std::make_shared< CurrentLifetimeScope >());
-        return shared_from_this();
+        return this->shared_from_this();
     }
 
     template <class T, class RegistrationStyleT>
@@ -70,7 +70,7 @@ namespace Hypodermic
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::None);
         rd.lifetime(std::make_shared< CurrentLifetimeScope >());
-        return shared_from_this();
+        return this->shared_from_this();
     }
 
     template <class T, class RegistrationStyleT>
@@ -82,7 +82,7 @@ namespace Hypodermic
         registrationData_.addService(std::make_shared< TypedService >(serviceTypeInfo));
         typeCasters_.insert(std::make_pair(std::type_index(serviceTypeInfo), std::make_shared< TypeCaster< T, ServiceT > >(serviceTypeInfo)));
 
-        return shared_from_this();
+        return this->shared_from_this();
     }
 
 } // namespace Hypodermic

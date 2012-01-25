@@ -25,7 +25,7 @@ namespace Hypodermic
         addRegistration(registration, false);
     }
 
-    void ComponentRegistry::addRegistration(std::shared_ptr< IComponentRegistration > registration, bool preserveDefaults)
+    void ComponentRegistry::addRegistration(std::shared_ptr< IComponentRegistration > registration, bool /* preserveDefaults */)
     {
         BOOST_FOREACH(auto service, registration->services())
         {

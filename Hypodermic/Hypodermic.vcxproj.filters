@@ -146,6 +146,12 @@
     <ClInclude Include="ContainerActivator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TypeIndexWorkaround.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NullptrWorkaround.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LifetimeScope.cpp">

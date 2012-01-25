@@ -1,5 +1,8 @@
+#include <stdexcept>
+
 #include "CurrentLifetimeScope.h"
 #include "IComponentLifetime.h"
+#include "NullptrWorkaround.h"
 #include "RegistrationData.h"
 
 

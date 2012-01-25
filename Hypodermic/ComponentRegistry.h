@@ -2,7 +2,6 @@
 # define	HYPODERMIC_COMPONENT_REGISTRY_H_
 
 # include <memory>
-# include <typeindex>
 # include <unordered_map>
 # include <vector>
 
@@ -10,6 +9,7 @@
 
 # include <Hypodermic/IComponentRegistry.h>
 # include <Hypodermic/ServiceRegistrationInfo.h>
+# include <Hypodermic/TypeIndexWorkaround.h>
 
 
 namespace Hypodermic

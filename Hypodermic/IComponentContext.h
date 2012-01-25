@@ -9,6 +9,7 @@
 
 # include <Hypodermic/IComponentRegistration.h>
 # include <Hypodermic/IComponentRegistry.h>
+# include <Hypodermic/NullptrWorkaround.h>
 # include <Hypodermic/TypedService.h>
 
 
@@ -54,7 +55,7 @@ namespace Hypodermic
             std::shared_ptr< IComponentRegistration > registration = componentRegistry()->getRegistration(service);
 
             if (registration == nullptr)
-                return 0;
+                return std::shared_ptr< TService >();
 
             std::shared_ptr< void > result = registration->castOrForward(service->typeInfo(), resolveComponent(registration));
 

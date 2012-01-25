@@ -10,7 +10,6 @@ namespace Hypodermic
     SingleRegistrationStyle::SingleRegistrationStyle()
         : id_(boost::uuids::random_generator()())
         , preserveDefaults_(false)
-        , target_(nullptr)
     {
     }
 

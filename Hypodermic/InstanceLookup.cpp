@@ -17,8 +17,6 @@ namespace Hypodermic
                                    std::shared_ptr< ISharingLifetimeScope > mostNestedVisibleScope)
         : componentRegistration_(registration)
         , context_(context)
-        , activationScope_(nullptr)
-        , newInstance_(nullptr)
         , executed_(false)
     {
         if (registration == nullptr)
@@ -37,7 +35,7 @@ namespace Hypodermic
 
         executed_ = true;
 
-        std::shared_ptr< void > instance = nullptr;
+        std::shared_ptr< void > instance;
         if (componentRegistration_->sharing() == InstanceSharing::None)
             instance = activate();
         else
