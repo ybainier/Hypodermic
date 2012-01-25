@@ -1,7 +1,7 @@
 #ifndef     HYPODERMIC_BOOST_UUID_HASH_FUNCTOR_H_
 # define    HYPODERMIC_BOOST_UUID_HASH_FUNCTOR_H_
 
-# include <xfunctional>
+# include <functional>
 # include <boost/uuid/uuid.hpp>
 
 

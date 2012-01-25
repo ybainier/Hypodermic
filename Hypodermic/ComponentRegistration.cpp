@@ -2,6 +2,7 @@
 
 #include "IComponentLifetime.h"
 #include "IInstanceActivator.h"
+#include "NullptrWorkaround.h"
 #include "ComponentRegistration.h"
 
 
@@ -22,7 +23,6 @@ namespace Hypodermic
         , lifetime_(lifetime)
         , services_(services)
         , typeCasters_(typeCasters)
-        , target_(nullptr)
     {
         if (activator == nullptr)
             throw std::invalid_argument("activator");
@@ -57,7 +57,7 @@ namespace Hypodermic
 
     std::shared_ptr< IComponentRegistration > ComponentRegistration::target()
     {
-        return target_ != nullptr ? target_ : shared_from_this();
+        return target_ != nullptr ? target_ : std::static_pointer_cast< IComponentRegistration >(shared_from_this());
     }
 
     const boost::uuids::uuid& ComponentRegistration::id()
@@ -100,17 +100,17 @@ namespace Hypodermic
         return typeCaster->cast(instance);
     }
 
-    void ComponentRegistration::raisePreparing(std::shared_ptr< IComponentContext > context)
+    void ComponentRegistration::raisePreparing(std::shared_ptr< IComponentContext > /* context */)
     {
         //TODO
     }
 
-    void ComponentRegistration::raiseActivating(std::shared_ptr< IComponentContext > context)
+    void ComponentRegistration::raiseActivating(std::shared_ptr< IComponentContext > /* context */)
     {
         //TODO
     }
 
-    void ComponentRegistration::raiseActivated(std::shared_ptr< IComponentContext > context)
+    void ComponentRegistration::raiseActivated(std::shared_ptr< IComponentContext > /* context */)
     {
         //TODO
     }

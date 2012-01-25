@@ -3,13 +3,13 @@
 
 # include <functional>
 # include <memory>
-# include <typeindex>
 # include <unordered_map>
 # include <vector>
 
 # include <boost/uuid/uuid.hpp>
 
 # include <Hypodermic/SingleRegistrationStyle.h>
+# include <Hypodermic/TypeIndexWorkaround.h>
 
 
 namespace Hypodermic
@@ -44,7 +44,7 @@ namespace Hypodermic
 		static std::shared_ptr< IComponentRegistration > createRegistration(const boost::uuids::uuid& id,
                                                                             RegistrationData& registrationData,
                                                                             std::shared_ptr< IInstanceActivator > activator,
-			                                                                std::vector< std::shared_ptr< Service > >& services,
+			                                                                std::vector< std::shared_ptr< Service > > services,
                                                                             std::shared_ptr< IComponentRegistration > target,
                                                                             const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters);
 	};

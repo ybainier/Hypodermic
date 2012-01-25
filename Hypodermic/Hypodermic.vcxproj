@@ -104,6 +104,7 @@
     <ClInclude Include="ISharingLifetimeScope.h" />
     <ClInclude Include="ITypeCaster.h" />
     <ClInclude Include="LifetimeScope.h" />
+    <ClInclude Include="NullptrWorkaround.h" />
     <ClInclude Include="ProvidedInstanceActivator.h" />
     <ClInclude Include="ProvidedInstanceActivator.hpp" />
     <ClInclude Include="RegistrationBuilder.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="TypeCaster.h" />
     <ClInclude Include="TypeCaster.hpp" />
     <ClInclude Include="TypedService.h" />
+    <ClInclude Include="TypeIndexWorkaround.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CircularDependencyDetector.cpp" />

@@ -2,7 +2,6 @@
 # define	HYPODERMIC_REGISTRATION_BUILDER_H_
 
 # include <memory>
-# include <typeindex>
 
 # include <Hypodermic/ComponentRegistration.h>
 # include <Hypodermic/CurrentLifetimeScope.h>
@@ -15,6 +14,7 @@
 # include <Hypodermic/RootScopeLifetime.h>
 # include <Hypodermic/SingleRegistrationStyle.h>
 # include <Hypodermic/TypedService.h>
+# include <Hypodermic/TypeIndexWorkaround.h>
 
 
 namespace Hypodermic

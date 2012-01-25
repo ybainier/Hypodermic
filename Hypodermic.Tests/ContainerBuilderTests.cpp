@@ -5,6 +5,7 @@
 #include <Hypodermic/Container.h>
 #include <Hypodermic/Helpers.h>
 #include <Hypodermic/IComponentContext.h>
+#include <Hypodermic/NullptrWorkaround.h>
 
 
 using namespace Hypodermic;

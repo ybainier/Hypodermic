@@ -3,6 +3,7 @@
 #include "DependencyResolutionException.h"
 #include "InstanceLookup.h"
 #include "ISharingLifetimeScope.h"
+#include "NullptrWorkaround.h"
 #include "ResolveOperation.h"
 
 
@@ -31,7 +32,7 @@ namespace Hypodermic
 
     std::shared_ptr< void > ResolveOperation::execute(std::shared_ptr< IComponentRegistration > registration)
     {
-        std::shared_ptr< void > result = nullptr;
+        std::shared_ptr< void > result;
 
         try
         {
@@ -95,7 +96,7 @@ namespace Hypodermic
         successfulActivations_.clear();
     }
 
-    void ResolveOperation::end(std::exception& exception)
+    void ResolveOperation::end(std::exception& /* exception */)
     {
         if (!ended_)
         {
