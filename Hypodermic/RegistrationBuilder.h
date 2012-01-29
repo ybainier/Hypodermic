@@ -45,7 +45,16 @@ namespace Hypodermic
 		template <class ServiceT>
 		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > as();
 
+		template <class ServiceT>
+		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > named(const std::string& serviceName);
+
 	private:
+        template <class ServiceT>
+        std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > as(std::shared_ptr< Service > service);
+
+        template <class ServiceT>
+        std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > named(const std::string& serviceName, const std::type_info& serviceTypeInfo);
+
 		RegistrationData registrationData_;
 		std::shared_ptr< IInstanceActivator > activator_;
         RegistrationStyleT registrationStyle_;

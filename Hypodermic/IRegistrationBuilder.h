@@ -2,6 +2,7 @@
 # define	HYPODERMIC_IREGISTRATION_BUILDER_H_
 
 # include <memory>
+# include <string>
 # include <type_traits>
 # include <unordered_map>
 # include <vector>
@@ -37,6 +38,15 @@ namespace Hypodermic
                           "IRegistrationBuilder< T, RegistrationStyleT >::as< ServiceT >() requires T to be convertible to ServiceT");
 
 			return static_cast< RegistrationBuilder< T, RegistrationStyleT >* >(this)->as< ServiceT >();
+		}
+
+		template <class ServiceT>
+		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > named(const std::string& serviceName)
+		{
+            static_assert(std::is_same< T, ServiceT >::value || std::is_convertible< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
+                          "IRegistrationBuilder< T, RegistrationStyleT >::named< ServiceT >() requires T to be convertible to ServiceT");
+
+			return static_cast< RegistrationBuilder< T, RegistrationStyleT >* >(this)->named< ServiceT >(serviceName);
 		}
 	};
 

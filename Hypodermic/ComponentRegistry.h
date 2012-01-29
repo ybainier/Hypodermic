@@ -8,8 +8,8 @@
 # include <boost/thread.hpp>
 
 # include <Hypodermic/IComponentRegistry.h>
+# include <Hypodermic/ServiceKey.h>
 # include <Hypodermic/ServiceRegistrationInfo.h>
-# include <Hypodermic/TypeIndexWorkaround.h>
 
 
 namespace Hypodermic
@@ -19,7 +19,7 @@ namespace Hypodermic
 
 	class ComponentRegistry : public IComponentRegistry
 	{
-		typedef std::unordered_map< std::type_index, std::shared_ptr< ServiceRegistrationInfo > > ServiceRegistrationInfos;
+		typedef std::unordered_map< ServiceKey, std::shared_ptr< ServiceRegistrationInfo > > ServiceRegistrationInfos;
 
 	public:
 		std::shared_ptr< IComponentRegistration > getRegistration(std::shared_ptr< Service > service);

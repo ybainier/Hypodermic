@@ -84,9 +84,11 @@
     <ClInclude Include="ContainerBuilder.hpp" />
     <ClInclude Include="CurrentLifetimeScope.h" />
     <ClInclude Include="DelegateActivator.h" />
+    <ClInclude Include="DelegateActivator.hpp" />
     <ClInclude Include="DependencyResolutionException.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="IComponentContext.h" />
+    <ClInclude Include="IComponentContext.hpp" />
     <ClInclude Include="IComponentLifetime.h" />
     <ClInclude Include="IComponentRegistration.h" />
     <ClInclude Include="IComponentRegistry.h" />
@@ -103,6 +105,7 @@
     <ClInclude Include="IResolveOperation.h" />
     <ClInclude Include="ISharingLifetimeScope.h" />
     <ClInclude Include="ITypeCaster.h" />
+    <ClInclude Include="KeyedService.h" />
     <ClInclude Include="LifetimeScope.h" />
     <ClInclude Include="NullptrWorkaround.h" />
     <ClInclude Include="ProvidedInstanceActivator.h" />
@@ -115,6 +118,7 @@
     <ClInclude Include="ResolveOperation.h" />
     <ClInclude Include="RootScopeLifetime.h" />
     <ClInclude Include="Service.h" />
+    <ClInclude Include="ServiceKey.h" />
     <ClInclude Include="ServiceRegistrationInfo.h" />
     <ClInclude Include="SingleRegistrationStyle.h" />
     <ClInclude Include="TypeCaster.h" />
@@ -133,11 +137,13 @@
     <ClCompile Include="DependencyResolutionException.cpp" />
     <ClCompile Include="InstanceActivator.cpp" />
     <ClCompile Include="InstanceLookup.cpp" />
+    <ClCompile Include="KeyedService.cpp" />
     <ClCompile Include="LifetimeScope.cpp" />
     <ClCompile Include="RegistrationBuilderFactory.cpp" />
     <ClCompile Include="RegistrationData.cpp" />
     <ClCompile Include="ResolveOperation.cpp" />
     <ClCompile Include="RootScopeLifetime.cpp" />
+    <ClCompile Include="ServiceKey.cpp" />
     <ClCompile Include="ServiceRegistrationInfo.cpp" />
     <ClCompile Include="SingleRegistrationStyle.cpp" />
     <ClCompile Include="TypedService.cpp" />

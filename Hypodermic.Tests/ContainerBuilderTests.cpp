@@ -314,4 +314,31 @@ BOOST_AUTO_TEST_CASE(container_should_be_injectable_as_well)
     BOOST_CHECK(containerHolder != nullptr);
 }
 
+BOOST_AUTO_TEST_CASE(named_registrations_should_not_conflict_with_anonymous_ones)
+{
+    ContainerBuilder builder;
+
+    auto serviceA = std::make_shared< ServiceA >();
+    builder.registerInstance(serviceA)->as< IServiceA >();
+
+    builder.registerType< ServiceA >()->named< IServiceA >("whoami");
+
+    auto container = builder.build();
+
+    auto resolvedServiceA = container->resolve< IServiceA >();
+    auto whoami1 = container->resolveNamed< IServiceA >("whoami");
+    auto whoami2 = container->resolveNamed< IServiceA >("whoami");
+
+    BOOST_CHECK(resolvedServiceA != nullptr);
+    BOOST_CHECK(resolvedServiceA == serviceA);
+
+    BOOST_CHECK(whoami1 != nullptr);
+    BOOST_CHECK(whoami1 != serviceA);
+
+    BOOST_CHECK(whoami2 != nullptr);
+    BOOST_CHECK(whoami2 != serviceA);
+
+    BOOST_CHECK(whoami1 != whoami2);
+}
+
 BOOST_AUTO_TEST_SUITE_END();

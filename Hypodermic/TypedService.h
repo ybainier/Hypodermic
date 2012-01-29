@@ -14,6 +14,9 @@ namespace Hypodermic
 
 		const std::type_info& typeInfo() const;
 
+        bool operator==(const Service& rhs) const;
+        std::size_t hashValue() const;
+
 	private:
 		const std::type_info& typeInfo_;
 	};

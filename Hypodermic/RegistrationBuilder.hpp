@@ -77,13 +77,39 @@ namespace Hypodermic
     template <class ServiceT>
     std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::as()
     {
-        const std::type_info& serviceTypeInfo = typeid(ServiceT);
-        
-        registrationData_.addService(std::make_shared< TypedService >(serviceTypeInfo));
-        typeCasters_.insert(std::make_pair(std::type_index(serviceTypeInfo), std::make_shared< TypeCaster< T, ServiceT > >(serviceTypeInfo)));
+        return as< ServiceT >(std::make_shared< TypedService >(typeid(ServiceT)));
+    }
+
+    template <class T, class RegistrationStyleT>
+    template <class ServiceT>
+    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::as(std::shared_ptr< Service > service)
+    {
+        registrationData_.addService(service);
+        typeCasters_.insert(std::make_pair(std::type_index(service->typeInfo()),
+                                           std::make_shared< TypeCaster< T, ServiceT > >(service->typeInfo())));
 
         return this->shared_from_this();
     }
+
+
+    template <class T, class RegistrationStyleT>
+    template <class ServiceT>
+    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName)
+    {
+        if (serviceName.empty())
+            throw std::invalid_argument("serviceName");
+        return named< ServiceT >(serviceName, typeid(ServiceT));
+    }
+
+    template <class T, class RegistrationStyleT>
+    template <class ServiceT>
+    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName,
+                                                                                                                         const std::type_info& serviceTypeInfo)
+    {
+        return as< ServiceT >(std::make_shared< KeyedService >(serviceName, serviceTypeInfo));
+    }
+
+
 
 } // namespace Hypodermic
 
