@@ -25,27 +25,27 @@ namespace Hypodermic
 	}
 
 	template <class ServiceT>
-	std::shared_ptr< ServiceT > resolveNamed(const std::string& serviceName)
+	std::shared_ptr< ServiceT > IComponentContext::resolveNamed(const std::string& serviceName)
 	{
         auto service = std::make_shared< KeyedService >(serviceName, typeid(ServiceT));
 		return resolveService< ServiceT >(service);
 	}
 
     template <class ServiceT>
-    std::vector< std::shared_ptr< ServiceT > > resolveAll()
+    std::vector< std::shared_ptr< ServiceT > > IComponentContext::resolveAll()
     {
         return resolveAll< ServiceT >(typeid(ServiceT));
     }
 
 	template <class ServiceT>
-	std::vector< std::shared_ptr< ServiceT > > resolveAll(const std::type_info& serviceTypeInfo)
+	std::vector< std::shared_ptr< ServiceT > > IComponentContext::resolveAll(const std::type_info& serviceTypeInfo)
 	{
         auto service = std::make_shared< TypedService >(serviceTypeInfo);
 		return resolveAllForService< ServiceT >(service);
 	}
 
     template <class ServiceT>
-    std::shared_ptr< ServiceT > resolveService(std::shared_ptr< Service > service)
+    std::shared_ptr< ServiceT > IComponentContext::resolveService(std::shared_ptr< Service > service)
     {
         std::shared_ptr< IComponentRegistration > registration = componentRegistry()->getRegistration(service);
 
@@ -58,7 +58,7 @@ namespace Hypodermic
     }
 
 	template <class ServiceT>
-	std::vector< std::shared_ptr< ServiceT > > resolveAllForService(std::shared_ptr< Service > service)
+	std::vector< std::shared_ptr< ServiceT > > IComponentContext::resolveAllForService(std::shared_ptr< Service > service)
 	{
 		auto registrations = componentRegistry()->registrationsFor(service);
 			
