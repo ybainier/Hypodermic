@@ -152,6 +152,18 @@
     <ClInclude Include="NullptrWorkaround.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="KeyedService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IComponentContext.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DelegateActivator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LifetimeScope.cpp">
@@ -206,6 +218,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ContainerActivator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyedService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ServiceKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -5,12 +5,9 @@
 # include <typeinfo>
 # include <vector>
 
-# include <boost/foreach.hpp>
-
 # include <Hypodermic/IComponentRegistration.h>
 # include <Hypodermic/IComponentRegistry.h>
-# include <Hypodermic/NullptrWorkaround.h>
-# include <Hypodermic/TypedService.h>
+# include <Hypodermic/Service.h>
 
 
 namespace Hypodermic
@@ -22,66 +19,32 @@ namespace Hypodermic
 
 		virtual std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration) = 0;
 
-		template <class TService>
-		std::shared_ptr< TService > resolve()
-		{
-			return resolve< TService >(typeid(TService));
-		}
+		template <class ServiceT>
+        std::shared_ptr< ServiceT > resolve();
 
-		template <class TService>
-		std::shared_ptr< TService > resolve(const std::type_info& serviceTypeInfo)
-		{
-            auto service = std::make_shared< TypedService >(serviceTypeInfo);
-			return resolveService< TService >(service);
-		}
+		template <class ServiceT>
+        std::shared_ptr< ServiceT > resolve(const std::type_info& serviceTypeInfo);
 
-        template <class TService>
-        std::vector< std::shared_ptr< TService > > resolveAll()
-        {
-            return resolveAll< TService >(typeid(TService));
-        }
+		template <class ServiceT>
+        std::shared_ptr< ServiceT > resolveNamed(const std::string& serviceName);
 
-		template <class TService>
-		std::vector< std::shared_ptr< TService > > resolveAll(const std::type_info& serviceTypeInfo)
-		{
-            auto service = std::make_shared< TypedService >(serviceTypeInfo);
-			return resolveAllForService< TService >(service);
-		}
+        template <class ServiceT>
+        std::vector< std::shared_ptr< ServiceT > > resolveAll();
+
+		template <class ServiceT>
+		std::vector< std::shared_ptr< ServiceT > > resolveAll(const std::type_info& serviceTypeInfo);
 
     private:
-        template <class TService>
-        std::shared_ptr< TService > resolveService(std::shared_ptr< Service > service)
-        {
-            std::shared_ptr< IComponentRegistration > registration = componentRegistry()->getRegistration(service);
+        template <class ServiceT>
+        std::shared_ptr< ServiceT > resolveService(std::shared_ptr< Service > service);
 
-            if (registration == nullptr)
-                return std::shared_ptr< TService >();
-
-            std::shared_ptr< void > result = registration->castOrForward(service->typeInfo(), resolveComponent(registration));
-
-            return std::static_pointer_cast< TService >(result);
-        }
-
-		template <class TService>
-		std::vector< std::shared_ptr< TService > > resolveAllForService(std::shared_ptr< Service > service)
-		{
-			auto registrations = componentRegistry()->registrationsFor(service);
-			
-            std::vector< std::shared_ptr< TService > > allResults;
-
-            BOOST_FOREACH(auto registration, registrations)
-            {
-                std::shared_ptr< void > result = registration->castOrForward(service->typeInfo(),
-                                                                             resolveComponent(registration));
-                
-                allResults.push_back(std::static_pointer_cast< TService >(result));
-            }
-
-            return allResults;
-		}
+		template <class ServiceT>
+		std::vector< std::shared_ptr< ServiceT > > resolveAllForService(std::shared_ptr< Service > service);
 	};
 
 } // namespace Hypodermic
 
+
+# include <Hypodermic/IComponentContext.hpp>
 
 #endif /* !HYPODERMIC_ICOMPONENT_CONTEXT_H_ */

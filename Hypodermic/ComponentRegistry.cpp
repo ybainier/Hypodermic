@@ -50,14 +50,14 @@ namespace Hypodermic
 
     std::shared_ptr< ServiceRegistrationInfo > ComponentRegistry::getServiceInfo(std::shared_ptr< Service > service)
     {
-        std::type_index typeIndex(service->typeInfo());
+        ServiceKey key(service);
 
-        auto it = serviceInfo_.find(typeIndex);
+        auto it = serviceInfo_.find(key);
         if (it != serviceInfo_.end())
             return it->second;
 
         auto info = std::make_shared< ServiceRegistrationInfo >(service);
-        serviceInfo_.insert(ServiceRegistrationInfos::value_type(typeIndex, info));
+        serviceInfo_.insert(ServiceRegistrationInfos::value_type(key, info));
         return info;
     }
 

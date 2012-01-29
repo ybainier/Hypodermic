@@ -23,9 +23,11 @@ set(Hypodermic_headers
     Container.h
     CurrentLifetimeScope.h
     DelegateActivator.h
+	DelegateActivator.hpp
     DependencyResolutionException.h
     Helpers.h
     IComponentContext.h
+	IComponentContext.hpp
     IComponentLifetime.h
     IComponentRegistration.h
     IComponentRegistry.h
@@ -43,6 +45,7 @@ set(Hypodermic_headers
     ISharingLifetimeScope.h
     ITypeCaster.h
     LifetimeScope.h
+	KeyedService.h
     NullptrWorkaround.h
     ProvidedInstanceActivator.h
     ProvidedInstanceActivator.hpp
@@ -54,6 +57,7 @@ set(Hypodermic_headers
     ResolveOperation.h
     RootScopeLifetime.h
     Service.h
+	ServiceKey.h
     ServiceRegistrationInfo.h
     SingleRegistrationStyle.h
     TypeCaster.h
@@ -73,11 +77,13 @@ set(Hypodermic_sources
     DependencyResolutionException.cpp
     InstanceActivator.cpp
     InstanceLookup.cpp
+	KeyedService.cpp
     LifetimeScope.cpp
     RegistrationBuilderFactory.cpp
     RegistrationData.cpp
     ResolveOperation.cpp
     RootScopeLifetime.cpp
+	ServiceKey.cpp
     ServiceRegistrationInfo.cpp
     SingleRegistrationStyle.cpp
     TypedService.cpp
