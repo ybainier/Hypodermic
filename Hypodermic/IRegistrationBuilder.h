@@ -34,8 +34,8 @@ namespace Hypodermic
 		template <class ServiceT>
 		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > as()
 		{
-            static_assert(std::is_same< T, ServiceT >::value || std::is_convertible< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
-                          "IRegistrationBuilder< T, RegistrationStyleT >::as< ServiceT >() requires T to be convertible to ServiceT");
+            static_assert(std::is_same< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
+                          "IRegistrationBuilder< T, RegistrationStyleT >::as< ServiceT >() requires ServiceT to be base of T");
 
 			return static_cast< RegistrationBuilder< T, RegistrationStyleT >* >(this)->as< ServiceT >();
 		}
@@ -43,8 +43,8 @@ namespace Hypodermic
 		template <class ServiceT>
 		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > named(const std::string& serviceName)
 		{
-            static_assert(std::is_same< T, ServiceT >::value || std::is_convertible< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
-                          "IRegistrationBuilder< T, RegistrationStyleT >::named< ServiceT >() requires T to be convertible to ServiceT");
+            static_assert(std::is_same< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
+                          "IRegistrationBuilder< T, RegistrationStyleT >::as< ServiceT >() requires ServiceT to be base of T");
 
 			return static_cast< RegistrationBuilder< T, RegistrationStyleT >* >(this)->named< ServiceT >(serviceName);
 		}
