@@ -15,7 +15,9 @@
 
 namespace Hypodermic
 {
+    template <class T> struct ArgResolver;
     template <class Signature> struct AutowiredConstructor {};
+
 
     template <class T>
     struct AutowiredConstructor< T() >
@@ -41,7 +43,7 @@ namespace Hypodermic
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1 >());
+                return new T(ArgResolver< Arg1 >::resolve(c));
             };
         }
     };
@@ -57,167 +59,161 @@ namespace Hypodermic
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1, Arg2 >());
+                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >());
             };
         }
     };
 
-    //template <class T, class Arguments = boost::mpl::vector<> >
-    //struct AutowiredConstructor
-    //{
-    //    static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
+    template <class T, class Arg1, class Arg2, class Arg3>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-    //    typedef T ConstructibleType;
-    //    typedef AutowiredConstructor< T, Arguments > Signature;
+        typedef T ConstructibleType;
 
-    //    template <class ServiceT>
-    //    struct Inject
-    //    {
-    //        typedef typename AutowiredConstructor
-    //                <
-    //                    T,
-    //                    typename boost::mpl::push_back< Arguments, ServiceT >::type
-    //                >::Signature Signature;
-    //    };
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >());
+            };
+        }
+    };
 
+    template <class T, class Arg1, class Arg2, class Arg3, class Arg4>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3, Arg4) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-    //    typedef std::function< T*(IComponentContext&) > Delegate;
-    //    static Delegate createDelegate()
-    //    {
-    //        return createDelegate(boost::mpl::int_< boost::mpl::size< Arguments >::value >());
-    //    }
+        typedef T ConstructibleType;
 
-    //private:
-    //    static Delegate createDelegate(boost::mpl::int_< 0 > dummy)
-    //    {
-    //        return [](IComponentContext&) -> T* { return new T(); };
-    //    }
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >());
+            };
+        }
+    };
 
-    //    static Delegate createDelegate(boost::mpl::int_< 1 > dummy)
-    //    {
-    //        return [](IComponentContext& c) -> T*
-    //        {
-    //            return new T(c.resolve< typename boost::mpl::at_c< Arguments, 0 >::type >());
-    //        };
-    //    }
+    template <class T, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3, Arg4, Arg5) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-    //    static Delegate createDelegate(boost::mpl::int_< 2 > dummy)
-    //    {
-    //        return [](IComponentContext& c) -> T*
-    //        {
-    //            return new T(c.resolve< typename boost::mpl::at_c< Arguments, 0 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 1 >::type >());
-    //        };
-    //    }
+        typedef T ConstructibleType;
 
-    //    static Delegate createDelegate(boost::mpl::int_< 3 > dummy)
-    //    {
-    //        return [](IComponentContext& c) -> T*
-    //        {
-    //            return new T(c.resolve< typename boost::mpl::at_c< Arguments, 0 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 1 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 2 >::type >());
-    //        };
-    //    }
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >());
+            };
+        }
+    };
 
-    //    static Delegate createDelegate(boost::mpl::int_< 4 > dummy)
-    //    {
-    //        return [](IComponentContext& c) -> T*
-    //        {
-    //            return new T(c.resolve< typename boost::mpl::at_c< Arguments, 0 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 1 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 2 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 3 >::type >());
-    //        };
-    //    }
+    template <class T, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-    //    static Delegate createDelegate(boost::mpl::int_< 5 > dummy)
-    //    {
-    //        return [](IComponentContext& c) -> T*
-    //        {
-    //            return new T(c.resolve< typename boost::mpl::at_c< Arguments, 0 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 1 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 2 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 3 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 4 >::type >());
-    //        };
-    //    }
+        typedef T ConstructibleType;
 
-    //    static Delegate createDelegate(boost::mpl::int_< 6 > dummy)
-    //    {
-    //        return [](IComponentContext& c) -> T*
-    //        {
-    //            return new T(c.resolve< typename boost::mpl::at_c< Arguments, 0 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 1 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 2 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 3 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 4 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 5 >::type >());
-    //        };
-    //    }
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >(),
+                             c.resolve< Arg6 >());
+            };
+        }
+    };
 
-    //    static Delegate createDelegate(boost::mpl::int_< 7 > dummy)
-    //    {
-    //        return [](IComponentContext& c) -> T*
-    //        {
-    //            return new T(c.resolve< typename boost::mpl::at_c< Arguments, 0 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 1 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 2 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 3 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 4 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 5 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 6 >::type >());
-    //        };
-    //    }
+    template <class T, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-    //    static Delegate createDelegate(boost::mpl::int_< 8 > dummy)
-    //    {
-    //        return [](IComponentContext& c) -> T*
-    //        {
-    //            return new T(c.resolve< typename boost::mpl::at_c< Arguments, 0 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 1 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 2 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 3 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 4 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 5 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 6 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 7 >::type >());
-    //        };
-    //    }
+        typedef T ConstructibleType;
 
-    //    static Delegate createDelegate(boost::mpl::int_< 9 > dummy)
-    //    {
-    //        return [](IComponentContext& c) -> T*
-    //        {
-    //            return new T(c.resolve< typename boost::mpl::at_c< Arguments, 0 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 1 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 2 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 3 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 4 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 5 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 6 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 7 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 8 >::type >());
-    //        };
-    //    }
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >(),
+                             c.resolve< Arg6 >(), c.resolve< Arg7 >());
+            };
+        }
+    };
 
-    //    static Delegate createDelegate(boost::mpl::int_< 10 > dummy)
-    //    {
-    //        return [](IComponentContext& c) -> T*
-    //        {
-    //            return new T(c.resolve< typename boost::mpl::at_c< Arguments, 0 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 1 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 2 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 3 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 4 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 5 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 6 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 7 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 8 >::type >(),
-    //                         c.resolve< typename boost::mpl::at_c< Arguments, 9 >::type >());
-    //        };
-    //    }
-    //};
+    template <class T, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7, class Arg8>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
+
+        typedef T ConstructibleType;
+
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >(),
+                             c.resolve< Arg6 >(), c.resolve< Arg7 >(), c.resolve< Arg8 >());
+            };
+        }
+    };
+
+    template <class T, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7, class Arg8, class Arg9>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
+
+        typedef T ConstructibleType;
+
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >(),
+                             c.resolve< Arg6 >(), c.resolve< Arg7 >(), c.resolve< Arg8 >(), c.resolve< Arg9 >());
+            };
+        }
+    };
+
+    template <class T, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7, class Arg8, class Arg9, class Arg10>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9, Arg10) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
+
+        typedef T ConstructibleType;
+
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >(),
+                             c.resolve< Arg6 >(), c.resolve< Arg7 >(), c.resolve< Arg8 >(), c.resolve< Arg9 >(), c.resolve< Arg10 >());
+            };
+        }
+    };
+
+    template <class T>
+    struct ArgResolver
+    {
+        static std::shared_ptr< T > resolve(IComponentContext& c)
+        {
+            return c.resolve< T >();
+        }
+    };
+
+    template <class T>
+    struct ArgResolver< std::vector< T > >
+    {
+        static std::vector< std::shared_ptr< T > > resolve(IComponentContext& c)
+        {
+            return c.resolveAll< T >();
+        }
+    };
 
 } // namespace Hypodermic
 

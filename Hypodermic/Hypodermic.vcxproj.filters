@@ -167,9 +167,6 @@
     <ClInclude Include="AutowiredConstructor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AutowiredType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LifetimeScope.cpp">

@@ -1,7 +1,7 @@
 #define BOOST_TEST_MODULE Hypodermic
 #include <boost/test/unit_test.hpp>
 
-#include <Hypodermic/AutowiredType.h>
+#include <Hypodermic/AutowiredConstructor.h>
 #include <Hypodermic/ContainerBuilder.h>
 #include <Hypodermic/Container.h>
 #include <Hypodermic/Helpers.h>
@@ -28,10 +28,7 @@ struct IRunWithScissors
 
 struct ServiceA : IServiceA, IRunWithScissors
 {
-    typedef AutowiredType
-    <
-        AutowiredConstructor< ServiceA() >
-    >::As< IServiceA >::Registration::As< IRunWithScissors >::Registration AutowiredTypeRegistration;
+    typedef AutowiredConstructor< ServiceA() > AutowiredConstructor;
 };
 
 struct IServiceB
@@ -43,11 +40,7 @@ struct IServiceB
 
 struct ServiceB : IServiceB
 {
-    typedef AutowiredType
-    <
-        AutowiredConstructor< ServiceB(IServiceA) >
-    >::As< IServiceB >::Registration AutowiredTypeRegistration;
-
+    typedef AutowiredConstructor< ServiceB(IServiceA) > AutowiredConstructor;
 	ServiceB(std::shared_ptr< IServiceA > serviceA)
         : serviceA_(serviceA)
 	{
@@ -60,6 +53,7 @@ private:
 
 struct ServiceRunningWithScissors : IServiceB
 {
+    typedef AutowiredConstructor< ServiceRunningWithScissors(IRunWithScissors) > AutowiredConstructor;
     ServiceRunningWithScissors(std::shared_ptr< IRunWithScissors > serviceA)
         : serviceA_(serviceA)
     {
@@ -72,6 +66,7 @@ private:
 
 struct ServiceBController
 {
+    typedef AutowiredConstructor< ServiceBController(std::vector< IServiceB >) > AutowiredConstructor;
     ServiceBController(const std::vector< std::shared_ptr< IServiceB > >& serviceBs)
         : serviceBs_(serviceBs)
     {
@@ -354,17 +349,34 @@ BOOST_AUTO_TEST_CASE(named_registrations_should_not_conflict_with_anonymous_ones
 BOOST_AUTO_TEST_CASE(autowired_registration_follows_the_usual_registration_rules)
 {
     ContainerBuilder c;
-    c.autowireType< ServiceA >();
+    c.autowireType< ServiceA >()->as< IServiceA >();
     c.autowireType< ServiceB >()->singleInstance();
 
     auto container = c.build();
 
-    auto serviceB = container->resolve< IServiceB >();
-    auto nullServiceB = container->resolve< ServiceB >();
+    auto serviceB = container->resolve< ServiceB >();
+    auto nullServiceB = container->resolve< IServiceB >();
 
     BOOST_CHECK(serviceB != nullptr);
     BOOST_CHECK(nullServiceB == nullptr);
-    BOOST_CHECK(serviceB == container->resolve< IServiceB >());
+    BOOST_CHECK(serviceB == container->resolve< ServiceB >());
+}
+
+BOOST_AUTO_TEST_CASE(autowired_registration_can_resolved_all_services)
+{
+    ContainerBuilder c;
+    c.autowireType< ServiceA >()->as< IServiceA >()->as< IRunWithScissors >();
+
+    c.autowireType< ServiceB >()->as< IServiceB >();
+    c.autowireType< ServiceRunningWithScissors >()->as< IServiceB >();
+
+    c.autowireType< ServiceBController >();
+
+    auto container = c.build();
+
+    auto serviceBController = container->resolve< ServiceBController >();
+
+    BOOST_CHECK(serviceBController != nullptr);
 }
 
 BOOST_AUTO_TEST_SUITE_END();

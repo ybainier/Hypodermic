@@ -75,7 +75,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AutowiredConstructor.h" />
-    <ClInclude Include="AutowiredType.h" />
     <ClInclude Include="BoostUuidHashFunctor.h" />
     <ClInclude Include="CircularDependencyDetector.h" />
     <ClInclude Include="ComponentRegistration.h" />
