@@ -14,31 +14,9 @@ namespace Hypodermic
 {
 
     template <class T>
-    struct AutowiringHelper
-    {
-        AutowiringHelper(std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > rb)
-            : rb_(rb)
-        {
-        }
-
-        template <class U> void operator()(U& /* dummy */)
-        {
-            rb_->as< U >();
-        }
-
-    private:
-        std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > rb_;
-    };
-
-
-    template <class T>
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::autowireType()
     {
-        typedef T::AutowiredTypeRegistration AutowiredTypeRegistration;
-        auto rb = RegistrationBuilderFactory::forDelegate(typename AutowiredTypeRegistration::ConstructorFactory::createDelegate());
-
-        AutowiringHelper< T > helper(rb);
-        boost::mpl::for_each< AutowiredTypeRegistration::Services >(helper);
+        auto rb = RegistrationBuilderFactory::forDelegate(typename T::AutowiredConstructor::createDelegate());
 
         registerCallback(
             [rb](std::shared_ptr< IComponentRegistry > cr) -> void
