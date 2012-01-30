@@ -13,6 +13,8 @@ endif()
 include_directories("..")
 
 set(Hypodermic_headers
+	AutowiredConstructor.h
+	AutowiredType.h
     BoostUuidHashFunctor.h
     CircularDependencyDetector.h
     ComponentRegistration.h
