@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_SERVICE_H_
 # define	HYPODERMIC_SERVICE_H_
 
+# include <cstddef>
 # include <typeinfo>
 
 

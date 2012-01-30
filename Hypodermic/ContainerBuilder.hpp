@@ -16,7 +16,8 @@ namespace Hypodermic
     template <class T>
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::autowireType()
     {
-        auto rb = RegistrationBuilderFactory::forDelegate(typename T::AutowiredConstructor::createDelegate());
+        typedef typename T::AutowiredSignature AutowiredSignature;
+        auto rb = RegistrationBuilderFactory::forDelegate(AutowiredSignature::createDelegate());
 
         registerCallback(
             [rb](std::shared_ptr< IComponentRegistry > cr) -> void
