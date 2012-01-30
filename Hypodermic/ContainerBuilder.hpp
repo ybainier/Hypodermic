@@ -3,6 +3,7 @@
 #  define   HYPODERMIC_CONTAINER_BUILDER_HPP_
 
 # include <type_traits>
+# include <boost/mpl/for_each.hpp>
 
 # include <Hypodermic/RegistrationBuilder.h>
 # include <Hypodermic/RegistrationBuilderFactory.h>
@@ -11,6 +12,42 @@
 
 namespace Hypodermic
 {
+
+    template <class T>
+    struct AutowiringHelper
+    {
+        AutowiringHelper(std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > rb)
+            : rb_(rb)
+        {
+        }
+
+        template <class U> void operator()(U& /* dummy */)
+        {
+            rb_->as< U >();
+        }
+
+    private:
+        std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > rb_;
+    };
+
+
+    template <class T>
+    std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::autowireType()
+    {
+        typedef T::AutowiredTypeRegistration AutowiredTypeRegistration;
+        auto rb = RegistrationBuilderFactory::forDelegate(typename AutowiredTypeRegistration::ConstructorFactory::createDelegate());
+
+        AutowiringHelper< T > helper(rb);
+        boost::mpl::for_each< AutowiredTypeRegistration::Services >(helper);
+
+        registerCallback(
+            [rb](std::shared_ptr< IComponentRegistry > cr) -> void
+            {
+                RegistrationBuilderFactory::registerSingleComponent(cr, rb);
+            });
+
+        return rb;
+    }
 
     template <class T>
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(std::function< T*(IComponentContext&) > delegate)

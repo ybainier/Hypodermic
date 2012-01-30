@@ -1,6 +1,7 @@
 #define BOOST_TEST_MODULE Hypodermic
 #include <boost/test/unit_test.hpp>
 
+#include <Hypodermic/AutowiredType.h>
 #include <Hypodermic/ContainerBuilder.h>
 #include <Hypodermic/Container.h>
 #include <Hypodermic/Helpers.h>
@@ -27,6 +28,10 @@ struct IRunWithScissors
 
 struct ServiceA : IServiceA, IRunWithScissors
 {
+    typedef AutowiredType
+    <
+        AutowiredConstructor< ServiceA() >
+    >::As< IServiceA >::Registration::As< IRunWithScissors >::Registration AutowiredTypeRegistration;
 };
 
 struct IServiceB
@@ -38,6 +43,11 @@ struct IServiceB
 
 struct ServiceB : IServiceB
 {
+    typedef AutowiredType
+    <
+        AutowiredConstructor< ServiceB(IServiceA) >
+    >::As< IServiceB >::Registration AutowiredTypeRegistration;
+
 	ServiceB(std::shared_ptr< IServiceA > serviceA)
         : serviceA_(serviceA)
 	{
@@ -339,6 +349,22 @@ BOOST_AUTO_TEST_CASE(named_registrations_should_not_conflict_with_anonymous_ones
     BOOST_CHECK(whoami2 != serviceA);
 
     BOOST_CHECK(whoami1 != whoami2);
+}
+
+BOOST_AUTO_TEST_CASE(autowired_registration_follows_the_usual_registration_rules)
+{
+    ContainerBuilder c;
+    c.autowireType< ServiceA >();
+    c.autowireType< ServiceB >()->singleInstance();
+
+    auto container = c.build();
+
+    auto serviceB = container->resolve< IServiceB >();
+    auto nullServiceB = container->resolve< ServiceB >();
+
+    BOOST_CHECK(serviceB != nullptr);
+    BOOST_CHECK(nullServiceB == nullptr);
+    BOOST_CHECK(serviceB == container->resolve< IServiceB >());
 }
 
 BOOST_AUTO_TEST_SUITE_END();

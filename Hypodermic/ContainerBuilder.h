@@ -25,6 +25,9 @@ namespace Hypodermic
 		ContainerBuilder();
 
 		template <class T>
+		std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > autowireType();
+
+        template <class T>
         std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType(std::function< T*(IComponentContext&) > delegate);
 
 		template <class T>
