@@ -28,7 +28,7 @@ struct IRunWithScissors
 
 struct ServiceA : IServiceA, IRunWithScissors
 {
-    typedef AutowiredConstructor< ServiceA() > AutowiredConstructor;
+    typedef AutowiredConstructor< ServiceA() > AutowiredSignature;
 };
 
 struct IServiceB
@@ -40,7 +40,7 @@ struct IServiceB
 
 struct ServiceB : IServiceB
 {
-    typedef AutowiredConstructor< ServiceB(IServiceA) > AutowiredConstructor;
+    typedef AutowiredConstructor< ServiceB(IServiceA) > AutowiredSignature;
 	ServiceB(std::shared_ptr< IServiceA > serviceA)
         : serviceA_(serviceA)
 	{
@@ -53,7 +53,7 @@ private:
 
 struct ServiceRunningWithScissors : IServiceB
 {
-    typedef AutowiredConstructor< ServiceRunningWithScissors(IRunWithScissors) > AutowiredConstructor;
+    typedef AutowiredConstructor< ServiceRunningWithScissors(IRunWithScissors) > AutowiredSignature;
     ServiceRunningWithScissors(std::shared_ptr< IRunWithScissors > serviceA)
         : serviceA_(serviceA)
     {
@@ -66,7 +66,7 @@ private:
 
 struct ServiceBController
 {
-    typedef AutowiredConstructor< ServiceBController(std::vector< IServiceB >) > AutowiredConstructor;
+    typedef AutowiredConstructor< ServiceBController(std::vector< IServiceB >) > AutowiredSignature;
     ServiceBController(const std::vector< std::shared_ptr< IServiceB > >& serviceBs)
         : serviceBs_(serviceBs)
     {
