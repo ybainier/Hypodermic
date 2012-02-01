@@ -13,7 +13,7 @@ endif()
 include_directories("..")
 
 set(Hypodermic_headers
-	AutowiredConstructor.h
+    AutowiredConstructor.h
     BoostUuidHashFunctor.h
     CircularDependencyDetector.h
     ComponentRegistration.h
@@ -24,11 +24,11 @@ set(Hypodermic_headers
     Container.h
     CurrentLifetimeScope.h
     DelegateActivator.h
-	DelegateActivator.hpp
+    DelegateActivator.hpp
     DependencyResolutionException.h
     Helpers.h
     IComponentContext.h
-	IComponentContext.hpp
+    IComponentContext.hpp
     IComponentLifetime.h
     IComponentRegistration.h
     IComponentRegistry.h
@@ -46,7 +46,7 @@ set(Hypodermic_headers
     ISharingLifetimeScope.h
     ITypeCaster.h
     LifetimeScope.h
-	KeyedService.h
+    KeyedService.h
     NullptrWorkaround.h
     ProvidedInstanceActivator.h
     ProvidedInstanceActivator.hpp
@@ -58,7 +58,7 @@ set(Hypodermic_headers
     ResolveOperation.h
     RootScopeLifetime.h
     Service.h
-	ServiceKey.h
+    ServiceKey.h
     ServiceRegistrationInfo.h
     SingleRegistrationStyle.h
     TypeCaster.h
@@ -78,23 +78,28 @@ set(Hypodermic_sources
     DependencyResolutionException.cpp
     InstanceActivator.cpp
     InstanceLookup.cpp
-	KeyedService.cpp
+    KeyedService.cpp
     LifetimeScope.cpp
     RegistrationBuilderFactory.cpp
     RegistrationData.cpp
     ResolveOperation.cpp
     RootScopeLifetime.cpp
-	ServiceKey.cpp
+    ServiceKey.cpp
     ServiceRegistrationInfo.cpp
     SingleRegistrationStyle.cpp
     TypedService.cpp
 )
 
-add_library(Hypodermic ${Hypodermic_sources})
+add_library(HypodermicShared SHARED ${Hypodermic_sources})
+set_target_properties(HypodermicShared PROPERTIES OUTPUT_NAME hypodermic)
+set_target_properties(HypodermicShared PROPERTIES VERSION ${HYPODERMIC_VERSION})
+set_target_properties(HypodermicShared PROPERTIES SOVERSION ${HYPODERMIC_VERSION_MAJOR})
 
+add_library(HypodermicStatic STATIC ${Hypodermic_sources})
+set_target_properties(HypodermicStatic PROPERTIES OUTPUT_NAME hypodermic)
 
 install(FILES ${Hypodermic_headers} DESTINATION include/Hypodermic)
-install(TARGETS Hypodermic
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
+install(TARGETS HypodermicShared HypodermicStatic
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
 )

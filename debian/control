@@ -1,0 +1,27 @@
+Source: hypodermic
+Homepage: http://code.google.com/p/hypodermic/
+Section: libs
+Priority: optional
+Maintainer: Bertrand Blackburn <address@hidden.com>
+Build-Depends: debhelper (>= 7), libboost1.46-dev | libboost1.48-dev, g++ (>= 4.5)
+Standards-Version: 3.9.1
+
+Package: libhypodermic0
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Hypodermic A C++ IoC container
+ Hypodermic is an IoC container for C++11. It provides dependency injection
+ to your existing design.
+ .
+ This package contains the shared library files.
+
+Package: libhypodermic-dev
+Architecture: any
+Section: libdevel
+Depends: ${shlibs:Depends}, ${misc:Depends}, libhypodermic0 (= ${binary:Version})
+Description: Hypodermic A C++ IoC container
+ Hypodermic is an IoC container for C++11. It provides dependency injection
+ to your existing design.
+ .
+ This package contains the necessary symlinks, headers and object files needed
+ to develop.
