@@ -3,7 +3,7 @@ Homepage: http://code.google.com/p/hypodermic/
 Section: libs
 Priority: optional
 Maintainer: Bertrand Blackburn <address@hidden.com>
-Build-Depends: debhelper (>= 7), libboost1.46-dev | libboost1.48-dev, g++ (>= 4.5)
+Build-Depends: debhelper (>= 7), libboost1.46-dev | libboost1.48-dev, g++ (>= 4.5), cmake (>= 2.6)
 Standards-Version: 3.9.1
 
 Package: libhypodermic0
