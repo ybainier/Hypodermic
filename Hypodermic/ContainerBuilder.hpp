@@ -17,6 +17,8 @@ namespace Hypodermic
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::autowireType()
     {
         typedef typename T::AutowiredSignature AutowiredSignature;
+        static_assert(AutowiredSignature::IsSignatureRecognized::value, "Unable to use this autowired constructor.");
+
         auto rb = RegistrationBuilderFactory::forDelegate(AutowiredSignature::createDelegate());
 
         registerCallback(
@@ -32,7 +34,7 @@ namespace Hypodermic
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(std::function< T*(IComponentContext&) > delegate)
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
-                      "ContainerBuilder::registerType< T >() is incompatible with POD types");
+                      "ContainerBuilder::registerType< T >() is incompatible with POD types.");
 
         auto rb = RegistrationBuilderFactory::forDelegate(delegate);
 
@@ -49,7 +51,7 @@ namespace Hypodermic
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType()
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
-                      "ContainerBuilder::registerType< T >() is incompatible with POD types");
+                      "ContainerBuilder::registerType< T >() is incompatible with POD types.");
 
         auto rb = RegistrationBuilderFactory::forType< T >();
 
@@ -66,7 +68,7 @@ namespace Hypodermic
     std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerInstance(std::shared_ptr< T > instance)
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
-                      "ContainerBuilder::registerType< T >(std::shared_ptr< T > instance) is incompatible with POD types");
+                      "ContainerBuilder::registerType< T >(std::shared_ptr< T > instance) is incompatible with POD types.");
 
         auto rb = RegistrationBuilderFactory::forInstance(instance);
 
@@ -77,7 +79,7 @@ namespace Hypodermic
             {
                 auto rootScopeLifetime = std::dynamic_pointer_cast< RootScopeLifetime >(rb->registrationData().lifetime());
                 if (rootScopeLifetime == nullptr || rb->registrationData().sharing() != InstanceSharing::Shared)
-                    throw std::logic_error("Instance registration is single instance only");
+                    throw std::logic_error("Instance registration is single instance only.");
 
                 RegistrationBuilderFactory::registerSingleComponent(cr, rb);
             });

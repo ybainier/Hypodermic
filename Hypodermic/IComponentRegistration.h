@@ -24,6 +24,8 @@ namespace Hypodermic
 	class IComponentRegistration
 	{
 	public:
+        virtual ~IComponentRegistration() {}
+
 		virtual std::shared_ptr< IInstanceActivator > activator() = 0;
         
         virtual std::shared_ptr< IComponentLifetime > lifetime() = 0;

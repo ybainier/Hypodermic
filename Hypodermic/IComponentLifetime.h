@@ -13,6 +13,8 @@ namespace Hypodermic
     class IComponentLifetime
     {
     public:
+        virtual ~IComponentLifetime() {}
+
         virtual std::shared_ptr< ISharingLifetimeScope > findScope(std::shared_ptr< ISharingLifetimeScope > mostNestedVisibleScope) = 0;
     };
 

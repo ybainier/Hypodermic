@@ -15,6 +15,8 @@ namespace Hypodermic
 	class IComponentContext
 	{
 	public:
+        virtual ~IComponentContext() {}
+
 		virtual std::shared_ptr< IComponentRegistry > componentRegistry() = 0;
 
 		virtual std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration) = 0;

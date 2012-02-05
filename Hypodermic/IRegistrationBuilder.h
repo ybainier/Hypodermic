@@ -21,6 +21,8 @@ namespace Hypodermic
 	class IRegistrationBuilder
 	{
 	public:
+        virtual ~IRegistrationBuilder() {}
+
 		virtual RegistrationData& registrationData() = 0;
 		virtual std::shared_ptr< IInstanceActivator > activator() = 0;
         virtual RegistrationStyleT& registrationStyle() = 0;
