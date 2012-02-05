@@ -8,6 +8,8 @@ namespace Hypodermic
     class IInitializable
     {
     public:
+        virtual ~IInitializable() {}
+
         virtual void initialize() = 0;
     };
 

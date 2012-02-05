@@ -14,38 +14,41 @@ using namespace Hypodermic;
 
 struct IServiceA
 {
-    virtual ~IServiceA()
-    {
-    }
+    virtual ~IServiceA() {}
+    virtual void act() = 0;
 };
 
 struct IRunWithScissors
 {
-    virtual ~IRunWithScissors()
-    {
-    }
+    virtual ~IRunWithScissors() {}
+    virtual void run() = 0;
 };
 
 struct ServiceA : IServiceA, IRunWithScissors
 {
     typedef AutowiredConstructor< ServiceA() > AutowiredSignature;
+
+    void act() {}
+    void run() {}
 };
 
 struct IServiceB
 {
-    virtual ~IServiceB()
-    {
-    }
+    virtual ~IServiceB() {}
+    virtual void act() = 0;
 };
 
 struct ServiceB : IServiceB
 {
-    typedef AutowiredConstructor< ServiceB(IServiceA) > AutowiredSignature;
-	ServiceB(std::shared_ptr< IServiceA > serviceA)
+    typedef AutowiredConstructor< ServiceB(IServiceA*) > AutowiredSignature;
+
+    ServiceB(std::shared_ptr< IServiceA > serviceA)
         : serviceA_(serviceA)
 	{
         BOOST_ASSERT(serviceA != nullptr);
 	}
+
+    void act() {}
 
 private:
     std::shared_ptr< IServiceA > serviceA_;
@@ -53,12 +56,15 @@ private:
 
 struct ServiceRunningWithScissors : IServiceB
 {
-    typedef AutowiredConstructor< ServiceRunningWithScissors(IRunWithScissors) > AutowiredSignature;
+    typedef AutowiredConstructor< ServiceRunningWithScissors(IRunWithScissors*) > AutowiredSignature;
+
     ServiceRunningWithScissors(std::shared_ptr< IRunWithScissors > serviceA)
         : serviceA_(serviceA)
     {
         BOOST_ASSERT(serviceA != nullptr);
     }
+
+    void act() {}
 
 private:
     std::shared_ptr< IRunWithScissors > serviceA_;
@@ -66,7 +72,8 @@ private:
 
 struct ServiceBController
 {
-    typedef AutowiredConstructor< ServiceBController(std::vector< IServiceB >) > AutowiredSignature;
+    typedef AutowiredConstructor< ServiceBController(std::vector< IServiceB* >) > AutowiredSignature;
+
     ServiceBController(const std::vector< std::shared_ptr< IServiceB > >& serviceBs)
         : serviceBs_(serviceBs)
     {

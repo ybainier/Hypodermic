@@ -4,19 +4,59 @@
 # include <functional>
 # include <type_traits>
 
-# include <boost/mpl/at.hpp>
-# include <boost/mpl/int.hpp>
-# include <boost/mpl/push_back.hpp>
-# include <boost/mpl/size.hpp>
-# include <boost/mpl/vector.hpp>
-
 # include <Hypodermic/IComponentContext.h>
 
 
 namespace Hypodermic
 {
-    template <class T> struct ArgResolver;
-    template <class Signature> struct AutowiredConstructor {};
+    template <bool> struct BoolType : std::true_type {};
+
+    template <> struct BoolType< false > : std::false_type {};
+
+    /*
+     * T should be a pointer type or an std::vector of pointer type.
+     * Examples:
+     *   - AutowiredConstructor< Foo(IBar*) >
+     *   - AutowiredConstructor< Bar(std::vector< IBaz* >) >
+     *   - AutowiredConstructor< Baz() >
+     */
+    template <class T> struct ArgResolver
+    {
+        typedef std::false_type IsResolvable;
+    };
+
+    template <class T>
+    struct ArgResolver< T* >
+    {
+        typedef std::true_type IsResolvable;
+
+        static std::shared_ptr< T > resolve(IComponentContext& c)
+        {
+            return c.resolve< T >();
+        }
+    };
+
+    template <class T>
+    struct ArgResolver< std::vector< T* > >
+    {
+        typedef std::true_type IsResolvable;
+
+        static std::vector< std::shared_ptr< T > > resolve(IComponentContext& c)
+        {
+            return c.resolveAll< T >();
+        }
+    };
+
+    /*
+     * Examples:
+     *   - AutowiredConstructor< Foo(IBar*) >
+     *   - AutowiredConstructor< Bar(std::vector< IBaz* >) >
+     *   - AutowiredConstructor< Baz() >
+     */
+    template <class Signature> struct AutowiredConstructor
+    {
+        typedef std::false_type IsSignatureRecognized;
+    };
 
 
     template <class T>
@@ -24,11 +64,14 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef std::true_type IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext&) -> T* { return new T(); };
+            return [](IComponentContext&) -> T*
+            {
+                return new T();
+            };
         }
     };
 
@@ -37,7 +80,7 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value > IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
@@ -53,13 +96,14 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value > IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >());
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c));
             };
         }
     };
@@ -69,13 +113,16 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value > IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >());
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c));
             };
         }
     };
@@ -85,13 +132,17 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value
+                       && ArgResolver< Arg4 >::IsResolvable::value > IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >());
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c));
             };
         }
     };
@@ -101,13 +152,19 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value
+                       && ArgResolver< Arg4 >::IsResolvable::value
+                       && ArgResolver< Arg5 >::IsResolvable::value > IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >());
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
+                             ArgResolver< Arg5 >::resolve(c));
             };
         }
     };
@@ -117,14 +174,20 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value
+                       && ArgResolver< Arg4 >::IsResolvable::value
+                       && ArgResolver< Arg5 >::IsResolvable::value
+                       && ArgResolver< Arg6 >::IsResolvable::value > IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >(),
-                             c.resolve< Arg6 >());
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
+                             ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c));
             };
         }
     };
@@ -134,14 +197,22 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value
+                       && ArgResolver< Arg4 >::IsResolvable::value
+                       && ArgResolver< Arg5 >::IsResolvable::value
+                       && ArgResolver< Arg6 >::IsResolvable::value
+                       && ArgResolver< Arg7 >::IsResolvable::value > IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >(),
-                             c.resolve< Arg6 >(), c.resolve< Arg7 >());
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
+                             ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
+                             ArgResolver< Arg7 >::resolve(c));
             };
         }
     };
@@ -151,14 +222,23 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value
+                       && ArgResolver< Arg4 >::IsResolvable::value
+                       && ArgResolver< Arg5 >::IsResolvable::value
+                       && ArgResolver< Arg6 >::IsResolvable::value
+                       && ArgResolver< Arg7 >::IsResolvable::value
+                       && ArgResolver< Arg8 >::IsResolvable::value > IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >(),
-                             c.resolve< Arg6 >(), c.resolve< Arg7 >(), c.resolve< Arg8 >());
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
+                             ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
+                             ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c));
             };
         }
     };
@@ -168,14 +248,25 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value
+                       && ArgResolver< Arg4 >::IsResolvable::value
+                       && ArgResolver< Arg5 >::IsResolvable::value
+                       && ArgResolver< Arg6 >::IsResolvable::value
+                       && ArgResolver< Arg7 >::IsResolvable::value
+                       && ArgResolver< Arg8 >::IsResolvable::value
+                       && ArgResolver< Arg9 >::IsResolvable::value > IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >(),
-                             c.resolve< Arg6 >(), c.resolve< Arg7 >(), c.resolve< Arg8 >(), c.resolve< Arg9 >());
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
+                             ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
+                             ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c),
+                             ArgResolver< Arg9 >::resolve(c));
             };
         }
     };
@@ -185,33 +276,27 @@ namespace Hypodermic
     {
         static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
 
-        typedef T ConstructibleType;
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value
+                       && ArgResolver< Arg4 >::IsResolvable::value
+                       && ArgResolver< Arg5 >::IsResolvable::value
+                       && ArgResolver< Arg6 >::IsResolvable::value
+                       && ArgResolver< Arg7 >::IsResolvable::value
+                       && ArgResolver< Arg8 >::IsResolvable::value
+                       && ArgResolver< Arg9 >::IsResolvable::value
+                       && ArgResolver< Arg10 >::IsResolvable::value > IsSignatureRecognized;
 
         static std::function< T*(IComponentContext&) > createDelegate()
         {
             return [](IComponentContext& c) -> T*
             {
-                return new T(c.resolve< Arg1 >(), c.resolve< Arg2 >(), c.resolve< Arg3 >(), c.resolve< Arg4 >(), c.resolve< Arg5 >(),
-                             c.resolve< Arg6 >(), c.resolve< Arg7 >(), c.resolve< Arg8 >(), c.resolve< Arg9 >(), c.resolve< Arg10 >());
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
+                             ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
+                             ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c),
+                             ArgResolver< Arg9 >::resolve(c), ArgResolver< Arg10 >::resolve(c));
             };
-        }
-    };
-
-    template <class T>
-    struct ArgResolver
-    {
-        static std::shared_ptr< T > resolve(IComponentContext& c)
-        {
-            return c.resolve< T >();
-        }
-    };
-
-    template <class T>
-    struct ArgResolver< std::vector< T > >
-    {
-        static std::vector< std::shared_ptr< T > > resolve(IComponentContext& c)
-        {
-            return c.resolveAll< T >();
         }
     };
 

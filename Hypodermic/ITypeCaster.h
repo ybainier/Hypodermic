@@ -11,6 +11,8 @@ namespace Hypodermic
     class ITypeCaster
     {
     public:
+        virtual ~ITypeCaster() {}
+
         virtual const std::type_info& typeInfo() const = 0;
 
         virtual std::shared_ptr< void > cast(std::shared_ptr< void > concreteInstance) const = 0;

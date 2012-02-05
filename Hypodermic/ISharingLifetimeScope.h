@@ -14,6 +14,8 @@ namespace Hypodermic
 	class ISharingLifetimeScope : public ILifetimeScope
 	{
 	public:
+        virtual ~ISharingLifetimeScope() {}
+
 		virtual std::shared_ptr< ISharingLifetimeScope > rootLifetimeScope() = 0;
 		virtual std::shared_ptr< ISharingLifetimeScope > parentLifetimeScope() = 0;
 
