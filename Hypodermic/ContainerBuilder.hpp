@@ -3,7 +3,6 @@
 #  define   HYPODERMIC_CONTAINER_BUILDER_HPP_
 
 # include <type_traits>
-# include <boost/mpl/for_each.hpp>
 
 # include <Hypodermic/RegistrationBuilder.h>
 # include <Hypodermic/RegistrationBuilderFactory.h>
