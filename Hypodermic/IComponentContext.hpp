@@ -67,7 +67,7 @@ namespace Hypodermic
         BOOST_FOREACH(auto registration, registrations)
         {
             std::shared_ptr< void > result = registration->castOrForward(service->typeInfo(),
-                                                                            resolveComponent(registration));
+                                                                         resolveComponent(registration));
                 
             allResults.push_back(std::static_pointer_cast< ServiceT >(result));
         }

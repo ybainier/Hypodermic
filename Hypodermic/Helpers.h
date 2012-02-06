@@ -4,7 +4,6 @@
 
 # ifndef		HYPODERMIC_NO_HELPERS
 
-#  include <type_traits>
 #  include <Hypodermic/IComponentContext.h>
 
 #  define		CREATE(Expr)            [](Hypodermic::IComponentContext& c) -> decltype(Expr) { return (Expr); }

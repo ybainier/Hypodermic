@@ -33,8 +33,6 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     set(COMPILER_FLAGS "-std=c++0x")
     set(WARNING_FLAGS "-W -Wall")
     
-    add_definitions(-Dnullptr=0)
-
     if (CMAKE_BUILD_TYPE STREQUAL "debug")
         message(STATUS "Enabling debugging symbols")
         set(COMPILER_FLAGS "${COMPILER_FLAGS} -g")

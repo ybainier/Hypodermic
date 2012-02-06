@@ -1,4 +1,5 @@
 #include <boost/functional/hash.hpp>
+#include "NullptrWorkaround.h"
 #include "KeyedService.h"
 
 

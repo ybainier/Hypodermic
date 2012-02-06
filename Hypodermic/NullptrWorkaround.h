@@ -6,6 +6,8 @@
 # ifdef BOOST_NO_NULLPTR
 #  include <memory>
 
+#  define nullptr 0
+
 
 namespace std
 {
