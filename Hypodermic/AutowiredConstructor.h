@@ -30,9 +30,11 @@ namespace Hypodermic
     {
         typedef std::true_type IsResolvable;
 
-        static std::shared_ptr< T > resolve(IComponentContext& c)
+        typedef typename std::remove_pointer< T >::type Type;
+
+        static std::shared_ptr< Type > resolve(IComponentContext& c)
         {
-            return c.resolve< T >();
+            return c.resolve< Type >();
         }
     };
 
@@ -41,9 +43,11 @@ namespace Hypodermic
     {
         typedef std::true_type IsResolvable;
 
+        typedef typename std::remove_pointer< T >::type Type;
+
         static std::vector< std::shared_ptr< T > > resolve(IComponentContext& c)
         {
-            return c.resolveAll< T >();
+            return c.resolveAll< Type >();
         }
     };
 
