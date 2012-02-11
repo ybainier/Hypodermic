@@ -100,21 +100,6 @@ namespace Hypodermic
         return typeCaster->cast(instance);
     }
 
-    void ComponentRegistration::raisePreparing(std::shared_ptr< IComponentContext > /* context */)
-    {
-        //TODO
-    }
-
-    void ComponentRegistration::raiseActivating(std::shared_ptr< IComponentContext > /* context */)
-    {
-        //TODO
-    }
-
-    void ComponentRegistration::raiseActivated(std::shared_ptr< IComponentContext > /* context */)
-    {
-        //TODO
-    }
-
     std::string ComponentRegistration::toString()
     {
         return std::string("Component Registration");

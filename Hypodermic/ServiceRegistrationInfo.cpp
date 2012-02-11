@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include "NullptrWorkaround.h"
 #include "Service.h"
 #include "ServiceRegistrationInfo.h"
@@ -10,6 +12,8 @@ namespace Hypodermic
         : service_(service)
         , isInitialized_(false)
     {
+        if (service == nullptr)
+            throw std::invalid_argument("service");
     }
 
     std::vector< std::shared_ptr< IComponentRegistration > >& ServiceRegistrationInfo::implementations()
@@ -25,7 +29,7 @@ namespace Hypodermic
     std::shared_ptr< IComponentRegistration > ServiceRegistrationInfo::getRegistration()
     {
         if (implementations_.size() > 0)
-            return implementations_[0];
+            return implementations_[implementations_.size() - 1];
         return std::shared_ptr< IComponentRegistration >();
     }
 

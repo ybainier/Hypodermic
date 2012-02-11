@@ -57,12 +57,6 @@ namespace Hypodermic
 
         std::shared_ptr< void > castOrForward(const std::type_info& typeInfo, std::shared_ptr< void > instance);
 
-        void raisePreparing(std::shared_ptr< IComponentContext > context);
-
-        void raiseActivating(std::shared_ptr< IComponentContext > context);
-
-        void raiseActivated(std::shared_ptr< IComponentContext > context);
-
         std::string toString();
 
 	private:

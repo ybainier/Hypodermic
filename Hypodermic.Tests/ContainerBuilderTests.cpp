@@ -386,4 +386,21 @@ BOOST_AUTO_TEST_CASE(autowired_registration_can_resolved_all_services)
     BOOST_CHECK(serviceBController != nullptr);
 }
 
+BOOST_AUTO_TEST_CASE(registration_should_be_overridable)
+{
+    ContainerBuilder c;
+
+    std::shared_ptr< IServiceA > serviceA = std::make_shared< ServiceA >();
+    c.registerInstance(serviceA);
+
+    c.autowireType< ServiceA >()->as< IServiceA >()->as< IRunWithScissors >()->singleInstance();
+
+    auto container = c.build();
+
+    auto resolvedServiceA = container->resolve< IServiceA >();
+
+    BOOST_CHECK(resolvedServiceA != nullptr);
+    BOOST_CHECK(resolvedServiceA != serviceA);
+}
+
 BOOST_AUTO_TEST_SUITE_END();
