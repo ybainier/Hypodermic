@@ -5,10 +5,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hypodermic", "Hypodermic\Hy
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hypodermic.Tests", "Hypodermic.Tests\Hypodermic.Tests.vcxproj", "{D80AD667-D335-49F7-BA0E-23A66616A977}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hypodermic.Examples", "Hypodermic.Examples", "{3A7CA953-0188-4C5C-A786-8114DDFE1EB0}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Diary", "Diary\Diary.vcxproj", "{88B64D1C-7AB7-4912-A028-78F9AECE34C2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,19 +29,8 @@ Global
 		{D80AD667-D335-49F7-BA0E-23A66616A977}.Release|Win32.Build.0 = Release|Win32
 		{D80AD667-D335-49F7-BA0E-23A66616A977}.Release|x64.ActiveCfg = Release|x64
 		{D80AD667-D335-49F7-BA0E-23A66616A977}.Release|x64.Build.0 = Release|x64
-		{88B64D1C-7AB7-4912-A028-78F9AECE34C2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{88B64D1C-7AB7-4912-A028-78F9AECE34C2}.Debug|Win32.Build.0 = Debug|Win32
-		{88B64D1C-7AB7-4912-A028-78F9AECE34C2}.Debug|x64.ActiveCfg = Debug|x64
-		{88B64D1C-7AB7-4912-A028-78F9AECE34C2}.Debug|x64.Build.0 = Debug|x64
-		{88B64D1C-7AB7-4912-A028-78F9AECE34C2}.Release|Win32.ActiveCfg = Release|Win32
-		{88B64D1C-7AB7-4912-A028-78F9AECE34C2}.Release|Win32.Build.0 = Release|Win32
-		{88B64D1C-7AB7-4912-A028-78F9AECE34C2}.Release|x64.ActiveCfg = Release|x64
-		{88B64D1C-7AB7-4912-A028-78F9AECE34C2}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{88B64D1C-7AB7-4912-A028-78F9AECE34C2} = {3A7CA953-0188-4C5C-A786-8114DDFE1EB0}
 	EndGlobalSection
 EndGlobal
