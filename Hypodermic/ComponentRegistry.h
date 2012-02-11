@@ -34,12 +34,11 @@ namespace Hypodermic
 
 		std::vector< std::shared_ptr< IComponentRegistration > > registrationsFor(std::shared_ptr< Service > service);
 
+	private:
 		std::shared_ptr< ServiceRegistrationInfo > getServiceInfo(std::shared_ptr< Service > service);
 
-		std::shared_ptr< ServiceRegistrationInfo > getInitializedServiceInfo(std::shared_ptr< Service > service);
-
-	private:
-		std::vector< std::shared_ptr< IComponentRegistration > > registrations_;
+        
+        std::vector< std::shared_ptr< IComponentRegistration > > registrations_;
 		ServiceRegistrationInfos serviceInfo_;
 		boost::recursive_mutex mutex_;
 	};

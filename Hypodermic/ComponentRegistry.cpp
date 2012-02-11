@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include <boost/foreach.hpp>
 
 #include "IComponentRegistration.h"
@@ -10,14 +11,18 @@ namespace Hypodermic
     std::shared_ptr< IComponentRegistration > ComponentRegistry::getRegistration(std::shared_ptr< Service > service)
     {
         boost::lock_guard< decltype (mutex_) > lock(mutex_);
-
-        auto info = getInitializedServiceInfo(service);
+        
+        auto info = getServiceInfo(service);
         return info->getRegistration();
     }
 
     bool ComponentRegistry::isRegistered(std::shared_ptr< Service > service)
     {
-        return getInitializedServiceInfo(service)->isRegistered();
+        if (service == nullptr)
+            throw std::invalid_argument("service");
+
+        boost::lock_guard< decltype (mutex_) > lock(mutex_);
+        return getServiceInfo(service)->isRegistered();
     }
 
     void ComponentRegistry::addRegistration(std::shared_ptr< IComponentRegistration > registration)
@@ -27,6 +32,8 @@ namespace Hypodermic
 
     void ComponentRegistry::addRegistration(std::shared_ptr< IComponentRegistration > registration, bool /* preserveDefaults */)
     {
+        boost::lock_guard< decltype (mutex_) > lock(mutex_);
+
         BOOST_FOREACH(auto service, registration->services())
         {
             auto info = getServiceInfo(service);
@@ -37,6 +44,7 @@ namespace Hypodermic
 
     std::vector< std::shared_ptr< IComponentRegistration > > ComponentRegistry::registrations()
     {
+        boost::lock_guard< decltype (mutex_) > lock(mutex_);
         return registrations_;
     }
 
@@ -44,7 +52,7 @@ namespace Hypodermic
     {
         boost::lock_guard< boost::recursive_mutex > lock(mutex_);
 
-        auto info = getInitializedServiceInfo(service);
+        auto info = getServiceInfo(service);
         return info->implementations();
     }
 
@@ -59,12 +67,6 @@ namespace Hypodermic
         auto info = std::make_shared< ServiceRegistrationInfo >(service);
         serviceInfo_.insert(ServiceRegistrationInfos::value_type(key, info));
         return info;
-    }
-
-    std::shared_ptr< ServiceRegistrationInfo > ComponentRegistry::getInitializedServiceInfo(std::shared_ptr< Service > service)
-    {
-        //TODO: retrieve actually initialized ServiceRegistrationInfo
-        return getServiceInfo(service);
     }
 
 } // namespace Hypodermic
