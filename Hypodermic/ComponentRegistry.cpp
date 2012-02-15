@@ -2,6 +2,7 @@
 #include <boost/foreach.hpp>
 
 #include "IComponentRegistration.h"
+#include "NullptrWorkaround.h"
 #include "ComponentRegistry.h"
 
 
