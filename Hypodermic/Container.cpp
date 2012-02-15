@@ -1,5 +1,7 @@
 #include <stdexcept>
 
+#include <boost/assign.hpp>
+
 #include "ComponentRegistration.h"
 #include "ComponentRegistry.h"
 #include "ContainerActivator.h"
@@ -33,9 +35,11 @@ namespace Hypodermic
 
     void Container::initialize()
     {
+        using namespace boost::assign;
+
         std::vector< std::shared_ptr< Service > > services;
-        services.push_back(std::make_shared< TypedService >(typeid(ILifetimeScope)));
-        services.push_back(std::make_shared< TypedService >(typeid(IComponentContext)));
+        services += std::make_shared< TypedService >(typeid(ILifetimeScope))
+                  , std::make_shared< TypedService >(typeid(IComponentContext));
 
         componentRegistry_ = std::make_shared< ComponentRegistry >();
 
@@ -54,7 +58,7 @@ namespace Hypodermic
             std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >()));
 
         services.clear();
-        services.push_back(std::make_shared< TypedService >(typeid(IContainer)));
+        services += std::make_shared< TypedService >(typeid(IContainer));
 
         componentRegistry_->addRegistration(std::make_shared< ComponentRegistration >(
             LifetimeScope::selfRegistrationId,
