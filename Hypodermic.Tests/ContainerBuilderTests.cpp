@@ -167,6 +167,21 @@ BOOST_AUTO_TEST_CASE(as_method_should_override_default_type_registration)
 	BOOST_CHECK(serviceA != nullptr);
 }
 
+BOOST_AUTO_TEST_CASE(as_method_should_not_override_default_type_registration_by_invoking_asSelf_method)
+{
+    ContainerBuilder builder;
+
+    builder.registerType< ServiceA >()->as< IServiceA >()->asSelf();
+
+    auto container = builder.build();
+
+    auto serviceA = container->resolve< ServiceA >();
+    auto serviceAInterface = container->resolve< IServiceA >();
+
+    BOOST_CHECK(serviceA != nullptr);
+    BOOST_CHECK(serviceAInterface != nullptr);
+}
+
 BOOST_AUTO_TEST_CASE(registered_instance_should_be_shared)
 {
 	ContainerBuilder builder;

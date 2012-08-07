@@ -81,6 +81,12 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
+    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::asSelf()
+    {
+        return as< T >(std::make_shared< TypedService >(typeid(T)));
+    }
+
+    template <class T, class RegistrationStyleT>
     template <class ServiceT>
     std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::as(std::shared_ptr< Service > service)
     {
