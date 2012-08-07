@@ -22,6 +22,12 @@ namespace Hypodermic
         typedef std::function< void(std::shared_ptr< IComponentRegistry >) > ConfigurationCallback;
 
 	public:
+        template <class T>
+        struct Registration
+        {
+            typedef std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > Type;
+        };
+
 		ContainerBuilder();
 
 		template <class T>
