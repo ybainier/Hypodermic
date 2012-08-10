@@ -22,9 +22,12 @@ namespace Hypodermic
 	template <class T, class RegistrationStyleT>
 	class RegistrationBuilder
         : public std::enable_shared_from_this< RegistrationBuilder< T, RegistrationStyleT > >
-        , public IRegistrationBuilder< T, RegistrationStyleT >
+        , public IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilder >
 	{
 	public:
+        typedef SelfType ParentType;
+        typedef typename ParentType::RegistrationBuilderImplementationType SelfType;
+
 		RegistrationBuilder(std::shared_ptr< Service > defaultService, std::shared_ptr< IInstanceActivator > activator,
                             const RegistrationStyleT& registrationStyle);
 
@@ -36,26 +39,26 @@ namespace Hypodermic
 
         const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters() const;
 
-		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > singleInstance();
+		std::shared_ptr< ParentType > singleInstance();
 
-        std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > instancePerLifetimeScope();
+        std::shared_ptr< ParentType > instancePerLifetimeScope();
 
-        std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > instancePerDependency();
-
-		template <class ServiceT>
-		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > as();
-
-        std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > asSelf();
+        std::shared_ptr< ParentType > instancePerDependency();
 
 		template <class ServiceT>
-		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > named(const std::string& serviceName);
+		std::shared_ptr< ParentType > as();
+
+        std::shared_ptr< ParentType > asSelf();
+
+		template <class ServiceT>
+		std::shared_ptr< ParentType > named(const std::string& serviceName);
 
 	private:
         template <class ServiceT>
-        std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > as(std::shared_ptr< Service > service);
+        std::shared_ptr< ParentType > as(std::shared_ptr< Service > service);
 
         template <class ServiceT>
-        std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > named(const std::string& serviceName, const std::type_info& serviceTypeInfo);
+        std::shared_ptr< ParentType > named(const std::string& serviceName, const std::type_info& serviceTypeInfo);
 
 		RegistrationData registrationData_;
 		std::shared_ptr< IInstanceActivator > activator_;

@@ -7,6 +7,7 @@
 # include <vector>
 
 # include <Hypodermic/IContainer.h>
+# include <Hypodermic/RegistrationBuilder.h>
 # include <Hypodermic/SingleRegistrationStyle.h>
 
 
@@ -14,7 +15,8 @@ namespace Hypodermic
 {
 	class IComponentContext;
 	class IComponentRegistry;
-	template <class T, class RegistrationStyleT> class IRegistrationBuilder;
+	template <class T, class RegistrationStyleT, template <class, class> class RegistrationBuilderT> class IRegistrationBuilder;
+    template <class T, class RegistrationStyleT> class RegistrationBuilder;
 
 
 	class ContainerBuilder
@@ -23,24 +25,26 @@ namespace Hypodermic
 
 	public:
         template <class T>
-        struct Registration
+        struct RegistrationBuilderInterface
         {
-            typedef std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > Type;
+            typedef SingleRegistrationStyle RegistrationStyleType;
+            typedef IRegistrationBuilder< T, RegistrationStyleType, RegistrationBuilder > Type;
+            typedef RegistrationBuilder< T, RegistrationStyleType > ImplementationType;
         };
 
 		ContainerBuilder();
 
 		template <class T>
-		std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > autowireType();
+		std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > autowireType();
 
         template <class T>
-        std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType(std::function< T*(IComponentContext&) > delegate);
+        std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > registerType(std::function< T*(IComponentContext&) > delegate);
 
 		template <class T>
-		std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerType();
+		std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > registerType();
 
 		template <class T>
-		std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > registerInstance(std::shared_ptr< T > instance);
+		std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > registerInstance(std::shared_ptr< T > instance);
 
 		void registerCallback(ConfigurationCallback configurationCallback);
 

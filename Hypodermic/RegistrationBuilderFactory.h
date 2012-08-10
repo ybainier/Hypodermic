@@ -8,7 +8,6 @@
 
 # include <boost/uuid/uuid.hpp>
 
-# include <Hypodermic/SingleRegistrationStyle.h>
 # include <Hypodermic/TypeIndexWorkaround.h>
 
 
@@ -18,28 +17,28 @@ namespace Hypodermic
     class IComponentRegistration;
     class IComponentRegistry;
     class IInstanceActivator;
-    template <class T, class RegistrationStyleT> class IRegistrationBuilder;
     class RegistrationData;
     class Service;
 
 
+    template <template <class> class RegistrationBuilderInterfaceT>
     class RegistrationBuilderFactory
 	{
 	public:
 		template <class T>
-		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forDelegate(std::function< T*(IComponentContext&) > delegate);
+		static std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > forDelegate(std::function< T*(IComponentContext&) > delegate);
 
 		template <class T>
-		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forType();
+		static std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > forType();
 
         template <class T>
-		static std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > forInstance(std::shared_ptr< T > instance);
+		static std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > forInstance(std::shared_ptr< T > instance);
 
-		template <class T, class RegistrationStyleT>
-		static void registerSingleComponent(std::shared_ptr< IComponentRegistry > cr, std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
+		template <class T>
+		static void registerSingleComponent(std::shared_ptr< IComponentRegistry > cr, std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > rb);
 
-		template <class T, class RegistrationStyleT>
-		static std::shared_ptr< IComponentRegistration > createRegistration(std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > rb);
+		template <class T>
+		static std::shared_ptr< IComponentRegistration > createRegistration(std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > rb);
 
 		static std::shared_ptr< IComponentRegistration > createRegistration(const boost::uuids::uuid& id,
                                                                             RegistrationData& registrationData,
