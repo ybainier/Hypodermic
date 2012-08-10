@@ -10,6 +10,7 @@ endif()
 
 
 set(HypodermicTests_sources
+    main.cpp
     ContainerBuilderTests.cpp
 )
 

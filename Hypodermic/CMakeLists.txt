@@ -80,7 +80,6 @@ set(Hypodermic_sources
     InstanceLookup.cpp
     KeyedService.cpp
     LifetimeScope.cpp
-    RegistrationBuilderFactory.cpp
     RegistrationData.cpp
     ResolveOperation.cpp
     RootScopeLifetime.cpp
