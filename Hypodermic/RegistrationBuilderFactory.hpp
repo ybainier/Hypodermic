@@ -23,7 +23,7 @@ namespace Hypodermic
 		return std::make_shared< typename RegistrationBuilderInterfaceT< T >::ImplementationType >(
             std::make_shared< TypedService >(typeInfo),
 			std::make_shared< DelegateActivator< T > >(typeInfo, delegate),
-            RegistrationBuilderInterfaceT< T >::RegistrationStyleType());
+            typename RegistrationBuilderInterfaceT< T >::RegistrationStyleType());
 	}
 
 	template <template <class> class RegistrationBuilderInterfaceT>
@@ -35,7 +35,7 @@ namespace Hypodermic
 		return std::make_shared< typename RegistrationBuilderInterfaceT< T >::ImplementationType >(
             std::make_shared< TypedService >(typeInfo),
 			std::make_shared< DelegateActivator< T > >(typeInfo, [](IComponentContext&) -> T* { return new T; }),
-            RegistrationBuilderInterfaceT< T >::RegistrationStyleType());
+            typename RegistrationBuilderInterfaceT< T >::RegistrationStyleType());
 	}
 
 	template <template <class> class RegistrationBuilderInterfaceT>

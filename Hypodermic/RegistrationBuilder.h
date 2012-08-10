@@ -25,7 +25,7 @@ namespace Hypodermic
         , public IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilder >
 	{
 	public:
-        typedef SelfType ParentType;
+        typedef IRegistrationBuilder< T, RegistrationStyleT, Hypodermic::RegistrationBuilder > ParentType;
         typedef typename ParentType::RegistrationBuilderImplementationType SelfType;
 
 		RegistrationBuilder(std::shared_ptr< Service > defaultService, std::shared_ptr< IInstanceActivator > activator,

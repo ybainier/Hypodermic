@@ -15,8 +15,6 @@ namespace Hypodermic
 {
 	class IComponentContext;
 	class IComponentRegistry;
-	template <class T, class RegistrationStyleT, template <class, class> class RegistrationBuilderT> class IRegistrationBuilder;
-    template <class T, class RegistrationStyleT> class RegistrationBuilder;
 
 
 	class ContainerBuilder
