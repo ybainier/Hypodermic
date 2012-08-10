@@ -4,7 +4,6 @@
 
 # include <type_traits>
 
-# include <Hypodermic/RegistrationBuilder.h>
 # include <Hypodermic/RegistrationBuilderFactory.h>
 # include <Hypodermic/RootScopeLifetime.h>
 
@@ -13,63 +12,67 @@ namespace Hypodermic
 {
 
     template <class T>
-    std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::autowireType()
+    std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
+    ContainerBuilder::autowireType()
     {
         typedef typename T::AutowiredSignature AutowiredSignature;
         static_assert(AutowiredSignature::IsSignatureRecognized::value, "Unable to use this autowired constructor.");
 
-        auto rb = RegistrationBuilderFactory::forDelegate(AutowiredSignature::createDelegate());
+        auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forDelegate(AutowiredSignature::createDelegate());
 
         registerCallback(
             [rb](std::shared_ptr< IComponentRegistry > cr) -> void
             {
-                RegistrationBuilderFactory::registerSingleComponent(cr, rb);
+                RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
             });
 
         return rb;
     }
 
     template <class T>
-    std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType(std::function< T*(IComponentContext&) > delegate)
+    std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
+    ContainerBuilder::registerType(std::function< T*(IComponentContext&) > delegate)
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
                       "ContainerBuilder::registerType< T >() is incompatible with POD types.");
 
-        auto rb = RegistrationBuilderFactory::forDelegate(delegate);
+        auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forDelegate(delegate);
 
         registerCallback(
             [rb](std::shared_ptr< IComponentRegistry > cr) -> void
             {
-                RegistrationBuilderFactory::registerSingleComponent(cr, rb);
+                RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
             });
 
         return rb;
     }
 
     template <class T>
-    std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerType()
+    std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
+    ContainerBuilder::registerType()
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
                       "ContainerBuilder::registerType< T >() is incompatible with POD types.");
 
-        auto rb = RegistrationBuilderFactory::forType< T >();
+        auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forType< T >();
 
         registerCallback(
             [rb](std::shared_ptr< IComponentRegistry > cr) -> void
             {
-                RegistrationBuilderFactory::registerSingleComponent(cr, rb);
+                RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
             });
 
         return rb;
     }
 
     template <class T>
-    std::shared_ptr< IRegistrationBuilder< T, SingleRegistrationStyle > > ContainerBuilder::registerInstance(std::shared_ptr< T > instance)
+    std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
+    ContainerBuilder::registerInstance(std::shared_ptr< T > instance)
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
                       "ContainerBuilder::registerType< T >(std::shared_ptr< T > instance) is incompatible with POD types.");
 
-        auto rb = RegistrationBuilderFactory::forInstance(instance);
+        auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forInstance(instance);
 
         rb->singleInstance();
 
@@ -80,7 +83,7 @@ namespace Hypodermic
                 if (rootScopeLifetime == nullptr || rb->registrationData().sharing() != InstanceSharing::Shared)
                     throw std::logic_error("Instance registration is single instance only.");
 
-                RegistrationBuilderFactory::registerSingleComponent(cr, rb);
+                RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
             });
 
         return rb;

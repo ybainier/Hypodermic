@@ -13,14 +13,23 @@
 namespace Hypodermic
 {
 	class IInstanceActivator;
-	template <class T, class RegistrationStyleT> class RegistrationBuilder;
 	class RegistrationData;
 
 
-	template <class T, class RegistrationStyleT>
+	template
+    <
+        class T,
+        class RegistrationStyleT,
+        template <class /*T*/, class /*RegistrationStyleT*/> class RegistrationBuilderT
+    >
 	class IRegistrationBuilder
 	{
 	public:
+        typedef IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT > SelfType;
+        typedef RegistrationBuilderT< T, RegistrationStyleT > RegistrationBuilderImplementationType;
+
+        //static_assert(std::is_base_of< SelfType, RegistrationBuilderImplementationType >::value, "RegistrationBuilderT should implement IRegistrationBuilder");
+
         virtual ~IRegistrationBuilder() {}
 
 		virtual RegistrationData& registrationData() = 0;
@@ -29,28 +38,28 @@ namespace Hypodermic
 
         virtual const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters() const = 0;
 
-		virtual std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > singleInstance() = 0;
-        virtual std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > instancePerLifetimeScope() = 0;
-        virtual std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > instancePerDependency() = 0;
+		virtual std::shared_ptr< SelfType > singleInstance() = 0;
+        virtual std::shared_ptr< SelfType > instancePerLifetimeScope() = 0;
+        virtual std::shared_ptr< SelfType > instancePerDependency() = 0;
 
 		template <class ServiceT>
-		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > as()
+		std::shared_ptr< SelfType > as()
 		{
             static_assert(std::is_same< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
-                          "IRegistrationBuilder< T, RegistrationStyleT >::as< ServiceT >() requires ServiceT to be base of T");
+                          "IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT >::as< ServiceT >() requires ServiceT to be base of T");
 
-			return static_cast< RegistrationBuilder< T, RegistrationStyleT >* >(this)->as< ServiceT >();
+			return static_cast< RegistrationBuilderImplementationType* >(this)->as< ServiceT >();
 		}
 
-        virtual std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > asSelf() = 0;
+        virtual std::shared_ptr< SelfType > asSelf() = 0;
 
 		template <class ServiceT>
-		std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > named(const std::string& serviceName)
+		std::shared_ptr< SelfType > named(const std::string& serviceName)
 		{
             static_assert(std::is_same< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
-                          "IRegistrationBuilder< T, RegistrationStyleT >::as< ServiceT >() requires ServiceT to be base of T");
+                          "IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT >::as< ServiceT >() requires ServiceT to be base of T");
 
-			return static_cast< RegistrationBuilder< T, RegistrationStyleT >* >(this)->named< ServiceT >(serviceName);
+			return static_cast< RegistrationBuilderImplementationType* >(this)->named< ServiceT >(serviceName);
 		}
 	};
 

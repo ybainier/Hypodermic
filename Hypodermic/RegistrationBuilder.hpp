@@ -41,13 +41,15 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& RegistrationBuilder< T, RegistrationStyleT >::typeCasters() const
+    const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >&
+    RegistrationBuilder< T, RegistrationStyleT >::typeCasters() const
     {
         return typeCasters_;
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::singleInstance()
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::singleInstance()
     {
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::Shared);
@@ -56,7 +58,8 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::instancePerLifetimeScope()
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::instancePerLifetimeScope()
     {
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::Shared);
@@ -65,7 +68,8 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::instancePerDependency()
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::instancePerDependency()
     {
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::None);
@@ -75,24 +79,26 @@ namespace Hypodermic
 
     template <class T, class RegistrationStyleT>
     template <class ServiceT>
-    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::as()
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::as()
     {
         return as< ServiceT >(std::make_shared< TypedService >(typeid(ServiceT)));
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::asSelf()
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::asSelf()
     {
         return as< T >(std::make_shared< TypedService >(typeid(T)));
     }
 
     template <class T, class RegistrationStyleT>
     template <class ServiceT>
-    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::as(std::shared_ptr< Service > service)
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::as(std::shared_ptr< Service > service)
     {
         registrationData_.addService(service);
-        typeCasters_.insert(std::make_pair(std::type_index(service->typeInfo()),
-                                           std::make_shared< TypeCaster< T, ServiceT > >(service->typeInfo())));
+        typeCasters_.insert(std::make_pair(std::type_index(service->typeInfo()), std::make_shared< TypeCaster< T, ServiceT > >(service->typeInfo())));
 
         return this->shared_from_this();
     }
@@ -100,7 +106,8 @@ namespace Hypodermic
 
     template <class T, class RegistrationStyleT>
     template <class ServiceT>
-    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName)
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName)
     {
         if (serviceName.empty())
             throw std::invalid_argument("serviceName");
@@ -109,13 +116,11 @@ namespace Hypodermic
 
     template <class T, class RegistrationStyleT>
     template <class ServiceT>
-    std::shared_ptr< IRegistrationBuilder< T, RegistrationStyleT > > RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName,
-                                                                                                                         const std::type_info& serviceTypeInfo)
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName, const std::type_info& serviceTypeInfo)
     {
         return as< ServiceT >(std::make_shared< KeyedService >(serviceName, serviceTypeInfo));
     }
-
-
 
 } // namespace Hypodermic
 

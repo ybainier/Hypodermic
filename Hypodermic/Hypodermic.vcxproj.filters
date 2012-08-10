@@ -217,9 +217,6 @@
     <ClCompile Include="ContainerBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RegistrationBuilderFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ContainerActivator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -216,7 +216,6 @@
     <ClCompile Include="InstanceLookup.cpp" />
     <ClCompile Include="KeyedService.cpp" />
     <ClCompile Include="LifetimeScope.cpp" />
-    <ClCompile Include="RegistrationBuilderFactory.cpp" />
     <ClCompile Include="RegistrationData.cpp" />
     <ClCompile Include="ResolveOperation.cpp" />
     <ClCompile Include="RootScopeLifetime.cpp" />
