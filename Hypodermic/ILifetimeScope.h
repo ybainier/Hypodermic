@@ -11,10 +11,8 @@ namespace Hypodermic
 	class ILifetimeScope : public IComponentContext, public IInitializable
 	{
     public:
-        virtual ~ILifetimeScope() = 0;
+        virtual ~ILifetimeScope() {}
 	};
-
-    inline ILifetimeScope::~ILifetimeScope() {}
 
 } // namespace Hypodermic
 
