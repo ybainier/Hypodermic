@@ -13,11 +13,13 @@ namespace Hypodermic
 	class IResolveOperation
 	{
     public:
-        virtual ~IResolveOperation() {}
+        virtual ~IResolveOperation() = 0;
 
 		virtual std::shared_ptr< void > getOrCreateInstance(std::shared_ptr< ISharingLifetimeScope > currentOperationScope,
 										                    std::shared_ptr< IComponentRegistration > registration) = 0;
 	};
+
+    inline IResolveOperation::~IResolveOperation() {}
 
 } // namespace Hypodermic
 

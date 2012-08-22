@@ -8,10 +8,12 @@ namespace Hypodermic
     class IInitializable
     {
     public:
-        virtual ~IInitializable() {}
+        virtual ~IInitializable() = 0;
 
         virtual void initialize() = 0;
     };
+
+    inline IInitializable::~IInitializable() {}
 
 } // namespace Hypodermic
 

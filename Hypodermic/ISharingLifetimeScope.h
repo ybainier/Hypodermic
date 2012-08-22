@@ -14,7 +14,7 @@ namespace Hypodermic
 	class ISharingLifetimeScope : public ILifetimeScope
 	{
 	public:
-        virtual ~ISharingLifetimeScope() {}
+        virtual ~ISharingLifetimeScope() = 0;
 
 		virtual std::shared_ptr< ISharingLifetimeScope > rootLifetimeScope() = 0;
 		virtual std::shared_ptr< ISharingLifetimeScope > parentLifetimeScope() = 0;
@@ -22,6 +22,8 @@ namespace Hypodermic
 		virtual std::shared_ptr< void > getOrCreateAndShare(const boost::uuids::uuid& id,
                                                             std::function< std::shared_ptr< void >() > creator) = 0;
 	};
+
+    inline ISharingLifetimeScope::~ISharingLifetimeScope() {}
 
 } // namespace Hypodermic
 

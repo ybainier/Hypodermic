@@ -10,8 +10,10 @@ namespace Hypodermic
 	class IContainer : public ILifetimeScope
 	{
     public:
-        virtual ~IContainer() {}
+        virtual ~IContainer() = 0;
 	};
+
+    inline IContainer::~IContainer() {}
 
 } // namespace Hypodermic
 

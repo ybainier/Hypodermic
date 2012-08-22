@@ -304,6 +304,103 @@ namespace Hypodermic
         }
     };
 
+    template <class T, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7, class Arg8, class Arg9, class Arg10, class Arg11>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9, Arg10, Arg11) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
+
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value
+                       && ArgResolver< Arg4 >::IsResolvable::value
+                       && ArgResolver< Arg5 >::IsResolvable::value
+                       && ArgResolver< Arg6 >::IsResolvable::value
+                       && ArgResolver< Arg7 >::IsResolvable::value
+                       && ArgResolver< Arg8 >::IsResolvable::value
+                       && ArgResolver< Arg9 >::IsResolvable::value
+                       && ArgResolver< Arg10 >::IsResolvable::value
+                       && ArgResolver< Arg11 >::IsResolvable::value > IsSignatureRecognized;
+
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
+                             ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
+                             ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c),
+                             ArgResolver< Arg9 >::resolve(c), ArgResolver< Arg10 >::resolve(c),
+                             ArgResolver< Arg11 >::resolve(c));
+            };
+        }
+    };
+
+    template <class T, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7, class Arg8, class Arg9, class Arg10, class Arg11, class Arg12>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9, Arg10, Arg11, Arg12) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
+
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value
+                       && ArgResolver< Arg4 >::IsResolvable::value
+                       && ArgResolver< Arg5 >::IsResolvable::value
+                       && ArgResolver< Arg6 >::IsResolvable::value
+                       && ArgResolver< Arg7 >::IsResolvable::value
+                       && ArgResolver< Arg8 >::IsResolvable::value
+                       && ArgResolver< Arg9 >::IsResolvable::value
+                       && ArgResolver< Arg10 >::IsResolvable::value
+                       && ArgResolver< Arg11 >::IsResolvable::value
+                       && ArgResolver< Arg12 >::IsResolvable::value > IsSignatureRecognized;
+
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
+                             ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
+                             ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c),
+                             ArgResolver< Arg9 >::resolve(c), ArgResolver< Arg10 >::resolve(c),
+                             ArgResolver< Arg11 >::resolve(c), ArgResolver< Arg12 >::resolve(c));
+            };
+        }
+    };
+
+    template <class T, class Arg1, class Arg2, class Arg3, class Arg4, class Arg5, class Arg6, class Arg7, class Arg8, class Arg9, class Arg10, class Arg11, class Arg12, class Arg13>
+    struct AutowiredConstructor< T(Arg1, Arg2, Arg3, Arg4, Arg5, Arg6, Arg7, Arg8, Arg9, Arg10, Arg11, Arg12, Arg13) >
+    {
+        static_assert(std::is_class< T >::value, "AutowiredConstructor< T > requires T to be a class");
+
+        typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
+                       && ArgResolver< Arg2 >::IsResolvable::value
+                       && ArgResolver< Arg3 >::IsResolvable::value
+                       && ArgResolver< Arg4 >::IsResolvable::value
+                       && ArgResolver< Arg5 >::IsResolvable::value
+                       && ArgResolver< Arg6 >::IsResolvable::value
+                       && ArgResolver< Arg7 >::IsResolvable::value
+                       && ArgResolver< Arg8 >::IsResolvable::value
+                       && ArgResolver< Arg9 >::IsResolvable::value
+                       && ArgResolver< Arg10 >::IsResolvable::value
+                       && ArgResolver< Arg11 >::IsResolvable::value
+                       && ArgResolver< Arg12 >::IsResolvable::value
+                       && ArgResolver< Arg13 >::IsResolvable::value > IsSignatureRecognized;
+
+        static std::function< T*(IComponentContext&) > createDelegate()
+        {
+            return [](IComponentContext& c) -> T*
+            {
+                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                             ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
+                             ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
+                             ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c),
+                             ArgResolver< Arg9 >::resolve(c), ArgResolver< Arg10 >::resolve(c),
+                             ArgResolver< Arg11 >::resolve(c), ArgResolver< Arg12 >::resolve(c),
+                             ArgResolver< Arg13 >::resolve(c));
+            };
+        }
+    };
+
 } // namespace Hypodermic
 
 

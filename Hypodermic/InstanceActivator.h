@@ -13,13 +13,15 @@ namespace Hypodermic
 	{
 	public:
 		InstanceActivator(const std::type_info& typeInfo);
-        virtual ~InstanceActivator() {}
+        virtual ~InstanceActivator() = 0;
 
 		const std::type_info& typeInfo();
 
 	private:
 		const std::type_info& typeInfo_;
 	};
+
+    inline InstanceActivator::~InstanceActivator() {}
 
 } // namespace Hypodermic
 

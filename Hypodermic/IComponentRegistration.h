@@ -24,7 +24,7 @@ namespace Hypodermic
 	class IComponentRegistration
 	{
 	public:
-        virtual ~IComponentRegistration() {}
+        virtual ~IComponentRegistration() = 0;
 
 		virtual std::shared_ptr< IInstanceActivator > activator() = 0;
         
@@ -45,6 +45,7 @@ namespace Hypodermic
         virtual std::string toString() = 0;
 	};
 
+    inline IComponentRegistration::~IComponentRegistration() {}
 
     inline std::ostream& operator<<(std::ostream& os, IComponentRegistration& rhs)
     {

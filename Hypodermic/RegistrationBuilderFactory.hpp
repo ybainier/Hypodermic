@@ -83,11 +83,11 @@ namespace Hypodermic
         std::shared_ptr< IComponentRegistration > registration;
 
         if (target == nullptr)
-            registration = std::make_shared< ComponentRegistration >(id, activator, registrationData.lifetime(), registrationData.sharing(),
-                                                                     registrationData.ownership(), services, typeCasters);
+            registration = std::shared_ptr< ComponentRegistration >(new ComponentRegistration(id, activator, registrationData.lifetime(), registrationData.sharing(),
+                                                                    registrationData.ownership(), services, typeCasters));
         else
-            registration = std::make_shared< ComponentRegistration >(id, activator, registrationData.lifetime(), registrationData.sharing(),
-                                                                     registrationData.ownership(), services, typeCasters, target);
+            registration = std::shared_ptr< ComponentRegistration >(new ComponentRegistration(id, activator, registrationData.lifetime(), registrationData.sharing(),
+                                                                    registrationData.ownership(), services, typeCasters, target));
 
 		return registration;
 	}
