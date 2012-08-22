@@ -28,9 +28,7 @@ namespace Hypodermic
         typedef IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT > SelfType;
         typedef RegistrationBuilderT< T, RegistrationStyleT > RegistrationBuilderImplementationType;
 
-        //static_assert(std::is_base_of< SelfType, RegistrationBuilderImplementationType >::value, "RegistrationBuilderT should implement IRegistrationBuilder");
-
-        virtual ~IRegistrationBuilder() {}
+        virtual ~IRegistrationBuilder() = 0;
 
 		virtual RegistrationData& registrationData() = 0;
 		virtual std::shared_ptr< IInstanceActivator > activator() = 0;
@@ -62,6 +60,14 @@ namespace Hypodermic
 			return static_cast< RegistrationBuilderImplementationType* >(this)->named< ServiceT >(serviceName);
 		}
 	};
+
+	template
+    <
+        class T,
+        class RegistrationStyleT,
+        template <class /*T*/, class /*RegistrationStyleT*/> class RegistrationBuilderT
+    >
+    inline IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT >::~IRegistrationBuilder() {}
 
 } // namespace Hypodermic
 

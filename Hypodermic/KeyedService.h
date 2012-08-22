@@ -3,26 +3,27 @@
 
 # include <string>
 # include <Hypodermic/Service.h>
-
+# include <boost/noncopyable.hpp>
 
 namespace Hypodermic
 {
 
-	class KeyedService : public Service
-	{
-	public:
-		KeyedService(const std::string& name, const std::type_info& typeInfo);
+    class KeyedService : public Service,
+                         private boost::noncopyable
+    {
+    public:
+        KeyedService(const std::string& name, const std::type_info& typeInfo);
 
         const std::string& name() const;
-		const std::type_info& typeInfo() const;
+        const std::type_info& typeInfo() const;
 
         bool operator==(const Service& rhs) const;
         std::size_t hashValue() const;
 
     private:
         std::string name_;
-		const std::type_info& typeInfo_;
-	};
+        const std::type_info& typeInfo_;
+    };
 
 } // namespace Hypodermic
 
