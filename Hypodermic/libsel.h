@@ -15,6 +15,11 @@ that contains the .lib files.
 
 ******************************************************/
 
+#include <boost/config.hpp>
+
+
+#if defined(BOOST_MSVC)
+
 //////////////////////////////////////////////////////////////////////////
 // configure
 #if defined(_DEBUG)
@@ -56,3 +61,5 @@ that contains the .lib files.
 #undef HYPODERMIC_LIBPATH
 #undef HYPODERMIC_LIBNAME
 #undef HYPODERMIC_LIBFILE
+
+#endif /* defined(BOOST_MSVC) */
