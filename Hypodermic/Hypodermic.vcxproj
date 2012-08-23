@@ -62,31 +62,31 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(ProjectDir)build\$(Configuration)_$(Platform)\</OutDir>
+    <OutDir>$(ProjectDir)..\lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(ProjectDir)build\$(Configuration)_$(Platform)\</OutDir>
+    <OutDir>$(ProjectDir)..\lib\x64\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)\</IntDir>
+    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
     <TargetName>hypodermic-vc$(PlatformToolsetVersion)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)\</IntDir>
+    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
     <TargetName>hypodermic-vc$(PlatformToolsetVersion)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)build\$(Configuration)_$(Platform)\</OutDir>
+    <OutDir>$(ProjectDir)..\lib\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(ProjectDir)build\$(Configuration)_$(Platform)\</OutDir>
+    <OutDir>$(ProjectDir)..\lib\x64\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)\</IntDir>
+    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
     <TargetName>hypodermic-vc$(PlatformToolsetVersion)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)\</IntDir>
+    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
     <TargetName>hypodermic-vc$(PlatformToolsetVersion)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -103,7 +103,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>call postbuild.bat "$(TargetDir)$(TargetName)" $(Platform)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -123,7 +124,8 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
     <PostBuildEvent>
-      <Command>call postbuild.bat "$(TargetDir)$(TargetName)" $(Platform)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -145,7 +147,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>call postbuild.bat "$(TargetDir)$(TargetName)" $(Platform)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -170,7 +173,8 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
     <PostBuildEvent>
-      <Command>call postbuild.bat "$(TargetDir)$(TargetName)" $(Platform)</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
