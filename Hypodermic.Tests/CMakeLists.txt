@@ -16,10 +16,11 @@ set(HypodermicTests_sources
 
 include_directories("..")
 
+add_definitions(-DBOOST_TEST_DYN_LINK)
 add_executable(Hypodermic.Tests ${HypodermicTests_sources})
 
 target_link_libraries(Hypodermic.Tests
-    HypodermicStatic
+    HypodermicShared
     ${Boost_LIBRARIES}
 )
 
