@@ -82,7 +82,7 @@ set(CPACK_SOURCE_IGNORE_FILES
     "build/"
     "ipch/"
     "/resources/"
-    ".sdf$;.sln$;.suo$;.tss$;.vcxproj"
+    ".sdf$;.suo$;.tss$"
 )
 
 include(CPack)
