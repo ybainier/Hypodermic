@@ -1,3 +1,29 @@
+hypodermic (0.1.2-1) unstable; urgency=low
+
+  * IRegistrationBuilder exposes onPreparing, onActivating, onActivated
+
+ -- Bertrand Blackburn <address@hidden.com>  Wed, 01 Feb 2012 14:35:25 +0100
+
+ 
+ hypodermic (0.1.1-1) unstable; urgency=low
+
+  * IRegistrationBuilder: asSelf() method introduced to let a component be resolved
+by its default implementation type
+  * ContainerBuilder no longer leaks its default IRegistrationBuilder implementation
+through the other objects
+  * GlobalFixture added to unit tests to tweak Boost.Test results reporter
+  * ContainerBuilder.h does not need IRegistrationBuilder and RegistrationBuilder to
+be forward declared
+  * Some minor syntax issue fixed
+  * build fix: sometimes, std::make_shared does not accept enough arguments so it's
+been turned into std::shared_ptr
+  * interfaces' virtual destructors are now pure virtual
+  * Windows: _DEBUG and NDEBUG were not defined
+  * libsel.h added for the sake of auto-linking (thanks to n.fauvet)
+
+ -- Bertrand Blackburn <address@hidden.com>  Wed, 01 Feb 2012 14:35:25 +0100
+
+
 hypodermic (0.1.0-1) unstable; urgency=low
 
   * First release of the Hypodermic package!

@@ -75,22 +75,18 @@ namespace Hypodermic
 
     std::shared_ptr< void > InstanceLookup::activate()
     {
+        componentRegistration_->raisePreparing(this->shared_from_this());
+
         newInstance_ = std::shared_ptr< void >(componentRegistration_->activator()->activateInstance(shared_from_this()));
 
-        //TODO
-        //if (componentRegistration_->ownership() == InstanceOwnership::OwnedByLifetimeScope)
-        //{
-        //}
+        componentRegistration_->raiseActivating(this->shared_from_this(), newInstance_);
 
         return newInstance_;
     }
 
     void InstanceLookup::complete()
     {
-        //TODO
-        //if (newInstanceActivated())
-        //{
-        //}
+        componentRegistration_->raiseActivated(this->shared_from_this(), newInstance_);
     }
 
 } // namespace Hypodermic

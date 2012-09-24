@@ -1,8 +1,12 @@
+#include <functional>
 #include <stdexcept>
 
+#include "ActivatedData.h"
+#include "ActivatingData.h"
 #include "IComponentLifetime.h"
 #include "IInstanceActivator.h"
 #include "NullptrWorkaround.h"
+#include "PreparingData.h"
 #include "ComponentRegistration.h"
 
 
@@ -15,7 +19,8 @@ namespace Hypodermic
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
                                                  const std::vector< std::shared_ptr< Service > >& services,
-                                                 const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters)
+                                                 const std::unordered_map< std::type_index,
+                                                 std::shared_ptr< ITypeCaster > >& typeCasters)
         : id_(id)
         , activator_(activator)
         , sharing_(sharing)
@@ -23,6 +28,10 @@ namespace Hypodermic
         , lifetime_(lifetime)
         , services_(services)
         , typeCasters_(typeCasters)
+        , target_()
+        , preparingSignal_()
+        , activatingSignal_()
+        , activatedSignal_()
     {
         if (activator == nullptr)
             throw std::invalid_argument("activator");
@@ -36,7 +45,8 @@ namespace Hypodermic
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
                                                  const std::vector< std::shared_ptr< Service > >& services,
-                                                 const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters,
+                                                 const std::unordered_map< std::type_index,
+                                                 std::shared_ptr< ITypeCaster > >& typeCasters,
                                                  std::shared_ptr< IComponentRegistration > target)
         : id_(id)
         , activator_(activator)
@@ -46,6 +56,9 @@ namespace Hypodermic
         , services_(services)
         , typeCasters_(typeCasters)
         , target_(target)
+        , preparingSignal_()
+        , activatingSignal_()
+        , activatedSignal_()
     {
         if (activator == nullptr)
             throw std::invalid_argument("activator");
@@ -103,6 +116,40 @@ namespace Hypodermic
     std::string ComponentRegistration::toString()
     {
         return std::string("Component Registration");
+    }
+
+    ComponentRegistration::Preparing& ComponentRegistration::preparing()
+    {
+        return preparingSignal_;
+    }
+
+    void ComponentRegistration::raisePreparing(std::shared_ptr< IComponentContext > componentContext)
+    {
+        PreparingData data(componentContext, this->shared_from_this());
+        preparingSignal_(data);
+    }
+
+    ComponentRegistration::Activating& ComponentRegistration::activating()
+    {
+        return activatingSignal_;
+    }
+
+    void ComponentRegistration::raiseActivating(std::shared_ptr< IComponentContext > componentContext, std::shared_ptr< void >& instance)
+    {
+        ActivatingData< void > data(componentContext, this->shared_from_this(), instance);
+        activatingSignal_(data);
+        instance = data.instance();
+    }
+
+    ComponentRegistration::Activated& ComponentRegistration::activated()
+    {
+        return activatedSignal_;
+    }
+
+    void ComponentRegistration::raiseActivated(std::shared_ptr< IComponentContext > componentContext, std::shared_ptr< void > instance)
+    {
+        ActivatedData< void > data(componentContext, this->shared_from_this(), instance);
+        activatedSignal_(data);
     }
 
 } // namespace Hypodermic

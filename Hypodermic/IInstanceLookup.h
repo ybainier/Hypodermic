@@ -13,14 +13,12 @@ namespace Hypodermic
     class IInstanceLookup
     {
     public:
-        virtual ~IInstanceLookup() = 0;
+        virtual ~IInstanceLookup() {}
 
         virtual std::shared_ptr< IComponentRegistration > componentRegistration() = 0;
 
         virtual std::shared_ptr< ILifetimeScope > activationScope() = 0;
     };
-
-    inline IInstanceLookup::~IInstanceLookup() {}
 
 } // namespace Hypodermic
 

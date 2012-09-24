@@ -167,6 +167,24 @@
     <ClInclude Include="AutowiredConstructor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ActivatedData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ActivatingData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IActivatedData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IActivatingData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IPreparingData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PreparingData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="LifetimeScope.cpp">
