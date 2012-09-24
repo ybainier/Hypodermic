@@ -68,11 +68,11 @@
     <OutDir>$(ProjectDir)..\lib\x64\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
+    <IntDir>$(ProjectDir)..\obj\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</IntDir>
     <TargetName>hypodermic-vc$(PlatformToolsetVersion)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
+    <IntDir>$(ProjectDir)..\obj\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</IntDir>
     <TargetName>hypodermic-vc$(PlatformToolsetVersion)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -82,11 +82,11 @@
     <OutDir>$(ProjectDir)..\lib\x64\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
+    <IntDir>$(ProjectDir)..\obj\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</IntDir>
     <TargetName>hypodermic-vc$(PlatformToolsetVersion)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
+    <IntDir>$(ProjectDir)..\obj\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</IntDir>
     <TargetName>hypodermic-vc$(PlatformToolsetVersion)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -178,6 +178,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ActivatedData.h" />
+    <ClInclude Include="ActivatingData.h" />
     <ClInclude Include="AutowiredConstructor.h" />
     <ClInclude Include="BoostUuidHashFunctor.h" />
     <ClInclude Include="CircularDependencyDetector.h" />
@@ -192,6 +194,8 @@
     <ClInclude Include="DelegateActivator.hpp" />
     <ClInclude Include="DependencyResolutionException.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="IActivatedData.h" />
+    <ClInclude Include="IActivatingData.h" />
     <ClInclude Include="IComponentContext.h" />
     <ClInclude Include="IComponentContext.hpp" />
     <ClInclude Include="IComponentLifetime.h" />
@@ -206,6 +210,7 @@
     <ClInclude Include="InstanceLookup.h" />
     <ClInclude Include="InstanceOwnership.h" />
     <ClInclude Include="InstanceSharing.h" />
+    <ClInclude Include="IPreparingData.h" />
     <ClInclude Include="IRegistrationBuilder.h" />
     <ClInclude Include="IResolveOperation.h" />
     <ClInclude Include="ISharingLifetimeScope.h" />
@@ -213,6 +218,7 @@
     <ClInclude Include="KeyedService.h" />
     <ClInclude Include="LifetimeScope.h" />
     <ClInclude Include="NullptrWorkaround.h" />
+    <ClInclude Include="PreparingData.h" />
     <ClInclude Include="ProvidedInstanceActivator.h" />
     <ClInclude Include="ProvidedInstanceActivator.hpp" />
     <ClInclude Include="RegistrationBuilder.h" />

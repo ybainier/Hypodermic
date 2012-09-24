@@ -1,17 +1,22 @@
 #ifndef		HYPODERMIC_IREGISTRATION_BUILDER_H_
 # define	HYPODERMIC_IREGISTRATION_BUILDER_H_
 
+# include <functional>
 # include <memory>
 # include <string>
 # include <type_traits>
 # include <unordered_map>
 # include <vector>
 
+# include <Hypodermic/IActivatedData.h>
+# include <Hypodermic/IActivatingData.h>
+# include <Hypodermic/IPreparingData.h>
 # include <Hypodermic/ITypeCaster.h>
 
 
 namespace Hypodermic
 {
+    class IComponentContext;
 	class IInstanceActivator;
 	class RegistrationData;
 
@@ -28,7 +33,7 @@ namespace Hypodermic
         typedef IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT > SelfType;
         typedef RegistrationBuilderT< T, RegistrationStyleT > RegistrationBuilderImplementationType;
 
-        virtual ~IRegistrationBuilder() = 0;
+        virtual ~IRegistrationBuilder() {}
 
 		virtual RegistrationData& registrationData() = 0;
 		virtual std::shared_ptr< IInstanceActivator > activator() = 0;
@@ -59,15 +64,13 @@ namespace Hypodermic
 
 			return static_cast< RegistrationBuilderImplementationType* >(this)->named< ServiceT >(serviceName);
 		}
-	};
 
-	template
-    <
-        class T,
-        class RegistrationStyleT,
-        template <class /*T*/, class /*RegistrationStyleT*/> class RegistrationBuilderT
-    >
-    inline IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT >::~IRegistrationBuilder() {}
+        virtual void onPreparing(std::function< void(IPreparingData&) > callback) = 0;
+
+        virtual void onActivating(std::function< void(IActivatingData< T >&) > callback) = 0;
+
+        virtual void onActivated(std::function< void(IActivatedData< T >&) > callback) = 0;
+	};
 
 } // namespace Hypodermic
 

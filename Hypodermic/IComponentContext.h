@@ -12,10 +12,11 @@
 
 namespace Hypodermic
 {
+
     class IComponentContext
     {
     public:
-        virtual ~IComponentContext() = 0;
+        virtual ~IComponentContext() {}
 
         virtual std::shared_ptr< IComponentRegistry > componentRegistry() = 0;
 
@@ -43,8 +44,6 @@ namespace Hypodermic
         template <class ServiceT>
         std::vector< std::shared_ptr< ServiceT > > resolveAllForService(std::shared_ptr< Service > service);
     };
-
-    inline IComponentContext::~IComponentContext() {}
 
 } // namespace Hypodermic
 

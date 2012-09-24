@@ -15,6 +15,10 @@ namespace Hypodermic
         , sharing_(InstanceSharing::None)
         , ownership_(InstanceOwnership::OwnedByLifetimeScope)
         , lifetime_(new CurrentLifetimeScope)
+        , services_()
+        , preparingCallbacks_()
+        , activatingCallbacks_()
+        , activatedCallbacks_()
     {
     }
 
@@ -62,6 +66,21 @@ namespace Hypodermic
     {
         defaultServiceOverriden_ = true;
         services_.push_back(service);
+    }
+
+    RegistrationData::PreparingCallbacks& RegistrationData::preparingCallbacks()
+    {
+        return preparingCallbacks_;
+    }
+
+    RegistrationData::ActivatingCallbacks& RegistrationData::activatingCallbacks()
+    {
+        return activatingCallbacks_;
+    }
+
+    RegistrationData::ActivatedCallbacks& RegistrationData::activatedCallbacks()
+    {
+        return activatedCallbacks_;
     }
 
 } // namespace Hypodermic

@@ -7,6 +7,7 @@
 
 # include <boost/uuid/uuid.hpp>
 
+# include <Hypodermic/IComponentContext.h>
 # include <Hypodermic/IComponentRegistration.h>
 # include <Hypodermic/InstanceOwnership.h>
 # include <Hypodermic/InstanceSharing.h>
@@ -16,7 +17,6 @@
 
 namespace Hypodermic
 {
-    class IComponentContext;
     class IComponentLifetime;
     class IInstanceActivator;
 
@@ -30,7 +30,8 @@ namespace Hypodermic
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
                               const std::vector< std::shared_ptr< Service > >& services,
-                              const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters);
+                              const std::unordered_map< std::type_index,
+                              std::shared_ptr< ITypeCaster > >& typeCasters);
 
         ComponentRegistration(const boost::uuids::uuid& id,
                               std::shared_ptr< IInstanceActivator > activator,
@@ -38,7 +39,8 @@ namespace Hypodermic
                               InstanceSharing::Mode sharing,
                               InstanceOwnership::Mode ownership,
                               const std::vector< std::shared_ptr< Service > >& services,
-                              const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters,
+                              const std::unordered_map< std::type_index,
+                              std::shared_ptr< ITypeCaster > >& typeCasters,
                               std::shared_ptr< IComponentRegistration > target);
 
         std::shared_ptr< IComponentRegistration > target();
@@ -59,6 +61,18 @@ namespace Hypodermic
 
         std::string toString();
 
+        Preparing& preparing();
+
+        void raisePreparing(std::shared_ptr< IComponentContext > componentContext);
+
+        Activating& activating();
+
+        void raiseActivating(std::shared_ptr< IComponentContext > componentContext, std::shared_ptr< void >& instance);
+
+        Activated& activated();
+
+        void raiseActivated(std::shared_ptr< IComponentContext > componentContext, std::shared_ptr< void > instance);
+
 	private:
         boost::uuids::uuid id_;
         std::shared_ptr< IInstanceActivator > activator_;
@@ -68,6 +82,9 @@ namespace Hypodermic
         std::vector< std::shared_ptr< Service > > services_;
         std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > > typeCasters_;
         std::shared_ptr< IComponentRegistration > target_;
+        Preparing preparingSignal_;
+        Activating activatingSignal_;
+        Activated activatedSignal_;
 	};
 
 } // namespace Hypodermic

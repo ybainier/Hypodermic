@@ -1,5 +1,6 @@
 #include <boost/test/unit_test.hpp>
 
+#include <Hypodermic/ActivatingData.h>
 #include <Hypodermic/AutowiredConstructor.h>
 #include <Hypodermic/ContainerBuilder.h>
 #include <Hypodermic/Container.h>
@@ -415,6 +416,77 @@ BOOST_AUTO_TEST_CASE(registration_should_be_overridable)
 
     BOOST_CHECK(resolvedServiceA != nullptr);
     BOOST_CHECK(resolvedServiceA != serviceA);
+}
+
+BOOST_AUTO_TEST_CASE(registration_should_provide_instance_activating_data)
+{
+    ContainerBuilder c;
+
+    std::shared_ptr< IServiceA > serviceA = std::make_shared< ServiceA >();
+    std::shared_ptr< IServiceA > anotherServiceA = std::make_shared< ServiceA >();
+    
+    c.registerInstance(serviceA)->onActivating(
+        [serviceA, anotherServiceA](IActivatingData< IServiceA >& data) -> void
+        {
+            BOOST_CHECK(data.componentContext() != nullptr);
+            BOOST_CHECK(data.componentRegistration() != nullptr);
+            BOOST_CHECK(data.instance() == serviceA);
+
+            static_cast< ActivatingData< IServiceA >& >(data).instance(anotherServiceA);
+        }
+    );
+
+    auto container = c.build();
+
+    auto resolvedServiceA = container->resolve< IServiceA >();
+
+    BOOST_CHECK(resolvedServiceA == anotherServiceA);
+}
+
+BOOST_AUTO_TEST_CASE(registration_should_provide_instance_preparing_data)
+{
+    ContainerBuilder c;
+
+    std::shared_ptr< IServiceA > serviceA = std::make_shared< ServiceA >();
+    bool onPreparingInvoked = false;
+
+    c.registerInstance(serviceA)->onPreparing(
+        [&onPreparingInvoked](IPreparingData& data) -> void
+        {
+            BOOST_CHECK(data.componentContext() != nullptr);
+            BOOST_CHECK(data.componentRegistration() != nullptr);
+
+            onPreparingInvoked = true;
+        }
+    );
+
+    auto container = c.build();
+
+    auto resolvedServiceA = container->resolve< IServiceA >();
+
+    BOOST_CHECK(onPreparingInvoked);
+}
+
+BOOST_AUTO_TEST_CASE(registration_should_provide_instance_activated_data)
+{
+    ContainerBuilder c;
+
+    std::shared_ptr< IServiceA > serviceA = std::make_shared< ServiceA >();
+
+    c.registerInstance(serviceA)->onActivated(
+        [serviceA](IActivatedData< IServiceA >& data) -> void
+        {
+            BOOST_CHECK(data.componentContext() != nullptr);
+            BOOST_CHECK(data.componentRegistration() != nullptr);
+            BOOST_CHECK(data.instance() == serviceA);
+        }
+    );
+
+    auto container = c.build();
+
+    auto resolvedServiceA = container->resolve< IServiceA >();
+
+    BOOST_CHECK(resolvedServiceA == serviceA);
 }
 
 BOOST_AUTO_TEST_SUITE_END();

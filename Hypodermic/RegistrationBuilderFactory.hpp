@@ -2,6 +2,8 @@
 # ifndef    HYPODERMIC_REGISTRATION_BUILDER_FACTORY_HPP_
 #  define   HYPODERMIC_REGISTRATION_BUILDER_FACTORY_HPP_
 
+# include <boost/foreach.hpp>
+
 # include <Hypodermic/ComponentRegistration.h>
 # include <Hypodermic/ProvidedInstanceActivator.h>
 # include <Hypodermic/RegistrationBuilderFactory.h>
@@ -89,7 +91,17 @@ namespace Hypodermic
             registration = std::shared_ptr< ComponentRegistration >(new ComponentRegistration(id, activator, registrationData.lifetime(), registrationData.sharing(),
                                                                     registrationData.ownership(), services, typeCasters, target));
 
-		return registration;
+
+        BOOST_FOREACH(auto preparingCallback, registrationData.preparingCallbacks())
+            registration->preparing().connect(preparingCallback);
+
+        BOOST_FOREACH(auto activatingCallback, registrationData.activatingCallbacks())
+            registration->activating().connect(activatingCallback);
+
+        BOOST_FOREACH(auto activatedCallback, registrationData.activatedCallbacks())
+            registration->activated().connect(activatedCallback);
+        
+        return registration;
 	}
 
 } // namespace Hypodermic

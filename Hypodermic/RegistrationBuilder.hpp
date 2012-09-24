@@ -2,7 +2,10 @@
 # ifndef    HYPODERMIC_REGISTRATION_BUILDER_HPP_
 #  define   HYPODERMIC_REGISTRATION_BUILDER_HPP_
 
+# include <Hypodermic/ActivatedData.h>
+# include <Hypodermic/ActivatingData.h>
 # include <Hypodermic/IInstanceActivator.h>
+# include <Hypodermic/PreparingData.h>
 # include <Hypodermic/RegistrationData.h>
 # include <Hypodermic/Service.h>
 # include <Hypodermic/TypeCaster.h>
@@ -120,6 +123,43 @@ namespace Hypodermic
     RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName, const std::type_info& serviceTypeInfo)
     {
         return as< ServiceT >(std::make_shared< KeyedService >(serviceName, serviceTypeInfo));
+    }
+
+    template <class T, class RegistrationStyleT>
+    void RegistrationBuilder< T, RegistrationStyleT >::onPreparing(std::function< void(IPreparingData&) > callback)
+    {
+        registrationData_.preparingCallbacks().push_back(
+            [callback](PreparingData& preparingData) -> void
+            {
+                PreparingData data(preparingData.componentContext(), preparingData.componentRegistration());
+                callback(data);
+            }
+        );
+    }
+
+    template <class T, class RegistrationStyleT>
+    void RegistrationBuilder< T, RegistrationStyleT >::onActivating(std::function< void(IActivatingData< T >&) > callback)
+    {
+        registrationData_.activatingCallbacks().push_back(
+            [callback](ActivatingData< void >& activatingData) -> void
+            {
+                ActivatingData< T > data(activatingData.componentContext(), activatingData.componentRegistration(), std::static_pointer_cast< T >(activatingData.instance()));
+                callback(data);
+                activatingData.instance(data.instance());
+            }
+        );
+    }
+
+    template <class T, class RegistrationStyleT>
+    void RegistrationBuilder< T, RegistrationStyleT >::onActivated(std::function< void(IActivatedData< T >&) > callback)
+    {
+        registrationData_.activatedCallbacks().push_back(
+            [callback](ActivatedData< void >& activatedData) -> void
+            {
+                ActivatedData< T > data(activatedData.componentContext(), activatedData.componentRegistration(), std::static_pointer_cast< T >(activatedData.instance()));
+                callback(data);
+            }
+        );
     }
 
 } // namespace Hypodermic

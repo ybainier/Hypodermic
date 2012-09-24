@@ -15,7 +15,7 @@ namespace Hypodermic
 	class IComponentRegistry
 	{
 	public:
-        virtual ~IComponentRegistry() = 0;
+        virtual ~IComponentRegistry() {}
 
 		virtual std::shared_ptr< IComponentRegistration > getRegistration(std::shared_ptr< Service > service) = 0;
 		
@@ -28,8 +28,6 @@ namespace Hypodermic
 
 		virtual std::vector< std::shared_ptr< IComponentRegistration > > registrationsFor(std::shared_ptr< Service > service) = 0;
 	};
-
-    inline IComponentRegistry::~IComponentRegistry() {}
 
 } // namespace Hypodermic
 

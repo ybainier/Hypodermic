@@ -6,6 +6,7 @@
 # include <string>
 # include <vector>
 
+# include <boost/signals.hpp>
 # include <boost/uuid/uuid.hpp>
 
 # include <Hypodermic/InstanceOwnership.h>
@@ -16,15 +17,23 @@
 
 namespace Hypodermic
 {
+    class PreparingData;
+    template <class> class ActivatingData;
+    template <class> class ActivatedData;
+
     class IInstanceActivator;
+    class IComponentContext;
     class IComponentLifetime;
-    class IComponentRegistration;
 
 
 	class IComponentRegistration
 	{
 	public:
-        virtual ~IComponentRegistration() = 0;
+        typedef boost::signal< void(PreparingData&) > Preparing;
+        typedef boost::signal< void(ActivatingData< void >&) > Activating;
+        typedef boost::signal< void(ActivatedData< void >&) > Activated;
+
+        virtual ~IComponentRegistration() {}
 
 		virtual std::shared_ptr< IInstanceActivator > activator() = 0;
         
@@ -43,9 +52,19 @@ namespace Hypodermic
         virtual const boost::uuids::uuid& id() = 0;
 
         virtual std::string toString() = 0;
-	};
 
-    inline IComponentRegistration::~IComponentRegistration() {}
+        virtual Preparing& preparing() = 0;
+
+        virtual void raisePreparing(std::shared_ptr< IComponentContext > componentContext) = 0;
+
+        virtual Activating& activating() = 0;
+
+        virtual void raiseActivating(std::shared_ptr< IComponentContext > componentContext, std::shared_ptr< void >& instance) = 0;
+
+        virtual Activated& activated() = 0;
+
+        virtual void raiseActivated(std::shared_ptr< IComponentContext > componentContext, std::shared_ptr< void > instance) = 0;
+	};
 
     inline std::ostream& operator<<(std::ostream& os, IComponentRegistration& rhs)
     {

@@ -62,28 +62,28 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</OutDir>
+    <OutDir>$(ProjectDir)..\bin\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</OutDir>
+    <OutDir>$(ProjectDir)..\bin\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
+    <IntDir>$(ProjectDir)..\obj\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
+    <IntDir>$(ProjectDir)..\obj\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</OutDir>
+    <OutDir>$(ProjectDir)..\bin\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</OutDir>
+    <OutDir>$(ProjectDir)..\bin\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
+    <IntDir>$(ProjectDir)..\obj\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IntDir>$(ProjectDir)build\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\</IntDir>
+    <IntDir>$(ProjectDir)..\obj\$(Configuration)_$(Platform)_$(PlatformToolsetVersion)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
