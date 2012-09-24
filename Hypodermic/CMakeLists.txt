@@ -13,6 +13,8 @@ endif()
 include_directories("..")
 
 set(Hypodermic_headers
+    ActivatedData.h
+    ActivatingData.h
     AutowiredConstructor.h
     BoostUuidHashFunctor.h
     CircularDependencyDetector.h
@@ -27,6 +29,8 @@ set(Hypodermic_headers
     DelegateActivator.hpp
     DependencyResolutionException.h
     Helpers.h
+    IActivatedData.h
+    IActivatingData.h
     IComponentContext.h
     IComponentContext.hpp
     IComponentLifetime.h
@@ -41,13 +45,16 @@ set(Hypodermic_headers
     InstanceLookup.h
     InstanceOwnership.h
     InstanceSharing.h
+    IPreparingData.h
     IRegistrationBuilder.h
     IResolveOperation.h
     ISharingLifetimeScope.h
     ITypeCaster.h
-    LifetimeScope.h
     KeyedService.h
+    libsel.h
+    LifetimeScope.h
     NullptrWorkaround.h
+    PreparingData.h
     ProvidedInstanceActivator.h
     ProvidedInstanceActivator.hpp
     RegistrationBuilderFactory.h
@@ -63,8 +70,8 @@ set(Hypodermic_headers
     SingleRegistrationStyle.h
     TypeCaster.h
     TypeCaster.hpp
-    TypeIndexWorkaround.h
     TypedService.h
+    TypeIndexWorkaround.h
 )
 
 set(Hypodermic_sources
