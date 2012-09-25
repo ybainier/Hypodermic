@@ -65,11 +65,11 @@ namespace Hypodermic
 			return static_cast< RegistrationBuilderImplementationType* >(this)->named< ServiceT >(serviceName);
 		}
 
-        virtual void onPreparing(std::function< void(IPreparingData&) > callback) = 0;
+        virtual std::shared_ptr< SelfType > onPreparing(std::function< void(IPreparingData&) > callback) = 0;
 
-        virtual void onActivating(std::function< void(IActivatingData< T >&) > callback) = 0;
+        virtual std::shared_ptr< SelfType > onActivating(std::function< void(IActivatingData< T >&) > callback) = 0;
 
-        virtual void onActivated(std::function< void(IActivatedData< T >&) > callback) = 0;
+        virtual std::shared_ptr< SelfType > onActivated(std::function< void(IActivatedData< T >&) > callback) = 0;
 	};
 
 } // namespace Hypodermic

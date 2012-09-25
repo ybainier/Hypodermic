@@ -53,11 +53,11 @@ namespace Hypodermic
 		template <class ServiceT>
 		std::shared_ptr< ParentType > named(const std::string& serviceName);
 
-        void onPreparing(std::function< void(IPreparingData&) > callback);
+        std::shared_ptr< ParentType > onPreparing(std::function< void(IPreparingData&) > callback);
 
-        void onActivating(std::function< void(IActivatingData< T >&) > callback);
+        std::shared_ptr< ParentType > onActivating(std::function< void(IActivatingData< T >&) > callback);
 
-        void onActivated(std::function< void(IActivatedData< T >&) > callback);
+        std::shared_ptr< ParentType > onActivated(std::function< void(IActivatedData< T >&) > callback);
 
 	private:
         template <class ServiceT>

@@ -86,6 +86,9 @@ namespace Hypodermic
 
     void InstanceLookup::complete()
     {
+        if (!newInstanceActivated())
+            return;
+
         componentRegistration_->raiseActivated(this->shared_from_this(), newInstance_);
     }
 
