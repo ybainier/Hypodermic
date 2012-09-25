@@ -497,7 +497,7 @@ BOOST_AUTO_TEST_CASE(registration_should_not_provide_instance_activated_data_for
     auto registeredServiceA = std::make_shared< ServiceA >();
 
     builder.registerInstance(registeredServiceA)->onActivated(
-        [&activatedCount](IActivatedData< ServiceA >& data) -> void
+        [&activatedCount](IActivatedData< ServiceA >&) -> void
         {
             ++activatedCount;
         }
@@ -521,7 +521,7 @@ BOOST_AUTO_TEST_CASE(registration_should_provide_instance_activated_data_for_eve
     int activatedCount = 0;
 
     builder.registerType< ServiceA >()->onActivated(
-        [&activatedCount](IActivatedData< ServiceA >& data) -> void
+        [&activatedCount](IActivatedData< ServiceA >&) -> void
         {
             ++activatedCount;
         }
@@ -542,7 +542,7 @@ BOOST_AUTO_TEST_CASE(registration_should_only_provide_instance_activated_data_on
     int activatedCount = 0;
 
     builder.registerType< ServiceA >()->onActivated(
-        [&activatedCount](IActivatedData< ServiceA >& data) -> void
+        [&activatedCount](IActivatedData< ServiceA >&) -> void
         {
             ++activatedCount;
         }
