@@ -22,11 +22,11 @@ namespace Hypodermic
             , instance_(instance)
         {
             if (componentContext == nullptr)
-                std::invalid_argument("componentContext");
+                throw std::invalid_argument("componentContext");
             if (componentRegistration == nullptr)
-                std::invalid_argument("componentRegistration");
+                throw std::invalid_argument("componentRegistration");
             if (instance == nullptr)
-                std::invalid_argument("instance");
+                throw std::invalid_argument("instance");
         }
 
         std::shared_ptr< IComponentContext > componentContext() { return componentContext_; }

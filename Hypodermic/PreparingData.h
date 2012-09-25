@@ -19,9 +19,9 @@ namespace Hypodermic
             , componentRegistration_(componentRegistration)
         {
             if (componentContext == nullptr)
-                std::invalid_argument("componentContext");
+                throw std::invalid_argument("componentContext");
             if (componentRegistration == nullptr)
-                std::invalid_argument("componentRegistration");
+                throw std::invalid_argument("componentRegistration");
         }
 
         std::shared_ptr< IComponentContext > componentContext() { return componentContext_; }
