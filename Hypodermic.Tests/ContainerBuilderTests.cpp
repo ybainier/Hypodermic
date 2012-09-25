@@ -489,4 +489,71 @@ BOOST_AUTO_TEST_CASE(registration_should_provide_instance_activated_data)
     BOOST_CHECK(resolvedServiceA == serviceA);
 }
 
+BOOST_AUTO_TEST_CASE(registration_should_not_provide_instance_activated_data_for_already_activated_instance)
+{
+    ContainerBuilder builder;
+
+    int activatedCount = 0;
+    auto registeredServiceA = std::make_shared< ServiceA >();
+
+    builder.registerInstance(registeredServiceA)->onActivated(
+        [&activatedCount](IActivatedData< ServiceA >& data) -> void
+        {
+            ++activatedCount;
+        }
+    );
+
+    auto container = builder.build();
+
+    auto serviceA = container->resolve< ServiceA >();
+    auto sameServiceA = container->resolve< ServiceA >();
+
+    BOOST_CHECK(serviceA != nullptr);
+    BOOST_CHECK(serviceA == registeredServiceA);
+    BOOST_CHECK(serviceA == sameServiceA);
+    BOOST_CHECK(activatedCount == 1);
+}
+
+BOOST_AUTO_TEST_CASE(registration_should_provide_instance_activated_data_for_every_time_a_transient_object_is_activated)
+{
+    ContainerBuilder builder;
+
+    int activatedCount = 0;
+
+    builder.registerType< ServiceA >()->onActivated(
+        [&activatedCount](IActivatedData< ServiceA >& data) -> void
+        {
+            ++activatedCount;
+        }
+    );
+
+    auto container = builder.build();
+
+    auto serviceA = container->resolve< ServiceA >();
+    auto sameServiceA = container->resolve< ServiceA >();
+
+    BOOST_CHECK(activatedCount == 2);
+}
+
+BOOST_AUTO_TEST_CASE(registration_should_only_provide_instance_activated_data_once_for_shared_object)
+{
+    ContainerBuilder builder;
+
+    int activatedCount = 0;
+
+    builder.registerType< ServiceA >()->onActivated(
+        [&activatedCount](IActivatedData< ServiceA >& data) -> void
+        {
+            ++activatedCount;
+        }
+    )->singleInstance();
+
+    auto container = builder.build();
+
+    auto serviceA = container->resolve< ServiceA >();
+    auto sameServiceA = container->resolve< ServiceA >();
+
+    BOOST_CHECK(activatedCount == 1);
+}
+
 BOOST_AUTO_TEST_SUITE_END();

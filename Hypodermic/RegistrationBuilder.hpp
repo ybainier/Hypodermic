@@ -126,7 +126,8 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    void RegistrationBuilder< T, RegistrationStyleT >::onPreparing(std::function< void(IPreparingData&) > callback)
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::onPreparing(std::function< void(IPreparingData&) > callback)
     {
         registrationData_.preparingCallbacks().push_back(
             [callback](PreparingData& preparingData) -> void
@@ -135,10 +136,13 @@ namespace Hypodermic
                 callback(data);
             }
         );
+
+        return this->shared_from_this();
     }
 
     template <class T, class RegistrationStyleT>
-    void RegistrationBuilder< T, RegistrationStyleT >::onActivating(std::function< void(IActivatingData< T >&) > callback)
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::onActivating(std::function< void(IActivatingData< T >&) > callback)
     {
         registrationData_.activatingCallbacks().push_back(
             [callback](ActivatingData< void >& activatingData) -> void
@@ -148,10 +152,13 @@ namespace Hypodermic
                 activatingData.instance(data.instance());
             }
         );
+
+        return this->shared_from_this();
     }
 
     template <class T, class RegistrationStyleT>
-    void RegistrationBuilder< T, RegistrationStyleT >::onActivated(std::function< void(IActivatedData< T >&) > callback)
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::onActivated(std::function< void(IActivatedData< T >&) > callback)
     {
         registrationData_.activatedCallbacks().push_back(
             [callback](ActivatedData< void >& activatedData) -> void
@@ -160,6 +167,8 @@ namespace Hypodermic
                 callback(data);
             }
         );
+
+        return this->shared_from_this();
     }
 
 } // namespace Hypodermic
