@@ -97,6 +97,19 @@ private:
 };
 
 
+struct MoveConstructorObject
+{
+    typedef AutowiredConstructor< MoveConstructorObject(IServiceA*) > AutowiredSignature;
+
+    MoveConstructorObject(std::shared_ptr< IServiceA >&& serviceA)
+        : serviceA(std::move(serviceA))
+    {
+    }
+
+    std::shared_ptr< IServiceA > serviceA;
+};
+
+
 BOOST_AUTO_TEST_SUITE(ContainerBuilderTests);
 
 BOOST_AUTO_TEST_CASE(can_register_and_resolve_concrete_type)
@@ -554,6 +567,49 @@ BOOST_AUTO_TEST_CASE(registration_should_only_provide_instance_activated_data_on
     auto sameServiceA = container->resolve< ServiceA >();
 
     BOOST_CHECK(activatedCount == 1);
+}
+
+BOOST_AUTO_TEST_CASE(should_use_move_constructor_with_shared_dependency)
+{
+    ContainerBuilder builder;
+
+    builder.registerType< ServiceA >()->as< IServiceA >()->singleInstance();
+    builder.autowireType< MoveConstructorObject >();
+
+    auto container = builder.build();
+
+    auto serviceA = container->resolve< IServiceA >();
+    auto object = container->resolve< MoveConstructorObject >();
+    auto serviceA2 = container->resolve< IServiceA >();
+
+    BOOST_CHECK(serviceA != nullptr);
+    BOOST_CHECK(serviceA == serviceA2);
+
+    BOOST_REQUIRE(object != nullptr);
+    BOOST_CHECK(object->serviceA == serviceA);
+}
+
+BOOST_AUTO_TEST_CASE(should_use_move_constructor_with_transient_dependency)
+{
+    ContainerBuilder builder;
+
+    builder.registerType< ServiceA >()->as< IServiceA >();
+    builder.autowireType< MoveConstructorObject >();
+
+    auto container = builder.build();
+
+    auto serviceA = container->resolve< IServiceA >();
+    auto object = container->resolve< MoveConstructorObject >();
+    auto serviceA2 = container->resolve< IServiceA >();
+
+    BOOST_CHECK(serviceA != nullptr);
+    BOOST_CHECK(serviceA2 != nullptr);
+    BOOST_CHECK(serviceA != serviceA2);
+
+    BOOST_REQUIRE(object != nullptr);
+    BOOST_CHECK(object->serviceA != nullptr);
+    BOOST_CHECK(object->serviceA != serviceA);
+    BOOST_CHECK(object->serviceA != serviceA2);
 }
 
 BOOST_AUTO_TEST_SUITE_END();
