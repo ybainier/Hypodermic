@@ -1,9 +1,18 @@
+hypodermic (0.1.4-1) unstable; urgency=low
+
+  * Scoped container support added
+  * move constructor test cases added
+  * Cosmetic: brand new projects' filters
+
+ -- Yohan Bainier <address@hidden.com>  Fri, 12 Jul 2013 14:42:00 +0100
+
+ 
 hypodermic (0.1.3-1) unstable; urgency=low
 
   * Better IRegistrationBuilder interface
   * InstanceLookup::complete() fixed
 
- -- Bertrand Blackburn <address@hidden.com>  Wed, 01 Feb 2012 14:35:25 +0100
+ -- Yohan Bainier <address@hidden.com>  Tue, 25 Sep 2012 11:46:52 +0100
 
  
 hypodermic (0.1.2-1) unstable; urgency=low

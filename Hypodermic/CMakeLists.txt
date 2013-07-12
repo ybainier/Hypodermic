@@ -19,15 +19,19 @@ set(Hypodermic_headers
     BoostUuidHashFunctor.h
     CircularDependencyDetector.h
     ComponentRegistration.h
+    ComponentRegistrationLifetimeDecorator.h
     ComponentRegistry.h
     ContainerActivator.h
     ContainerBuilder.h
     ContainerBuilder.hpp
     Container.h
+    CopyOnWriteRegistry.h
     CurrentLifetimeScope.h
     DelegateActivator.h
     DelegateActivator.hpp
     DependencyResolutionException.h
+    ExternalRegistrySource.h
+    ForwardTypeCaster.h
     Helpers.h
     IActivatedData.h
     IActivatingData.h
@@ -47,12 +51,14 @@ set(Hypodermic_headers
     InstanceSharing.h
     IPreparingData.h
     IRegistrationBuilder.h
+    IRegistrationSource.h
     IResolveOperation.h
     ISharingLifetimeScope.h
     ITypeCaster.h
     KeyedService.h
     libsel.h
     LifetimeScope.h
+    MatchingScopeLifetime.h
     NullptrWorkaround.h
     PreparingData.h
     ProvidedInstanceActivator.h
@@ -64,6 +70,7 @@ set(Hypodermic_headers
     RegistrationData.h
     ResolveOperation.h
     RootScopeLifetime.h
+    ScopeRestrictedRegistry.h
     Service.h
     ServiceKey.h
     ServiceRegistrationInfo.h
@@ -77,19 +84,25 @@ set(Hypodermic_headers
 set(Hypodermic_sources
     CircularDependencyDetector.cpp
     ComponentRegistration.cpp
+    ComponentRegistrationLifetimeDecorator.cpp
     ComponentRegistry.cpp
     ContainerActivator.cpp
     ContainerBuilder.cpp
     Container.cpp
+    CopyOnWriteRegistry.cpp
     CurrentLifetimeScope.cpp
     DependencyResolutionException.cpp
+    ExternalRegistrySource.cpp
+    ForwardTypeCaster.cpp
     InstanceActivator.cpp
     InstanceLookup.cpp
     KeyedService.cpp
     LifetimeScope.cpp
+    MatchingScopeLifetime.cpp
     RegistrationData.cpp
     ResolveOperation.cpp
     RootScopeLifetime.cpp
+    ScopeRestrictedRegistry.cpp
     ServiceKey.cpp
     ServiceRegistrationInfo.cpp
     SingleRegistrationStyle.cpp
