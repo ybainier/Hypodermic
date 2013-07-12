@@ -10,6 +10,7 @@
 namespace Hypodermic
 {
 	class IComponentRegistration;
+	class IRegistrationSource;
 
 
 	class IComponentRegistry
@@ -24,9 +25,13 @@ namespace Hypodermic
 		virtual void addRegistration(std::shared_ptr< IComponentRegistration > registration) = 0;
         virtual void addRegistration(std::shared_ptr< IComponentRegistration > registration, bool preserveDefaults) = 0;
 
+        virtual void addRegistrationSource(std::shared_ptr< IRegistrationSource > source) = 0;
+
 		virtual std::vector< std::shared_ptr< IComponentRegistration > > registrations() = 0;
 
 		virtual std::vector< std::shared_ptr< IComponentRegistration > > registrationsFor(std::shared_ptr< Service > service) = 0;
+
+        virtual bool hasLocalComponents() const = 0;
 	};
 
 } // namespace Hypodermic

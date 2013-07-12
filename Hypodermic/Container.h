@@ -22,6 +22,8 @@ namespace Hypodermic
 
         void initialize();
 
+        std::shared_ptr< ILifetimeScope > createLifetimeScope();
+
 	private:
 		std::shared_ptr< IComponentRegistry > componentRegistry_;
         std::shared_ptr< ILifetimeScope > rootLifetimeScope_;

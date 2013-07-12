@@ -1,15 +1,19 @@
+#include "LifetimeScope.h"
+
 #include <stdexcept>
+#include <vector>
 
 #include <boost/uuid/random_generator.hpp>
 
+#include "CopyOnWriteRegistry.h"
+#include "ExternalRegistrySource.h"
 #include "ResolveOperation.h"
-#include "LifetimeScope.h"
 
 
 namespace Hypodermic
 {
 	const boost::uuids::uuid LifetimeScope::selfRegistrationId = boost::uuids::random_generator()();
-	std::function< void(ContainerBuilder*) > LifetimeScope::noConfiguration_ = [](ContainerBuilder*) -> void {};
+	std::function< void(ContainerBuilder&) > LifetimeScope::noConfiguration_ = [](ContainerBuilder&) -> void {};
 
 
     LifetimeScope::LifetimeScope(std::shared_ptr< IComponentRegistry > componentRegistry)
@@ -76,8 +80,47 @@ namespace Hypodermic
 
     void LifetimeScope::initialize()
     {
-        auto sharedSelf = shared_from_this();
+        auto sharedSelf = this->shared_from_this();
         root_ = parent_ != nullptr ? parent_ : std::static_pointer_cast< ISharingLifetimeScope >(sharedSelf);
+    }
+
+    std::shared_ptr< ILifetimeScope > LifetimeScope::createLifetimeScope()
+    {
+        auto registry = std::make_shared< CopyOnWriteRegistry >(componentRegistry_, [this]() { return this->createScopeRestrictedRegistry(noConfiguration_); });
+        auto scope = std::shared_ptr< LifetimeScope >(new LifetimeScope(registry, this->shared_from_this()));
+
+        return std::shared_ptr< ILifetimeScope >(scope);
+    }
+
+    std::shared_ptr< ScopeRestrictedRegistry > LifetimeScope::createScopeRestrictedRegistry(std::function< void(ContainerBuilder&) > configurationAction)
+    {
+        ContainerBuilder builder;
+
+        std::vector< std::shared_ptr< IRegistrationSource > > parents;
+
+        decltype(parentLifetimeScope()) s = this->shared_from_this();
+        while (s != nullptr)
+        {
+            if (s->componentRegistry()->hasLocalComponents())
+            {
+                auto source = std::make_shared< ExternalRegistrySource >(s->componentRegistry());
+                parents.push_back(source);
+            }
+
+            s = s->parentLifetimeScope();
+        }
+
+        std::for_each(parents.begin(), parents.end(),
+            [&builder](std::shared_ptr< IRegistrationSource > external)
+            {
+                builder.registerSource(external);
+            });
+
+        configurationAction(builder);
+
+        auto registry = std::make_shared< ScopeRestrictedRegistry >();
+        builder.build(registry);
+        return registry;
     }
 
 } // namespace Hypodermic

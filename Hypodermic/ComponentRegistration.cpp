@@ -3,6 +3,7 @@
 
 #include "ActivatedData.h"
 #include "ActivatingData.h"
+#include "ForwardTypeCaster.h"
 #include "IComponentLifetime.h"
 #include "IInstanceActivator.h"
 #include "NullptrWorkaround.h"
@@ -115,7 +116,7 @@ namespace Hypodermic
 
     std::string ComponentRegistration::toString()
     {
-        return std::string("Component Registration");
+        return std::string("ComponentRegistration");
     }
 
     ComponentRegistration::Preparing& ComponentRegistration::preparing()
@@ -150,6 +151,15 @@ namespace Hypodermic
     {
         ActivatedData< void > data(componentContext, this->shared_from_this(), instance);
         activatedSignal_(data);
+    }
+
+    std::shared_ptr< ITypeCaster > ComponentRegistration::getTypeCaster(const std::type_info& typeInfo)
+    {
+        std::type_index typeIndex(typeInfo);
+        if (typeCasters_.count(typeIndex) == 0)
+            return std::shared_ptr< ITypeCaster >(std::make_shared< ForwardTypeCaster >(typeInfo));
+
+        return typeCasters_[typeIndex];
     }
 
 } // namespace Hypodermic

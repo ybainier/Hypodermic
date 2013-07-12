@@ -41,4 +41,12 @@ namespace Hypodermic
             callback(componentRegistry);
     }
 
+    void ContainerBuilder::registerSource(std::shared_ptr< IRegistrationSource > registrationSource)
+    {
+        if (registrationSource == nullptr)
+            throw std::invalid_argument("registrationSource");
+
+        registerCallback([registrationSource](std::shared_ptr< IComponentRegistry > cr) { cr->addRegistrationSource(registrationSource); });
+    }
+
 } // namespace Hypodermic

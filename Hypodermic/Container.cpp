@@ -75,4 +75,9 @@ namespace Hypodermic
         rootLifetimeScope_->initialize();
     }
 
+    std::shared_ptr< ILifetimeScope > Container::createLifetimeScope()
+    {
+        return rootLifetimeScope_->createLifetimeScope();
+    }
+
 } // namespace Hypodermic

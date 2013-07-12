@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_COMPONENT_REGISTRY_H_
 # define	HYPODERMIC_COMPONENT_REGISTRY_H_
 
+# include <deque>
 # include <memory>
 # include <unordered_map>
 # include <vector>
@@ -15,6 +16,7 @@
 namespace Hypodermic
 {
     class IComponentRegistration;
+    class IRegistrationSource;
 
 
 	class ComponentRegistry : public IComponentRegistry
@@ -28,17 +30,22 @@ namespace Hypodermic
 
 		void addRegistration(std::shared_ptr< IComponentRegistration > registration);
 
-        void addRegistration(std::shared_ptr< IComponentRegistration > registration, bool preserveDefaults);
+        virtual void addRegistration(std::shared_ptr< IComponentRegistration > registration, bool preserveDefaults);
+
+        void addRegistrationSource(std::shared_ptr< IRegistrationSource > source);
 
 		std::vector< std::shared_ptr< IComponentRegistration > > registrations();
 
 		std::vector< std::shared_ptr< IComponentRegistration > > registrationsFor(std::shared_ptr< Service > service);
 
-	private:
-		std::shared_ptr< ServiceRegistrationInfo > getServiceInfo(std::shared_ptr< Service > service);
+        bool hasLocalComponents() const;
 
+	private:
+        std::shared_ptr< ServiceRegistrationInfo > getInitializedServiceInfo(std::shared_ptr< Service > service);
+		std::shared_ptr< ServiceRegistrationInfo > getServiceInfo(std::shared_ptr< Service > service);
         
         std::vector< std::shared_ptr< IComponentRegistration > > registrations_;
+        std::deque< std::shared_ptr< IRegistrationSource > > dynamicRegistrationSources_;
 		ServiceRegistrationInfos serviceInfo_;
 		boost::recursive_mutex mutex_;
 	};

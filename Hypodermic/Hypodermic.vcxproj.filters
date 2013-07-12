@@ -157,6 +157,27 @@
     </ClInclude>
     <ClInclude Include="AutowiredConstructor.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="CopyOnWriteRegistry.h">
+      <Filter>Core\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="ScopeRestrictedRegistry.h">
+      <Filter>Core\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="MatchingScopeLifetime.h">
+      <Filter>Core\Lifetime</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentRegistrationLifetimeDecorator.h">
+      <Filter>Core\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="IRegistrationSource.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ExternalRegistrySource.h">
+      <Filter>Core\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="ForwardTypeCaster.h">
+      <Filter>Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ContainerActivator.cpp" />
@@ -211,6 +232,24 @@
     </ClCompile>
     <ClCompile Include="InstanceLookup.cpp">
       <Filter>Core\Resolving</Filter>
+    </ClCompile>
+    <ClCompile Include="CopyOnWriteRegistry.cpp">
+      <Filter>Core\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="ScopeRestrictedRegistry.cpp">
+      <Filter>Core\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="MatchingScopeLifetime.cpp">
+      <Filter>Core\Lifetime</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentRegistrationLifetimeDecorator.cpp">
+      <Filter>Core\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="ExternalRegistrySource.cpp">
+      <Filter>Core\Registration</Filter>
+    </ClCompile>
+    <ClCompile Include="ForwardTypeCaster.cpp">
+      <Filter>Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

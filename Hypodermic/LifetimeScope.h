@@ -11,6 +11,7 @@
 # include <Hypodermic/BoostUuidHashFunctor.h>
 # include <Hypodermic/ContainerBuilder.h>
 # include <Hypodermic/ISharingLifetimeScope.h>
+# include <Hypodermic/ScopeRestrictedRegistry.h>
 
 
 namespace Hypodermic
@@ -34,10 +35,15 @@ namespace Hypodermic
 
         void initialize();
 
+        std::shared_ptr< ILifetimeScope > createLifetimeScope();
+
         static const boost::uuids::uuid selfRegistrationId;
 
-	private:
+	protected:
         LifetimeScope(std::shared_ptr< IComponentRegistry > componentRegistry, std::shared_ptr< LifetimeScope > parent);
+
+    private:
+        std::shared_ptr< ScopeRestrictedRegistry > createScopeRestrictedRegistry(std::function< void(ContainerBuilder&) > configurationAction);
 
         std::shared_ptr< IComponentRegistry > componentRegistry_;
 		std::shared_ptr< ISharingLifetimeScope > parent_;
@@ -46,7 +52,7 @@ namespace Hypodermic
 
         boost::recursive_mutex mutex_;
 
-		static std::function< void(ContainerBuilder*) > noConfiguration_;
+		static std::function< void(ContainerBuilder&) > noConfiguration_;
 	};
 
 } // namespace Hypodermic

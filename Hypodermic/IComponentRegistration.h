@@ -48,6 +48,7 @@ namespace Hypodermic
         virtual std::vector< std::shared_ptr< Service > >& services() = 0;
 
         virtual std::shared_ptr< void > castOrForward(const std::type_info& typeInfo, std::shared_ptr< void > instance) = 0;
+        virtual std::shared_ptr< ITypeCaster > getTypeCaster(const std::type_info& typeInfo) = 0;
 
         virtual const boost::uuids::uuid& id() = 0;
 
@@ -64,6 +65,8 @@ namespace Hypodermic
         virtual Activated& activated() = 0;
 
         virtual void raiseActivated(std::shared_ptr< IComponentContext > componentContext, std::shared_ptr< void > instance) = 0;
+
+        bool isAdapting() { return target().get() != this; }
 	};
 
     inline std::ostream& operator<<(std::ostream& os, IComponentRegistration& rhs)

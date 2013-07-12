@@ -1,6 +1,7 @@
 #ifndef		HYPODERMIC_SERVICE_REGISTRATION_INFO_H_
 # define	HYPODERMIC_SERVICE_REGISTRATION_INFO_H_
 
+# include <deque>
 # include <memory>
 # include <vector>
 
@@ -10,6 +11,7 @@
 namespace Hypodermic
 {
     class Service;
+    class IRegistrationSource;
 
 
 	class ServiceRegistrationInfo
@@ -23,13 +25,26 @@ namespace Hypodermic
 
 		std::shared_ptr< IComponentRegistration > getRegistration();
 
-		bool isRegistered();
+        bool isInitialized() const;
+        bool isInitializing() const;
 
+		bool isRegistered();
+        void completeInitialization();
+
+        void include(std::shared_ptr< IRegistrationSource > source);
+
+        void beginInitialization(const std::deque< std::shared_ptr< IRegistrationSource > >& sources);
+        
+        bool hasSourcesToQuery() const;
+
+        std::shared_ptr< IRegistrationSource > dequeueNextSource();
+        void skipSource(std::shared_ptr< IRegistrationSource > source);
 
 	private:
 		std::shared_ptr< Service > service_;
 		bool isInitialized_;
 		std::vector< std::shared_ptr< IComponentRegistration > > implementations_;
+        std::deque< std::shared_ptr< IRegistrationSource > > sourcesToQuery_;
 	};
 
 } // namespace Hypodermic

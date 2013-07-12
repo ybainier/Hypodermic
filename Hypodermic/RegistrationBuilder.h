@@ -48,6 +48,8 @@ namespace Hypodermic
 		template <class ServiceT>
 		std::shared_ptr< ParentType > as();
 
+        std::shared_ptr< ParentType > as(std::shared_ptr< Service > service, std::shared_ptr< ITypeCaster > typeCaster);
+
         std::shared_ptr< ParentType > asSelf();
 
 		template <class ServiceT>
@@ -60,9 +62,6 @@ namespace Hypodermic
         std::shared_ptr< ParentType > onActivated(std::function< void(IActivatedData< T >&) > callback);
 
 	private:
-        template <class ServiceT>
-        std::shared_ptr< ParentType > as(std::shared_ptr< Service > service);
-
         template <class ServiceT>
         std::shared_ptr< ParentType > named(const std::string& serviceName, const std::type_info& serviceTypeInfo);
 

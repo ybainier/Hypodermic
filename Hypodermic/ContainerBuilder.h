@@ -7,6 +7,7 @@
 # include <vector>
 
 # include <Hypodermic/IContainer.h>
+# include <Hypodermic/IRegistrationSource.h>
 # include <Hypodermic/RegistrationBuilder.h>
 # include <Hypodermic/SingleRegistrationStyle.h>
 
@@ -43,6 +44,8 @@ namespace Hypodermic
 
 		template <class T>
 		std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > registerInstance(std::shared_ptr< T > instance);
+
+        void registerSource(std::shared_ptr< IRegistrationSource > registrationSource);
 
 		void registerCallback(ConfigurationCallback configurationCallback);
 
