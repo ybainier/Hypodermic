@@ -58,6 +58,7 @@ namespace Hypodermic
         std::vector< std::shared_ptr< Service > >& services();
 
         std::shared_ptr< void > castOrForward(const std::type_info& typeInfo, std::shared_ptr< void > instance);
+        std::shared_ptr< ITypeCaster > getTypeCaster(const std::type_info& typeInfo);
 
         std::string toString();
 

@@ -85,23 +85,24 @@ namespace Hypodermic
     std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
     RegistrationBuilder< T, RegistrationStyleT >::as()
     {
-        return as< ServiceT >(std::make_shared< TypedService >(typeid(ServiceT)));
+        auto&& typeInfo = typeid(ServiceT);
+        return as(std::make_shared< TypedService >(typeid(ServiceT)), std::make_shared< TypeCaster< T, ServiceT > >(typeInfo));
     }
 
     template <class T, class RegistrationStyleT>
     std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
     RegistrationBuilder< T, RegistrationStyleT >::asSelf()
     {
-        return as< T >(std::make_shared< TypedService >(typeid(T)));
+        auto&& typeInfo = typeid(T);
+        return as(std::make_shared< TypedService >(typeInfo), std::make_shared< TypeCaster< T, T > >(typeInfo));
     }
 
     template <class T, class RegistrationStyleT>
-    template <class ServiceT>
     std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
-    RegistrationBuilder< T, RegistrationStyleT >::as(std::shared_ptr< Service > service)
+    RegistrationBuilder< T, RegistrationStyleT >::as(std::shared_ptr< Service > service, std::shared_ptr< ITypeCaster > typeCaster)
     {
         registrationData_.addService(service);
-        typeCasters_.insert(std::make_pair(std::type_index(service->typeInfo()), std::make_shared< TypeCaster< T, ServiceT > >(service->typeInfo())));
+        typeCasters_.insert(std::make_pair(std::type_index(service->typeInfo()), typeCaster));
 
         return this->shared_from_this();
     }
@@ -122,7 +123,8 @@ namespace Hypodermic
     std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
     RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName, const std::type_info& serviceTypeInfo)
     {
-        return as< ServiceT >(std::make_shared< KeyedService >(serviceName, serviceTypeInfo));
+        auto&& typeInfo = typeid(ServiceT);
+        return as(std::make_shared< KeyedService >(serviceName, serviceTypeInfo), std::make_shared< TypeCaster< T, ServiceT > >(typeInfo));
     }
 
     template <class T, class RegistrationStyleT>

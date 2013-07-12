@@ -54,6 +54,8 @@ namespace Hypodermic
 			return static_cast< RegistrationBuilderImplementationType* >(this)->as< ServiceT >();
 		}
 
+        virtual std::shared_ptr< SelfType > as(std::shared_ptr< Service > service, std::shared_ptr< ITypeCaster > typeCaster) = 0;
+
         virtual std::shared_ptr< SelfType > asSelf() = 0;
 
 		template <class ServiceT>

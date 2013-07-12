@@ -12,6 +12,8 @@ namespace Hypodermic
 	{
     public:
         virtual ~ILifetimeScope() {}
+
+        virtual std::shared_ptr< ILifetimeScope > createLifetimeScope() = 0;
 	};
 
 } // namespace Hypodermic

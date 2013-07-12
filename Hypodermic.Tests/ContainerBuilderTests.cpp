@@ -612,4 +612,119 @@ BOOST_AUTO_TEST_CASE(should_use_move_constructor_with_transient_dependency)
     BOOST_CHECK(object->serviceA != serviceA2);
 }
 
+BOOST_AUTO_TEST_CASE(should_create_scoped_container)
+{
+    ContainerBuilder builder;
+    
+    builder.registerType< ServiceA >()->as< IServiceA >();
+    
+    auto container = builder.build();
+
+    auto serviceB = container->resolve< ServiceB >();
+    BOOST_CHECK(serviceB == nullptr);
+
+    {
+        auto lifetimeScope = container->createLifetimeScope();
+
+        ContainerBuilder scopedBuilder;
+        scopedBuilder.autowireType< ServiceB >();
+
+        scopedBuilder.build(lifetimeScope->componentRegistry());
+
+        serviceB = container->resolve< ServiceB >();
+        BOOST_CHECK(serviceB == nullptr);
+
+        serviceB = lifetimeScope->resolve< ServiceB >();
+        BOOST_CHECK(serviceB != nullptr);
+    }
+
+    serviceB = container->resolve< ServiceB >();
+    BOOST_CHECK(serviceB == nullptr);
+}
+
+BOOST_AUTO_TEST_CASE(should_create_scoped_container_with_single_instances)
+{
+    ContainerBuilder builder;
+    
+    builder.registerType< ServiceA >()->as< IServiceA >();
+    
+    auto container = builder.build();
+
+    auto serviceB = container->resolve< IServiceB >();
+    BOOST_CHECK(serviceB == nullptr);
+
+    {
+        auto lifetimeScope = container->createLifetimeScope();
+
+        ContainerBuilder scopedBuilder;
+        scopedBuilder.autowireType< ServiceB >()->as< IServiceB >()->singleInstance();
+
+        scopedBuilder.build(lifetimeScope->componentRegistry());
+
+        serviceB = container->resolve< IServiceB >();
+        BOOST_CHECK(serviceB == nullptr);
+
+        serviceB = lifetimeScope->resolve< IServiceB >();
+        BOOST_CHECK(serviceB != nullptr);
+
+        auto sameServiceB = lifetimeScope->resolve< IServiceB >();
+        BOOST_CHECK(sameServiceB == serviceB);
+    }
+
+    serviceB = container->resolve< IServiceB >();
+    BOOST_CHECK(serviceB == nullptr);
+}
+
+BOOST_AUTO_TEST_CASE(should_create_scoped_container_with_scoped_dependencies)
+{
+    struct RandomDependency
+    {
+        typedef Hypodermic::AutowiredConstructor< RandomDependency() > AutowiredSignature;
+
+        RandomDependency() {}
+    };
+    
+    struct CoolObject
+    {
+        typedef Hypodermic::AutowiredConstructor< CoolObject(RandomDependency*) > AutowiredSignature;
+
+        CoolObject(std::shared_ptr< RandomDependency > randomDependency)
+            : randomDependency(randomDependency)
+        {
+            if (randomDependency == nullptr)
+                throw std::invalid_argument("randomDependency");
+        }
+
+        std::shared_ptr< RandomDependency > randomDependency;
+    };
+
+    ContainerBuilder builder;
+
+    builder.autowireType< CoolObject >();
+
+    auto container = builder.build();
+
+    BOOST_CHECK_THROW(container->resolve< CoolObject >(), std::exception);
+
+    {
+        auto lifetimeScope = container->createLifetimeScope();
+
+        ContainerBuilder scopedBuilder;
+        scopedBuilder.autowireType< RandomDependency >()->singleInstance();
+
+        scopedBuilder.build(lifetimeScope->componentRegistry());
+
+        auto randomDependency = lifetimeScope->resolve< RandomDependency >();
+
+        BOOST_CHECK_THROW(container->resolve< CoolObject >(), std::exception);
+        BOOST_CHECK_NO_THROW(lifetimeScope->resolve< CoolObject >());
+
+        auto coolObject = lifetimeScope->resolve< CoolObject >();
+        BOOST_CHECK(coolObject != nullptr);
+        BOOST_CHECK(coolObject->randomDependency == randomDependency);
+    }
+
+    BOOST_CHECK_THROW(container->resolve< CoolObject >(), std::exception);
+}
+
 BOOST_AUTO_TEST_SUITE_END();

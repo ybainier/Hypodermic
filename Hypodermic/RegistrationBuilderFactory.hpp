@@ -28,6 +28,21 @@ namespace Hypodermic
             typename RegistrationBuilderInterfaceT< T >::RegistrationStyleType());
 	}
 
+    template <template <class> class RegistrationBuilderInterfaceT>
+	std::shared_ptr< typename RegistrationBuilderInterfaceT< void >::Type >
+    RegistrationBuilderFactory< RegistrationBuilderInterfaceT >::forDelegate(const std::type_info& typeInfo,
+                                                                             std::function
+                                                                                <
+                                                                                    std::shared_ptr< void >(IComponentContext&)
+                                                                                >
+                                                                                delegate)
+	{
+		return std::make_shared< typename RegistrationBuilderInterfaceT< void >::ImplementationType >(
+            std::make_shared< TypedService >(typeInfo),
+			std::make_shared< DelegateActivator< void > >(typeInfo, delegate),
+            typename RegistrationBuilderInterfaceT< void >::RegistrationStyleType());
+	}
+
 	template <template <class> class RegistrationBuilderInterfaceT>
     template <class T>
     std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type >
