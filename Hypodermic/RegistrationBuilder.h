@@ -55,6 +55,8 @@ namespace Hypodermic
 		template <class ServiceT>
 		std::shared_ptr< ParentType > named(const std::string& serviceName);
 
+        std::shared_ptr< ParentType > targeting(std::shared_ptr< IComponentRegistration > target);
+
         std::shared_ptr< ParentType > onPreparing(std::function< void(IPreparingData&) > callback);
 
         std::shared_ptr< ParentType > onActivating(std::function< void(IActivatingData< T >&) > callback);

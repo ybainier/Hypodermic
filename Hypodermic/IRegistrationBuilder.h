@@ -17,6 +17,7 @@
 namespace Hypodermic
 {
     class IComponentContext;
+    class IComponentRegistration;
 	class IInstanceActivator;
 	class RegistrationData;
 
@@ -66,6 +67,8 @@ namespace Hypodermic
 
 			return static_cast< RegistrationBuilderImplementationType* >(this)->named< ServiceT >(serviceName);
 		}
+
+        virtual std::shared_ptr< SelfType > targeting(std::shared_ptr< IComponentRegistration > target) = 0;
 
         virtual std::shared_ptr< SelfType > onPreparing(std::function< void(IPreparingData&) > callback) = 0;
 
