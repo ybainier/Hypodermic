@@ -22,7 +22,7 @@ namespace Hypodermic
 
     std::vector< std::shared_ptr< IComponentRegistration > >
     ExternalRegistrySource::registrationsFor(std::shared_ptr< Service > service,
-                                             std::function< std::vector< std::shared_ptr< IComponentRegistration > >(std::shared_ptr< Service > service) > registrationAccessor)
+                                             std::function< std::vector< std::shared_ptr< IComponentRegistration > >(std::shared_ptr< Service > service) > /*registrationAccessor*/)
     {
         std::vector< std::shared_ptr< IComponentRegistration > > result;
 
@@ -73,16 +73,14 @@ namespace Hypodermic
                         {
                             return c.resolveComponent(componentRegistration);
                         }
-                    );
-
-                    //            .Targeting(r)
+                    )
+                    ->targeting(componentRegistration);
 
                 for (auto serviceIt = services.begin(); serviceIt != serviceItEnd; ++serviceIt)
                 {
                     auto service = *serviceIt;
                     rb->as(service, componentRegistration->getTypeCaster(service->typeInfo()));
                 }
-                    //            .ExternallyOwned()
 
                 result.push_back(BuilderFactory::createRegistration< void >(rb));
             }

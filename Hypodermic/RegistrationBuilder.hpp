@@ -4,6 +4,7 @@
 
 # include <Hypodermic/ActivatedData.h>
 # include <Hypodermic/ActivatingData.h>
+# include <Hypodermic/IComponentRegistration.h>
 # include <Hypodermic/IInstanceActivator.h>
 # include <Hypodermic/PreparingData.h>
 # include <Hypodermic/RegistrationData.h>
@@ -85,7 +86,7 @@ namespace Hypodermic
     std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
     RegistrationBuilder< T, RegistrationStyleT >::as()
     {
-        auto&& typeInfo = typeid(ServiceT);
+        const auto& typeInfo = typeid(ServiceT);
         return as(std::make_shared< TypedService >(typeid(ServiceT)), std::make_shared< TypeCaster< T, ServiceT > >(typeInfo));
     }
 
@@ -93,7 +94,7 @@ namespace Hypodermic
     std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
     RegistrationBuilder< T, RegistrationStyleT >::asSelf()
     {
-        auto&& typeInfo = typeid(T);
+        const auto& typeInfo = typeid(T);
         return as(std::make_shared< TypedService >(typeInfo), std::make_shared< TypeCaster< T, T > >(typeInfo));
     }
 
@@ -123,8 +124,20 @@ namespace Hypodermic
     std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
     RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName, const std::type_info& serviceTypeInfo)
     {
-        auto&& typeInfo = typeid(ServiceT);
+        const auto& typeInfo = typeid(ServiceT);
         return as(std::make_shared< KeyedService >(serviceName, serviceTypeInfo), std::make_shared< TypeCaster< T, ServiceT > >(typeInfo));
+    }
+
+
+    template <class T, class RegistrationStyleT>
+    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    RegistrationBuilder< T, RegistrationStyleT >::targeting(std::shared_ptr< IComponentRegistration > target)
+    {
+        if (target == nullptr)
+            throw std::invalid_argument("target");
+
+        registrationStyle().target(target);
+        return this->shared_from_this();
     }
 
     template <class T, class RegistrationStyleT>
