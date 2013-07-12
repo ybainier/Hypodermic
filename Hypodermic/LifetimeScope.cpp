@@ -88,6 +88,7 @@ namespace Hypodermic
     {
         auto registry = std::make_shared< CopyOnWriteRegistry >(componentRegistry_, [this]() { return this->createScopeRestrictedRegistry(noConfiguration_); });
         auto scope = std::shared_ptr< LifetimeScope >(new LifetimeScope(registry, this->shared_from_this()));
+        scope->initialize();
 
         return std::shared_ptr< ILifetimeScope >(scope);
     }
