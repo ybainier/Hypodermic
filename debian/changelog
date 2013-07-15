@@ -1,6 +1,7 @@
 hypodermic (0.1.4-1) unstable; urgency=low
 
   * Scoped container support added
+  * ResolveOperation used to leak in case of an improperly-unresolved object (throw in ctor for instance)
   * move constructor test cases added
   * Cosmetic: brand new projects' filters
 
