@@ -69,17 +69,26 @@ namespace Hypodermic
 
         activationStack_.push_back(activation);
 
-        auto instance = activation->execute();
-        successfulActivations_.push_back(activation);
+        try
+        {
+            auto instance = activation->execute();
+            successfulActivations_.push_back(activation);
 
-        activationStack_.pop_back();
+            activationStack_.pop_back();
 
-        if (activationStack_.size() == 0)
-            completeActivations();
+            if (activationStack_.size() == 0)
+                completeActivations();
 
-        --callDepth_;
+            --callDepth_;
 
-        return instance;
+            return instance;
+        }
+        catch (std::exception)
+        {
+            activationStack_.clear();
+
+            throw;
+        }
     }
 
     void ResolveOperation::completeActivations()
