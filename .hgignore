@@ -1,9 +1,12 @@
 syntax: glob
+*.ipch
 *.opensdf
 *.sdf
 *.suo
 *.vcxproj.user
-*/build/**
-*/ipch/**
-*.ipch
+bin/**
+build/**
+lib/**
+ipch/**
+obj/**
 *ReSharper*
