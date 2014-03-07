@@ -6,7 +6,7 @@
 # include <string>
 # include <vector>
 
-# include <boost/signals.hpp>
+# include <boost/signals2.hpp>
 # include <boost/uuid/uuid.hpp>
 
 # include <Hypodermic/InstanceOwnership.h>
@@ -29,9 +29,9 @@ namespace Hypodermic
 	class IComponentRegistration
 	{
 	public:
-        typedef boost::signal< void(PreparingData&) > Preparing;
-        typedef boost::signal< void(ActivatingData< void >&) > Activating;
-        typedef boost::signal< void(ActivatedData< void >&) > Activated;
+        typedef boost::signals2::signal< void(PreparingData&) > Preparing;
+        typedef boost::signals2::signal< void(ActivatingData< void >&) > Activating;
+        typedef boost::signals2::signal< void(ActivatedData< void >&) > Activated;
 
         virtual ~IComponentRegistration() {}
 
