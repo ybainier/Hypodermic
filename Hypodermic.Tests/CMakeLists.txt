@@ -2,7 +2,7 @@ project(Hypodermic.Tests)
 cmake_minimum_required(VERSION 2.6)
 
 
-find_package(Boost COMPONENTS signals unit_test_framework)
+find_package(Boost COMPONENTS signals system unit_test_framework)
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
     link_directories(${Boost_LIBRARY_DIRS})
