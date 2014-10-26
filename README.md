@@ -8,14 +8,14 @@ Hypodermic is an IoC container for C++. It provides dependency injection to your
 
 Hypodermic is mostly inspired from the famous .NET [http://code.google.com/p/autofac/ Autofac]. A thousand thanks to its creators.
 
-### Adding components
+#### Adding components
 
 Components are _registered_ in a `ContainerBuilder`.
 ```cpp
 ContainerBuilder builder;
 ```
 
-## Registering concrete types
+### Registering concrete types
 
 Considering these classes:
 
@@ -26,7 +26,7 @@ You can invoke `ContainerBuilder::registerType()` with a type as a template para
 builder.registerType< Driver >();
 ```
 
-## Expressing dependencies
+### Expressing dependencies
 
 ```cpp
 class Car : public ICar
@@ -46,7 +46,7 @@ builder.registerType< Car >(CREATE(new Car(INJECT(IDriver))))->as< ICar >();
 ```
 
 
-### Resolving types
+#### Resolving types
 
 Calling `ContainerBuilder::build()` creates a container:
 ```cpp
