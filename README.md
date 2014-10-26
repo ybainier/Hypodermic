@@ -53,7 +53,7 @@ Calling `ContainerBuilder::build()` creates a container:
 auto container = builder.build();
 ```
 Now it is time to get our instance:
-```cpp
+```c++
 auto car = container->resolve< ICar >();
 ```
 
