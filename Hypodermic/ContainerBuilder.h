@@ -39,6 +39,9 @@ namespace Hypodermic
         template <class T>
         std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > registerType(std::function< T*(IComponentContext&) > delegate);
 
+        template <class T>
+        std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > registerFactory(std::function< std::shared_ptr<T>(IComponentContext&) > delegate);
+
 		template <class T>
 		std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > registerType();
 

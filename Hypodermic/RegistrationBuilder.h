@@ -6,6 +6,7 @@
 # include <Hypodermic/ComponentRegistration.h>
 # include <Hypodermic/CurrentLifetimeScope.h>
 # include <Hypodermic/DelegateActivator.h>
+# include <Hypodermic/FactoryDelegateActivator.h>
 # include <Hypodermic/IComponentContext.h>
 # include <Hypodermic/IComponentRegistry.h>
 # include <Hypodermic/IInstanceActivator.h>

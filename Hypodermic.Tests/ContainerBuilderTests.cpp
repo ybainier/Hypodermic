@@ -151,6 +151,20 @@ BOOST_AUTO_TEST_CASE(should_resolve_abstract_dependencies)
 	BOOST_CHECK(serviceB != nullptr);
 }
 
+BOOST_AUTO_TEST_CASE(factory_works_as_type)
+{
+    ContainerBuilder builder;
+
+    builder.registerType< ServiceA >()->as< IServiceA >();
+    builder.registerFactory< ServiceB >(CREATE(std::make_shared< ServiceB >(INJECT(IServiceA))))->as< IServiceB >();
+
+    auto container = builder.build();
+
+    auto serviceB = container->resolve< IServiceB >();
+
+    BOOST_CHECK(serviceB != nullptr);
+}
+
 BOOST_AUTO_TEST_CASE(default_lifetime_should_be_transient)
 {
 	ContainerBuilder builder;

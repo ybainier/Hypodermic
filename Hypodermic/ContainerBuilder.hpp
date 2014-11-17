@@ -49,6 +49,25 @@ namespace Hypodermic
 
     template <class T>
     std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
+    ContainerBuilder::registerFactory(std::function< std::shared_ptr<T>(IComponentContext&) > factoryDelegate)
+    {
+        static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
+            "ContainerBuilder::registerType< T >() is incompatible with POD types.");
+
+        auto& typeInfo = typeid(T);
+        auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forFactoryDelegate(factoryDelegate);
+
+        registerCallback(
+            [rb](std::shared_ptr< IComponentRegistry > cr) -> void
+        {
+            RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
+        });
+
+        return rb;
+    }
+
+    template <class T>
+    std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
     ContainerBuilder::registerType()
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
