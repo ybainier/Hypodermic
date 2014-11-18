@@ -18,20 +18,8 @@ namespace Hypodermic
 
     template <template <class> class RegistrationBuilderInterfaceT>
     template <class T>
-    std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type >
-        RegistrationBuilderFactory< RegistrationBuilderInterfaceT >::forFactoryDelegate(std::function< std::shared_ptr< T> (IComponentContext&) > factoryDelegate)
-    {
-        auto& typeInfo = typeid(T);
-        return std::make_shared< typename RegistrationBuilderInterfaceT< T >::ImplementationType >(
-            std::make_shared< TypedService >(typeInfo),
-            std::make_shared< FactoryDelegateActivator< T > >(typeInfo, factoryDelegate),
-            typename RegistrationBuilderInterfaceT< T >::RegistrationStyleType());
-    }
-
-    template <template <class> class RegistrationBuilderInterfaceT>
-    template <class T>
 	std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type >
-    RegistrationBuilderFactory< RegistrationBuilderInterfaceT >::forDelegate(std::function< T*(IComponentContext&) > delegate)
+    RegistrationBuilderFactory< RegistrationBuilderInterfaceT >::forDelegate(std::function< std::shared_ptr< T >(IComponentContext&) > delegate)
 	{
         auto& typeInfo = typeid(T);
 		return std::make_shared< typename RegistrationBuilderInterfaceT< T >::ImplementationType >(
@@ -63,7 +51,7 @@ namespace Hypodermic
         auto& typeInfo = typeid(T);
 		return std::make_shared< typename RegistrationBuilderInterfaceT< T >::ImplementationType >(
             std::make_shared< TypedService >(typeInfo),
-			std::make_shared< DelegateActivator< T > >(typeInfo, [](IComponentContext&) -> T* { return new T; }),
+			std::make_shared< DelegateActivator< T > >(typeInfo, [](IComponentContext&) -> std::shared_ptr<T> { return std::make_shared<T>(); }),
             typename RegistrationBuilderInterfaceT< T >::RegistrationStyleType());
 	}
 

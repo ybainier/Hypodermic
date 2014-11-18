@@ -70,11 +70,11 @@ namespace Hypodermic
 
         typedef std::true_type IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext&) -> T*
+            return [](IComponentContext&) -> std::shared_ptr< T >
             {
-                return new T();
+                return std::make_shared<T>();
             };
         }
     };
@@ -86,11 +86,11 @@ namespace Hypodermic
 
         typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c));
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c));
             };
         }
     };
@@ -103,11 +103,11 @@ namespace Hypodermic
         typedef BoolType< ArgResolver< Arg1 >::IsResolvable::value
                        && ArgResolver< Arg2 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c));
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c));
             };
         }
     };
@@ -121,12 +121,12 @@ namespace Hypodermic
                        && ArgResolver< Arg2 >::IsResolvable::value
                        && ArgResolver< Arg3 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
-                             ArgResolver< Arg3 >::resolve(c));
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                                           ArgResolver< Arg3 >::resolve(c));
             };
         }
     };
@@ -141,11 +141,11 @@ namespace Hypodermic
                        && ArgResolver< Arg3 >::IsResolvable::value
                        && ArgResolver< Arg4 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
                              ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c));
             };
         }
@@ -162,11 +162,11 @@ namespace Hypodermic
                        && ArgResolver< Arg4 >::IsResolvable::value
                        && ArgResolver< Arg5 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
                              ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
                              ArgResolver< Arg5 >::resolve(c));
             };
@@ -185,11 +185,11 @@ namespace Hypodermic
                        && ArgResolver< Arg5 >::IsResolvable::value
                        && ArgResolver< Arg6 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
                              ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
                              ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c));
             };
@@ -209,11 +209,11 @@ namespace Hypodermic
                        && ArgResolver< Arg6 >::IsResolvable::value
                        && ArgResolver< Arg7 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
                              ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
                              ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
                              ArgResolver< Arg7 >::resolve(c));
@@ -235,11 +235,11 @@ namespace Hypodermic
                        && ArgResolver< Arg7 >::IsResolvable::value
                        && ArgResolver< Arg8 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
                              ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
                              ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
                              ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c));
@@ -262,11 +262,11 @@ namespace Hypodermic
                        && ArgResolver< Arg8 >::IsResolvable::value
                        && ArgResolver< Arg9 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
                              ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
                              ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
                              ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c),
@@ -291,11 +291,11 @@ namespace Hypodermic
                        && ArgResolver< Arg9 >::IsResolvable::value
                        && ArgResolver< Arg10 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
                              ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
                              ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
                              ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c),
@@ -321,11 +321,11 @@ namespace Hypodermic
                        && ArgResolver< Arg10 >::IsResolvable::value
                        && ArgResolver< Arg11 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
                              ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
                              ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
                              ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c),
@@ -353,11 +353,11 @@ namespace Hypodermic
                        && ArgResolver< Arg11 >::IsResolvable::value
                        && ArgResolver< Arg12 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
                              ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
                              ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
                              ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c),
@@ -386,11 +386,11 @@ namespace Hypodermic
                        && ArgResolver< Arg12 >::IsResolvable::value
                        && ArgResolver< Arg13 >::IsResolvable::value > IsSignatureRecognized;
 
-        static std::function< T*(IComponentContext&) > createDelegate()
+        static std::function< std::shared_ptr< T >(IComponentContext&) > createDelegate()
         {
-            return [](IComponentContext& c) -> T*
+            return [](IComponentContext& c) -> std::shared_ptr< T >
             {
-                return new T(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
+                return std::make_shared<T>(ArgResolver< Arg1 >::resolve(c), ArgResolver< Arg2 >::resolve(c),
                              ArgResolver< Arg3 >::resolve(c), ArgResolver< Arg4 >::resolve(c),
                              ArgResolver< Arg5 >::resolve(c), ArgResolver< Arg6 >::resolve(c),
                              ArgResolver< Arg7 >::resolve(c), ArgResolver< Arg8 >::resolve(c),
