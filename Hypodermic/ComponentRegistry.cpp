@@ -14,7 +14,7 @@ namespace Hypodermic
 
     std::shared_ptr< IComponentRegistration > ComponentRegistry::getRegistration(std::shared_ptr< Service > service)
     {
-        boost::lock_guard< decltype (mutex_) > lock(mutex_);
+        std::lock_guard< decltype (mutex_) > lock(mutex_);
         
         auto info = getInitializedServiceInfo(service);
         return info->getRegistration();
@@ -25,7 +25,7 @@ namespace Hypodermic
         if (service == nullptr)
             throw std::invalid_argument("service");
 
-        boost::lock_guard< decltype (mutex_) > lock(mutex_);
+        std::lock_guard< decltype (mutex_) > lock(mutex_);
         return getInitializedServiceInfo(service)->isRegistered();
     }
 
@@ -36,7 +36,7 @@ namespace Hypodermic
 
     void ComponentRegistry::addRegistration(std::shared_ptr< IComponentRegistration > registration, bool /* preserveDefaults */)
     {
-        boost::lock_guard< decltype (mutex_) > lock(mutex_);
+        std::lock_guard< decltype (mutex_) > lock(mutex_);
 
         BOOST_FOREACH(auto service, registration->services())
         {
@@ -48,13 +48,13 @@ namespace Hypodermic
 
     std::vector< std::shared_ptr< IComponentRegistration > > ComponentRegistry::registrations()
     {
-        boost::lock_guard< decltype (mutex_) > lock(mutex_);
+        std::lock_guard< decltype (mutex_) > lock(mutex_);
         return registrations_;
     }
 
     std::vector< std::shared_ptr< IComponentRegistration > > ComponentRegistry::registrationsFor(std::shared_ptr< Service > service)
     {
-        boost::lock_guard< boost::recursive_mutex > lock(mutex_);
+        std::lock_guard< decltype (mutex_) > lock(mutex_);
 
         auto info = getInitializedServiceInfo(service);
         return info->implementations();
@@ -132,7 +132,7 @@ namespace Hypodermic
         if (source == nullptr)
             throw std::invalid_argument("source");
 
-        boost::lock_guard< boost::recursive_mutex > lock(mutex_);
+        std::lock_guard< decltype (mutex_) > lock(mutex_);
 
         dynamicRegistrationSources_.push_front(source);
 

@@ -36,13 +36,37 @@ namespace Hypodermic
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
                       "ContainerBuilder::registerType< T >() is incompatible with POD types.");
 
-        auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forDelegate(delegate);
+        std::function< std::shared_ptr< T >(IComponentContext&) > delegateWrapper = [delegate](IComponentContext& c)->std::shared_ptr < T >
+        {
+            return std::shared_ptr< T >(delegate(c));
+        };
+
+        auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forDelegate(delegateWrapper);
 
         registerCallback(
             [rb](std::shared_ptr< IComponentRegistry > cr) -> void
             {
                 RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
             });
+
+        return rb;
+    }
+
+    template <class T>
+    std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
+        ContainerBuilder::registerFactory(std::function< std::shared_ptr<T>(IComponentContext&) > delegate)
+    {
+        static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
+            "ContainerBuilder::registerType< T >() is incompatible with POD types.");
+
+        auto& typeInfo = typeid(T);
+        auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forDelegate(delegate);
+
+        registerCallback(
+            [rb](std::shared_ptr< IComponentRegistry > cr) -> void
+        {
+            RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
+        });
 
         return rb;
     }
