@@ -5,8 +5,7 @@
 # include <memory>
 # include <unordered_map>
 # include <vector>
-
-# include <boost/thread.hpp>
+# include <mutex>
 
 # include <Hypodermic/IComponentRegistry.h>
 # include <Hypodermic/ServiceKey.h>
@@ -47,7 +46,7 @@ namespace Hypodermic
         std::vector< std::shared_ptr< IComponentRegistration > > registrations_;
         std::deque< std::shared_ptr< IRegistrationSource > > dynamicRegistrationSources_;
 		ServiceRegistrationInfos serviceInfo_;
-		boost::recursive_mutex mutex_;
+		std::recursive_mutex mutex_;
 	};
 
 } // namespace Hypodermic
