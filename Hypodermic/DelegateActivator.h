@@ -16,7 +16,7 @@ namespace Hypodermic
 	template <class T>
 	class DelegateActivator : public InstanceActivator
 	{
-        typedef std::function< T*(IComponentContext&) > ActivationDelegate;
+        typedef std::function< std::shared_ptr< T >(IComponentContext&) > ActivationDelegate;
 
 	public:
 		DelegateActivator(const std::type_info& typeInfo, ActivationDelegate activationFunction);
