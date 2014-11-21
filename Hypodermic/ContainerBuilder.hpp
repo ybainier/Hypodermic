@@ -57,9 +57,8 @@ namespace Hypodermic
         ContainerBuilder::registerFactory(std::function< std::shared_ptr<T>(IComponentContext&) > delegate)
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
-            "ContainerBuilder::registerType< T >() is incompatible with POD types.");
+            "ContainerBuilder::registerFactory< T >() is incompatible with POD types.");
 
-        auto& typeInfo = typeid(T);
         auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forDelegate(delegate);
 
         registerCallback(
