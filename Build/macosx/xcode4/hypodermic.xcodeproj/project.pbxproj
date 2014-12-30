@@ -1,0 +1,597 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00F43B414A2E442014563731 /* ServiceRegistrationInfo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03A95CC9366E701124F83381 /* ServiceRegistrationInfo.cpp */; };
+		01FC769D4EFC1E2C067579EA /* ComponentRegistrationLifetimeDecorator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 419C6921151923F82B1C6EDD /* ComponentRegistrationLifetimeDecorator.cpp */; };
+		07BB3B602B9B741477EF7FEB /* SingleRegistrationStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 35A463873E2C4F3122964433 /* SingleRegistrationStyle.cpp */; };
+		08405A7540294AF145B52256 /* RootScopeLifetime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 21744ED601551E3A2C504E17 /* RootScopeLifetime.cpp */; };
+		0D1A3744053B68DC70DC137C /* InstanceLookup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3D134BB91828774A1FA656D2 /* InstanceLookup.cpp */; };
+		0F1815DE34B8524E23237038 /* LifetimeScope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2679635F1F7630445F6F15E1 /* LifetimeScope.cpp */; };
+		0FFD3DBF7B884B1032B33069 /* ComponentRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5E8929E131E22A893A8848A9 /* ComponentRegistry.cpp */; };
+		130B56ED0A3D6BFF5C7C5E4C /* KeyedService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F113CDE4C9705614F502D89 /* KeyedService.cpp */; };
+		132E71D442DE134200EF5048 /* MatchingScopeLifetime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 499902A0774E5FFB7ECD7F35 /* MatchingScopeLifetime.cpp */; };
+		19F0611E0F721B2F637E26C3 /* ComponentRegistration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 089E71EB2EE1389956837092 /* ComponentRegistration.cpp */; };
+		1A97677558021DB82B461F70 /* CircularDependencyDetector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 124248597EFE55C3010D1C9D /* CircularDependencyDetector.cpp */; };
+		21D27FCD04E622A67A9E23A8 /* CurrentLifetimeScope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3561170E52A40DD5340F7B2A /* CurrentLifetimeScope.cpp */; };
+		2B04504A5FD12C51300C7B00 /* ResolveOperation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7438444F59687A4224F3776D /* ResolveOperation.cpp */; };
+		2B826E0450FB4B5B51F15CBD /* CopyOnWriteRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 78FF5E203A1217E40BD77F72 /* CopyOnWriteRegistry.cpp */; };
+		2CB27DF777A847B8277511E0 /* Container.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B3B647B553A57C35E607F22 /* Container.cpp */; };
+		2F072A69541557A6643511D0 /* ScopeRestrictedRegistry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0EAA44230BC96BF26CB163B1 /* ScopeRestrictedRegistry.cpp */; };
+		30FA0EFC538417C478FD56CB /* TypedService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 171D17A63ACD01BD513178D6 /* TypedService.cpp */; };
+		3E2C5D8B67F30B8D120735C5 /* ContainerBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0FB3516D68757C7B7DD61164 /* ContainerBuilder.cpp */; };
+		45F04BB440797FFC1BEC5482 /* RegistrationData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 200D46CB51810F7759A90B25 /* RegistrationData.cpp */; };
+		4E69727D04B544967AFB15EB /* DependencyResolutionException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ACB3DFE004C10554202289C /* DependencyResolutionException.cpp */; };
+		527533321F917DF161FF4228 /* ExternalRegistrySource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2B733E3E601E078F723516B5 /* ExternalRegistrySource.cpp */; };
+		678D748B68ED217E11300558 /* ContainerActivator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4E9E26A1518B3ACC642F4E51 /* ContainerActivator.cpp */; };
+		70C813C913932A2724A9615C /* ServiceKey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48603CB541EC7C8B41352274 /* ServiceKey.cpp */; };
+		716F3D1205863523305B3602 /* InstanceActivator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 74931B52280C39B9277D3FE5 /* InstanceActivator.cpp */; };
+		7CC3249774004CB50D250CB1 /* ForwardTypeCaster.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65CC5D7F73212889597465AD /* ForwardTypeCaster.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		00B16773602A1E1642463C5F /* IActivatedData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IActivatedData.h; path = ../../../Hypodermic/IActivatedData.h; sourceTree = "<group>"; };
+		00F37843313A58B827541C39 /* ServiceKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ServiceKey.h; path = ../../../Hypodermic/ServiceKey.h; sourceTree = "<group>"; };
+		03854C2B2CC54E7840CF733D /* ComponentRegistrationLifetimeDecorator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ComponentRegistrationLifetimeDecorator.h; path = ../../../Hypodermic/ComponentRegistrationLifetimeDecorator.h; sourceTree = "<group>"; };
+		03A95CC9366E701124F83381 /* ServiceRegistrationInfo.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ServiceRegistrationInfo.cpp; path = ../../../Hypodermic/ServiceRegistrationInfo.cpp; sourceTree = "<group>"; };
+		04D151865CA15FDA62C053E3 /* ContainerActivator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ContainerActivator.h; path = ../../../Hypodermic/ContainerActivator.h; sourceTree = "<group>"; };
+		05627C56077F28CD65601E75 /* PreparingData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PreparingData.h; path = ../../../Hypodermic/PreparingData.h; sourceTree = "<group>"; };
+		066B60213E62234451993020 /* ILifetimeScope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ILifetimeScope.h; path = ../../../Hypodermic/ILifetimeScope.h; sourceTree = "<group>"; };
+		089E71EB2EE1389956837092 /* ComponentRegistration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ComponentRegistration.cpp; path = ../../../Hypodermic/ComponentRegistration.cpp; sourceTree = "<group>"; };
+		09F7381F062454EC7DF22232 /* TypeCaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TypeCaster.h; path = ../../../Hypodermic/TypeCaster.h; sourceTree = "<group>"; };
+		0BF8583B496A6238694F51C7 /* IComponentRegistry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IComponentRegistry.h; path = ../../../Hypodermic/IComponentRegistry.h; sourceTree = "<group>"; };
+		0CEA5908575521265CE7624E /* ScopeRestrictedRegistry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScopeRestrictedRegistry.h; path = ../../../Hypodermic/ScopeRestrictedRegistry.h; sourceTree = "<group>"; };
+		0EAA44230BC96BF26CB163B1 /* ScopeRestrictedRegistry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ScopeRestrictedRegistry.cpp; path = ../../../Hypodermic/ScopeRestrictedRegistry.cpp; sourceTree = "<group>"; };
+		0FB3516D68757C7B7DD61164 /* ContainerBuilder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ContainerBuilder.cpp; path = ../../../Hypodermic/ContainerBuilder.cpp; sourceTree = "<group>"; };
+		103C7AD4046C684C67CE412F /* CurrentLifetimeScope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CurrentLifetimeScope.h; path = ../../../Hypodermic/CurrentLifetimeScope.h; sourceTree = "<group>"; };
+		124248597EFE55C3010D1C9D /* CircularDependencyDetector.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CircularDependencyDetector.cpp; path = ../../../Hypodermic/CircularDependencyDetector.cpp; sourceTree = "<group>"; };
+		134C66CA73FB2302132A4F83 /* IRegistrationSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IRegistrationSource.h; path = ../../../Hypodermic/IRegistrationSource.h; sourceTree = "<group>"; };
+		171D17A63ACD01BD513178D6 /* TypedService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TypedService.cpp; path = ../../../Hypodermic/TypedService.cpp; sourceTree = "<group>"; };
+		1ACB3DFE004C10554202289C /* DependencyResolutionException.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DependencyResolutionException.cpp; path = ../../../Hypodermic/DependencyResolutionException.cpp; sourceTree = "<group>"; };
+		1BC0051C7EA1036F0BCB5B35 /* RegistrationBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RegistrationBuilder.h; path = ../../../Hypodermic/RegistrationBuilder.h; sourceTree = "<group>"; };
+		1FAF3A63797712CD08881CF3 /* TypeIndexWorkaround.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TypeIndexWorkaround.h; path = ../../../Hypodermic/TypeIndexWorkaround.h; sourceTree = "<group>"; };
+		200D46CB51810F7759A90B25 /* RegistrationData.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = RegistrationData.cpp; path = ../../../Hypodermic/RegistrationData.cpp; sourceTree = "<group>"; };
+		211E565F2E55553C0C8502B6 /* IRegistrationBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IRegistrationBuilder.h; path = ../../../Hypodermic/IRegistrationBuilder.h; sourceTree = "<group>"; };
+		21744ED601551E3A2C504E17 /* RootScopeLifetime.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = RootScopeLifetime.cpp; path = ../../../Hypodermic/RootScopeLifetime.cpp; sourceTree = "<group>"; };
+		223758A33BB86474093C7A06 /* ServiceRegistrationInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ServiceRegistrationInfo.h; path = ../../../Hypodermic/ServiceRegistrationInfo.h; sourceTree = "<group>"; };
+		256B39C21A136AC54E946023 /* Service.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Service.h; path = ../../../Hypodermic/Service.h; sourceTree = "<group>"; };
+		2679635F1F7630445F6F15E1 /* LifetimeScope.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = LifetimeScope.cpp; path = ../../../Hypodermic/LifetimeScope.cpp; sourceTree = "<group>"; };
+		273C638764227D73361A14C5 /* DelegateActivator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DelegateActivator.h; path = ../../../Hypodermic/DelegateActivator.h; sourceTree = "<group>"; };
+		280317083008675070531A91 /* CopyOnWriteRegistry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CopyOnWriteRegistry.h; path = ../../../Hypodermic/CopyOnWriteRegistry.h; sourceTree = "<group>"; };
+		2A474B85135145E400E62866 /* IComponentContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IComponentContext.h; path = ../../../Hypodermic/IComponentContext.h; sourceTree = "<group>"; };
+		2B3B647B553A57C35E607F22 /* Container.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = Container.cpp; path = ../../../Hypodermic/Container.cpp; sourceTree = "<group>"; };
+		2B733E3E601E078F723516B5 /* ExternalRegistrySource.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ExternalRegistrySource.cpp; path = ../../../Hypodermic/ExternalRegistrySource.cpp; sourceTree = "<group>"; };
+		2C315A532EA6467F41006CAE /* IResolveOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IResolveOperation.h; path = ../../../Hypodermic/IResolveOperation.h; sourceTree = "<group>"; };
+		2CED2D824A0D302B637F39AD /* ActivatedData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ActivatedData.h; path = ../../../Hypodermic/ActivatedData.h; sourceTree = "<group>"; };
+		2D796E1B44221BFE604C28A7 /* IPreparingData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IPreparingData.h; path = ../../../Hypodermic/IPreparingData.h; sourceTree = "<group>"; };
+		2DA74C2E217D185465FF6502 /* RegistrationBuilderFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RegistrationBuilderFactory.h; path = ../../../Hypodermic/RegistrationBuilderFactory.h; sourceTree = "<group>"; };
+		2ED5239C595176CD3E4809EA /* ActivatingData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ActivatingData.h; path = ../../../Hypodermic/ActivatingData.h; sourceTree = "<group>"; };
+		2F397521041123B574ED0AC4 /* ContainerBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ContainerBuilder.h; path = ../../../Hypodermic/ContainerBuilder.h; sourceTree = "<group>"; };
+		3555074776AB68674B595E39 /* Helpers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Helpers.h; path = ../../../Hypodermic/Helpers.h; sourceTree = "<group>"; };
+		3561170E52A40DD5340F7B2A /* CurrentLifetimeScope.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CurrentLifetimeScope.cpp; path = ../../../Hypodermic/CurrentLifetimeScope.cpp; sourceTree = "<group>"; };
+		35A463873E2C4F3122964433 /* SingleRegistrationStyle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SingleRegistrationStyle.cpp; path = ../../../Hypodermic/SingleRegistrationStyle.cpp; sourceTree = "<group>"; };
+		385D0A110DC254B828753467 /* libsel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = libsel.h; path = ../../../Hypodermic/libsel.h; sourceTree = "<group>"; };
+		3C47681E190802831A6C4E91 /* IActivatingData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IActivatingData.h; path = ../../../Hypodermic/IActivatingData.h; sourceTree = "<group>"; };
+		3D134BB91828774A1FA656D2 /* InstanceLookup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InstanceLookup.cpp; path = ../../../Hypodermic/InstanceLookup.cpp; sourceTree = "<group>"; };
+		419C6921151923F82B1C6EDD /* ComponentRegistrationLifetimeDecorator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ComponentRegistrationLifetimeDecorator.cpp; path = ../../../Hypodermic/ComponentRegistrationLifetimeDecorator.cpp; sourceTree = "<group>"; };
+		42610F9661B573585807352D /* IInitializable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IInitializable.h; path = ../../../Hypodermic/IInitializable.h; sourceTree = "<group>"; };
+		430533364F354E8C616E1A6C /* Container.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Container.h; path = ../../../Hypodermic/Container.h; sourceTree = "<group>"; };
+		43240FA0054E6D4D14A84D8A /* ComponentRegistry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ComponentRegistry.h; path = ../../../Hypodermic/ComponentRegistry.h; sourceTree = "<group>"; };
+		4362063C7A11229A2FE258AC /* ProvidedInstanceActivator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ProvidedInstanceActivator.h; path = ../../../Hypodermic/ProvidedInstanceActivator.h; sourceTree = "<group>"; };
+		43817D603476659A17895CA1 /* RootScopeLifetime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RootScopeLifetime.h; path = ../../../Hypodermic/RootScopeLifetime.h; sourceTree = "<group>"; };
+		43AA02290B647EA909D84A83 /* ITypeCaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ITypeCaster.h; path = ../../../Hypodermic/ITypeCaster.h; sourceTree = "<group>"; };
+		467D62880CA34BE12B3F4C94 /* ResolveOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ResolveOperation.h; path = ../../../Hypodermic/ResolveOperation.h; sourceTree = "<group>"; };
+		48603CB541EC7C8B41352274 /* ServiceKey.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ServiceKey.cpp; path = ../../../Hypodermic/ServiceKey.cpp; sourceTree = "<group>"; };
+		48C0532E222B3F5711CC1EF3 /* SingleRegistrationStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SingleRegistrationStyle.h; path = ../../../Hypodermic/SingleRegistrationStyle.h; sourceTree = "<group>"; };
+		499902A0774E5FFB7ECD7F35 /* MatchingScopeLifetime.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MatchingScopeLifetime.cpp; path = ../../../Hypodermic/MatchingScopeLifetime.cpp; sourceTree = "<group>"; };
+		4A5455392CD62BEA27101874 /* RegistrationData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = RegistrationData.h; path = ../../../Hypodermic/RegistrationData.h; sourceTree = "<group>"; };
+		4E9E26A1518B3ACC642F4E51 /* ContainerActivator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ContainerActivator.cpp; path = ../../../Hypodermic/ContainerActivator.cpp; sourceTree = "<group>"; };
+		52A376DF696F7FEE75D304FA /* IInstanceActivator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IInstanceActivator.h; path = ../../../Hypodermic/IInstanceActivator.h; sourceTree = "<group>"; };
+		53733C537ABC0B1C7B701B82 /* KeyedService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = KeyedService.h; path = ../../../Hypodermic/KeyedService.h; sourceTree = "<group>"; };
+		54EC10623DDA565C6A214C39 /* ISharingLifetimeScope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ISharingLifetimeScope.h; path = ../../../Hypodermic/ISharingLifetimeScope.h; sourceTree = "<group>"; };
+		55AD78203BA61BCC0CB363F8 /* ComponentRegistration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ComponentRegistration.h; path = ../../../Hypodermic/ComponentRegistration.h; sourceTree = "<group>"; };
+		5DC95FA7522456D13D471E6E /* InstanceLookup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = InstanceLookup.h; path = ../../../Hypodermic/InstanceLookup.h; sourceTree = "<group>"; };
+		5DE372C31CE46C9329963A69 /* ExternalRegistrySource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ExternalRegistrySource.h; path = ../../../Hypodermic/ExternalRegistrySource.h; sourceTree = "<group>"; };
+		5E8929E131E22A893A8848A9 /* ComponentRegistry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ComponentRegistry.cpp; path = ../../../Hypodermic/ComponentRegistry.cpp; sourceTree = "<group>"; };
+		601A79EA107F33B75A4E410C /* TypedService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TypedService.h; path = ../../../Hypodermic/TypedService.h; sourceTree = "<group>"; };
+		60BF48952FDB78C81C930E2D /* MatchingScopeLifetime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MatchingScopeLifetime.h; path = ../../../Hypodermic/MatchingScopeLifetime.h; sourceTree = "<group>"; };
+		62BE569C551034CF29736200 /* NullptrWorkaround.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NullptrWorkaround.h; path = ../../../Hypodermic/NullptrWorkaround.h; sourceTree = "<group>"; };
+		65CC5D7F73212889597465AD /* ForwardTypeCaster.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ForwardTypeCaster.cpp; path = ../../../Hypodermic/ForwardTypeCaster.cpp; sourceTree = "<group>"; };
+		66DC780F375E0BE320E40F9B /* IContainer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IContainer.h; path = ../../../Hypodermic/IContainer.h; sourceTree = "<group>"; };
+		66FD71F2565D19AC1FAA669C /* IComponentRegistration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IComponentRegistration.h; path = ../../../Hypodermic/IComponentRegistration.h; sourceTree = "<group>"; };
+		672E31D33543706F342C4DAA /* BoostUuidHashFunctor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BoostUuidHashFunctor.h; path = ../../../Hypodermic/BoostUuidHashFunctor.h; sourceTree = "<group>"; };
+		6B0725E5049E489C7A7613AF /* AutowiredConstructor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AutowiredConstructor.h; path = ../../../Hypodermic/AutowiredConstructor.h; sourceTree = "<group>"; };
+		72E35467761B05EF0FD23976 /* InstanceOwnership.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = InstanceOwnership.h; path = ../../../Hypodermic/InstanceOwnership.h; sourceTree = "<group>"; };
+		7438444F59687A4224F3776D /* ResolveOperation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ResolveOperation.cpp; path = ../../../Hypodermic/ResolveOperation.cpp; sourceTree = "<group>"; };
+		74931B52280C39B9277D3FE5 /* InstanceActivator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = InstanceActivator.cpp; path = ../../../Hypodermic/InstanceActivator.cpp; sourceTree = "<group>"; };
+		772068945C89678241A07F8C /* IComponentLifetime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IComponentLifetime.h; path = ../../../Hypodermic/IComponentLifetime.h; sourceTree = "<group>"; };
+		77400D155E4114EF6AE36DF3 /* IInstanceLookup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = IInstanceLookup.h; path = ../../../Hypodermic/IInstanceLookup.h; sourceTree = "<group>"; };
+		788112AA689B421863D612A1 /* DependencyResolutionException.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DependencyResolutionException.h; path = ../../../Hypodermic/DependencyResolutionException.h; sourceTree = "<group>"; };
+		78AB4F6E69FB7800056C04C3 /* LifetimeScope.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LifetimeScope.h; path = ../../../Hypodermic/LifetimeScope.h; sourceTree = "<group>"; };
+		78FF5E203A1217E40BD77F72 /* CopyOnWriteRegistry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = CopyOnWriteRegistry.cpp; path = ../../../Hypodermic/CopyOnWriteRegistry.cpp; sourceTree = "<group>"; };
+		79073D4D22120D1B755C7137 /* InstanceSharing.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = InstanceSharing.h; path = ../../../Hypodermic/InstanceSharing.h; sourceTree = "<group>"; };
+		79204E721F9A604B07475763 /* ForwardTypeCaster.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ForwardTypeCaster.h; path = ../../../Hypodermic/ForwardTypeCaster.h; sourceTree = "<group>"; };
+		79610F561853246D0EB06E08 /* CircularDependencyDetector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CircularDependencyDetector.h; path = ../../../Hypodermic/CircularDependencyDetector.h; sourceTree = "<group>"; };
+		796B0CBB57D51E7A61EB342E /* InstanceActivator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = InstanceActivator.h; path = ../../../Hypodermic/InstanceActivator.h; sourceTree = "<group>"; };
+		7F113CDE4C9705614F502D89 /* KeyedService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = KeyedService.cpp; path = ../../../Hypodermic/KeyedService.cpp; sourceTree = "<group>"; };
+		7F534A4B404E66355B4468C6 /* libhypodermic.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libhypodermic.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		637260F90BA517B243566C38 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5F6D01A4467C7B255EE32C3A /* Hypodermic */ = {
+			isa = PBXGroup;
+			children = (
+				2CED2D824A0D302B637F39AD /* ActivatedData.h */,
+				2ED5239C595176CD3E4809EA /* ActivatingData.h */,
+				6B0725E5049E489C7A7613AF /* AutowiredConstructor.h */,
+				672E31D33543706F342C4DAA /* BoostUuidHashFunctor.h */,
+				124248597EFE55C3010D1C9D /* CircularDependencyDetector.cpp */,
+				79610F561853246D0EB06E08 /* CircularDependencyDetector.h */,
+				089E71EB2EE1389956837092 /* ComponentRegistration.cpp */,
+				55AD78203BA61BCC0CB363F8 /* ComponentRegistration.h */,
+				419C6921151923F82B1C6EDD /* ComponentRegistrationLifetimeDecorator.cpp */,
+				03854C2B2CC54E7840CF733D /* ComponentRegistrationLifetimeDecorator.h */,
+				5E8929E131E22A893A8848A9 /* ComponentRegistry.cpp */,
+				43240FA0054E6D4D14A84D8A /* ComponentRegistry.h */,
+				2B3B647B553A57C35E607F22 /* Container.cpp */,
+				430533364F354E8C616E1A6C /* Container.h */,
+				4E9E26A1518B3ACC642F4E51 /* ContainerActivator.cpp */,
+				04D151865CA15FDA62C053E3 /* ContainerActivator.h */,
+				0FB3516D68757C7B7DD61164 /* ContainerBuilder.cpp */,
+				2F397521041123B574ED0AC4 /* ContainerBuilder.h */,
+				78FF5E203A1217E40BD77F72 /* CopyOnWriteRegistry.cpp */,
+				280317083008675070531A91 /* CopyOnWriteRegistry.h */,
+				3561170E52A40DD5340F7B2A /* CurrentLifetimeScope.cpp */,
+				103C7AD4046C684C67CE412F /* CurrentLifetimeScope.h */,
+				273C638764227D73361A14C5 /* DelegateActivator.h */,
+				1ACB3DFE004C10554202289C /* DependencyResolutionException.cpp */,
+				788112AA689B421863D612A1 /* DependencyResolutionException.h */,
+				2B733E3E601E078F723516B5 /* ExternalRegistrySource.cpp */,
+				5DE372C31CE46C9329963A69 /* ExternalRegistrySource.h */,
+				65CC5D7F73212889597465AD /* ForwardTypeCaster.cpp */,
+				79204E721F9A604B07475763 /* ForwardTypeCaster.h */,
+				3555074776AB68674B595E39 /* Helpers.h */,
+				00B16773602A1E1642463C5F /* IActivatedData.h */,
+				3C47681E190802831A6C4E91 /* IActivatingData.h */,
+				2A474B85135145E400E62866 /* IComponentContext.h */,
+				772068945C89678241A07F8C /* IComponentLifetime.h */,
+				66FD71F2565D19AC1FAA669C /* IComponentRegistration.h */,
+				0BF8583B496A6238694F51C7 /* IComponentRegistry.h */,
+				66DC780F375E0BE320E40F9B /* IContainer.h */,
+				42610F9661B573585807352D /* IInitializable.h */,
+				52A376DF696F7FEE75D304FA /* IInstanceActivator.h */,
+				77400D155E4114EF6AE36DF3 /* IInstanceLookup.h */,
+				066B60213E62234451993020 /* ILifetimeScope.h */,
+				2D796E1B44221BFE604C28A7 /* IPreparingData.h */,
+				211E565F2E55553C0C8502B6 /* IRegistrationBuilder.h */,
+				134C66CA73FB2302132A4F83 /* IRegistrationSource.h */,
+				2C315A532EA6467F41006CAE /* IResolveOperation.h */,
+				54EC10623DDA565C6A214C39 /* ISharingLifetimeScope.h */,
+				43AA02290B647EA909D84A83 /* ITypeCaster.h */,
+				74931B52280C39B9277D3FE5 /* InstanceActivator.cpp */,
+				796B0CBB57D51E7A61EB342E /* InstanceActivator.h */,
+				3D134BB91828774A1FA656D2 /* InstanceLookup.cpp */,
+				5DC95FA7522456D13D471E6E /* InstanceLookup.h */,
+				72E35467761B05EF0FD23976 /* InstanceOwnership.h */,
+				79073D4D22120D1B755C7137 /* InstanceSharing.h */,
+				7F113CDE4C9705614F502D89 /* KeyedService.cpp */,
+				53733C537ABC0B1C7B701B82 /* KeyedService.h */,
+				2679635F1F7630445F6F15E1 /* LifetimeScope.cpp */,
+				78AB4F6E69FB7800056C04C3 /* LifetimeScope.h */,
+				499902A0774E5FFB7ECD7F35 /* MatchingScopeLifetime.cpp */,
+				60BF48952FDB78C81C930E2D /* MatchingScopeLifetime.h */,
+				62BE569C551034CF29736200 /* NullptrWorkaround.h */,
+				05627C56077F28CD65601E75 /* PreparingData.h */,
+				4362063C7A11229A2FE258AC /* ProvidedInstanceActivator.h */,
+				1BC0051C7EA1036F0BCB5B35 /* RegistrationBuilder.h */,
+				2DA74C2E217D185465FF6502 /* RegistrationBuilderFactory.h */,
+				200D46CB51810F7759A90B25 /* RegistrationData.cpp */,
+				4A5455392CD62BEA27101874 /* RegistrationData.h */,
+				7438444F59687A4224F3776D /* ResolveOperation.cpp */,
+				467D62880CA34BE12B3F4C94 /* ResolveOperation.h */,
+				21744ED601551E3A2C504E17 /* RootScopeLifetime.cpp */,
+				43817D603476659A17895CA1 /* RootScopeLifetime.h */,
+				0EAA44230BC96BF26CB163B1 /* ScopeRestrictedRegistry.cpp */,
+				0CEA5908575521265CE7624E /* ScopeRestrictedRegistry.h */,
+				256B39C21A136AC54E946023 /* Service.h */,
+				48603CB541EC7C8B41352274 /* ServiceKey.cpp */,
+				00F37843313A58B827541C39 /* ServiceKey.h */,
+				03A95CC9366E701124F83381 /* ServiceRegistrationInfo.cpp */,
+				223758A33BB86474093C7A06 /* ServiceRegistrationInfo.h */,
+				35A463873E2C4F3122964433 /* SingleRegistrationStyle.cpp */,
+				48C0532E222B3F5711CC1EF3 /* SingleRegistrationStyle.h */,
+				09F7381F062454EC7DF22232 /* TypeCaster.h */,
+				1FAF3A63797712CD08881CF3 /* TypeIndexWorkaround.h */,
+				171D17A63ACD01BD513178D6 /* TypedService.cpp */,
+				601A79EA107F33B75A4E410C /* TypedService.h */,
+				385D0A110DC254B828753467 /* libsel.h */,
+			);
+			name = Hypodermic;
+			sourceTree = "<group>";
+		};
+		7AD748B24F3C25C13A116582 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7F534A4B404E66355B4468C6 /* libhypodermic.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7B91759C6CA3437A223E2D19 /* hypodermic */ = {
+			isa = PBXGroup;
+			children = (
+				5F6D01A4467C7B255EE32C3A /* Hypodermic */,
+				7AD748B24F3C25C13A116582 /* Products */,
+			);
+			name = hypodermic;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		33E6443108B67FCE4DDB73CE /* hypodermic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 65A40BE1742876FD5E5F4F79 /* Build configuration list for PBXNativeTarget "hypodermic" */;
+			buildPhases = (
+				1682465C5E660BF6718B72F0 /* Resources */,
+				16A741EB5E115E1E3E852F20 /* Sources */,
+				637260F90BA517B243566C38 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = hypodermic;
+			productName = hypodermic;
+			productReference = 7F534A4B404E66355B4468C6 /* libhypodermic.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+			};
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "hypodermic" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7B91759C6CA3437A223E2D19 /* hypodermic */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				33E6443108B67FCE4DDB73CE /* hypodermic */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1682465C5E660BF6718B72F0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		16A741EB5E115E1E3E852F20 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A97677558021DB82B461F70 /* CircularDependencyDetector.cpp in Sources */,
+				19F0611E0F721B2F637E26C3 /* ComponentRegistration.cpp in Sources */,
+				01FC769D4EFC1E2C067579EA /* ComponentRegistrationLifetimeDecorator.cpp in Sources */,
+				0FFD3DBF7B884B1032B33069 /* ComponentRegistry.cpp in Sources */,
+				2CB27DF777A847B8277511E0 /* Container.cpp in Sources */,
+				678D748B68ED217E11300558 /* ContainerActivator.cpp in Sources */,
+				3E2C5D8B67F30B8D120735C5 /* ContainerBuilder.cpp in Sources */,
+				2B826E0450FB4B5B51F15CBD /* CopyOnWriteRegistry.cpp in Sources */,
+				21D27FCD04E622A67A9E23A8 /* CurrentLifetimeScope.cpp in Sources */,
+				4E69727D04B544967AFB15EB /* DependencyResolutionException.cpp in Sources */,
+				527533321F917DF161FF4228 /* ExternalRegistrySource.cpp in Sources */,
+				7CC3249774004CB50D250CB1 /* ForwardTypeCaster.cpp in Sources */,
+				716F3D1205863523305B3602 /* InstanceActivator.cpp in Sources */,
+				0D1A3744053B68DC70DC137C /* InstanceLookup.cpp in Sources */,
+				130B56ED0A3D6BFF5C7C5E4C /* KeyedService.cpp in Sources */,
+				0F1815DE34B8524E23237038 /* LifetimeScope.cpp in Sources */,
+				132E71D442DE134200EF5048 /* MatchingScopeLifetime.cpp in Sources */,
+				45F04BB440797FFC1BEC5482 /* RegistrationData.cpp in Sources */,
+				2B04504A5FD12C51300C7B00 /* ResolveOperation.cpp in Sources */,
+				08405A7540294AF145B52256 /* RootScopeLifetime.cpp in Sources */,
+				2F072A69541557A6643511D0 /* ScopeRestrictedRegistry.cpp in Sources */,
+				70C813C913932A2724A9615C /* ServiceKey.cpp in Sources */,
+				00F43B414A2E442014563731 /* ServiceRegistrationInfo.cpp in Sources */,
+				07BB3B602B9B741477EF7FEB /* SingleRegistrationStyle.cpp in Sources */,
+				30FA0EFC538417C478FD56CB /* TypedService.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		041332C558C3298C27EF588C /* Release Native */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = hypodermic;
+			};
+			name = "Release Native";
+		};
+		14DC07F37EFF493E144230FB /* Debug Native */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = hypodermic;
+			};
+			name = "Debug Native";
+		};
+		17954CD94D405C9B56EC5A38 /* Debug Native 32-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					_DEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/x32/Debug/hypodermic/x32;
+				ONLY_ACTIVE_ARCH = YES;
+				SYMROOT = ../../../bin/macosx/xcode4/x32/Debug;
+			};
+			name = "Debug Native 32-bit";
+		};
+		47BA0ACB369F2C7612D768B7 /* Debug Native */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					_DEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/Native/Debug/hypodermic;
+				ONLY_ACTIVE_ARCH = YES;
+				SYMROOT = ../../../bin/macosx/xcode4;
+			};
+			name = "Debug Native";
+		};
+		4A3864052BDB3A2A54D37006 /* Debug Native 64-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4/x64/Debug;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = hypodermic;
+			};
+			name = "Debug Native 64-bit";
+		};
+		4DA45A48374452AA398559FE /* Release Native 32-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4/x32/Release;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = hypodermic;
+			};
+			name = "Release Native 32-bit";
+		};
+		4E9150AB0F1C7932027152E3 /* Release Native 64-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4/x64/Release;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = hypodermic;
+			};
+			name = "Release Native 64-bit";
+		};
+		5A7172115B00107246BA7602 /* Debug Native 64-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					_DEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/x64/Debug/hypodermic/x64;
+				ONLY_ACTIVE_ARCH = YES;
+				SYMROOT = ../../../bin/macosx/xcode4/x64/Debug;
+			};
+			name = "Debug Native 64-bit";
+		};
+		64B62738642408497DA77F0F /* Release Native 32-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = RELEASE;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/x32/Release/hypodermic/x32;
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = ../../../bin/macosx/xcode4/x32/Release;
+			};
+			name = "Release Native 32-bit";
+		};
+		65E74A660ABC516B72E7342F /* Release Native */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = RELEASE;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/Native/Release/hypodermic;
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = ../../../bin/macosx/xcode4;
+			};
+			name = "Release Native";
+		};
+		6A73571674DC2E3C1EC727F9 /* Release Native 64-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = RELEASE;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/x64/Release/hypodermic/x64;
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = ../../../bin/macosx/xcode4/x64/Release;
+			};
+			name = "Release Native 64-bit";
+		};
+		769C157F569D105C32DC0E99 /* Debug Native 32-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4/x32/Debug;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/lib;
+				PRODUCT_NAME = hypodermic;
+			};
+			name = "Debug Native 32-bit";
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "hypodermic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17954CD94D405C9B56EC5A38 /* Debug Native 32-bit */,
+				5A7172115B00107246BA7602 /* Debug Native 64-bit */,
+				47BA0ACB369F2C7612D768B7 /* Debug Native */,
+				64B62738642408497DA77F0F /* Release Native 32-bit */,
+				6A73571674DC2E3C1EC727F9 /* Release Native 64-bit */,
+				65E74A660ABC516B72E7342F /* Release Native */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Debug Native 32-bit";
+		};
+		65A40BE1742876FD5E5F4F79 /* Build configuration list for PBXNativeTarget "hypodermic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				769C157F569D105C32DC0E99 /* Debug Native 32-bit */,
+				4A3864052BDB3A2A54D37006 /* Debug Native 64-bit */,
+				14DC07F37EFF493E144230FB /* Debug Native */,
+				4DA45A48374452AA398559FE /* Release Native 32-bit */,
+				4E9150AB0F1C7932027152E3 /* Release Native 64-bit */,
+				041332C558C3298C27EF588C /* Release Native */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Debug Native 32-bit";
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
