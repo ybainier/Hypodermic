@@ -52,7 +52,7 @@ namespace Hypodermic
             static_assert(std::is_same< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
                           "IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT >::as< ServiceT >() requires ServiceT to be base of T");
 
-			return static_cast< RegistrationBuilderImplementationType* >(this)->as< ServiceT >();
+			return static_cast< RegistrationBuilderImplementationType* >(this)->template as< ServiceT >();
 		}
 
         virtual std::shared_ptr< SelfType > as(std::shared_ptr< Service > service, std::shared_ptr< ITypeCaster > typeCaster) = 0;
@@ -65,7 +65,7 @@ namespace Hypodermic
             static_assert(std::is_same< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
                           "IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT >::as< ServiceT >() requires ServiceT to be base of T");
 
-			return static_cast< RegistrationBuilderImplementationType* >(this)->named< ServiceT >(serviceName);
+			return static_cast< RegistrationBuilderImplementationType* >(this)->template named< ServiceT >(serviceName);
 		}
 
         virtual std::shared_ptr< SelfType > targeting(std::shared_ptr< IComponentRegistration > target) = 0;
