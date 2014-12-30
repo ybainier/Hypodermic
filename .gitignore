@@ -9,7 +9,3 @@ lib/**
 ipch/**
 obj/**
 *ReSharper*
-
-*.xcuserstate
-
-Build/macosx/xcode4/hypodermic.xcworkspace/xcuserdata/dmitryledentsov.xcuserdatad/UserInterfaceState.xcuserstate
