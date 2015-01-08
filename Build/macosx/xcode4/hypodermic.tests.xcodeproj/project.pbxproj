@@ -1,0 +1,462 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		08E9170A49C40FA60BDE3EE6 /* libhypodermic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BD321501D7E3B604BCD00AB /* libhypodermic.a */; };
+		4308594B5F0C32E44417471F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F1F01FC616E7E6539997CF1 /* main.cpp */; };
+		486F309A0C8835C8766642B7 /* ContainerBuilderTests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 478B1F7629147B2159F426D0 /* ContainerBuilderTests.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		07CB4B1567511CBF6D963BEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25024AC01D8C0A0F09445E59 /* hypodermic.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 7F534A4B404E66355B4468C6;
+			remoteInfo = libhypodermic.a;
+		};
+		52784E2319203AC3173B500F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 25024AC01D8C0A0F09445E59 /* hypodermic.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 33E6443108B67FCE4DDB73CE;
+			remoteInfo = libhypodermic.a;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		17576CD93FE628DC19951653 /* hypodermic.tests */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hypodermic.tests; sourceTree = BUILT_PRODUCTS_DIR; };
+		25024AC01D8C0A0F09445E59 /* hypodermic.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = hypodermic.xcodeproj; sourceTree = SOURCE_ROOT; };
+		478B1F7629147B2159F426D0 /* ContainerBuilderTests.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = ContainerBuilderTests.cpp; path = ../../../Hypodermic.Tests/ContainerBuilderTests.cpp; sourceTree = "<group>"; };
+		7F1F01FC616E7E6539997CF1 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../Hypodermic.Tests/main.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		024F2453780F49FC5C801748 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				08E9170A49C40FA60BDE3EE6 /* libhypodermic.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2AF41DAD7D5C5BBC2021600F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3BD321501D7E3B604BCD00AB /* libhypodermic.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		539B17A0329413D51E7A0EEA /* Hypodermic.Tests */ = {
+			isa = PBXGroup;
+			children = (
+				478B1F7629147B2159F426D0 /* ContainerBuilderTests.cpp */,
+				7F1F01FC616E7E6539997CF1 /* main.cpp */,
+			);
+			name = Hypodermic.Tests;
+			sourceTree = "<group>";
+		};
+		62C52A6A322139E501591B55 /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				25024AC01D8C0A0F09445E59 /* hypodermic.xcodeproj */,
+			);
+			name = Projects;
+			sourceTree = "<group>";
+		};
+		767911FD157A1D2836C13C1C /* hypodermic.tests */ = {
+			isa = PBXGroup;
+			children = (
+				539B17A0329413D51E7A0EEA /* Hypodermic.Tests */,
+				7DAE51FD7396258B63BA7192 /* Products */,
+				62C52A6A322139E501591B55 /* Projects */,
+			);
+			name = hypodermic.tests;
+			sourceTree = "<group>";
+		};
+		7DAE51FD7396258B63BA7192 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				17576CD93FE628DC19951653 /* hypodermic.tests */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4E0829687F776AA329CB661C /* hypodermic.tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0111442F267A339479A5561E /* Build configuration list for PBXNativeTarget "hypodermic.tests" */;
+			buildPhases = (
+				03765B3526EE6C2B32781832 /* Resources */,
+				32AD2D5144595892707532CA /* Sources */,
+				024F2453780F49FC5C801748 /* Frameworks */,
+				9607AE3710C85E8F00CD1376 /* Postbuild */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				134E24C91DA14FC923365C80 /* PBXTargetDependency */,
+			);
+			name = hypodermic.tests;
+			productInstallPath = "$(HOME)/bin";
+			productName = hypodermic.tests;
+			productReference = 17576CD93FE628DC19951653 /* hypodermic.tests */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+			};
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "hypodermic.tests" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 767911FD157A1D2836C13C1C /* hypodermic.tests */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 2AF41DAD7D5C5BBC2021600F /* Products */;
+					ProjectRef = 25024AC01D8C0A0F09445E59 /* hypodermic.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				4E0829687F776AA329CB661C /* hypodermic.tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		3BD321501D7E3B604BCD00AB /* libhypodermic.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libhypodermic.a;
+			remoteRef = 07CB4B1567511CBF6D963BEF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		03765B3526EE6C2B32781832 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9607AE3710C85E8F00CD1376 /* Postbuild */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Postbuild;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "$TARGET_BUILD_DIR/$TARGET_NAME\n$(TARGET)";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		32AD2D5144595892707532CA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				486F309A0C8835C8766642B7 /* ContainerBuilderTests.cpp in Sources */,
+				4308594B5F0C32E44417471F /* main.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		134E24C91DA14FC923365C80 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = libhypodermic.a;
+			targetProxy = 52784E2319203AC3173B500F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0365747D4C6733CC4AAA0B9C /* Debug Native 64-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4/x64/Debug;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = hypodermic.tests;
+			};
+			name = "Debug Native 64-bit";
+		};
+		0D7472AD435670481629752E /* Release Native */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = hypodermic.tests;
+			};
+			name = "Release Native";
+		};
+		2C701C951C505FAC1D00291E /* Debug Native 32-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					_DEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/x32/Debug/hypodermic.tests/x32;
+				ONLY_ACTIVE_ARCH = YES;
+				SYMROOT = ../../../bin/macosx/xcode4/x32/Debug;
+			};
+			name = "Debug Native 32-bit";
+		};
+		36A269366B7618F115E905AD /* Release Native 32-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4/x32/Release;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = hypodermic.tests;
+			};
+			name = "Release Native 32-bit";
+		};
+		427936416D8562E46947398A /* Release Native */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = RELEASE;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/Native/Release/hypodermic.tests;
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = ../../../bin/macosx/xcode4;
+			};
+			name = "Release Native";
+		};
+		49301A750CB4223B0E5E5B75 /* Release Native 64-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = RELEASE;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/x64/Release/hypodermic.tests/x64;
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = ../../../bin/macosx/xcode4/x64/Release;
+			};
+			name = "Release Native 64-bit";
+		};
+		4F1D334171647BBA09B21EE6 /* Release Native 64-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4/x64/Release;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = hypodermic.tests;
+			};
+			name = "Release Native 64-bit";
+		};
+		503C47525F5C2AEE79726CD7 /* Release Native 32-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = RELEASE;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/x32/Release/hypodermic.tests/x32;
+				ONLY_ACTIVE_ARCH = NO;
+				SYMROOT = ../../../bin/macosx/xcode4/x32/Release;
+			};
+			name = "Release Native 32-bit";
+		};
+		53F317131E00428D60EB7AD4 /* Debug Native 32-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4/x32/Debug;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = hypodermic.tests;
+			};
+			name = "Debug Native 32-bit";
+		};
+		5F3C12930C0D5C502C4633FE /* Debug Native 64-bit */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					_DEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/x64/Debug/hypodermic.tests/x64;
+				ONLY_ACTIVE_ARCH = YES;
+				SYMROOT = ../../../bin/macosx/xcode4/x64/Debug;
+			};
+			name = "Debug Native 64-bit";
+		};
+		66611B4E346A4BD46CC51F74 /* Debug Native */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SYMROOT)";
+				CONFIGURATION_TEMP_DIR = "$(OBJROOT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
+					_DEBUG,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					../../..,
+					/usr/local/include,
+				);
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
+				OBJROOT = ../../../obj/macosx/xcode4/Native/Debug/hypodermic.tests;
+				ONLY_ACTIVE_ARCH = YES;
+				SYMROOT = ../../../bin/macosx/xcode4;
+			};
+			name = "Debug Native";
+		};
+		7AAC4ED46D827F3B19E92E57 /* Debug Native */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CONFIGURATION_BUILD_DIR = ../../../bin/macosx/xcode4;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = /usr/local/bin;
+				PRODUCT_NAME = hypodermic.tests;
+			};
+			name = "Debug Native";
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0111442F267A339479A5561E /* Build configuration list for PBXNativeTarget "hypodermic.tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				53F317131E00428D60EB7AD4 /* Debug Native 32-bit */,
+				0365747D4C6733CC4AAA0B9C /* Debug Native 64-bit */,
+				7AAC4ED46D827F3B19E92E57 /* Debug Native */,
+				36A269366B7618F115E905AD /* Release Native 32-bit */,
+				4F1D334171647BBA09B21EE6 /* Release Native 64-bit */,
+				0D7472AD435670481629752E /* Release Native */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Debug Native 32-bit";
+		};
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "hypodermic.tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C701C951C505FAC1D00291E /* Debug Native 32-bit */,
+				5F3C12930C0D5C502C4633FE /* Debug Native 64-bit */,
+				66611B4E346A4BD46CC51F74 /* Debug Native */,
+				503C47525F5C2AEE79726CD7 /* Release Native 32-bit */,
+				49301A750CB4223B0E5E5B75 /* Release Native 64-bit */,
+				427936416D8562E46947398A /* Release Native */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = "Debug Native 32-bit";
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
