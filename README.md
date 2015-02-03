@@ -19,7 +19,8 @@ ContainerBuilder builder;
 
 Considering these classes:
 
-http://hypodermic.googlecode.com/hg/resources/home_page_simple_diagram.png
+![Sample class hierarchy](http://hypodermic.googlecode.com/hg/resources/home_page_simple_diagram.png "Sample class hierarchy")
+
 
 You can invoke `ContainerBuilder::registerType()` with a type as a template parameter.
 ```cpp
