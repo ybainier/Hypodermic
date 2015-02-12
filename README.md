@@ -41,7 +41,7 @@ Note that `Car` is needing to be injected a `IDriver`. We need to tell the conta
 ```cpp
 builder.registerType< Driver >()->as< IDriver >();
 ```
-Further readings: [Registering concrete types as interfaces](https://github.com/ybainier/Hypodermic/wiki/Registering-concrete-types#registering-a-concrete-type-as-interfaces)
+Further readings: [Registering concrete types as interfaces](https://github.com/ybainier/Hypodermic/wiki/Registering-concrete-types#intermediate)
 
 Now, we can setup `Car`:
 ```cpp
