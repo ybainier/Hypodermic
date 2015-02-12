@@ -26,6 +26,7 @@ You can invoke `ContainerBuilder::registerType()` with a type as a template para
 ```cpp
 builder.registerType< Driver >();
 ```
+Further readings: [Registering concrete types basics](https://github.com/ybainier/Hypodermic/wiki/Registering-concrete-types#basics)
 
 ## Expressing dependencies
 
@@ -40,6 +41,7 @@ Note that `Car` is needing to be injected a `IDriver`. We need to tell the conta
 ```cpp
 builder.registerType< Driver >()->as< IDriver >();
 ```
+Further readings: [Registering concrete types as interfaces](https://github.com/ybainier/Hypodermic/wiki/Registering-concrete-types#registering-a-concrete-type-as-interfaces)
 
 Now, we can setup `Car`:
 ```cpp
