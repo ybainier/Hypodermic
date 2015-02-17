@@ -26,9 +26,9 @@ namespace Hypodermic
 	{
 	public:
 		template <class T>
-		static std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > forDelegate(std::function< T*(IComponentContext&) > delegate);
-
-		static std::shared_ptr< typename RegistrationBuilderInterfaceT< void >::Type >
+		static std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > forDelegate(std::function< std::shared_ptr< T >(IComponentContext&) > delegate);
+        
+        static std::shared_ptr< typename RegistrationBuilderInterfaceT< void >::Type >
         forDelegate(const std::type_info& typeInfo,
                     std::function
                         <

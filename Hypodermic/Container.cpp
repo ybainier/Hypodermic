@@ -48,7 +48,7 @@ namespace Hypodermic
                 LifetimeScope::selfRegistrationId,
                 std::make_shared< DelegateActivator< LifetimeScope > >(
                     typeid(LifetimeScope),
-                    [](IComponentContext&) -> LifetimeScope*
+                    [](IComponentContext&) -> std::shared_ptr<LifetimeScope>
                     {
                         throw std::logic_error("Self registration cannot be activated");
                     }),

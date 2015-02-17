@@ -16,7 +16,7 @@ namespace Hypodermic
     template <class T>
 	inline std::shared_ptr< void > DelegateActivator< T >::activateInstance(std::shared_ptr< IComponentContext > context)
 	{
-		return std::shared_ptr< void >(activationFunction_(*context));
+		return activationFunction_(*context);
 	}
 
     inline DelegateActivator< void >::DelegateActivator(const std::type_info& typeInfo, ActivationDelegate activationFunction)
