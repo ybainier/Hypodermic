@@ -39,6 +39,11 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     else()
         set(COMPILER_FLAGS "${COMPILER_FLAGS} -O2")
     endif()
+
+    if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+      add_definitions(-fPIC)
+    endif(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+
 endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILER_FLAGS} ${WARNING_FLAGS}")
