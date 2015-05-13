@@ -3,7 +3,7 @@
 set SolutionDir=%~p0
 
 if not "%VS100COMNTOOLS%" == "" call :BuildVS100Targets
-if not "%VS110COMNTOOLS%" == "" call :BuildVS110Targets
+if not "%VS120COMNTOOLS%" == "" call :BuildVS120Targets
 
 pause
 exit /b
@@ -16,10 +16,10 @@ call :BuildTargets v100
 @goto:eof
 
 
-:BuildVS110Targets
-echo Invoking %VS110COMNTOOLS%\..\..\VC\vcvarsall.bat x86_amd64
-call "%VS110COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
-call :BuildTargets v110
+:BuildVS120Targets
+echo Invoking %VS120COMNTOOLS%\..\..\VC\vcvarsall.bat x86_amd64
+call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
+call :BuildTargets v120
 @goto:eof
 
 
@@ -41,6 +41,7 @@ set platformToolset=%3
 
 @echo [ Building Hypodermic (%target%-%platform%-%platformToolset%) ]
 
+echo MSBuild %SolutionDir%\Hypodermic.sln /m /t:Clean /p:Configuration=%target% /p:Platform=%platform% /p:PlatformToolset=%platformToolset%
 MSBuild %SolutionDir%\Hypodermic.sln /m /t:Clean /p:Configuration=%target% /p:Platform=%platform% /p:PlatformToolset=%platformToolset%
 MSBuild %SolutionDir%\Hypodermic.sln /m /p:Configuration=%target% /p:Platform=%platform% /p:PlatformToolset=%platformToolset%
 
