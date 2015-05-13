@@ -15,13 +15,12 @@ namespace Hypodermic
 {
 
     ComponentRegistration::ComponentRegistration(const boost::uuids::uuid& id,
-                                                 std::shared_ptr< IInstanceActivator > activator,
-                                                 std::shared_ptr< IComponentLifetime > lifetime,
+                                                 const std::shared_ptr< IInstanceActivator >& activator,
+                                                 const std::shared_ptr< IComponentLifetime >& lifetime,
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
                                                  const std::vector< std::shared_ptr< Service > >& services,
-                                                 const std::unordered_map< std::type_index,
-                                                 std::shared_ptr< ITypeCaster > >& typeCasters)
+                                                 const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters)
         : id_(id)
         , activator_(activator)
         , sharing_(sharing)
@@ -41,14 +40,13 @@ namespace Hypodermic
     }
 
     ComponentRegistration::ComponentRegistration(const boost::uuids::uuid& id,
-                                                 std::shared_ptr< IInstanceActivator > activator,
-                                                 std::shared_ptr< IComponentLifetime > lifetime,
+                                                 const std::shared_ptr< IInstanceActivator >& activator,
+                                                 const std::shared_ptr< IComponentLifetime >& lifetime,
                                                  InstanceSharing::Mode sharing,
                                                  InstanceOwnership::Mode ownership,
                                                  const std::vector< std::shared_ptr< Service > >& services,
-                                                 const std::unordered_map< std::type_index,
-                                                 std::shared_ptr< ITypeCaster > >& typeCasters,
-                                                 std::shared_ptr< IComponentRegistration > target)
+                                                 const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters,
+                                                 const std::shared_ptr< IComponentRegistration >& target)
         : id_(id)
         , activator_(activator)
         , sharing_(sharing)

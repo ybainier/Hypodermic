@@ -10,7 +10,7 @@
 namespace Hypodermic
 {
 
-    ResolveOperation::ResolveOperation(std::shared_ptr< ISharingLifetimeScope > mostNestedLifetimeScope)
+    ResolveOperation::ResolveOperation(const std::shared_ptr< ISharingLifetimeScope >& mostNestedLifetimeScope)
         : mostNestedLifetimeScope_(mostNestedLifetimeScope)
         , callDepth_(0)
         , ended_(false)
@@ -25,12 +25,12 @@ namespace Hypodermic
         return mostNestedLifetimeScope_->componentRegistry();
     }
 
-    std::shared_ptr< void > ResolveOperation::resolveComponent(std::shared_ptr< IComponentRegistration > registration)
+    std::shared_ptr< void > ResolveOperation::resolveComponent(const std::shared_ptr< IComponentRegistration >& registration)
     {
         return getOrCreateInstance(mostNestedLifetimeScope_, registration);
     }
 
-    std::shared_ptr< void > ResolveOperation::execute(std::shared_ptr< IComponentRegistration > registration)
+    std::shared_ptr< void > ResolveOperation::execute(const std::shared_ptr< IComponentRegistration >& registration)
     {
         std::shared_ptr< void > result;
 
@@ -53,8 +53,8 @@ namespace Hypodermic
         return result;
     }
 
-    std::shared_ptr< void > ResolveOperation::getOrCreateInstance(std::shared_ptr< ISharingLifetimeScope > currentOperationScope,
-                                                                  std::shared_ptr< IComponentRegistration > registration)
+    std::shared_ptr< void > ResolveOperation::getOrCreateInstance(const std::shared_ptr< ISharingLifetimeScope >& currentOperationScope,
+                                                                  const std::shared_ptr< IComponentRegistration >& registration)
     {
         if (currentOperationScope == nullptr)
             throw std::invalid_argument("currentOperationScope");

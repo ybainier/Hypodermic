@@ -19,16 +19,16 @@ namespace Hypodermic
     class ResolveOperation : public std::enable_shared_from_this< ResolveOperation >, public IComponentContext, public IResolveOperation
     {
     public:
-        ResolveOperation(std::shared_ptr< ISharingLifetimeScope > mostNestedLifetimeScope);
+        ResolveOperation(const std::shared_ptr< ISharingLifetimeScope >& mostNestedLifetimeScope);
 
         std::shared_ptr< IComponentRegistry > componentRegistry();
 
-        std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration);
+        std::shared_ptr< void > resolveComponent(const std::shared_ptr< IComponentRegistration >& registration);
 
-        std::shared_ptr< void > execute(std::shared_ptr< IComponentRegistration > registration);
+        std::shared_ptr< void > execute(const std::shared_ptr< IComponentRegistration >& registration);
 
-        std::shared_ptr< void > getOrCreateInstance(std::shared_ptr< ISharingLifetimeScope > currentOperationScope,
-                                                    std::shared_ptr< IComponentRegistration > registration);
+        std::shared_ptr< void > getOrCreateInstance(const std::shared_ptr< ISharingLifetimeScope >& currentOperationScope,
+                                                    const std::shared_ptr< IComponentRegistration >& registration);
 
     private:
         void completeActivations();

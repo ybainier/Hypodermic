@@ -13,7 +13,7 @@
 namespace Hypodermic
 {
 
-    ExternalRegistrySource::ExternalRegistrySource(std::shared_ptr< IComponentRegistry > registry)
+    ExternalRegistrySource::ExternalRegistrySource(const std::shared_ptr< IComponentRegistry >& registry)
         : registry_(registry)
     {
         if (registry_ == nullptr)
@@ -21,8 +21,8 @@ namespace Hypodermic
     }
 
     std::vector< std::shared_ptr< IComponentRegistration > >
-    ExternalRegistrySource::registrationsFor(std::shared_ptr< Service > service,
-                                             std::function< std::vector< std::shared_ptr< IComponentRegistration > >(std::shared_ptr< Service > service) > /*registrationAccessor*/)
+    ExternalRegistrySource::registrationsFor(const std::shared_ptr< Service >& service,
+                                             const std::function< std::vector< std::shared_ptr< IComponentRegistration > >(const std::shared_ptr< Service >& service) >&)
     {
         std::vector< std::shared_ptr< IComponentRegistration > > result;
 
@@ -67,14 +67,14 @@ namespace Hypodermic
                 typedef RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface > BuilderFactory;
 
                 auto rb = BuilderFactory::forDelegate
-                    (
-                        componentRegistration->activator()->typeInfo(),
-                        [componentRegistration](IComponentContext& c)
-                        {
-                            return c.resolveComponent(componentRegistration);
-                        }
-                    )
-                    ->targeting(componentRegistration);
+                (
+                    componentRegistration->activator()->typeInfo(),
+                    [componentRegistration](IComponentContext& c)
+                    {
+                        return c.resolveComponent(componentRegistration);
+                    }
+                );
+                rb->targeting(componentRegistration);
 
                 for (auto serviceIt = services.begin(); serviceIt != serviceItEnd; ++serviceIt)
                 {

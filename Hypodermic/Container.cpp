@@ -23,12 +23,12 @@ namespace Hypodermic
         return componentRegistry_;
     }
 
-    std::shared_ptr< void > Container::resolveComponent(std::shared_ptr< IComponentRegistration > registration)
+    std::shared_ptr< void > Container::resolveComponent(const std::shared_ptr< IComponentRegistration >& registration)
     {
         return rootLifetimeScope_->resolveComponent(registration);
     }
 
-    std::shared_ptr< void > Container::getOrCreateInstance(std::shared_ptr< IComponentRegistration > registration)
+    std::shared_ptr< void > Container::getOrCreateInstance(const std::shared_ptr< IComponentRegistration >& registration)
     {
         return registration->activator()->activateInstance(shared_from_this());
     }
@@ -43,33 +43,43 @@ namespace Hypodermic
 
         componentRegistry_ = std::make_shared< ComponentRegistry >();
 
-        componentRegistry_->addRegistration(std::shared_ptr< ComponentRegistration >(
-            new ComponentRegistration(
+        componentRegistry_->addRegistration
+        (
+            std::make_shared< ComponentRegistration >
+            (
                 LifetimeScope::selfRegistrationId,
-                std::make_shared< DelegateActivator< LifetimeScope > >(
+                std::make_shared< DelegateActivator< LifetimeScope > >
+                (
                     typeid(LifetimeScope),
-                    [](IComponentContext&) -> LifetimeScope*
+                    [](IComponentContext&) -> std::shared_ptr< LifetimeScope >
                     {
                         throw std::logic_error("Self registration cannot be activated");
-                    }),
+                    }
+                ),
                 std::make_shared< CurrentLifetimeScope >(),
                 InstanceSharing::Shared,
                 InstanceOwnership::ExternallyOwned,
                 services,
-                std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >())));
+                std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >()
+            )
+        );
 
         services.clear();
         services += std::make_shared< TypedService >(typeid(IContainer));
 
-        componentRegistry_->addRegistration(std::shared_ptr< ComponentRegistration >(
-            new ComponentRegistration(
+        componentRegistry_->addRegistration
+        (
+            std::make_shared< ComponentRegistration >
+            (
                 LifetimeScope::selfRegistrationId,
                 std::make_shared< ContainerActivator >(shared_from_this()),
                 std::make_shared< CurrentLifetimeScope >(),
                 InstanceSharing::None, // this instance will actually be shared, but this prevents shared pointer circular references
                 InstanceOwnership::ExternallyOwned,
                 services,
-                std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >())));
+                std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >()
+            )
+        );
 
         rootLifetimeScope_ = std::make_shared< LifetimeScope >(componentRegistry_);
         rootLifetimeScope_->initialize();

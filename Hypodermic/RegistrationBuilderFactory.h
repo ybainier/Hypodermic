@@ -26,33 +26,31 @@ namespace Hypodermic
 	{
 	public:
 		template <class T>
-		static std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > forDelegate(std::function< T*(IComponentContext&) > delegate);
+		static std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type >
+        forDelegate(const std::function< std::shared_ptr< T >(IComponentContext&) >& delegate);
 
 		static std::shared_ptr< typename RegistrationBuilderInterfaceT< void >::Type >
         forDelegate(const std::type_info& typeInfo,
-                    std::function
-                        <
-                            std::shared_ptr< void >(IComponentContext&)
-                        >
-                        delegate);
+                    const std::function< std::shared_ptr< void >(IComponentContext&) >& delegate);
 
 		template <class T>
 		static std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > forType();
 
         template <class T>
-		static std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > forInstance(std::shared_ptr< T > instance);
+		static std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > forInstance(const std::shared_ptr< T >& instance);
 
 		template <class T>
-		static void registerSingleComponent(std::shared_ptr< IComponentRegistry > cr, std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > rb);
+		static void registerSingleComponent(const std::shared_ptr< IComponentRegistry >& cr,
+                                            const std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type >& rb);
 
 		template <class T>
-		static std::shared_ptr< IComponentRegistration > createRegistration(std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type > rb);
+		static std::shared_ptr< IComponentRegistration > createRegistration(const std::shared_ptr< typename RegistrationBuilderInterfaceT< T >::Type >& rb);
 
 		static std::shared_ptr< IComponentRegistration > createRegistration(const boost::uuids::uuid& id,
                                                                             RegistrationData& registrationData,
-                                                                            std::shared_ptr< IInstanceActivator > activator,
-			                                                                std::vector< std::shared_ptr< Service > > services,
-                                                                            std::shared_ptr< IComponentRegistration > target,
+                                                                            const std::shared_ptr< IInstanceActivator >& activator,
+			                                                                const std::vector< std::shared_ptr< Service > >& services,
+                                                                            const std::shared_ptr< IComponentRegistration >& target,
                                                                             const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters);
 	};
 

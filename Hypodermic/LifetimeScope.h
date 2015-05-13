@@ -23,15 +23,16 @@ namespace Hypodermic
 	class LifetimeScope : public std::enable_shared_from_this< LifetimeScope >, public ISharingLifetimeScope
 	{
 	public:
-        LifetimeScope(std::shared_ptr< IComponentRegistry > componentRegistry);
+        LifetimeScope(const std::shared_ptr< IComponentRegistry >& componentRegistry);
+        LifetimeScope(const std::shared_ptr< IComponentRegistry >& componentRegistry, const std::shared_ptr< LifetimeScope >& parent);
 
 		std::shared_ptr< ISharingLifetimeScope > parentLifetimeScope();
 		std::shared_ptr< ISharingLifetimeScope > rootLifetimeScope();
 
         std::shared_ptr< IComponentRegistry > componentRegistry();
 
-		std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration);
-		std::shared_ptr< void > getOrCreateAndShare(const boost::uuids::uuid& id, std::function< std::shared_ptr< void >() > creator);
+		std::shared_ptr< void > resolveComponent(const std::shared_ptr< IComponentRegistration >& registration);
+		std::shared_ptr< void > getOrCreateAndShare(const boost::uuids::uuid& id, const std::function< std::shared_ptr< void >() >& creator);
 
         void initialize();
 
@@ -39,11 +40,8 @@ namespace Hypodermic
 
         static const boost::uuids::uuid selfRegistrationId;
 
-	protected:
-        LifetimeScope(std::shared_ptr< IComponentRegistry > componentRegistry, std::shared_ptr< LifetimeScope > parent);
-
     private:
-        std::shared_ptr< ScopeRestrictedRegistry > createScopeRestrictedRegistry(std::function< void(ContainerBuilder&) > configurationAction);
+        std::shared_ptr< ScopeRestrictedRegistry > createScopeRestrictedRegistry(const std::function< void(ContainerBuilder&) >& configurationAction);
 
         std::shared_ptr< IComponentRegistry > componentRegistry_;
 		std::shared_ptr< ISharingLifetimeScope > parent_;

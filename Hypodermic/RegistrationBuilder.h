@@ -39,33 +39,33 @@ namespace Hypodermic
 
         const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters() const;
 
-		std::shared_ptr< ParentType > singleInstance();
+		ParentType& singleInstance();
 
-        std::shared_ptr< ParentType > instancePerLifetimeScope();
+        ParentType& instancePerLifetimeScope();
 
-        std::shared_ptr< ParentType > instancePerDependency();
-
-		template <class ServiceT>
-		std::shared_ptr< ParentType > as();
-
-        std::shared_ptr< ParentType > as(std::shared_ptr< Service > service, std::shared_ptr< ITypeCaster > typeCaster);
-
-        std::shared_ptr< ParentType > asSelf();
+        ParentType& instancePerDependency();
 
 		template <class ServiceT>
-		std::shared_ptr< ParentType > named(const std::string& serviceName);
+        ParentType& as();
 
-        std::shared_ptr< ParentType > targeting(std::shared_ptr< IComponentRegistration > target);
+        ParentType& as(std::shared_ptr< Service > service, std::shared_ptr< ITypeCaster > typeCaster);
 
-        std::shared_ptr< ParentType > onPreparing(std::function< void(IPreparingData&) > callback);
+        ParentType& asSelf();
 
-        std::shared_ptr< ParentType > onActivating(std::function< void(IActivatingData< T >&) > callback);
+		template <class ServiceT>
+        ParentType& named(const std::string& serviceName);
 
-        std::shared_ptr< ParentType > onActivated(std::function< void(IActivatedData< T >&) > callback);
+        ParentType& targeting(std::shared_ptr< IComponentRegistration > target);
+
+        ParentType& onPreparing(std::function< void(IPreparingData&) > callback);
+
+        ParentType& onActivating(std::function< void(IActivatingData< T >&) > callback);
+
+        ParentType& onActivated(std::function< void(IActivatedData< T >&) > callback);
 
 	private:
         template <class ServiceT>
-        std::shared_ptr< ParentType > named(const std::string& serviceName, const std::type_info& serviceTypeInfo);
+        ParentType& named(const std::string& serviceName, const std::type_info& serviceTypeInfo);
 
 		RegistrationData registrationData_;
 		std::shared_ptr< IInstanceActivator > activator_;
