@@ -18,8 +18,8 @@ namespace Hypodermic
         virtual ~IRegistrationSource() {}
 
         virtual std::vector< std::shared_ptr< IComponentRegistration > >
-        registrationsFor(std::shared_ptr< Service > service,
-                         std::function< std::vector< std::shared_ptr< IComponentRegistration > >(std::shared_ptr< Service > service) > registrationAccessor) = 0;
+        registrationsFor(const std::shared_ptr< Service >& service,
+                         const std::function< std::vector< std::shared_ptr< IComponentRegistration > >(const std::shared_ptr< Service >& service) >& registrationAccessor) = 0;
     };
 
 } // namespace Hypodermic

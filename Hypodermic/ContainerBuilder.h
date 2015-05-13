@@ -20,7 +20,7 @@ namespace Hypodermic
 
 	class ContainerBuilder
 	{
-        typedef std::function< void(std::shared_ptr< IComponentRegistry >) > ConfigurationCallback;
+        typedef std::function< void(const std::shared_ptr< IComponentRegistry >&) > ConfigurationCallback;
 
 	public:
         template <class T>
@@ -34,24 +34,24 @@ namespace Hypodermic
 		ContainerBuilder();
 
 		template <class T>
-		std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > autowireType();
+		typename RegistrationBuilderInterface< T >::Type& autowireType();
 
         template <class T>
-        std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > registerType(std::function< T*(IComponentContext&) > delegate);
+        typename RegistrationBuilderInterface< T >::Type& registerType(const std::function< std::shared_ptr< T >(IComponentContext&) >& delegate);
 
 		template <class T>
-		std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > registerType();
+		typename RegistrationBuilderInterface< T >::Type& registerType();
 
 		template <class T>
-		std::shared_ptr< typename RegistrationBuilderInterface< T >::Type > registerInstance(std::shared_ptr< T > instance);
+        typename RegistrationBuilderInterface< T >::Type& registerInstance(const std::shared_ptr< T >& instance);
 
-        void registerSource(std::shared_ptr< IRegistrationSource > registrationSource);
+        void registerSource(const std::shared_ptr< IRegistrationSource >& registrationSource);
 
-		void registerCallback(ConfigurationCallback configurationCallback);
+		void registerCallback(const ConfigurationCallback& configurationCallback);
 
 		std::shared_ptr< IContainer > build();
 
-		void build(std::shared_ptr< IComponentRegistry > componentRegistry);
+		void build(const std::shared_ptr< IComponentRegistry >& componentRegistry);
 
 
 	private:

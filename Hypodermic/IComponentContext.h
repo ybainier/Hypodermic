@@ -20,7 +20,7 @@ namespace Hypodermic
 
         virtual std::shared_ptr< IComponentRegistry > componentRegistry() = 0;
 
-        virtual std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration) = 0;
+        virtual std::shared_ptr< void > resolveComponent(const std::shared_ptr< IComponentRegistration >& registration) = 0;
 
         template <class ServiceT>
         std::shared_ptr< ServiceT > resolve();
@@ -39,10 +39,10 @@ namespace Hypodermic
 
     private:
         template <class ServiceT>
-        std::shared_ptr< ServiceT > resolveService(std::shared_ptr< Service > service);
+        std::shared_ptr< ServiceT > resolveService(const std::shared_ptr< Service >& service);
 
         template <class ServiceT>
-        std::vector< std::shared_ptr< ServiceT > > resolveAllForService(std::shared_ptr< Service > service);
+        std::vector< std::shared_ptr< ServiceT > > resolveAllForService(const std::shared_ptr< Service >& service);
     };
 
 } // namespace Hypodermic

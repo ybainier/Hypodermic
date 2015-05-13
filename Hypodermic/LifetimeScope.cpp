@@ -13,17 +13,17 @@
 namespace Hypodermic
 {
 	const boost::uuids::uuid LifetimeScope::selfRegistrationId = boost::uuids::random_generator()();
-	std::function< void(ContainerBuilder&) > LifetimeScope::noConfiguration_ = [](ContainerBuilder&) -> void {};
+	std::function< void(ContainerBuilder&) > LifetimeScope::noConfiguration_ = [](ContainerBuilder&) {};
 
 
-    LifetimeScope::LifetimeScope(std::shared_ptr< IComponentRegistry > componentRegistry)
+    LifetimeScope::LifetimeScope(const std::shared_ptr< IComponentRegistry >& componentRegistry)
         : componentRegistry_(componentRegistry)
     {
         if (componentRegistry == nullptr)
             throw std::invalid_argument("componentRegistry");
     }
 
-    LifetimeScope::LifetimeScope(std::shared_ptr< IComponentRegistry > componentRegistry, std::shared_ptr< LifetimeScope > parent)
+    LifetimeScope::LifetimeScope(const std::shared_ptr< IComponentRegistry >& componentRegistry, const std::shared_ptr< LifetimeScope >& parent)
         : componentRegistry_(componentRegistry)
         , parent_(parent)
     {
@@ -48,7 +48,7 @@ namespace Hypodermic
         return componentRegistry_;
     }
 
-    std::shared_ptr< void > LifetimeScope::resolveComponent(std::shared_ptr< IComponentRegistration > registration)
+    std::shared_ptr< void > LifetimeScope::resolveComponent(const std::shared_ptr< IComponentRegistration >& registration)
     {
         if (registration == nullptr)
             throw std::invalid_argument("registration");
@@ -62,7 +62,7 @@ namespace Hypodermic
     }
 
     std::shared_ptr< void > LifetimeScope::getOrCreateAndShare(const boost::uuids::uuid& id,
-                                                               std::function< std::shared_ptr< void >() > creator)
+                                                               const std::function< std::shared_ptr< void >() >& creator)
     {
         boost::lock_guard< decltype(mutex_) > lock(mutex_);
 
@@ -87,13 +87,13 @@ namespace Hypodermic
     std::shared_ptr< ILifetimeScope > LifetimeScope::createLifetimeScope()
     {
         auto registry = std::make_shared< CopyOnWriteRegistry >(componentRegistry_, [this]() { return this->createScopeRestrictedRegistry(noConfiguration_); });
-        auto scope = std::shared_ptr< LifetimeScope >(new LifetimeScope(registry, this->shared_from_this()));
+        auto scope = std::make_shared< LifetimeScope >(registry, this->shared_from_this());
         scope->initialize();
 
-        return std::shared_ptr< ILifetimeScope >(scope);
+        return scope;
     }
 
-    std::shared_ptr< ScopeRestrictedRegistry > LifetimeScope::createScopeRestrictedRegistry(std::function< void(ContainerBuilder&) > configurationAction)
+    std::shared_ptr< ScopeRestrictedRegistry > LifetimeScope::createScopeRestrictedRegistry(const std::function< void(ContainerBuilder&) >& configurationAction)
     {
         ContainerBuilder builder;
 
@@ -111,11 +111,15 @@ namespace Hypodermic
             s = s->parentLifetimeScope();
         }
 
-        std::for_each(parents.begin(), parents.end(),
-            [&builder](std::shared_ptr< IRegistrationSource > external)
+        std::for_each
+        (
+            parents.begin(),
+            parents.end(),
+            [&builder](const std::shared_ptr< IRegistrationSource >& external)
             {
                 builder.registerSource(external);
-            });
+            }
+        );
 
         configurationAction(builder);
 

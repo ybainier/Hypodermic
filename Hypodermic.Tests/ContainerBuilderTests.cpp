@@ -128,7 +128,7 @@ BOOST_AUTO_TEST_CASE(should_resolve_registered_type)
 {
 	ContainerBuilder builder;
 
-	builder.registerType< ServiceA >()->as< IServiceA >();
+	builder.registerType< ServiceA >().as< IServiceA >();
 
 	auto container = builder.build();
 
@@ -141,8 +141,8 @@ BOOST_AUTO_TEST_CASE(should_resolve_abstract_dependencies)
 {
 	ContainerBuilder builder;
 
-	builder.registerType< ServiceA >()->as< IServiceA >();
-	builder.registerType< ServiceB >(CREATE(new ServiceB(INJECT(IServiceA))))->as< IServiceB >();
+	builder.registerType< ServiceA >().as< IServiceA >();
+    builder.registerType< ServiceB >(CREATE(std::make_shared< ServiceB >(INJECT(IServiceA)))).as< IServiceB >();
 
 	auto container = builder.build();
 
@@ -155,7 +155,7 @@ BOOST_AUTO_TEST_CASE(default_lifetime_should_be_transient)
 {
 	ContainerBuilder builder;
 
-	builder.registerType< ServiceA >()->as< IServiceA >();
+	builder.registerType< ServiceA >().as< IServiceA >();
 
 	auto container = builder.build();
 
@@ -169,7 +169,7 @@ BOOST_AUTO_TEST_CASE(as_method_should_override_default_type_registration)
 {
 	ContainerBuilder builder;
 
-	builder.registerType< ServiceA >()->as< IServiceA >();
+	builder.registerType< ServiceA >().as< IServiceA >();
 
 	auto container = builder.build();
 
@@ -184,7 +184,7 @@ BOOST_AUTO_TEST_CASE(as_method_should_not_override_default_type_registration_by_
 {
     ContainerBuilder builder;
 
-    builder.registerType< ServiceA >()->as< IServiceA >()->asSelf();
+    builder.registerType< ServiceA >().as< IServiceA >().asSelf();
 
     auto container = builder.build();
 
@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE(invoking_singleInstance_should_enable_instance_sharing)
 {
     ContainerBuilder builder;
 
-    builder.registerType< ServiceA >()->as< IServiceA >()->singleInstance();
+    builder.registerType< ServiceA >().as< IServiceA >().singleInstance();
 
     auto container = builder.build();
 
@@ -231,7 +231,7 @@ BOOST_AUTO_TEST_CASE(polymorphic_resolution_should_be_available_through_polymorp
 {
     ContainerBuilder builder;
 
-    builder.registerType< ServiceA >()->as< IServiceA >()->as< IRunWithScissors >();
+    builder.registerType< ServiceA >().as< IServiceA >().as< IRunWithScissors >();
 
     auto container = builder.build();
 
@@ -247,7 +247,7 @@ BOOST_AUTO_TEST_CASE(polymorphic_resolution_is_not_a_lie)
     ContainerBuilder builder;
 
     auto registeredServiceA = std::make_shared< ServiceA >();
-    builder.registerInstance(registeredServiceA)->as< IServiceA >()->as< IRunWithScissors >();
+    builder.registerInstance(registeredServiceA).as< IServiceA >().as< IRunWithScissors >();
 
     auto container = builder.build();
 
@@ -264,10 +264,8 @@ BOOST_AUTO_TEST_CASE(polymorphic_resolution_can_be_used_to_express_dependencies)
     ContainerBuilder builder;
 
     auto serviceA = std::make_shared< ServiceA >();
-    builder.registerInstance(serviceA)->as< IRunWithScissors >();
-
-    builder.registerType< ServiceRunningWithScissors >(
-        CREATE(new ServiceRunningWithScissors(INJECT(IRunWithScissors))))->as< IServiceB >();
+    builder.registerInstance(serviceA).as< IRunWithScissors >();
+    builder.registerType< ServiceRunningWithScissors >(CREATE(std::make_shared< ServiceRunningWithScissors >(INJECT(IRunWithScissors)))).as< IServiceB >();
 
     auto container = builder.build();
 
@@ -283,7 +281,7 @@ BOOST_AUTO_TEST_CASE(registerInstance_template_parameter_can_override_the_argume
     auto serviceA = std::make_shared< ServiceA >();
     builder.registerInstance< IRunWithScissors >(serviceA);
     builder.registerInstance< IServiceA >(serviceA);
-    builder.registerType< IServiceB >(CREATE(new ServiceB(INJECT(IServiceA))));
+    builder.registerType< IServiceB >(CREATE(std::make_shared< ServiceB >(INJECT(IServiceA))));
 
     auto container = builder.build();
 
@@ -301,11 +299,9 @@ BOOST_AUTO_TEST_CASE(resolveAll_should_collect_all_registrations_and_return_a_ve
     ContainerBuilder builder;
 
     auto serviceA = std::make_shared< ServiceA >();
-    builder.registerInstance(serviceA)->as< IServiceA >()->as< IRunWithScissors >();
-
-    builder.registerType< ServiceB >(CREATE(new ServiceB(INJECT(IServiceA))))->as< IServiceB >()->singleInstance();
-    builder.registerType< ServiceRunningWithScissors >(
-        CREATE(new ServiceRunningWithScissors(INJECT(IRunWithScissors))))->as< IServiceB >();
+    builder.registerInstance(serviceA).as< IServiceA >().as< IRunWithScissors >();
+    builder.registerType< ServiceB >(CREATE(std::make_shared< ServiceB >(INJECT(IServiceA)))).as< IServiceB >().singleInstance();
+    builder.registerType< ServiceRunningWithScissors >(CREATE(std::make_shared< ServiceRunningWithScissors >(INJECT(IRunWithScissors)))).as< IServiceB >();
 
     auto container = builder.build();
 
@@ -323,13 +319,10 @@ BOOST_AUTO_TEST_CASE(resolveAll_can_be_used_to_collect_dependencies)
     ContainerBuilder builder;
 
     auto serviceA = std::make_shared< ServiceA >();
-    builder.registerInstance(serviceA)->as< IServiceA >()->as< IRunWithScissors >();
-
-    builder.registerType< ServiceB >(CREATE(new ServiceB(INJECT(IServiceA))))->as< IServiceB >()->singleInstance();
-    builder.registerType< ServiceRunningWithScissors >(
-        CREATE(new ServiceRunningWithScissors(INJECT(IRunWithScissors))))->as< IServiceB >();
-
-    builder.registerType< ServiceBController >(CREATE(new ServiceBController(INJECT_ALL(IServiceB))));
+    builder.registerInstance(serviceA).as< IServiceA >().as< IRunWithScissors >();
+    builder.registerType< ServiceB >(CREATE(std::make_shared< ServiceB >(INJECT(IServiceA)))).as< IServiceB >().singleInstance();
+    builder.registerType< ServiceRunningWithScissors >(CREATE(std::make_shared< ServiceRunningWithScissors >(INJECT(IRunWithScissors)))).as< IServiceB >();
+    builder.registerType< ServiceBController >(CREATE(std::make_shared< ServiceBController >(INJECT_ALL(IServiceB))));
 
     auto container = builder.build();
 
@@ -345,7 +338,7 @@ BOOST_AUTO_TEST_CASE(container_should_be_injectable_as_well)
 {
     ContainerBuilder builder;
 
-    builder.registerType< ContainerHolder >(CREATE(new ContainerHolder(INJECT(IContainer))));
+    builder.registerType< ContainerHolder >(CREATE(std::make_shared< ContainerHolder >(INJECT(IContainer))));
 
     auto container = builder.build();
 
@@ -359,9 +352,8 @@ BOOST_AUTO_TEST_CASE(named_registrations_should_not_conflict_with_anonymous_ones
     ContainerBuilder builder;
 
     auto serviceA = std::make_shared< ServiceA >();
-    builder.registerInstance(serviceA)->as< IServiceA >();
-
-    builder.registerType< ServiceA >()->named< IServiceA >("whoami");
+    builder.registerInstance(serviceA).as< IServiceA >();
+    builder.registerType< ServiceA >().named< IServiceA >("whoami");
 
     auto container = builder.build();
 
@@ -384,8 +376,8 @@ BOOST_AUTO_TEST_CASE(named_registrations_should_not_conflict_with_anonymous_ones
 BOOST_AUTO_TEST_CASE(autowired_registration_follows_the_usual_registration_rules)
 {
     ContainerBuilder c;
-    c.autowireType< ServiceA >()->as< IServiceA >();
-    c.autowireType< ServiceB >()->singleInstance();
+    c.autowireType< ServiceA >().as< IServiceA >();
+    c.autowireType< ServiceB >().singleInstance();
 
     auto container = c.build();
 
@@ -400,11 +392,9 @@ BOOST_AUTO_TEST_CASE(autowired_registration_follows_the_usual_registration_rules
 BOOST_AUTO_TEST_CASE(autowired_registration_can_resolved_all_services)
 {
     ContainerBuilder c;
-    c.autowireType< ServiceA >()->as< IServiceA >()->as< IRunWithScissors >();
-
-    c.autowireType< ServiceB >()->as< IServiceB >();
-    c.autowireType< ServiceRunningWithScissors >()->as< IServiceB >();
-
+    c.autowireType< ServiceA >().as< IServiceA >().as< IRunWithScissors >();
+    c.autowireType< ServiceB >().as< IServiceB >();
+    c.autowireType< ServiceRunningWithScissors >().as< IServiceB >();
     c.autowireType< ServiceBController >();
 
     auto container = c.build();
@@ -420,8 +410,7 @@ BOOST_AUTO_TEST_CASE(registration_should_be_overridable)
 
     std::shared_ptr< IServiceA > serviceA = std::make_shared< ServiceA >();
     c.registerInstance(serviceA);
-
-    c.autowireType< ServiceA >()->as< IServiceA >()->as< IRunWithScissors >()->singleInstance();
+    c.autowireType< ServiceA >().as< IServiceA >().as< IRunWithScissors >().singleInstance();
 
     auto container = c.build();
 
@@ -438,8 +427,9 @@ BOOST_AUTO_TEST_CASE(registration_should_provide_instance_activating_data)
     std::shared_ptr< IServiceA > serviceA = std::make_shared< ServiceA >();
     std::shared_ptr< IServiceA > anotherServiceA = std::make_shared< ServiceA >();
     
-    c.registerInstance(serviceA)->onActivating(
-        [serviceA, anotherServiceA](IActivatingData< IServiceA >& data) -> void
+    c.registerInstance(serviceA).onActivating
+    (
+        [serviceA, anotherServiceA](IActivatingData< IServiceA >& data)
         {
             BOOST_CHECK(data.componentContext() != nullptr);
             BOOST_CHECK(data.componentRegistration() != nullptr);
@@ -463,8 +453,9 @@ BOOST_AUTO_TEST_CASE(registration_should_provide_instance_preparing_data)
     std::shared_ptr< IServiceA > serviceA = std::make_shared< ServiceA >();
     bool onPreparingInvoked = false;
 
-    c.registerInstance(serviceA)->onPreparing(
-        [&onPreparingInvoked](IPreparingData& data) -> void
+    c.registerInstance(serviceA).onPreparing
+    (
+        [&onPreparingInvoked](IPreparingData& data)
         {
             BOOST_CHECK(data.componentContext() != nullptr);
             BOOST_CHECK(data.componentRegistration() != nullptr);
@@ -486,8 +477,9 @@ BOOST_AUTO_TEST_CASE(registration_should_provide_instance_activated_data)
 
     std::shared_ptr< IServiceA > serviceA = std::make_shared< ServiceA >();
 
-    c.registerInstance(serviceA)->onActivated(
-        [serviceA](IActivatedData< IServiceA >& data) -> void
+    c.registerInstance(serviceA).onActivated
+    (
+        [serviceA](IActivatedData< IServiceA >& data)
         {
             BOOST_CHECK(data.componentContext() != nullptr);
             BOOST_CHECK(data.componentRegistration() != nullptr);
@@ -509,8 +501,8 @@ BOOST_AUTO_TEST_CASE(registration_should_not_provide_instance_activated_data_for
     int activatedCount = 0;
     auto registeredServiceA = std::make_shared< ServiceA >();
 
-    builder.registerInstance(registeredServiceA)->onActivated(
-        [&activatedCount](IActivatedData< ServiceA >&) -> void
+    builder.registerInstance(registeredServiceA).onActivated(
+        [&activatedCount](IActivatedData< ServiceA >&)
         {
             ++activatedCount;
         }
@@ -533,8 +525,8 @@ BOOST_AUTO_TEST_CASE(registration_should_provide_instance_activated_data_for_eve
 
     int activatedCount = 0;
 
-    builder.registerType< ServiceA >()->onActivated(
-        [&activatedCount](IActivatedData< ServiceA >&) -> void
+    builder.registerType< ServiceA >().onActivated(
+        [&activatedCount](IActivatedData< ServiceA >&)
         {
             ++activatedCount;
         }
@@ -554,12 +546,12 @@ BOOST_AUTO_TEST_CASE(registration_should_only_provide_instance_activated_data_on
 
     int activatedCount = 0;
 
-    builder.registerType< ServiceA >()->onActivated(
-        [&activatedCount](IActivatedData< ServiceA >&) -> void
+    builder.registerType< ServiceA >().onActivated(
+        [&activatedCount](IActivatedData< ServiceA >&)
         {
             ++activatedCount;
         }
-    )->singleInstance();
+    ).singleInstance();
 
     auto container = builder.build();
 
@@ -573,7 +565,7 @@ BOOST_AUTO_TEST_CASE(should_use_move_constructor_with_shared_dependency)
 {
     ContainerBuilder builder;
 
-    builder.registerType< ServiceA >()->as< IServiceA >()->singleInstance();
+    builder.registerType< ServiceA >().as< IServiceA >().singleInstance();
     builder.autowireType< MoveConstructorObject >();
 
     auto container = builder.build();
@@ -593,7 +585,7 @@ BOOST_AUTO_TEST_CASE(should_use_move_constructor_with_transient_dependency)
 {
     ContainerBuilder builder;
 
-    builder.registerType< ServiceA >()->as< IServiceA >();
+    builder.registerType< ServiceA >().as< IServiceA >();
     builder.autowireType< MoveConstructorObject >();
 
     auto container = builder.build();
@@ -616,7 +608,7 @@ BOOST_AUTO_TEST_CASE(should_create_scoped_container)
 {
     ContainerBuilder builder;
     
-    builder.registerType< ServiceA >()->as< IServiceA >();
+    builder.registerType< ServiceA >().as< IServiceA >();
     
     auto container = builder.build();
 
@@ -646,7 +638,7 @@ BOOST_AUTO_TEST_CASE(should_create_scoped_container_with_single_instances)
 {
     ContainerBuilder builder;
     
-    builder.registerType< ServiceA >()->as< IServiceA >();
+    builder.registerType< ServiceA >().as< IServiceA >();
     
     auto container = builder.build();
 
@@ -657,7 +649,7 @@ BOOST_AUTO_TEST_CASE(should_create_scoped_container_with_single_instances)
         auto lifetimeScope = container->createLifetimeScope();
 
         ContainerBuilder scopedBuilder;
-        scopedBuilder.autowireType< ServiceB >()->as< IServiceB >()->singleInstance();
+        scopedBuilder.autowireType< ServiceB >().as< IServiceB >().singleInstance();
 
         scopedBuilder.build(lifetimeScope->componentRegistry());
 
@@ -710,7 +702,7 @@ BOOST_AUTO_TEST_CASE(should_create_scoped_container_with_scoped_dependencies)
         auto lifetimeScope = container->createLifetimeScope();
 
         ContainerBuilder scopedBuilder;
-        scopedBuilder.autowireType< RandomDependency >()->singleInstance();
+        scopedBuilder.autowireType< RandomDependency >().singleInstance();
 
         scopedBuilder.build(lifetimeScope->componentRegistry());
 

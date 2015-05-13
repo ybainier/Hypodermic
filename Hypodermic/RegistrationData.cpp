@@ -14,7 +14,7 @@ namespace Hypodermic
         , defaultServiceOverriden_(false)
         , sharing_(InstanceSharing::None)
         , ownership_(InstanceOwnership::OwnedByLifetimeScope)
-        , lifetime_(new CurrentLifetimeScope)
+        , lifetime_(std::make_shared< CurrentLifetimeScope >())
         , services_()
         , preparingCallbacks_()
         , activatingCallbacks_()

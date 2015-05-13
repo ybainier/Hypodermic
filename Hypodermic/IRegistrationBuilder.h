@@ -42,12 +42,12 @@ namespace Hypodermic
 
         virtual const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters() const = 0;
 
-		virtual std::shared_ptr< SelfType > singleInstance() = 0;
-        virtual std::shared_ptr< SelfType > instancePerLifetimeScope() = 0;
-        virtual std::shared_ptr< SelfType > instancePerDependency() = 0;
+		virtual SelfType& singleInstance() = 0;
+        virtual SelfType& instancePerLifetimeScope() = 0;
+        virtual SelfType& instancePerDependency() = 0;
 
 		template <class ServiceT>
-		std::shared_ptr< SelfType > as()
+		SelfType& as()
 		{
             static_assert(std::is_same< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
                           "IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT >::as< ServiceT >() requires ServiceT to be base of T");
@@ -55,12 +55,12 @@ namespace Hypodermic
 			return static_cast< RegistrationBuilderImplementationType* >(this)->template as< ServiceT >();
 		}
 
-        virtual std::shared_ptr< SelfType > as(std::shared_ptr< Service > service, std::shared_ptr< ITypeCaster > typeCaster) = 0;
+        virtual SelfType& as(std::shared_ptr< Service > service, std::shared_ptr< ITypeCaster > typeCaster) = 0;
 
-        virtual std::shared_ptr< SelfType > asSelf() = 0;
+        virtual SelfType& asSelf() = 0;
 
 		template <class ServiceT>
-		std::shared_ptr< SelfType > named(const std::string& serviceName)
+		SelfType& named(const std::string& serviceName)
 		{
             static_assert(std::is_same< T, ServiceT >::value || std::is_base_of< ServiceT, T >::value,
                           "IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilderT >::as< ServiceT >() requires ServiceT to be base of T");
@@ -68,13 +68,13 @@ namespace Hypodermic
 			return static_cast< RegistrationBuilderImplementationType* >(this)->template named< ServiceT >(serviceName);
 		}
 
-        virtual std::shared_ptr< SelfType > targeting(std::shared_ptr< IComponentRegistration > target) = 0;
+        virtual SelfType& targeting(std::shared_ptr< IComponentRegistration > target) = 0;
 
-        virtual std::shared_ptr< SelfType > onPreparing(std::function< void(IPreparingData&) > callback) = 0;
+        virtual SelfType& onPreparing(std::function< void(IPreparingData&) > callback) = 0;
 
-        virtual std::shared_ptr< SelfType > onActivating(std::function< void(IActivatingData< T >&) > callback) = 0;
+        virtual SelfType& onActivating(std::function< void(IActivatingData< T >&) > callback) = 0;
 
-        virtual std::shared_ptr< SelfType > onActivated(std::function< void(IActivatedData< T >&) > callback) = 0;
+        virtual SelfType& onActivated(std::function< void(IActivatedData< T >&) > callback) = 0;
 	};
 
 } // namespace Hypodermic

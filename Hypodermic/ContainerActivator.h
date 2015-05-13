@@ -13,9 +13,9 @@ namespace Hypodermic
 	class ContainerActivator : public InstanceActivator
 	{
 	public:
-		ContainerActivator(std::shared_ptr< IContainer > instance);
+		ContainerActivator(const std::shared_ptr< IContainer >& instance);
 
-		std::shared_ptr< void > activateInstance(std::shared_ptr< IComponentContext > context);
+        std::shared_ptr< void > activateInstance(const std::shared_ptr< IComponentContext >& context);
 
 	private:
 		std::weak_ptr< IContainer > instance_;

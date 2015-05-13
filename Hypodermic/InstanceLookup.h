@@ -19,8 +19,9 @@ namespace Hypodermic
     class InstanceLookup : public std::enable_shared_from_this< InstanceLookup >, public IComponentContext, public IInstanceLookup
     {
     public:
-        InstanceLookup(std::shared_ptr< IComponentRegistration > registration, std::shared_ptr< IResolveOperation > context,
-                       std::shared_ptr< ISharingLifetimeScope > mostNestedVisibleScope);
+        InstanceLookup(const std::shared_ptr< IComponentRegistration >& registration,
+                       const std::shared_ptr< IResolveOperation >& context,
+                       const std::shared_ptr< ISharingLifetimeScope >& mostNestedVisibleScope);
 
         std::shared_ptr< void > execute();
 
@@ -28,7 +29,7 @@ namespace Hypodermic
 
         std::shared_ptr< IComponentRegistry > componentRegistry();
 
-        std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration);
+        std::shared_ptr< void > resolveComponent(const std::shared_ptr< IComponentRegistration >& registration);
 
         std::shared_ptr< IComponentRegistration > componentRegistration();
 

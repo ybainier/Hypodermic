@@ -12,7 +12,7 @@ namespace Hypodermic
 {
 
     template <class T>
-    std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
+    typename ContainerBuilder::RegistrationBuilderInterface< T >::Type&
     ContainerBuilder::autowireType()
     {
         typedef typename T::AutowiredSignature AutowiredSignature;
@@ -21,17 +21,17 @@ namespace Hypodermic
         auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forDelegate(AutowiredSignature::createDelegate());
 
         registerCallback(
-            [rb](std::shared_ptr< IComponentRegistry > cr) -> void
+            [rb](const std::shared_ptr< IComponentRegistry >& cr)
             {
                 RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
             });
 
-        return rb;
+        return *rb;
     }
 
     template <class T>
-    std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
-    ContainerBuilder::registerType(std::function< T*(IComponentContext&) > delegate)
+    typename ContainerBuilder::RegistrationBuilderInterface< T >::Type&
+    ContainerBuilder::registerType(const std::function< std::shared_ptr< T >(IComponentContext&) >& delegate)
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
                       "ContainerBuilder::registerType< T >() is incompatible with POD types.");
@@ -39,16 +39,16 @@ namespace Hypodermic
         auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forDelegate(delegate);
 
         registerCallback(
-            [rb](std::shared_ptr< IComponentRegistry > cr) -> void
+            [rb](const std::shared_ptr< IComponentRegistry >& cr)
             {
                 RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
             });
 
-        return rb;
+        return *rb;
     }
 
     template <class T>
-    std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
+    typename ContainerBuilder::RegistrationBuilderInterface< T >::Type&
     ContainerBuilder::registerType()
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
@@ -57,17 +57,17 @@ namespace Hypodermic
         auto rb = RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::forType< T >();
 
         registerCallback(
-            [rb](std::shared_ptr< IComponentRegistry > cr) -> void
+            [rb](const std::shared_ptr< IComponentRegistry >& cr)
             {
                 RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
             });
 
-        return rb;
+        return *rb;
     }
 
     template <class T>
-    std::shared_ptr< typename ContainerBuilder::RegistrationBuilderInterface< T >::Type >
-    ContainerBuilder::registerInstance(std::shared_ptr< T > instance)
+    typename ContainerBuilder::RegistrationBuilderInterface< T >::Type&
+    ContainerBuilder::registerInstance(const std::shared_ptr< T >& instance)
     {
         static_assert(!std::is_pod< T >::value || std::is_empty< T >::value || std::is_class< T >::value,
                       "ContainerBuilder::registerType< T >(std::shared_ptr< T > instance) is incompatible with POD types.");
@@ -77,7 +77,7 @@ namespace Hypodermic
         rb->singleInstance();
 
         registerCallback(
-            [rb](std::shared_ptr< IComponentRegistry > cr) -> void
+            [rb](const std::shared_ptr< IComponentRegistry >& cr)
             {
                 auto rootScopeLifetime = std::dynamic_pointer_cast< RootScopeLifetime >(rb->registrationData().lifetime());
                 if (rootScopeLifetime == nullptr || rb->registrationData().sharing() != InstanceSharing::Shared)
@@ -86,7 +86,7 @@ namespace Hypodermic
                 RegistrationBuilderFactory< ContainerBuilder::RegistrationBuilderInterface >::registerSingleComponent< T >(cr, rb);
             });
 
-        return rb;
+        return *rb;
     }
 
 } // namespace Hypodermic

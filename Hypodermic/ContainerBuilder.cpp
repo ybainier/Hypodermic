@@ -12,7 +12,7 @@ namespace Hypodermic
         wasBuilt_ = false;
     }
 
-    void ContainerBuilder::registerCallback(ConfigurationCallback configurationCallback)
+    void ContainerBuilder::registerCallback(const ConfigurationCallback& configurationCallback)
     {
         configurationCallbacks_.push_back(configurationCallback);
     }
@@ -27,7 +27,7 @@ namespace Hypodermic
         return result;
     }
 
-    void ContainerBuilder::build(std::shared_ptr< IComponentRegistry > componentRegistry)
+    void ContainerBuilder::build(const std::shared_ptr< IComponentRegistry >& componentRegistry)
     {
         if (componentRegistry == nullptr)
             throw std::invalid_argument("componentRegistry");
@@ -41,12 +41,15 @@ namespace Hypodermic
             callback(componentRegistry);
     }
 
-    void ContainerBuilder::registerSource(std::shared_ptr< IRegistrationSource > registrationSource)
+    void ContainerBuilder::registerSource(const std::shared_ptr< IRegistrationSource >& registrationSource)
     {
         if (registrationSource == nullptr)
             throw std::invalid_argument("registrationSource");
 
-        registerCallback([registrationSource](std::shared_ptr< IComponentRegistry > cr) { cr->addRegistrationSource(registrationSource); });
+        registerCallback([registrationSource](const std::shared_ptr< IComponentRegistry >& cr)
+        {
+            cr->addRegistrationSource(registrationSource);
+        });
     }
 
 } // namespace Hypodermic

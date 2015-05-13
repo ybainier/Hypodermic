@@ -16,9 +16,9 @@ namespace Hypodermic
 	public:
 		std::shared_ptr< IComponentRegistry > componentRegistry();
 
-		std::shared_ptr< void > resolveComponent(std::shared_ptr< IComponentRegistration > registration);
+        std::shared_ptr< void > resolveComponent(const std::shared_ptr< IComponentRegistration >& registration);
 
-		std::shared_ptr< void > getOrCreateInstance(std::shared_ptr< IComponentRegistration > registration);
+        std::shared_ptr< void > getOrCreateInstance(const std::shared_ptr< IComponentRegistration >& registration);
 
         void initialize();
 

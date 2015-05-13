@@ -13,11 +13,11 @@ namespace Hypodermic
 	class ExternalRegistrySource : public IRegistrationSource
 	{
 	public:
-        ExternalRegistrySource(std::shared_ptr< IComponentRegistry > registry);
+        ExternalRegistrySource(const std::shared_ptr< IComponentRegistry >& registry);
 
         std::vector< std::shared_ptr< IComponentRegistration > >
-        registrationsFor(std::shared_ptr< Service > service,
-                         std::function< std::vector< std::shared_ptr< IComponentRegistration > >(std::shared_ptr< Service > service) > registrationAccessor);
+        registrationsFor(const std::shared_ptr< Service >& service,
+                         const std::function< std::vector< std::shared_ptr< IComponentRegistration > >(const std::shared_ptr< Service >& service) >& registrationAccessor);
 
     private:
         std::shared_ptr< IComponentRegistry > registry_;

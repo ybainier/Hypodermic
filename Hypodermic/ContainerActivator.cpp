@@ -4,12 +4,13 @@
 
 namespace Hypodermic
 {
-    ContainerActivator::ContainerActivator(std::shared_ptr< IContainer > instance)
-        : InstanceActivator(typeid(IContainer)), instance_(instance)
+    ContainerActivator::ContainerActivator(const std::shared_ptr< IContainer >& instance)
+        : InstanceActivator(typeid(IContainer))
+        , instance_(instance)
     {
     }
 
-    std::shared_ptr< void > ContainerActivator::activateInstance(std::shared_ptr< IComponentContext > /* context */)
+    std::shared_ptr< void > ContainerActivator::activateInstance(const std::shared_ptr< IComponentContext >&)
     {
         return instance_.lock();
     }

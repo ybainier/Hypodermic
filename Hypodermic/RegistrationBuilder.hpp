@@ -52,38 +52,38 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::singleInstance()
     {
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::Shared);
         rd.lifetime(std::make_shared< RootScopeLifetime >());
-        return this->shared_from_this();
+        return *this;
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::instancePerLifetimeScope()
     {
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::Shared);
         rd.lifetime(std::make_shared< CurrentLifetimeScope >());
-        return this->shared_from_this();
+        return *this;
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::instancePerDependency()
     {
         auto& rd = registrationData();
         rd.sharing(InstanceSharing::None);
         rd.lifetime(std::make_shared< CurrentLifetimeScope >());
-        return this->shared_from_this();
+        return *this;
     }
 
     template <class T, class RegistrationStyleT>
     template <class ServiceT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::as()
     {
         const auto& typeInfo = typeid(ServiceT);
@@ -91,7 +91,7 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::asSelf()
     {
         const auto& typeInfo = typeid(T);
@@ -99,19 +99,19 @@ namespace Hypodermic
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::as(std::shared_ptr< Service > service, std::shared_ptr< ITypeCaster > typeCaster)
     {
         registrationData_.addService(service);
         typeCasters_.insert(std::make_pair(std::type_index(service->typeInfo()), typeCaster));
 
-        return this->shared_from_this();
+        return *this;
     }
 
 
     template <class T, class RegistrationStyleT>
     template <class ServiceT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName)
     {
         if (serviceName.empty())
@@ -121,7 +121,7 @@ namespace Hypodermic
 
     template <class T, class RegistrationStyleT>
     template <class ServiceT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::named(const std::string& serviceName, const std::type_info& serviceTypeInfo)
     {
         const auto& typeInfo = typeid(ServiceT);
@@ -130,37 +130,37 @@ namespace Hypodermic
 
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::targeting(std::shared_ptr< IComponentRegistration > target)
     {
         if (target == nullptr)
             throw std::invalid_argument("target");
 
         registrationStyle().target(target);
-        return this->shared_from_this();
+        return *this;
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::onPreparing(std::function< void(IPreparingData&) > callback)
     {
         registrationData_.preparingCallbacks().push_back(
-            [callback](PreparingData& preparingData) -> void
+            [callback](PreparingData& preparingData)
             {
                 PreparingData data(preparingData.componentContext(), preparingData.componentRegistration());
                 callback(data);
             }
         );
 
-        return this->shared_from_this();
+        return *this;
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::onActivating(std::function< void(IActivatingData< T >&) > callback)
     {
         registrationData_.activatingCallbacks().push_back(
-            [callback](ActivatingData< void >& activatingData) -> void
+            [callback](ActivatingData< void >& activatingData)
             {
                 ActivatingData< T > data(activatingData.componentContext(), activatingData.componentRegistration(), std::static_pointer_cast< T >(activatingData.instance()));
                 callback(data);
@@ -168,22 +168,22 @@ namespace Hypodermic
             }
         );
 
-        return this->shared_from_this();
+        return *this;
     }
 
     template <class T, class RegistrationStyleT>
-    std::shared_ptr< typename RegistrationBuilder< T, RegistrationStyleT >::ParentType >
+    typename RegistrationBuilder< T, RegistrationStyleT >::ParentType&
     RegistrationBuilder< T, RegistrationStyleT >::onActivated(std::function< void(IActivatedData< T >&) > callback)
     {
         registrationData_.activatedCallbacks().push_back(
-            [callback](ActivatedData< void >& activatedData) -> void
+            [callback](ActivatedData< void >& activatedData)
             {
                 ActivatedData< T > data(activatedData.componentContext(), activatedData.componentRegistration(), std::static_pointer_cast< T >(activatedData.instance()));
                 callback(data);
             }
         );
 
-        return this->shared_from_this();
+        return *this;
     }
 
 } // namespace Hypodermic

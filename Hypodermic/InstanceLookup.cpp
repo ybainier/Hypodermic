@@ -12,9 +12,9 @@
 namespace Hypodermic
 {
 
-    InstanceLookup::InstanceLookup(std::shared_ptr< IComponentRegistration > registration,
-                                   std::shared_ptr< IResolveOperation > context,
-                                   std::shared_ptr< ISharingLifetimeScope > mostNestedVisibleScope)
+    InstanceLookup::InstanceLookup(const std::shared_ptr< IComponentRegistration >& registration,
+                                   const std::shared_ptr< IResolveOperation >& context,
+                                   const std::shared_ptr< ISharingLifetimeScope >& mostNestedVisibleScope)
         : componentRegistration_(registration)
         , context_(context)
         , executed_(false)
@@ -25,6 +25,7 @@ namespace Hypodermic
             throw std::invalid_argument("context");
         if (mostNestedVisibleScope == nullptr)
             throw std::invalid_argument("mostNestedVisibleScope");
+
         activationScope_ = componentRegistration_->lifetime()->findScope(mostNestedVisibleScope);
     }
 
@@ -53,7 +54,7 @@ namespace Hypodermic
         return activationScope_->componentRegistry();
     }
 
-    std::shared_ptr< void > InstanceLookup::resolveComponent(std::shared_ptr< IComponentRegistration > registration)
+    std::shared_ptr< void > InstanceLookup::resolveComponent(const std::shared_ptr< IComponentRegistration >& registration)
     {
         return context_->getOrCreateInstance(activationScope_, registration);
     }
@@ -77,7 +78,7 @@ namespace Hypodermic
     {
         componentRegistration_->raisePreparing(this->shared_from_this());
 
-        newInstance_ = std::shared_ptr< void >(componentRegistration_->activator()->activateInstance(shared_from_this()));
+        newInstance_ = componentRegistration_->activator()->activateInstance(shared_from_this());
 
         componentRegistration_->raiseActivating(this->shared_from_this(), newInstance_);
 
