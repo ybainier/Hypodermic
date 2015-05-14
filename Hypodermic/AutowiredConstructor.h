@@ -52,6 +52,19 @@ namespace Hypodermic
         }
     };
 
+    template <class T>
+    struct ArgResolver< std::function< T*() > >
+    {
+        typedef std::true_type IsResolvable;
+
+        typedef typename std::remove_pointer< T >::type Type;
+
+        static std::function< std::shared_ptr< T >() > resolve(IComponentContext& c)
+        {
+            return [&c]() { return c.resolve< Type >(); };
+        }
+    };
+
     /*
      * Examples:
      *   - AutowiredConstructor< Foo(IBar*) >
