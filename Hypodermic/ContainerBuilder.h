@@ -49,6 +49,8 @@ namespace Hypodermic
 
 		void registerCallback(const ConfigurationCallback& configurationCallback);
 
+        void addRegistrations(const ContainerBuilder& containerBuilder);
+
 		std::shared_ptr< IContainer > build();
 
 		void build(const std::shared_ptr< IComponentRegistry >& componentRegistry);

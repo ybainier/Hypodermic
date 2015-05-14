@@ -52,4 +52,13 @@ namespace Hypodermic
         });
     }
 
+    void ContainerBuilder::addRegistrations(const ContainerBuilder& containerBuilder)
+    {
+        if (wasBuilt_)
+            throw std::logic_error("ContainerBuilder::addRegistrations() cannot be invoked on a built container");
+
+        BOOST_FOREACH(auto callback, containerBuilder.configurationCallbacks_)
+            configurationCallbacks_.push_back(callback);
+    }
+
 } // namespace Hypodermic
