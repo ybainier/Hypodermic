@@ -1,5 +1,5 @@
-#include <boost/functional/hash.hpp>
 #include "TypedService.h"
+#include <functional>
 
 
 namespace Hypodermic
@@ -7,6 +7,7 @@ namespace Hypodermic
 
     TypedService::TypedService(const std::type_info& typeInfo)
         : typeInfo_(typeInfo)
+        , typeIndex_(typeInfo_)
     {
     }
 
@@ -22,7 +23,7 @@ namespace Hypodermic
 
     std::size_t TypedService::hashValue() const
     {
-        return boost::hash< const char* >()(typeInfo_.name());
+        return typeIndex_.hash_code();
     }
 
 } // namespace Hypodermic

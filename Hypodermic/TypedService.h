@@ -1,14 +1,15 @@
 #ifndef		HYPODERMIC_TYPED_SERVICE_H_
 # define	HYPODERMIC_TYPED_SERVICE_H_
 
-# include <Hypodermic/Service.h>
 # include <boost/noncopyable.hpp>
+# include <Hypodermic/Service.h>
+# include <Hypodermic/TypeIndexWorkaround.h>
 
 namespace Hypodermic
 {
 
     class TypedService : public Service,
-                         private boost::noncopyable
+        private boost::noncopyable
     {
     public:
         TypedService(const std::type_info& typeInfo);
@@ -20,6 +21,7 @@ namespace Hypodermic
 
     private:
         const std::type_info& typeInfo_;
+        const std::type_index typeIndex_;
     };
 
 } // namespace Hypodermic

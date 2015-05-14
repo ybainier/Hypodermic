@@ -2,14 +2,17 @@
 # define    HYPODERMIC_KEYED_SERVICE_H_
 
 # include <string>
-# include <Hypodermic/Service.h>
 # include <boost/noncopyable.hpp>
+
+# include <Hypodermic/Service.h>
+# include <Hypodermic/TypeIndexWorkaround.h>
+
 
 namespace Hypodermic
 {
 
     class KeyedService : public Service,
-                         private boost::noncopyable
+        private boost::noncopyable
     {
     public:
         KeyedService(const std::string& name, const std::type_info& typeInfo);
@@ -23,6 +26,7 @@ namespace Hypodermic
     private:
         std::string name_;
         const std::type_info& typeInfo_;
+        const std::type_index typeIndex_;
     };
 
 } // namespace Hypodermic

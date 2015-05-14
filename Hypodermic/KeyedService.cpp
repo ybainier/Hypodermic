@@ -9,6 +9,7 @@ namespace Hypodermic
     KeyedService::KeyedService(const std::string& name, const std::type_info& typeInfo)
         : name_(name)
         , typeInfo_(typeInfo)
+        , typeIndex_(typeInfo_)
     {
     }
 
@@ -37,7 +38,7 @@ namespace Hypodermic
 
     std::size_t KeyedService::hashValue() const
     {
-        return boost::hash< std::string >()(name_) ^ boost::hash< const char* >()(typeInfo_.name());
+        return std::hash< std::string >()(name_) ^ typeIndex_.hash_code();
     }
 
 } // namespace Hypodermic
