@@ -50,7 +50,7 @@ namespace Hypodermic
     void RegistrationData::lifetime(std::shared_ptr< IComponentLifetime > value)
     {
         if (value == nullptr)
-            std::invalid_argument("value");
+            throw std::invalid_argument("value");
         lifetime_ = value;
     }
 
