@@ -28,7 +28,7 @@ namespace std
 {
 
     template <>
-    class hash< Hypodermic::ServiceKey > : public unary_function< Hypodermic::ServiceKey, size_t >
+    struct hash< Hypodermic::ServiceKey > : public unary_function< Hypodermic::ServiceKey, size_t >
     {
     public:
         size_t operator()(const Hypodermic::ServiceKey& key) const
