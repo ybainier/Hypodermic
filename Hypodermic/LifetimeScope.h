@@ -4,8 +4,8 @@
 # include <functional>
 # include <memory>
 # include <unordered_map>
+# include <mutex>
 
-# include <boost/thread.hpp>
 # include <boost/uuid/uuid.hpp>
 
 # include <Hypodermic/BoostUuidHashFunctor.h>
@@ -48,7 +48,7 @@ namespace Hypodermic
 		std::weak_ptr< ISharingLifetimeScope > root_;
 		std::unordered_map< boost::uuids::uuid, std::shared_ptr< void > > sharedInstances_;
 
-        boost::recursive_mutex mutex_;
+        std::recursive_mutex mutex_;
 
 		static std::function< void(ContainerBuilder&) > noConfiguration_;
 	};

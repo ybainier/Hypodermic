@@ -54,7 +54,7 @@ namespace Hypodermic
             throw std::invalid_argument("registration");
 
         {
-            boost::lock_guard< decltype(mutex_) > lock(mutex_);
+            std::lock_guard< decltype(mutex_) > lock(mutex_);
 
             auto operation = std::make_shared< ResolveOperation >(shared_from_this());
             return operation->execute(registration);
@@ -64,7 +64,7 @@ namespace Hypodermic
     std::shared_ptr< void > LifetimeScope::getOrCreateAndShare(const boost::uuids::uuid& id,
                                                                const std::function< std::shared_ptr< void >() >& creator)
     {
-        boost::lock_guard< decltype(mutex_) > lock(mutex_);
+        std::lock_guard< decltype(mutex_) > lock(mutex_);
 
         std::shared_ptr< void > result;
         if (sharedInstances_.count(id) == 0)
