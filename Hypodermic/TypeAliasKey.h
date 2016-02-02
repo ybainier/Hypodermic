@@ -4,12 +4,12 @@
 #include <functional>
 #include <memory>
 
-#include "Hypodermic2/ITypeAlias.h"
-#include "Hypodermic2/TypeAlias.h"
-#include "Hypodermic2/TypeInfo.h"
+#include "Hypodermic/ITypeAlias.h"
+#include "Hypodermic/TypeAlias.h"
+#include "Hypodermic/TypeInfo.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class TypeAliasKey
@@ -51,16 +51,16 @@ namespace Hypodermic2
         return TypeAliasKey(std::make_shared< TypeAlias >(typeInfo));
     }
 
-} // namespace Hypodermic2
+} // namespace Hypodermic
 
 
 namespace std
 {
 
     template <>
-    struct hash< Hypodermic2::TypeAliasKey > : unary_function< Hypodermic2::TypeAliasKey, size_t >
+    struct hash< Hypodermic::TypeAliasKey > : unary_function< Hypodermic::TypeAliasKey, size_t >
     {
-        size_t operator()(const Hypodermic2::TypeAliasKey& key) const
+        size_t operator()(const Hypodermic::TypeAliasKey& key) const
         {
             return key.hashCode();
         }

@@ -15,7 +15,7 @@ do \
 
 
 #define HYPODERMIC_DECLARE_EXCEPTION(exception_type) \
-class exception_type : public ::Hypodermic2::ExceptionBase< exception_type > \
+class exception_type : public ::Hypodermic::ExceptionBase< exception_type > \
 { \
 public: \
     explicit exception_type(std::string message = std::string(), \
@@ -36,7 +36,7 @@ public: \
 }
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     template <class TException>
@@ -166,7 +166,7 @@ namespace Hypodermic2
         return stream.str();
     }
 
-} // namespace Hypodermic2
+} // namespace Hypodermic
 
 
 #include <ostream>
@@ -176,7 +176,7 @@ namespace std
 {
 
     template <class TException>
-    inline ostream& operator<<(ostream& os, const Hypodermic2::ExceptionBase< TException >& ex)
+    inline ostream& operator<<(ostream& os, const Hypodermic::ExceptionBase< TException >& ex)
     {
         return os
             << ex.message()

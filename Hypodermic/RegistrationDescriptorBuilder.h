@@ -2,14 +2,14 @@
 
 #include <type_traits>
 
-#include "Hypodermic2/AutowiredConstructor.h"
-#include "Hypodermic2/DefaultConstructibleRegistrationDescriptor.h"
-#include "Hypodermic2/MissingConstructorRegistrationDescriptor.h"
-#include "Hypodermic2/ProvidedConstructorRegistrationDescriptor.h"
-#include "Hypodermic2/ProvidedInstanceRegistrationDescriptor.h"
+#include "Hypodermic/AutowiredConstructor.h"
+#include "Hypodermic/DefaultConstructibleRegistrationDescriptor.h"
+#include "Hypodermic/MissingConstructorRegistrationDescriptor.h"
+#include "Hypodermic/ProvidedConstructorRegistrationDescriptor.h"
+#include "Hypodermic/ProvidedInstanceRegistrationDescriptor.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     namespace RegistrationDescriptorBuilder
@@ -63,4 +63,4 @@ namespace Hypodermic2
 
     } // namespace RegistrationDescriptorBuilder
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

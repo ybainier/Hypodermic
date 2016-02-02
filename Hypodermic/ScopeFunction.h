@@ -4,7 +4,7 @@
 #include <utility>
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 namespace Utils
 {
@@ -67,4 +67,4 @@ namespace Utils
     }
 
 } // namespace Utils
-} // namespace Hypodermic2
+} // namespace Hypodermic

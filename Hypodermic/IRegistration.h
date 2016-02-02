@@ -5,7 +5,7 @@
 #include <unordered_map>
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class Container;
@@ -27,4 +27,4 @@ namespace Hypodermic2
         virtual std::shared_ptr< void > activate(Container& container, const TypeAliasKey& typeAliasKey) = 0;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

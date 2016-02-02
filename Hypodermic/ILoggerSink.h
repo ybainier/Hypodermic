@@ -2,10 +2,10 @@
 
 #include <string>
 
-#include <Hypodermic2/LogLevel.h>
+#include <Hypodermic/LogLevel.h>
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class ILoggerSink
@@ -16,4 +16,4 @@ namespace Hypodermic2
         virtual void append(LogLevels::LogLevel level, const std::string& message) = 0;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

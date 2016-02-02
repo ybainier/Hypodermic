@@ -3,10 +3,10 @@
 #include <functional>
 #include <type_traits>
 
-#include "Hypodermic2/TypeAliasKey.h"
+#include "Hypodermic/TypeAliasKey.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 namespace RegistrationDescriptorOperations
 {
@@ -67,4 +67,4 @@ namespace RegistrationDescriptorOperations
     };
 
 } // namespace RegistrationDescriptorOperations
-} // namespace Hypodermic2
+} // namespace Hypodermic

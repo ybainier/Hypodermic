@@ -4,13 +4,13 @@
 
 #include <boost/thread.hpp>
 
-#include "Hypodermic2/IRegistration.h"
-#include "Hypodermic2/Log.h"
-#include "Hypodermic2/TypeAliasKey.h"
-#include "Hypodermic2/TypeInfo.h"
+#include "Hypodermic/IRegistration.h"
+#include "Hypodermic/Log.h"
+#include "Hypodermic/TypeAliasKey.h"
+#include "Hypodermic/TypeInfo.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class PersistentInstanceRegistration : public IRegistration
@@ -65,4 +65,4 @@ namespace Hypodermic2
         boost::recursive_mutex m_mutex;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

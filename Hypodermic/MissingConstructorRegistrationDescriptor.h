@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Hypodermic2/ConstructorDescriptor.h"
-#include "Hypodermic2/Log.h"
-#include "Hypodermic2/ProvidedConstructorRegistrationDescriptor.h"
-#include "Hypodermic2/RegistrationDescriptorBase.h"
-#include "Hypodermic2/RegistrationException.h"
+#include "Hypodermic/ConstructorDescriptor.h"
+#include "Hypodermic/Log.h"
+#include "Hypodermic/ProvidedConstructorRegistrationDescriptor.h"
+#include "Hypodermic/RegistrationDescriptorBase.h"
+#include "Hypodermic/RegistrationException.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     template <class TDescriptorInfo>
@@ -80,4 +80,4 @@ namespace Hypodermic2
         }
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

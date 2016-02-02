@@ -12,12 +12,12 @@
 #include <boost/mpl/pair.hpp>
 #include <boost/mpl/set.hpp>
 
-#include "Hypodermic2/InstanceLifetime.h"
-#include "Hypodermic2/InstanceRegistrationTags.h"
-#include "Hypodermic2/TypeInfo.h"
+#include "Hypodermic/InstanceLifetime.h"
+#include "Hypodermic/InstanceRegistrationTags.h"
+#include "Hypodermic/TypeInfo.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     template
@@ -235,4 +235,4 @@ namespace Hypodermic2
         }
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

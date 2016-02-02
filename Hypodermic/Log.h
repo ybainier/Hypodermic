@@ -2,14 +2,14 @@
 
 #include <sstream>
 
-#include <Hypodermic2/Logger.h>
-#include <Hypodermic2/LogLevel.h>
+#include <Hypodermic/Logger.h>
+#include <Hypodermic/LogLevel.h>
 
 
 #define HYPODERMIC_LOG(logLevel, message) \
     do \
     { \
-        auto&& loggerInstance = ::Hypodermic2::Logger::instance(); \
+        auto&& loggerInstance = ::Hypodermic::Logger::instance(); \
         if (!loggerInstance.isConfiguredForLevel(logLevel)) \
             break; \
         \
@@ -19,7 +19,7 @@
         loggerInstance.log(logLevel, stream.str()); \
     } while (false)
 
-#define HYPODERMIC_LOG_DEBUG(message)   HYPODERMIC_LOG(::Hypodermic2::LogLevels::Debug, message)
-#define HYPODERMIC_LOG_INFO(message)    HYPODERMIC_LOG(::Hypodermic2::LogLevels::Info, message)
-#define HYPODERMIC_LOG_WARN(message)    HYPODERMIC_LOG(::Hypodermic2::LogLevels::Warn, message)
-#define HYPODERMIC_LOG_ERROR(message)   HYPODERMIC_LOG(::Hypodermic2::LogLevels::Error, message)
+#define HYPODERMIC_LOG_DEBUG(message)   HYPODERMIC_LOG(::Hypodermic::LogLevels::Debug, message)
+#define HYPODERMIC_LOG_INFO(message)    HYPODERMIC_LOG(::Hypodermic::LogLevels::Info, message)
+#define HYPODERMIC_LOG_WARN(message)    HYPODERMIC_LOG(::Hypodermic::LogLevels::Warn, message)
+#define HYPODERMIC_LOG_ERROR(message)   HYPODERMIC_LOG(::Hypodermic::LogLevels::Error, message)

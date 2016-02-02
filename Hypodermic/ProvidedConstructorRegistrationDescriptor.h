@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Hypodermic2/ConstructorDescriptor.h"
-#include "Hypodermic2/Log.h"
-#include "Hypodermic2/Registration.h"
-#include "Hypodermic2/RegistrationDescriptorBase.h"
-#include "Hypodermic2/With.h"
+#include "Hypodermic/ConstructorDescriptor.h"
+#include "Hypodermic/Log.h"
+#include "Hypodermic/Registration.h"
+#include "Hypodermic/RegistrationDescriptorBase.h"
+#include "Hypodermic/With.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     template
@@ -96,4 +96,4 @@ namespace Hypodermic2
         }
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

@@ -1,81 +1,86 @@
-#ifndef		HYPODERMIC_REGISTRATION_BUILDER_H_
-# define	HYPODERMIC_REGISTRATION_BUILDER_H_
+#pragma once
 
-# include <memory>
+#include <memory>
 
-# include <Hypodermic/ComponentRegistration.h>
-# include <Hypodermic/CurrentLifetimeScope.h>
-# include <Hypodermic/DelegateActivator.h>
-# include <Hypodermic/IComponentContext.h>
-# include <Hypodermic/IComponentRegistry.h>
-# include <Hypodermic/IInstanceActivator.h>
-# include <Hypodermic/IRegistrationBuilder.h>
-# include <Hypodermic/RegistrationData.h>
-# include <Hypodermic/RootScopeLifetime.h>
-# include <Hypodermic/SingleRegistrationStyle.h>
-# include <Hypodermic/TypedService.h>
-# include <Hypodermic/TypeIndexWorkaround.h>
+#include "Hypodermic/InstanceLifetime.h"
+#include "Hypodermic/Registration.h"
+#include "Hypodermic/PersistentInstanceRegistration.h"
+#include "Hypodermic/ProvidedInstanceRegistration.h"
+#include "Hypodermic/TypeAliasKey.h"
 
 
 namespace Hypodermic
 {
-	template <class T, class RegistrationStyleT>
-	class RegistrationBuilder
-        : public std::enable_shared_from_this< RegistrationBuilder< T, RegistrationStyleT > >
-        , public IRegistrationBuilder< T, RegistrationStyleT, RegistrationBuilder >
-	{
-	public:
-        typedef IRegistrationBuilder< T, RegistrationStyleT, Hypodermic::RegistrationBuilder > ParentType;
-        typedef typename ParentType::RegistrationBuilderImplementationType SelfType;
 
-		RegistrationBuilder(std::shared_ptr< Service > defaultService, std::shared_ptr< IInstanceActivator > activator,
-                            const RegistrationStyleT& registrationStyle);
+    template
+    <
+        class TRegistrationDescriptorInfo,
+        class TInstanceLifetime = typename TRegistrationDescriptorInfo::InstanceLifetime
+    >
+    class RegistrationBuilder;
 
-		RegistrationData& registrationData();
 
-		std::shared_ptr< IInstanceActivator > activator();
+    template <class TRegistrationDescriptorInfo>
+    class RegistrationBuilder< TRegistrationDescriptorInfo, TransientInstance >
+    {
+    private:
+        typedef std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > TypeAliases;
+        typedef std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > > DependencyFactories;
 
-        RegistrationStyleT& registrationStyle();
+    public:
+        static std::shared_ptr< IRegistration > build(const TypeInfo& instanceType,
+                                                      const TypeAliases& typeAliases,
+                                                      const std::function< std::shared_ptr< void >(Container&) >& instanceFactory,
+                                                      const DependencyFactories& dependencyFactories)
+        {
+            return std::make_shared< Registration >(instanceType, typeAliases, instanceFactory, dependencyFactories);
+        }
+        
+        template <class T>
+        static std::shared_ptr< IRegistration > buildForProvidedInstance(const std::shared_ptr< T >& instance, const TypeAliases& typeAliases)
+        {
+            return std::make_shared< ProvidedInstanceRegistration< T > >(instance, typeAliases);
+        }
+    };
 
-        const std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > >& typeCasters() const;
 
-		ParentType& singleInstance();
+    template <class TRegistrationDescriptorInfo>
+    class RegistrationBuilder< TRegistrationDescriptorInfo, PersistentInstance >
+    {
+    private:
+        typedef std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > TypeAliases;
+        typedef std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > > DependencyFactories;
 
-        ParentType& instancePerLifetimeScope();
+    public:
+        static std::shared_ptr< IRegistration > build(const TypeInfo& instanceType,
+                                                      const TypeAliases& typeAliases,
+                                                      const std::function< std::shared_ptr< void >(Container&) >& instanceFactory,
+                                                      const DependencyFactories& dependencyFactories)
+        {
+            return std::make_shared< PersistentInstanceRegistration >
+            (
+                RegistrationBuilder< TRegistrationDescriptorInfo, TransientInstance >::build
+                (
+                    instanceType,
+                    typeAliases,
+                    instanceFactory,
+                    dependencyFactories
+                )
+            );
+        }
 
-        ParentType& instancePerDependency();
-
-		template <class ServiceT>
-        ParentType& as();
-
-        ParentType& as(std::shared_ptr< Service > service, std::shared_ptr< ITypeCaster > typeCaster);
-
-        ParentType& asSelf();
-
-		template <class ServiceT>
-        ParentType& named(const std::string& serviceName);
-
-        ParentType& targeting(std::shared_ptr< IComponentRegistration > target);
-
-        ParentType& onPreparing(std::function< void(IPreparingData&) > callback);
-
-        ParentType& onActivating(std::function< void(IActivatingData< T >&) > callback);
-
-        ParentType& onActivated(std::function< void(IActivatedData< T >&) > callback);
-
-	private:
-        template <class ServiceT>
-        ParentType& named(const std::string& serviceName, const std::type_info& serviceTypeInfo);
-
-		RegistrationData registrationData_;
-		std::shared_ptr< IInstanceActivator > activator_;
-        RegistrationStyleT registrationStyle_;
-        std::unordered_map< std::type_index, std::shared_ptr< ITypeCaster > > typeCasters_;
-	};
+        template <class T>
+        static std::shared_ptr< IRegistration > buildForProvidedInstance(const std::shared_ptr< T >& instance, const TypeAliases& typeAliases)
+        {
+            return std::make_shared< PersistentInstanceRegistration >
+            (
+                RegistrationBuilder< TRegistrationDescriptorInfo, TransientInstance >::buildForProvidedInstance< T >
+                (
+                    instance,
+                    typeAliases
+                )
+            );
+        }
+    };
 
 } // namespace Hypodermic
-
-
-# include <Hypodermic/RegistrationBuilder.hpp>
-
-#endif /* !HYPODERMIC_REGISTRATION_BUILDER_H_ */

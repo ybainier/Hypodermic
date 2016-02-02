@@ -1,9 +1,9 @@
 #pragma once
 
-#include <Hypodermic2/ILoggerSink.h>
+#include <Hypodermic/ILoggerSink.h>
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class NoopLoggerSink : public ILoggerSink
@@ -14,4 +14,4 @@ namespace Hypodermic2
         }
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

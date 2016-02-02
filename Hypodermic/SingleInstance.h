@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Hypodermic2/InstanceLifetime.h"
+#include "Hypodermic/InstanceLifetime.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 namespace RegistrationDescriptorOperations
 {
@@ -58,4 +58,4 @@ namespace RegistrationDescriptorOperations
     };
 
 } // namespace RegistrationDescriptorOperations
-} // namespace Hypodermic2
+} // namespace Hypodermic

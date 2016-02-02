@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     namespace Tags
@@ -12,4 +12,4 @@ namespace Hypodermic2
 
     }
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

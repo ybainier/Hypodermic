@@ -4,17 +4,17 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "Hypodermic2/As.h"
-#include "Hypodermic2/AsSelf.h"
-#include "Hypodermic2/IRegistration.h"
-#include "Hypodermic2/IRegistrationDescriptor.h"
-#include "Hypodermic2/RegistrationDescriptorInfo.h"
-#include "Hypodermic2/SingleInstance.h"
-#include "Hypodermic2/TypeAliasKey.h"
-#include "Hypodermic2/TypeInfo.h"
+#include "Hypodermic/As.h"
+#include "Hypodermic/AsSelf.h"
+#include "Hypodermic/IRegistration.h"
+#include "Hypodermic/IRegistrationDescriptor.h"
+#include "Hypodermic/RegistrationDescriptorInfo.h"
+#include "Hypodermic/SingleInstance.h"
+#include "Hypodermic/TypeAliasKey.h"
+#include "Hypodermic/TypeInfo.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     template
@@ -97,4 +97,4 @@ namespace Hypodermic2
         mutable Action m_registrationDescriptorUpdated;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

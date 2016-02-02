@@ -3,7 +3,7 @@
 #include <memory>
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
     
     class IRegistration;
@@ -22,4 +22,4 @@ namespace Hypodermic2
         virtual bool isEmpty() const = 0;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

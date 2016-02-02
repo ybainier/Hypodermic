@@ -2,11 +2,11 @@
 
 #include <utility>
 
-#include "Hypodermic2/ITypeAlias.h"
-#include "Hypodermic2/TypeInfo.h"
+#include "Hypodermic/ITypeAlias.h"
+#include "Hypodermic/TypeInfo.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class TypeAlias : public ITypeAlias
@@ -44,4 +44,4 @@ namespace Hypodermic2
         TypeInfo m_typeInfo;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

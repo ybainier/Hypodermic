@@ -3,12 +3,12 @@
 #include <unordered_map>
 #include <vector>
 
-#include "Hypodermic2/IRegistration.h"
-#include "Hypodermic2/IRegistrationScope.h"
-#include "Hypodermic2/TypeAliasKey.h"
+#include "Hypodermic/IRegistration.h"
+#include "Hypodermic/IRegistrationScope.h"
+#include "Hypodermic/TypeAliasKey.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class RegistrationScope : public IRegistrationScope
@@ -55,4 +55,4 @@ namespace Hypodermic2
         std::unordered_map< TypeAliasKey, std::vector< std::shared_ptr< IRegistration > > > m_registrationsByBaseTypes;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

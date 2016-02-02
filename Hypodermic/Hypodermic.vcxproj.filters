@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Precompiled Headers">
-      <UniqueIdentifier>{db7f1133-5f08-4948-ba4e-0c78486dd467}</UniqueIdentifier>
-    </Filter>
     <Filter Include="RegistrationDescriptors">
       <UniqueIdentifier>{51eb1278-0ba3-4344-b6fe-fd42768d0868}</UniqueIdentifier>
     </Filter>
@@ -33,12 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Precompiled Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Precompiled Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Container.h" />
     <ClInclude Include="RegistrationDescriptorBase.h">
       <Filter>RegistrationDescriptors</Filter>
@@ -157,10 +148,5 @@
     <ClInclude Include="DependencyActivationException.h">
       <Filter>Exceptions</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Precompiled Headers</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

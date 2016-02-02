@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Hypodermic2/ExceptionBase.h"
+#include "Hypodermic/ExceptionBase.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     HYPODERMIC_DECLARE_EXCEPTION(CircularDependencyException);
 
-} // namespace Hypodermic2
+} // namespace Hypodermic
 
 
-#define HYPODERMIC_THROW_CIRCULAR_DEPENDENCY_EXCEPTION(message) HYPODERMIC_THROW(::Hypodermic2::CircularDependencyException, message)
+#define HYPODERMIC_THROW_CIRCULAR_DEPENDENCY_EXCEPTION(message) HYPODERMIC_THROW(::Hypodermic::CircularDependencyException, message)

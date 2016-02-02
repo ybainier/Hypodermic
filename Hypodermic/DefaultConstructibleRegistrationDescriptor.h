@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Hypodermic2/ConstructorDescriptor.h"
-#include "Hypodermic2/Log.h"
-#include "Hypodermic2/RegistrationBuilder.h"
-#include "Hypodermic2/RegistrationDescriptorBase.h"
+#include "Hypodermic/ConstructorDescriptor.h"
+#include "Hypodermic/Log.h"
+#include "Hypodermic/RegistrationBuilder.h"
+#include "Hypodermic/RegistrationDescriptorBase.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     template <class TDescriptorInfo>
@@ -84,4 +84,4 @@ namespace Hypodermic2
         }
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

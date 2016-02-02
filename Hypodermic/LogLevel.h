@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
     namespace LogLevels
     {
@@ -16,4 +16,4 @@ namespace Hypodermic2
 
     } // namespace LogLevels
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

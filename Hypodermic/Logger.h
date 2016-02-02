@@ -3,11 +3,11 @@
 #include <memory>
 #include <string>
 
-#include <Hypodermic2/LogLevel.h>
-#include <Hypodermic2/NoopLoggerSink.h>
+#include <Hypodermic/LogLevel.h>
+#include <Hypodermic/NoopLoggerSink.h>
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class Logger
@@ -53,5 +53,5 @@ namespace Hypodermic2
         LogLevels::LogLevel m_logLevel;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic
 

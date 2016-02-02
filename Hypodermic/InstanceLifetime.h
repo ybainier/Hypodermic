@@ -3,7 +3,7 @@
 #include <type_traits>
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     namespace InstanceLifetimes
@@ -18,4 +18,4 @@ namespace Hypodermic2
     typedef std::integral_constant< InstanceLifetimes::InstanceLifetime, InstanceLifetimes::Transient > TransientInstance;
     typedef std::integral_constant< InstanceLifetimes::InstanceLifetime, InstanceLifetimes::Persistent > PersistentInstance;
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

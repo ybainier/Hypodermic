@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Hypodermic2/IRegistration.h"
-#include "Hypodermic2/Log.h"
-#include "Hypodermic2/TypeAliasKey.h"
-#include "Hypodermic2/TypeInfo.h"
+#include "Hypodermic/IRegistration.h"
+#include "Hypodermic/Log.h"
+#include "Hypodermic/TypeAliasKey.h"
+#include "Hypodermic/TypeInfo.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     template <class T>
@@ -61,4 +61,4 @@ namespace Hypodermic2
         std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > m_typeAliases;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

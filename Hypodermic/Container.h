@@ -1,35 +1,107 @@
-#ifndef		HYPODERMIC_CONTAINER_H_
-# define	HYPODERMIC_CONTAINER_H_
+#pragma once
 
-# include <memory>
-# include <Hypodermic/IContainer.h>
+#include <memory>
+#include <unordered_map>
+#include <vector>
+
+#include "Hypodermic/IRegistration.h"
+#include "Hypodermic/IRegistrationScope.h"
+#include "Hypodermic/NestedRegistrationScope.h"
+#include "Hypodermic/TypeInfo.h"
 
 
 namespace Hypodermic
 {
-    class IComponentRegistration;
-    class IComponentRegistry;
 
+    class Container
+    {
+    public:
+        explicit Container(const std::shared_ptr< IRegistrationScope >& registrationScope)
+            : m_registrationScope(registrationScope)
+        {
+        }
 
-	class Container : public std::enable_shared_from_this< Container >, public IContainer
-	{
-	public:
-		std::shared_ptr< IComponentRegistry > componentRegistry();
+        std::shared_ptr< IRegistrationScope > createNestedScope() const
+        {
+            return std::make_shared< NestedRegistrationScope >(m_registrationScope);
+        }
 
-        std::shared_ptr< void > resolveComponent(const std::shared_ptr< IComponentRegistration >& registration);
+        template <class T>
+        std::shared_ptr< T > resolve()
+        {
+            return resolve< T >(createKeyForType< T >());
+        }
 
-        std::shared_ptr< void > getOrCreateInstance(const std::shared_ptr< IComponentRegistration >& registration);
+        template <class T>
+        std::vector< std::shared_ptr< T > > resolveAll()
+        {
+            auto typeAliasKey = createKeyForType< T >();
 
-        void initialize();
+            std::vector< std::shared_ptr< T > > instances;
 
-        std::shared_ptr< ILifetimeScope > createLifetimeScope();
+            std::vector< std::shared_ptr< IRegistration > > registrations;
+            if (!tryGetRegistrations(typeAliasKey, registrations))
+                return instances;
 
-	private:
-		std::shared_ptr< IComponentRegistry > componentRegistry_;
-        std::shared_ptr< ILifetimeScope > rootLifetimeScope_;
-	};
+            if (registrations.empty())
+                return instances;
+
+            for (auto&& registration : registrations)
+                instances.push_back(resolve< T >(typeAliasKey, *registration));
+
+            return instances;
+        }
+
+        template <class T, class TDependency>
+        std::function< std::shared_ptr< TDependency >(Container&) > getDependencyFactory()
+        {
+            std::vector< std::shared_ptr< IRegistration > > registrations;
+            if (!tryGetRegistrations(createKeyForType< T >(), registrations))
+                return nullptr;
+
+            if (registrations.empty())
+                return nullptr;
+
+            return getDependencyFactory< TDependency >(*registrations.back());
+        }
+
+    private:
+        bool tryGetRegistrations(const TypeAliasKey& typeAliasKey, std::vector< std::shared_ptr< IRegistration > >& registrations) const
+        {
+            return m_registrationScope->tryGetRegistrations(typeAliasKey, registrations);
+        }
+
+        template <class T>
+        std::shared_ptr< T > resolve(const TypeAliasKey& typeAliasKey)
+        {
+            std::vector< std::shared_ptr< IRegistration > > registrations;
+            if (!tryGetRegistrations(typeAliasKey, registrations))
+                return nullptr;
+
+            if (registrations.empty())
+                return nullptr;
+
+            return resolve< T >(typeAliasKey, *registrations.back());
+        }
+
+        template <class T>
+        std::shared_ptr< T > resolve(const TypeAliasKey& typeAliasKey, IRegistration& registration)
+        {
+            return std::static_pointer_cast< T >(registration.activate(*this, typeAliasKey));
+        }
+
+        template <class TDependency>
+        std::function< std::shared_ptr< TDependency >(Container&) > getDependencyFactory(const IRegistration& registration)
+        {
+            auto&& factory = registration.getDependencyFactory(Utils::getMetaTypeInfo< TDependency >());
+            if (!factory)
+                return nullptr;
+
+            return [factory](Container& c) { return std::static_pointer_cast< TDependency >(factory(c)); };
+        }
+
+    private:
+        std::shared_ptr< IRegistrationScope > m_registrationScope;
+    };
 
 } // namespace Hypodermic
-
-
-#endif /* !HYPODERMIC_CONTAINER_H_ */

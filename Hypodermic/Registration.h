@@ -6,17 +6,17 @@
 
 #include <boost/thread.hpp>
 
-#include "Hypodermic2/CircularDependencyException.h"
-#include "Hypodermic2/DependencyActivationException.h"
-#include "Hypodermic2/InstanceAlreadyActivatingException.h"
-#include "Hypodermic2/IRegistration.h"
-#include "Hypodermic2/Log.h"
-#include "Hypodermic2/ScopeFunction.h"
-#include "Hypodermic2/TypeAliasKey.h"
-#include "Hypodermic2/TypeInfo.h"
+#include "Hypodermic/CircularDependencyException.h"
+#include "Hypodermic/DependencyActivationException.h"
+#include "Hypodermic/InstanceAlreadyActivatingException.h"
+#include "Hypodermic/IRegistration.h"
+#include "Hypodermic/Log.h"
+#include "Hypodermic/ScopeFunction.h"
+#include "Hypodermic/TypeAliasKey.h"
+#include "Hypodermic/TypeInfo.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class Container;
@@ -147,4 +147,4 @@ namespace Hypodermic2
         boost::recursive_mutex m_mutex;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

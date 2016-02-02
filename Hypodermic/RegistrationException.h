@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Hypodermic2/ExceptionBase.h"
+#include "Hypodermic/ExceptionBase.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     HYPODERMIC_DECLARE_EXCEPTION(RegistrationException);
 
-} // namespace Hypodermic2
+} // namespace Hypodermic
 
 
-#define HYPODERMIC_THROW_REGISTRATION_EXCEPTION(message) HYPODERMIC_THROW(::Hypodermic2::RegistrationException, message)
+#define HYPODERMIC_THROW_REGISTRATION_EXCEPTION(message) HYPODERMIC_THROW(::Hypodermic::RegistrationException, message)

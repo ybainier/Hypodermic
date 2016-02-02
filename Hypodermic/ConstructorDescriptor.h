@@ -6,11 +6,11 @@
 #include <string>
 #include <type_traits>
 
-#include "Hypodermic2/ArgResolver.h"
-#include "Hypodermic2/TypeInfo.h"
+#include "Hypodermic/ArgResolver.h"
+#include "Hypodermic/TypeInfo.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class Container;
@@ -98,4 +98,4 @@ namespace Traits
     };
 
 } // namespace Traits
-} // namespace Hypodermic2
+} // namespace Hypodermic

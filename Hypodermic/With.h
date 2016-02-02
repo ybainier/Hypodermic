@@ -3,7 +3,7 @@
 #include <type_traits>
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 namespace RegistrationDescriptorOperations
 {
@@ -121,4 +121,4 @@ namespace RegistrationDescriptorOperations
     };
 
 } // namespace RegistrationDescriptorOperations
-} // namespace Hypodermic2
+} // namespace Hypodermic

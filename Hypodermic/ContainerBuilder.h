@@ -1,69 +1,120 @@
-#ifndef		HYPODERMIC_CONTAINER_BUILDER_H_
-# define	HYPODERMIC_CONTAINER_BUILDER_H_
+#pragma once
 
-# include <functional>
-# include <memory>
-# include <stdexcept>
-# include <vector>
+#include <memory>
 
-# include <Hypodermic/IContainer.h>
-# include <Hypodermic/IRegistrationSource.h>
-# include <Hypodermic/RegistrationBuilder.h>
-# include <Hypodermic/SingleRegistrationStyle.h>
+#include "Hypodermic/Container.h"
+#include "Hypodermic/IRegistrationScope.h"
+#include "Hypodermic/Log.h"
+#include "Hypodermic/RegistrationDescriptorBuilder.h"
 
 
 namespace Hypodermic
 {
-	class IComponentContext;
-	class IComponentRegistry;
 
-
-	class ContainerBuilder
-	{
-        typedef std::function< void(const std::shared_ptr< IComponentRegistry >&) > ConfigurationCallback;
-
-	public:
+    class ContainerBuilder
+    {
+    public:
+        /// <summary>
+        /// Register type T
+        /// </summary>
+        /// <param name="T">The type to register inside ContainerBuilder</param>
+        /// <returns>A reference on a new IRegistrationDescriptor</returns>
         template <class T>
-        struct RegistrationBuilderInterface
+        typename RegistrationDescriptorBuilder::ForTypeConstruction< T >::Type& registerType()
         {
-            typedef SingleRegistrationStyle RegistrationStyleType;
-            typedef IRegistrationBuilder< T, RegistrationStyleType, RegistrationBuilder > Type;
-            typedef RegistrationBuilder< T, RegistrationStyleType > ImplementationType;
-        };
+            typedef typename RegistrationDescriptorBuilder::ForTypeConstruction< T >::Type RegistrationDescriptorType;
 
-		ContainerBuilder();
+            return finalizeRegistration(std::make_shared< RegistrationDescriptorType >());
+        }
 
-		template <class T>
-		typename RegistrationBuilderInterface< T >::Type& autowireType();
-
+        /// <summary>
+        /// Register a shared instance of type T
+        /// </summary>
+        /// <param name="instance">The shared instance to register inside ContainerBuilder</param>
+        /// <returns>A reference on a new ProvidedInstanceRegistrationDescriptor</returns>
         template <class T>
-        typename RegistrationBuilderInterface< T >::Type& registerType(const std::function< std::shared_ptr< T >(IComponentContext&) >& delegate);
+        typename RegistrationDescriptorBuilder::ForProvidedInstance< T >::Type& registerInstance(const std::shared_ptr< T >& instance)
+        {
+            typedef typename RegistrationDescriptorBuilder::ForProvidedInstance< T >::Type RegistrationDescriptorType;
 
-		template <class T>
-		typename RegistrationBuilderInterface< T >::Type& registerType();
+            return finalizeRegistration(std::make_shared< RegistrationDescriptorType >(instance));
+        }
 
-		template <class T>
-        typename RegistrationBuilderInterface< T >::Type& registerInstance(const std::shared_ptr< T >& instance);
+        /// <summary>
+        /// Build a new container
+        /// </summary>
+        /// <returns>A shared pointer to a new Container</returns>
+        std::shared_ptr< Container > build()
+        {
+            HYPODERMIC_LOG_INFO("Building container");
 
-        void registerSource(const std::shared_ptr< IRegistrationSource >& registrationSource);
+            auto scope = std::make_shared< RegistrationScope >();
+            build(*scope);
 
-		void registerCallback(const ConfigurationCallback& configurationCallback);
+            return std::make_shared< Container >(scope);
+        }
 
-        void addRegistrations(const ContainerBuilder& containerBuilder);
+        /// <summary>
+        /// Build a new and nested container from a passed Container
+        /// </summary>
+        /// <param name="container">The Container from which to create a nested Container</param>
+        /// <returns>A shared pointer to a new Container</returns>
+        std::shared_ptr< Container > buildNestedContainerFrom(const Container& container)
+        {
+            HYPODERMIC_LOG_INFO("Building nested container");
 
-		std::shared_ptr< IContainer > build();
+            auto scope = container.createNestedScope();
+            build(*scope);
 
-		void build(const std::shared_ptr< IComponentRegistry >& componentRegistry);
+            return std::make_shared< Container >(scope);
+        }
 
+    private:
+        void build(IRegistrationScope& scope)
+        {
+            for (auto&& x : m_registrationDescriptors)
+            {
+                auto&& action = m_buildActions[x];
+                action(scope);
+            }
+        }
 
-	private:
-		std::vector< ConfigurationCallback > configurationCallbacks_;
-		bool wasBuilt_;
-	};
+        template <class TRegistrationDescriptor>
+        TRegistrationDescriptor& finalizeRegistration(const std::shared_ptr< TRegistrationDescriptor >& registrationDescriptor)
+        {
+            m_buildActions[registrationDescriptor] = registrationDescriptor->getDescriptionFactory();
+            m_registrationDescriptors.push_back(registrationDescriptor);
+
+            listenToRegistrationDescriptorUpdates(registrationDescriptor);
+
+            return *registrationDescriptor;
+        }
+
+        void listenToRegistrationDescriptorUpdates(const std::shared_ptr< IRegistrationDescriptor >& registrationDescriptor)
+        {
+            registrationDescriptor->registrationDescriptorUpdated().connect([this, registrationDescriptor](const std::shared_ptr< IRegistrationDescriptor >& x)
+            {
+                registrationDescriptor->registrationDescriptorUpdated().disconnect_all_slots();
+
+                m_buildActions.erase(registrationDescriptor);
+                m_registrationDescriptors.insert
+                (
+                    m_registrationDescriptors.erase
+                    (
+                        std::find(std::begin(m_registrationDescriptors), std::end(m_registrationDescriptors), registrationDescriptor)
+                    ),
+                    x
+                );
+
+                m_buildActions[x] = x->getDescriptionFactory();
+
+                listenToRegistrationDescriptorUpdates(x);
+            });
+        }
+
+    private:
+        std::vector< std::shared_ptr< IRegistrationDescriptor > > m_registrationDescriptors;
+        std::unordered_map< std::shared_ptr< IRegistrationDescriptor >, std::function< void(IRegistrationScope&) > > m_buildActions;
+    };
 
 } // namespace Hypodermic
-
-
-# include <Hypodermic/ContainerBuilder.hpp>
-
-#endif /* !HYPODERMIC_CONTAINER_BUILDER_H_ */

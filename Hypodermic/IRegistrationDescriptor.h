@@ -6,10 +6,10 @@
 
 #include <boost/signals2.hpp>
 
-#include "Hypodermic2/TypeInfo.h"
+#include "Hypodermic/TypeInfo.h"
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     class IRegistrationDescriptor;
@@ -31,4 +31,4 @@ namespace Hypodermic2
         virtual const TypeInfo& instanceType() const = 0;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

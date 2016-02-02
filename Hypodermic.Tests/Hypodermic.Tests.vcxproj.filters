@@ -2,7 +2,16 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ContainerBuilderTests.cpp">
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Precompiled Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultConstructibleRegistrationTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="RegistrationTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ContainerTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
   </ItemGroup>
@@ -10,5 +19,19 @@
     <Filter Include="Tests">
       <UniqueIdentifier>{2684b273-00f4-47b8-97ec-d4f496718724}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Precompiled Headers">
+      <UniqueIdentifier>{4b467aea-2d92-41d7-8120-36ff59078769}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Precompiled Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Precompiled Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TestingTypes.h">
+      <Filter>Tests</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

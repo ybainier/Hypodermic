@@ -3,7 +3,7 @@
 #include <cstdint>
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     struct TypeInfo;
@@ -21,4 +21,4 @@ namespace Hypodermic2
         virtual const TypeInfo& typeInfo() const = 0;
     };
 
-} // namespace Hypodermic2
+} // namespace Hypodermic

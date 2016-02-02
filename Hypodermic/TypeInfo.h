@@ -11,7 +11,7 @@
 #endif /* __GNUC__ */
 
 
-namespace Hypodermic2
+namespace Hypodermic
 {
 
     struct TypeInfo
@@ -81,7 +81,7 @@ namespace Utils
     }
 
 } // namespace Utils
-} // namespace Hypodermic2
+} // namespace Hypodermic
 
 
 #include <functional>
@@ -92,16 +92,16 @@ namespace std
 {
 
     template <>
-    class hash< Hypodermic2::TypeInfo > : public unary_function< Hypodermic2::TypeInfo, size_t >
+    class hash< Hypodermic::TypeInfo > : public unary_function< Hypodermic::TypeInfo, size_t >
     {
     public:
-        size_t operator()(const Hypodermic2::TypeInfo& value) const
+        size_t operator()(const Hypodermic::TypeInfo& value) const
         {
             return hash< type_index >()(type_index(value.intrinsicTypeInfo()));
         }
     };
 
-    inline ostream& operator<<(ostream& stream, const Hypodermic2::TypeInfo& info)
+    inline ostream& operator<<(ostream& stream, const Hypodermic::TypeInfo& info)
     {
         return stream
             << "FullyQualifiedName: '" << info.fullyQualifiedName() << "'"
