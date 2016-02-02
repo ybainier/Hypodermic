@@ -1,10 +1,9 @@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
-libdir=@libdir@
 includedir=@includedir@
 
 Name: libhypodermic
 Description: Hypodermic is an IoC container for C++11.
 Version: @VERSION@
-Libs: -L${libdir} -lhypodermic -lboost_system
+Libs: -L${libdir} -lboost_system
 Cflags: -I${includedir}
