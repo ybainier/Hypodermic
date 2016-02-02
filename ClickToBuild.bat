@@ -2,18 +2,11 @@
 
 set SolutionDir=%~p0
 
-if not "%VS100COMNTOOLS%" == "" call :BuildVS100Targets
 if not "%VS120COMNTOOLS%" == "" call :BuildVS120Targets
+if not "%VS140COMNTOOLS%" == "" call :BuildVS140Targets
 
 pause
 exit /b
-
-
-:BuildVS100Targets
-echo Invoking %VS100COMNTOOLS%\..\..\VC\vcvarsall.bat x86_amd64
-call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
-call :BuildTargets v100
-@goto:eof
 
 
 :BuildVS120Targets
@@ -21,6 +14,14 @@ echo Invoking %VS120COMNTOOLS%\..\..\VC\vcvarsall.bat x86_amd64
 call "%VS120COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
 call :BuildTargets v120
 @goto:eof
+
+
+:BuildVS140Targets
+echo Invoking %VS140COMNTOOLS%\..\..\VC\vcvarsall.bat x86_amd64
+call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
+call :BuildTargets v140
+@goto:eof
+
 
 
 :BuildTargets

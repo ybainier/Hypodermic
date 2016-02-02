@@ -2,20 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <hypodermicRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))</hypodermicRoot>
+    <HypodermicRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))</HypodermicRoot>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(hypodermicRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(HypodermicRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories Condition="'$(Platform)'=='Win32'">$(hypodermicRoot)lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Platform)'=='x64'">$(hypodermicRoot)lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Debug' Or '$(Configuration)'=='Debug$(PlatformToolsetVersion)'">hypodermic_d-vc$(PlatformToolsetVersion).lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(Configuration)'=='Release' Or '$(Configuration)'=='Release$(PlatformToolsetVersion)'">hypodermic-vc$(PlatformToolsetVersion).lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <PostBuildEvent>
-      <Command>%(Command)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
 </Project>
