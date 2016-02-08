@@ -28,6 +28,9 @@
     <Filter Include="Logging">
       <UniqueIdentifier>{b98aa5d9-7823-4a07-903e-a4a1b074c453}</UniqueIdentifier>
     </Filter>
+    <Filter Include="RegistrationDescriptors\Tags">
+      <UniqueIdentifier>{384ee7f0-5f39-4182-9702-20a38917da40}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Container.h" />
@@ -68,9 +71,6 @@
     </ClInclude>
     <ClInclude Include="SingleInstance.h">
       <Filter>RegistrationDescriptors\Operations</Filter>
-    </ClInclude>
-    <ClInclude Include="InstanceRegistrationTags.h">
-      <Filter>RegistrationDescriptors</Filter>
     </ClInclude>
     <ClInclude Include="With.h">
       <Filter>RegistrationDescriptors\Operations</Filter>
@@ -147,6 +147,27 @@
     </ClInclude>
     <ClInclude Include="DependencyActivationException.h">
       <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="OnActivated.h">
+      <Filter>RegistrationDescriptors\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="RegistrationDescriptorInfoToString.h">
+      <Filter>RegistrationDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceRegistrationTags.h">
+      <Filter>RegistrationDescriptors\Tags</Filter>
+    </ClInclude>
+    <ClInclude Include="DependencyFactoryTag.h">
+      <Filter>RegistrationDescriptors\Tags</Filter>
+    </ClInclude>
+    <ClInclude Include="ProvidedInstanceDependencyTag.h">
+      <Filter>RegistrationDescriptors\Tags</Filter>
+    </ClInclude>
+    <ClInclude Include="ProvidedDependencyTag.h">
+      <Filter>RegistrationDescriptors\Tags</Filter>
+    </ClInclude>
+    <ClInclude Include="ConsoleLoggerSink.h">
+      <Filter>Logging</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

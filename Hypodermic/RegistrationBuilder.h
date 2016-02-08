@@ -1,6 +1,8 @@
 #pragma once
 
+#include <functional>
 #include <memory>
+#include <vector>
 
 #include "Hypodermic/InstanceLifetime.h"
 #include "Hypodermic/Registration.h"
@@ -31,9 +33,10 @@ namespace Hypodermic
         static std::shared_ptr< IRegistration > build(const TypeInfo& instanceType,
                                                       const TypeAliases& typeAliases,
                                                       const std::function< std::shared_ptr< void >(Container&) >& instanceFactory,
-                                                      const DependencyFactories& dependencyFactories)
+                                                      const DependencyFactories& dependencyFactories,
+                                                      const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
         {
-            return std::make_shared< Registration >(instanceType, typeAliases, instanceFactory, dependencyFactories);
+            return std::make_shared< Registration >(instanceType, typeAliases, instanceFactory, dependencyFactories, activationHandlers);
         }
         
         template <class T>
@@ -55,7 +58,8 @@ namespace Hypodermic
         static std::shared_ptr< IRegistration > build(const TypeInfo& instanceType,
                                                       const TypeAliases& typeAliases,
                                                       const std::function< std::shared_ptr< void >(Container&) >& instanceFactory,
-                                                      const DependencyFactories& dependencyFactories)
+                                                      const DependencyFactories& dependencyFactories,
+                                                      const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
         {
             return std::make_shared< PersistentInstanceRegistration >
             (
@@ -64,7 +68,8 @@ namespace Hypodermic
                     instanceType,
                     typeAliases,
                     instanceFactory,
-                    dependencyFactories
+                    dependencyFactories,
+                    activationHandlers
                 )
             );
         }

@@ -9,6 +9,7 @@
 # pragma warning (disable: 4231) // nonstandard extension used : 'extern' before template explicit instantiation
 #endif
 
+#include "Hypodermic/ConsoleLoggerSink.h"
 #include "Hypodermic/Logger.h"
 
 
@@ -18,7 +19,8 @@ struct GlobalFixture
     {
         boost::unit_test::results_reporter::set_level(boost::unit_test::SHORT_REPORT);
 
-        Hypodermic::Logger::configureLogLevel(Hypodermic::LogLevels::Warn);
+        Hypodermic::Logger::configureLogLevel(Hypodermic::LogLevels::Debug);
+        Hypodermic::Logger::configureSink(std::make_shared< Hypodermic::ConsoleLoggerSink >());
     }
 };
 

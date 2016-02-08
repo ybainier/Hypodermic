@@ -19,20 +19,20 @@ class exception_type : public ::Hypodermic::ExceptionBase< exception_type > \
 { \
 public: \
     explicit exception_type(std::string message = std::string(), \
-                             std::string function = std::string(), \
-                             std::string file = std::string(), \
-                             int line = -1) \
+                            std::string function = std::string(), \
+                            std::string file = std::string(), \
+                            int line = -1) \
         : ExceptionBase< exception_type >(std::move(message), std::move(function), std::move(file), line) \
-        { \
-        } \
+    { \
+    } \
 \
-        explicit exception_type(std::exception innerException, \
-                                std::string function = std::string(), \
-                                std::string file = std::string(), \
-                                int line = -1) \
-            : ExceptionBase< exception_type >(std::move(innerException), std::move(function), std::move(file), line) \
-        { \
-        } \
+    explicit exception_type(std::exception innerException, \
+                            std::string function = std::string(), \
+                            std::string file = std::string(), \
+                            int line = -1) \
+        : ExceptionBase< exception_type >(std::move(innerException), std::move(function), std::move(file), line) \
+    { \
+    } \
 }
 
 

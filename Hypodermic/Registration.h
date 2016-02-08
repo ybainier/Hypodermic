@@ -4,6 +4,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include <boost/signals2.hpp>
 #include <boost/thread.hpp>
 
 #include "Hypodermic/CircularDependencyException.h"
@@ -28,13 +29,16 @@ namespace Hypodermic
         Registration(const TypeInfo& instanceType,
                      const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases,
                      const std::function< std::shared_ptr< void >(Container&) >& instanceFactory,
-                     const std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > >& dependencyFactories)
+                     const std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > >& dependencyFactories,
+                     const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
             : m_instanceType(instanceType)
             , m_typeAliases(typeAliases)
             , m_instanceFactory(instanceFactory)
             , m_dependencyFactories(dependencyFactories)
             , m_activating(false)
         {
+            for (auto&& handler : activationHandlers)
+                m_activated.connect(handler);
         }
 
         const TypeInfo& instanceType() const override
@@ -100,6 +104,8 @@ namespace Hypodermic
             {
                 auto&& instance = m_instanceFactory(container);
 
+                m_activated(container, instance);
+
                 auto it = m_typeAliases.find(typeAliasKey);
                 if (it != std::end(m_typeAliases) && it->second != nullptr)
                 {
@@ -143,6 +149,7 @@ namespace Hypodermic
         std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > m_typeAliases;
         std::function< std::shared_ptr< void >(Container&) > m_instanceFactory;
         std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > > m_dependencyFactories;
+        boost::signals2::signal< void(Container&, const std::shared_ptr< void >&) > m_activated;
         bool m_activating;
         boost::recursive_mutex m_mutex;
     };
