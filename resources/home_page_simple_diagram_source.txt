@@ -1,0 +1,8 @@
+http://yuml.me/diagram/scruffy/class/draw
+
+[INotificationSender|+send(message:string)]
+[INotificationSender]^-.-[SmsNotificationSender]
+[INotificationSender]^-.-[NotificationSenderMock]
+
+[Service|start()]+[<<INotificationSender>>]
+[Service]-[note:Send a notification when the service it started{bg:wheat}]
