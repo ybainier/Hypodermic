@@ -11,7 +11,7 @@ Hypodermic was started with the will to mimic the famous .NET Autofac http://aut
 # Register components
 
 Components are _registered_ in a `ContainerBuilder`.
-``` cpp
+```cpp
 ContainerBuilder builder;
 
 builder.registerInstance(std::make_shared< BusConfiguration >());
@@ -37,7 +37,7 @@ auto container = builder.build();
 # Express dependencies
 
 It might be magic to some of you; at last, it cannot scan types by itself and deduce how to build them if you don't provide some information. This is C++ we're using, there is no reflection — yet.
-``` cpp
+```cpp
 class Service
 {
 public:
@@ -52,13 +52,13 @@ private:
 };
 ```
 With the above _AutowiredSignature typedef_:
-``` cpp
+```cpp
 ContainerBuilder builder;
 
 builder.registerType< Service >();
 ```
 Without:
-``` cpp
+```cpp
 ContainerBuilder builder;
 
 builder.registerType< Service >()
@@ -70,7 +70,7 @@ builder.registerType< Service >()
 ![Sample class hierarchy](../master/resources/home_page_simple_diagram.png?raw=true "Sample class hierarchy")
 
 In your application, you may write code like this:
-``` cpp
+```cpp
 ContainerBuilder builder;
 
 builder.registerType< Service >();
@@ -96,7 +96,7 @@ BOOST_CHECK_NO_THROW(service.start());
 # Wiring the internal logging mechanism
 
 You may want to trace Hypodermic's activity by wiring your own logging mechanism to it. You have to implement `ILoggerSink` and configure the singleton of `Logger` like so:
-``` cpp
+```cpp
 // You will intercept every messages but at no 0 cost. Warn might be a little less aggressive.
 Logger::configureLogLevel(LogLevels::Debug);
 
