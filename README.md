@@ -19,7 +19,7 @@ ContainerBuilder builder;
 
 Considering these classes:
 
-![Sample class hierarchy](../blob/master/resources/home_page_simple_diagram.png?raw=true "Sample class hierarchy")
+![Sample class hierarchy](../master/resources/home_page_simple_diagram.png?raw=true "Sample class hierarchy")
 
 
 You can invoke `ContainerBuilder::registerType()` with a type as a template parameter.
