@@ -10,7 +10,7 @@ Hypodermic was started with the will to mimic the famous .NET Autofac http://aut
 
 # Register components
 
-Components are _registered_ in a `ContainerBuilder`.
+Configure the container by registering types and instances.
 ```cpp
 ContainerBuilder builder;
 
