@@ -11,11 +11,16 @@ Hypodermic was started with the will to mimic the famous .NET Autofac http://aut
 
 # Register components
 
-Configure the container by registering types and instances.
+Configure the container by registering types, instances, and instance factories.
 ```cpp
 ContainerBuilder builder;
 
 builder.registerInstance(std::make_shared< BusConfiguration >());
+
+builder.registerInstanceFactory([](Container&)
+{
+    return std::make_shared< ThreadPool >(std::thread::hardware_concurrency());
+});
 
 builder.registerType< MessageDispatcher >()
        .as< IMessageDispatcher >();
@@ -25,7 +30,6 @@ builder.registerType< MessageSerializer >();
 builder.registerType< Transport >()
        .usingConstructor< Transport(BusConfiguration*, IMessageSerializer*) >()
        .with< IMessageSerializer, MessageSerializer >()
-       .with
        .as< ITransport >();
        
 builder.registerType< Bus >()
