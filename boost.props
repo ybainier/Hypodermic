@@ -3,15 +3,18 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <!-- BOOST_HOME (or the path you will hard code here) should have a trailing '/' -->
-    <boostRoot>$(BOOST_HOME)</boostRoot>
+    <BoostRoot>$(BOOST_HOME)</BoostRoot>
+    <BoostIncludePath>$(BoostRoot)</BoostIncludePath>
+    <BoostLibraryPath Condition="'$(BOOST_LIB_PATH)'=='' And '$(Platform)'=='Win32'">$(BoostRoot)lib\</BoostLibraryPath>
+    <BoostLibraryPath Condition="'$(BOOST_LIB_PATH)'=='' And '$(Platform)'=='x64'">$(BoostRoot)lib\x64\</BoostLibraryPath>
+    <BoostLibraryPath Condition="'$(BOOST_LIB_PATH)'!=''">$(BOOST_LIB_PATH)</BoostLibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(boostRoot);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BoostIncludePath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories Condition="'$(Platform)'=='Win32'">$(boostRoot)lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalLibraryDirectories Condition="'$(Platform)'=='x64'">$(boostRoot)lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(BoostLibraryPath);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>%(Command)</Command>
