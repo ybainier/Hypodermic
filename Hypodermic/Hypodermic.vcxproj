@@ -187,6 +187,7 @@
     <ClInclude Include="ProvidedInstanceDependencyTag.h" />
     <ClInclude Include="ProvidedInstanceRegistration.h" />
     <ClInclude Include="ProvidedInstanceRegistrationDescriptor.h" />
+    <ClInclude Include="ProvidedInstanceFactoryRegistrationDescriptor.h" />
     <ClInclude Include="RegistrationBuilder.h" />
     <ClInclude Include="RegistrationDescriptorBase.h" />
     <ClInclude Include="RegistrationDescriptorBuilder.h" />

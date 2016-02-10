@@ -155,4 +155,22 @@ BOOST_AUTO_TEST_CASE(should_resolve_the_same_instance_of_a_type_registered_as_a_
     BOOST_CHECK(instance1 == instance2);
 }
 
+BOOST_AUTO_TEST_CASE(should_resolve_container_as_a_dependency)
+{
+    // Arrange
+    ContainerBuilder builder;
+
+    // Act
+    builder.registerType< Testing::ContainerDependant >();
+
+    auto container = builder.build();
+
+    // Assert
+    std::shared_ptr< Testing::ContainerDependant > instance;
+    
+    BOOST_REQUIRE_NO_THROW(instance = container->resolve< Testing::ContainerDependant >());
+
+    BOOST_CHECK(instance->container == container);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

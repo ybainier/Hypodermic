@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include <memory>
 
 #include "Hypodermic/Container.h"
@@ -41,6 +42,20 @@ namespace Hypodermic
         }
 
         /// <summary>
+        /// Register a functor producing an instance of T
+        /// </summary>
+        /// <param name="instanceFactory">The functor to register inside ContainerBuilder</param>
+        /// <returns>A reference on a new IRegistrationDescriptor</returns>
+        template <class TCallable>
+        typename RegistrationDescriptorBuilder::ForProvidedInstanceFactory< TCallable >::Type& registerInstanceFactory(const TCallable& instanceFactory)
+        {
+            typedef typename RegistrationDescriptorBuilder::ForProvidedInstanceFactory< TCallable >::InstanceType InstanceType;
+            typedef typename RegistrationDescriptorBuilder::ForProvidedInstanceFactory< TCallable >::Type RegistrationDescriptorType;
+
+            return finalizeRegistration(std::make_shared< RegistrationDescriptorType >(instanceFactory));
+        }
+
+        /// <summary>
         /// Build a new container
         /// </summary>
         /// <returns>A shared pointer to a new Container</returns>
@@ -51,7 +66,10 @@ namespace Hypodermic
             auto scope = std::make_shared< RegistrationScope >();
             build(*scope);
 
-            return std::make_shared< Container >(scope);
+            auto container = std::make_shared< Container >(scope);
+            registerContainerInstance(container, scope);
+
+            return container;
         }
 
         /// <summary>
@@ -66,10 +84,23 @@ namespace Hypodermic
             auto scope = container.createNestedScope();
             build(*scope);
 
-            return std::make_shared< Container >(scope);
+            auto nestedContainer = std::make_shared< Container >(scope);
+            registerContainerInstance(nestedContainer, scope);
+
+            return nestedContainer;
         }
 
     private:
+        void registerContainerInstance(const std::shared_ptr< Container >& container, const std::shared_ptr< IRegistrationScope >& scope)
+        {
+            typedef typename RegistrationDescriptorBuilder::ForProvidedInstance< Container >::Type RegistrationDescriptorType;
+
+            auto registrationDescriptor = std::make_shared< RegistrationDescriptorType >(container);
+            auto factory = registrationDescriptor->getDescriptionFactory();
+
+            factory(*scope);
+        }
+
         void build(IRegistrationScope& scope)
         {
             for (auto&& x : m_registrationDescriptors)

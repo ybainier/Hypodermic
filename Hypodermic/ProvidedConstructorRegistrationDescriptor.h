@@ -22,6 +22,7 @@ namespace Hypodermic
     class ProvidedConstructorRegistrationDescriptor : public RegistrationDescriptorBase< ProvidedConstructorRegistrationDescriptor< TDescriptorInfo, TConstructorSignature >, TDescriptorInfo >,
                                                       public RegistrationDescriptorOperations::As< ProvidedConstructorRegistrationDescriptor< TDescriptorInfo, TConstructorSignature >, TDescriptorInfo >,
                                                       public RegistrationDescriptorOperations::AsSelf< ProvidedConstructorRegistrationDescriptor< TDescriptorInfo, TConstructorSignature >, TDescriptorInfo >,
+                                                      public RegistrationDescriptorOperations::OnActivated< ProvidedConstructorRegistrationDescriptor< TDescriptorInfo, TConstructorSignature >, TDescriptorInfo >,
                                                       public RegistrationDescriptorOperations::SingleInstance< ProvidedConstructorRegistrationDescriptor< TDescriptorInfo, TConstructorSignature >, TDescriptorInfo >,
                                                       public RegistrationDescriptorOperations::With< ProvidedConstructorRegistrationDescriptor< TDescriptorInfo, TConstructorSignature >, TDescriptorInfo >
     {

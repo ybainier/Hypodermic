@@ -169,5 +169,8 @@
     <ClInclude Include="ConsoleLoggerSink.h">
       <Filter>Logging</Filter>
     </ClInclude>
+    <ClInclude Include="ProvidedInstanceFactoryRegistrationDescriptor.h">
+      <Filter>RegistrationDescriptors</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
