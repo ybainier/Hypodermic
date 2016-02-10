@@ -5,4 +5,4 @@ http://yuml.me/diagram/scruffy/class/draw
 [INotificationSender]^-.-[NotificationSenderMock]
 
 [Service|start()]+[<<INotificationSender>>]
-[Service]-[note:Send a notification when the service it started{bg:wheat}]
+[Service]-[note:Send a notification when the service is started{bg:wheat}]
