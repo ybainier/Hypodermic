@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <boost/lexical_cast.hpp>
 
 
 namespace Hypodermic
@@ -33,7 +32,7 @@ namespace Hypodermic
         case LogLevels::Error:
             return "Error";
         default:
-            return "Unknown LogLevel (" + boost::lexical_cast< std::string >((int)logLevel) + ")";
+            return "Unknown LogLevel (" + std::to_string((int)logLevel) + ")";
         }
     }
 

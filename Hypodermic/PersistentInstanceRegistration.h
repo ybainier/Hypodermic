@@ -1,8 +1,7 @@
 #pragma once
 
+#include <mutex>
 #include <unordered_map>
-
-#include <boost/thread.hpp>
 
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/Log.h"
@@ -41,7 +40,7 @@ namespace Hypodermic
             HYPODERMIC_LOG_INFO("Activating persistent instance of type " << instanceType().fullyQualifiedName());
 
             {
-                boost::lock_guard< decltype(m_mutex) > lock(m_mutex);
+                std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
                 auto instanceIt = m_activatedInstances.find(typeAliasKey);
                 if (instanceIt != std::end(m_activatedInstances))
@@ -51,7 +50,7 @@ namespace Hypodermic
             auto instance = m_registration->activate(container, typeAliasKey);
 
             {
-                boost::lock_guard< decltype(m_mutex) > lock(m_mutex);
+                std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
                 m_activatedInstances.insert(std::make_pair(typeAliasKey, instance));
             }
@@ -62,7 +61,7 @@ namespace Hypodermic
     private:
         std::shared_ptr< IRegistration > m_registration;
         std::unordered_map< TypeAliasKey, std::shared_ptr< void > > m_activatedInstances;
-        boost::recursive_mutex m_mutex;
+        std::recursive_mutex m_mutex;
     };
 
 } // namespace Hypodermic

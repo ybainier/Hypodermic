@@ -1,10 +1,10 @@
 #pragma once
 
+#include <regex>
 #include <string>
 #include <typeinfo>
 
 #include <boost/algorithm/string.hpp>
-#include <boost/regex.hpp>
 
 #if defined(__GNUC__)
 # include <cxxabi.h>
@@ -56,11 +56,11 @@ namespace Hypodermic
             return result;
 #else
             std::string demangled = typeName;
-            demangled = boost::regex_replace(demangled, boost::regex("(const\\s+|\\s+const)"), std::string());
-            demangled = boost::regex_replace(demangled, boost::regex("(volatile\\s+|\\s+volatile)"), std::string());
-            demangled = boost::regex_replace(demangled, boost::regex("(static\\s+|\\s+static)"), std::string());
-            demangled = boost::regex_replace(demangled, boost::regex("(class\\s+|\\s+class)"), std::string());
-            demangled = boost::regex_replace(demangled, boost::regex("(struct\\s+|\\s+struct)"), std::string());
+            demangled = std::regex_replace(demangled, std::regex("(const\\s+|\\s+const)"), std::string());
+            demangled = std::regex_replace(demangled, std::regex("(volatile\\s+|\\s+volatile)"), std::string());
+            demangled = std::regex_replace(demangled, std::regex("(static\\s+|\\s+static)"), std::string());
+            demangled = std::regex_replace(demangled, std::regex("(class\\s+|\\s+class)"), std::string());
+            demangled = std::regex_replace(demangled, std::regex("(struct\\s+|\\s+struct)"), std::string());
             return demangled;
 #endif /* defined(__GNUC__) */
         }
@@ -100,12 +100,5 @@ namespace std
             return hash< type_index >()(type_index(value.intrinsicTypeInfo()));
         }
     };
-
-    inline ostream& operator<<(ostream& stream, const Hypodermic::TypeInfo& info)
-    {
-        return stream
-            << "FullyQualifiedName: '" << info.fullyQualifiedName() << "'"
-            ;
-    }
 
 } // namespace std

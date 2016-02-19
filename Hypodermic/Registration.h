@@ -2,10 +2,10 @@
 
 #include <functional>
 #include <memory>
+#include <mutex>
 #include <unordered_map>
 
 #include <boost/signals2.hpp>
-#include <boost/thread.hpp>
 
 #include "Hypodermic/CircularDependencyException.h"
 #include "Hypodermic/DependencyActivationException.h"
@@ -72,7 +72,7 @@ namespace Hypodermic
             auto&& typeInfo = typeAliasKey.typeAlias().typeInfo();
 
             {
-                boost::lock_guard< decltype(m_mutex) > lock(m_mutex);
+                std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
                 if (m_activating)
                 {
@@ -151,7 +151,7 @@ namespace Hypodermic
         std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > > m_dependencyFactories;
         boost::signals2::signal< void(Container&, const std::shared_ptr< void >&) > m_activated;
         bool m_activating;
-        boost::recursive_mutex m_mutex;
+        std::recursive_mutex m_mutex;
     };
 
 } // namespace Hypodermic
