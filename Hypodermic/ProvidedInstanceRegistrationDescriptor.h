@@ -41,7 +41,7 @@ namespace Hypodermic
                                                const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases,
                                                const std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > >& dependencyFactories,
                                                const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
-            : BaseType(instanceType, typeAliases, dependencyFactories, activationHandler)
+            : BaseType(instanceType, typeAliases, dependencyFactories, activationHandlers)
         {
         }
 
