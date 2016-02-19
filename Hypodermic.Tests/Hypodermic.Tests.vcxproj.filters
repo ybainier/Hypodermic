@@ -23,6 +23,9 @@
     <ClCompile Include="ProvidedInstanceRegistrationTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="ProvidedConstructorRegistrationTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">

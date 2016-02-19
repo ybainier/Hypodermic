@@ -189,6 +189,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MissingConstructorRegistrationTests.cpp" />
+    <ClCompile Include="ProvidedConstructorRegistrationTests.cpp" />
     <ClCompile Include="ProvidedInstanceFactoryRegistrationTests.cpp" />
     <ClCompile Include="ProvidedInstanceRegistrationTests.cpp" />
     <ClCompile Include="RegistrationTests.cpp" />
