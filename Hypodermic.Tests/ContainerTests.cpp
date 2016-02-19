@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_CASE(should_resolve_a_type_using_its_last_registration)
     BOOST_CHECK(std::dynamic_pointer_cast<Testing::DefaultConstructible2>(instance) == instance);
 }
 
-BOOST_AUTO_TEST_CASE(should_resolve_all_registration_of_a_type)
+BOOST_AUTO_TEST_CASE(should_resolve_all_registrations_of_a_type)
 {
     // Arrange
     ContainerBuilder builder;
@@ -161,16 +161,80 @@ BOOST_AUTO_TEST_CASE(should_resolve_container_as_a_dependency)
     ContainerBuilder builder;
 
     // Act
-    builder.registerType< Testing::ContainerDependant >();
+    builder.registerType< Testing::ContainerDependent >();
 
     auto container = builder.build();
 
     // Assert
-    std::shared_ptr< Testing::ContainerDependant > instance;
+    std::shared_ptr< Testing::ContainerDependent > instance;
     
-    BOOST_REQUIRE_NO_THROW(instance = container->resolve< Testing::ContainerDependant >());
+    BOOST_REQUIRE_NO_THROW(instance = container->resolve< Testing::ContainerDependent >());
 
     BOOST_CHECK(instance->container == container);
+}
+
+BOOST_AUTO_TEST_CASE(should_call_activation_handlers_everytime_an_instance_is_activated)
+{
+    // Arrange
+    ContainerBuilder builder;
+    std::shared_ptr< Testing::DefaultConstructible1 > activatedInstance;
+    int activationCount = 0;
+
+    // Act
+    builder.registerType< Testing::DefaultConstructible1 >()
+        .onActivated([&](Container&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
+        {
+            activatedInstance = instance;
+        })
+        .onActivated([&](Container&, const std::shared_ptr< Testing::DefaultConstructible1 >&)
+        {
+            activationCount++;
+        });
+
+    auto container = builder.build();
+
+    // Assert
+    auto resolvedInstance = container->resolve< Testing::DefaultConstructible1 >();
+    BOOST_CHECK(resolvedInstance != nullptr);
+    BOOST_CHECK(activatedInstance == resolvedInstance);
+    BOOST_CHECK_EQUAL(activationCount, 1);
+
+    auto resolvedInstance2 = container->resolve< Testing::DefaultConstructible1 >();
+    BOOST_CHECK(resolvedInstance2 != nullptr);
+    BOOST_CHECK(resolvedInstance2 != resolvedInstance);
+    BOOST_CHECK(activatedInstance == resolvedInstance2);
+    BOOST_CHECK_EQUAL(activationCount, 2);
+}
+
+BOOST_AUTO_TEST_CASE(should_call_activation_handler_only_once_when_a_single_instance_is_activated)
+{
+    // Arrange
+    ContainerBuilder builder;
+    std::shared_ptr< Testing::DefaultConstructible1 > activatedInstance;
+    int activationCount = 0;
+
+    // Act
+    builder.registerType< Testing::DefaultConstructible1 >()
+        .singleInstance()
+        .onActivated([&](Container&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
+        {
+            activatedInstance = instance;
+            activationCount++;
+        });
+
+    auto container = builder.build();
+
+    // Assert
+    auto resolvedInstance = container->resolve< Testing::DefaultConstructible1 >();
+    BOOST_CHECK(resolvedInstance != nullptr);
+    BOOST_CHECK(activatedInstance == resolvedInstance);
+    BOOST_CHECK_EQUAL(activationCount, 1);
+
+    auto resolvedInstance2 = container->resolve< Testing::DefaultConstructible1 >();
+    BOOST_CHECK(resolvedInstance2 != nullptr);
+    BOOST_CHECK(resolvedInstance2 == resolvedInstance);
+    BOOST_CHECK(activatedInstance == resolvedInstance2);
+    BOOST_CHECK_EQUAL(activationCount, 1);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
