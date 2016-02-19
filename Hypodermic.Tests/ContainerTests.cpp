@@ -237,4 +237,20 @@ BOOST_AUTO_TEST_CASE(should_call_activation_handler_only_once_when_a_single_inst
     BOOST_CHECK_EQUAL(activationCount, 1);
 }
 
+BOOST_AUTO_TEST_CASE(should_throw_when_detecting_a_circular_dependency)
+{
+    // Arrange
+    ContainerBuilder builder;
+
+    // Act
+    builder.registerType< Testing::Type1 >().as< Testing::BaseType1 >();
+    builder.registerType< Testing::Type2 >().as< Testing::BaseType2 >();
+
+    auto container = builder.build();
+
+    // Assert
+    BOOST_CHECK_THROW(container->resolve< Testing::BaseType1 >(), std::exception);
+    BOOST_CHECK_THROW(container->resolve< Testing::BaseType2 >(), std::exception);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

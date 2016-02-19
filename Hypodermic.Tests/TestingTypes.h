@@ -112,4 +112,55 @@ namespace Testing
         std::shared_ptr< ProvidedDependencyBase > dependency;
     };
 
+
+    class NestedDependency
+    {
+    };
+
+    class TopLevelConstructor
+    {
+    public:
+        typedef AutowiredConstructor< TopLevelConstructor(NestedDependency*) > AutowiredSignature;
+
+        explicit TopLevelConstructor(const std::shared_ptr< NestedDependency >& dependency)
+            : dependency(dependency)
+        {
+        }
+
+        std::shared_ptr< NestedDependency > dependency;
+    };
+
+
+    class BaseType1
+    {
+    public:
+        virtual ~BaseType1() {}
+    };
+
+    class BaseType2
+    {
+    public:
+        virtual ~BaseType2() {}
+    };
+
+    class Type1 : public BaseType1
+    {
+    public:
+        typedef AutowiredConstructor< Type1(BaseType2*) > AutowiredSignature;
+
+        explicit Type1(const std::shared_ptr< BaseType2 >&)
+        {
+        }
+    };
+
+    class Type2 : public BaseType2
+    {
+    public:
+        typedef AutowiredConstructor< Type2(BaseType1*) > AutowiredSignature;
+
+        explicit Type2(const std::shared_ptr< BaseType1 >&)
+        {
+        }
+    };
+
 } // namespace Testing
