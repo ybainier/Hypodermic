@@ -14,6 +14,7 @@ namespace Hypodermic
             Info,
             Warn,
             Error,
+            Off,
         };
 
     } // namespace LogLevels
@@ -31,6 +32,8 @@ namespace Hypodermic
             return "Warn";
         case LogLevels::Error:
             return "Error";
+        case LogLevels::Off:
+            return "Off";
         default:
             return "Unknown LogLevel (" + std::to_string((int)logLevel) + ")";
         }
