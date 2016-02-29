@@ -49,7 +49,6 @@ namespace Hypodermic
         template <class TCallable>
         typename RegistrationDescriptorBuilder::ForProvidedInstanceFactory< TCallable >::Type& registerInstanceFactory(const TCallable& instanceFactory)
         {
-            typedef typename RegistrationDescriptorBuilder::ForProvidedInstanceFactory< TCallable >::InstanceType InstanceType;
             typedef typename RegistrationDescriptorBuilder::ForProvidedInstanceFactory< TCallable >::Type RegistrationDescriptorType;
 
             return finalizeRegistration(std::make_shared< RegistrationDescriptorType >(instanceFactory));
