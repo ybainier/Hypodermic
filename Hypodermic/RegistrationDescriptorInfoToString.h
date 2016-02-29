@@ -78,10 +78,10 @@ namespace Hypodermic
             {
             }
 
-            template <class T>
-            void operator()(const T&)
+            template <class TIdentity>
+            void operator()(const TIdentity&)
             {
-                m_stream << ".As< " << Utils::getMetaTypeInfo< T >().fullyQualifiedName() << " >";
+                m_stream << ".As< " << Utils::getMetaTypeInfo< typename TIdentity::type >().fullyQualifiedName() << " >";
             }
 
         private:

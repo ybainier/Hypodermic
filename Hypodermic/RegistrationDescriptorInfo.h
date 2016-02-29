@@ -4,10 +4,10 @@
 #include <type_traits>
 
 #include <boost/mpl/has_key.hpp>
+#include <boost/mpl/identity.hpp>
 #include <boost/mpl/insert.hpp>
 #include <boost/mpl/map.hpp>
 #include <boost/mpl/pair.hpp>
-#include <boost/mpl/set.hpp>
 
 #include "Hypodermic/DependencyFactoryTag.h"
 #include "Hypodermic/InstanceLifetime.h"
@@ -26,7 +26,7 @@ namespace Hypodermic
         class T,
         InstanceLifetimes::InstanceLifetime Lifetime = InstanceLifetimes::Transient,
         class TInstanceRegistrationTag = Tags::NotSelfRegistered,
-        class TRegisteredBases = boost::mpl::set<>,
+        class TRegisteredBases = boost::mpl::map<>,
         class TDependencies = boost::mpl::map<>
     >
     struct RegistrationDescriptorInfo
@@ -72,7 +72,7 @@ namespace Hypodermic
                 InstanceType,
                 InstanceLifetime::value,
                 InstanceRegistrationTag,
-                typename boost::mpl::insert< RegisteredBases, TBase >::type,
+                typename boost::mpl::insert< RegisteredBases, boost::mpl::pair< TBase, boost::mpl::identity< TBase > > >::type,
                 Dependencies
             >
             Type;

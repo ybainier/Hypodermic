@@ -16,14 +16,20 @@ namespace Testing
     {
     public:
         virtual ~DefaultConstructibleBase() {}
+
+        virtual void doSomething() = 0;
     };
 
     class DefaultConstructible1 : public DefaultConstructibleBase
     {
+    public:
+        void doSomething() override {}
     };
 
     class DefaultConstructible2 : public DefaultConstructibleBase
     {
+    public:
+        void doSomething() override {}
     };
 
 
