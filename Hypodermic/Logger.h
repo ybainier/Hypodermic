@@ -3,8 +3,8 @@
 #include <memory>
 #include <string>
 
-#include <Hypodermic/LogLevel.h>
-#include <Hypodermic/NoopLoggerSink.h>
+#include "Hypodermic/LogLevel.h"
+#include "Hypodermic/NoopLoggerSink.h"
 
 
 namespace Hypodermic
@@ -18,7 +18,7 @@ namespace Hypodermic
     public:
         static Logger& instance()
         {
-            static std::unique_ptr< Logger > instance(std::make_unique< Logger >(LoggerPrivateLock()));
+            static std::shared_ptr< Logger > instance(std::make_shared< Logger >(LoggerPrivateLock()));
             return *instance;
         }
 

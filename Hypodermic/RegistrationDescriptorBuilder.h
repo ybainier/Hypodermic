@@ -57,7 +57,7 @@ namespace Hypodermic
             template <class TFunctor>
             struct GetResultType
             {
-                typedef decltype(std::declval< TFunctor >()(std::declval< Container >())) Type;
+                typedef decltype(std::declval< TFunctor >()(std::declval< Container& >())) Type;
             };
 
             template <class TFunctor>

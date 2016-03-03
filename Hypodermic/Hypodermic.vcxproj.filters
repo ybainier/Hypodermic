@@ -44,7 +44,6 @@
     <ClInclude Include="RegistrationException.h">
       <Filter>Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="InstanceLifetime.h" />
     <ClInclude Include="ProvidedInstanceRegistrationDescriptor.h">
       <Filter>RegistrationDescriptors</Filter>
     </ClInclude>
@@ -68,9 +67,6 @@
     </ClInclude>
     <ClInclude Include="CircularDependencyException.h">
       <Filter>Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="ScopeFunction.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="TypeInfo.h">
       <Filter>Utils</Filter>
@@ -179,6 +175,12 @@
     </ClInclude>
     <ClInclude Include="ArgumentResolver.h">
       <Filter>Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceLifetime.h">
+      <Filter>RegistrationDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="InvokeAtScopeExit.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

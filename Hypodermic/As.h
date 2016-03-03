@@ -29,7 +29,7 @@ namespace RegistrationDescriptorOperations
             static void act() {}
         };
 
-        template <class TBase, class TDescriptorInfo>
+        template <class TBase>
         struct EnforceBaseNotAlreadyRegistered
         {
             static_assert(!TDescriptorInfo::template IsBaseRegistered< TBase >::value, "TBase is already registered for instance T");
@@ -46,7 +46,7 @@ namespace RegistrationDescriptorOperations
         ::Type& as()
         {
             EnforceBaseOf< TBase, InstanceType >::act();
-            EnforceBaseNotAlreadyRegistered< TBase, TDescriptorInfo >::act();
+            EnforceBaseNotAlreadyRegistered< TBase >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
             descriptor->addTypeIfMissing(createKeyForType< TBase >(), [](const std::shared_ptr< void >& x)
@@ -56,7 +56,7 @@ namespace RegistrationDescriptorOperations
                 return instanceStaticType;
             });
 
-            auto updatedDescriptor = descriptor->createUpdate< typename TDescriptorInfo::template RegisterBase< TBase >::Type >();
+            auto updatedDescriptor = descriptor->template createUpdate< typename TDescriptorInfo::template RegisterBase< TBase >::Type >();
             descriptor->registrationDescriptorUpdated()(updatedDescriptor);
 
             return *updatedDescriptor;

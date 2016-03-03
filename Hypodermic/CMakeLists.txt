@@ -2,17 +2,59 @@ project(Hypodermic)
 cmake_minimum_required(VERSION 2.6)
 
 
-find_package(Boost)
-if(Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-else(Boost_FOUND)
-    message(FATAL_ERROR "Boost not found")
-endif()
-
-
-include_directories("..")
-
 set(Hypodermic_headers
+
+    AnyArgument.h
+    ArgumentPack.h
+    ArgumentResolver.h
+    As.h
+    AsSelf.h
+    AutowireableConstructor.h
+    AutowireableConstructorRegistrationDescriptor.h
+    CircularDependencyException.h
+    ConsoleLoggerSink.h
+    ConstructorDescriptor.h
+    ConstructorTypologyDeducer.h
+    Container.h
+    ContainerBuilder.h
+    DependencyActivationException.h
+    DependencyFactoryTag.h
+    ExceptionBase.h
+    ILoggerSink.h
+    InstanceAlreadyActivatingException.h
+    InstanceLifetime.h
+    InstanceRegistrationTags.h
+    IntegerSequence.h
+    InvokeAtScopeExit.h
+    IRegistration.h
+    IRegistrationDescriptor.h
+    IRegistrationScope.h
+    ITypeAlias.h
+    Log.h
+    Logger.h
+    LogLevel.h
+    NestedRegistrationScope.h
+    NoopLoggerSink.h
+    OnActivated.h
+    PersistentInstanceRegistration.h
+    ProvidedDependencyTag.h
+    ProvidedInstanceDependencyTag.h
+    ProvidedInstanceFactoryRegistrationDescriptor.h
+    ProvidedInstanceRegistration.h
+    ProvidedInstanceRegistrationDescriptor.h
+    Registration.h
+    RegistrationBuilder.h
+    RegistrationDescriptorBase.h
+    RegistrationDescriptorBuilder.h
+    RegistrationDescriptorInfo.h
+    RegistrationDescriptorInfoToString.h
+    RegistrationException.h
+    RegistrationScope.h
+    SingleInstance.h
+    TypeAlias.h
+    TypeAliasKey.h
+    TypeInfo.h
+    With.h
 )
 
 

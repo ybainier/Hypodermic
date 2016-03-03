@@ -36,7 +36,7 @@ namespace RegistrationDescriptorOperations
             auto descriptor = static_cast< TDescriptor* >(this);
             descriptor->addTypeIfMissing(createKeyForType< typename TDescriptorInfo::InstanceType >());
 
-            auto updatedDescriptor = descriptor->createUpdate< typename TDescriptorInfo::SelfRegistered::Type >();
+            auto updatedDescriptor = descriptor->template createUpdate< typename TDescriptorInfo::SelfRegistered::Type >();
             descriptor->registrationDescriptorUpdated()(updatedDescriptor);
 
             return *updatedDescriptor;

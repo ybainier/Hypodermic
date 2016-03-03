@@ -3,12 +3,12 @@
 #include <functional>
 #include <memory>
 
-#include "Hypodermic/Container.h"
-#include "Hypodermic/InstanceLifetime.h"
-
 
 namespace Hypodermic
 {
+
+    class Container;
+
 namespace RegistrationDescriptorOperations
 {
 

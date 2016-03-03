@@ -10,9 +10,9 @@
 #include "Hypodermic/CircularDependencyException.h"
 #include "Hypodermic/DependencyActivationException.h"
 #include "Hypodermic/InstanceAlreadyActivatingException.h"
+#include "Hypodermic/InvokeAtScopeExit.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/Log.h"
-#include "Hypodermic/ScopeFunction.h"
 #include "Hypodermic/TypeAliasKey.h"
 #include "Hypodermic/TypeInfo.h"
 
@@ -64,10 +64,7 @@ namespace Hypodermic
         {
             HYPODERMIC_LOG_INFO("Activating type " << instanceType().fullyQualifiedName());
 
-            auto&& atScopeExit = Utils::atScopeExit([this]()
-            {
-                this->m_activating = false;
-            });
+            Utils::InvokeAtScopeExit atScopeExit([this]() { this->m_activating = false; });
 
             auto&& typeInfo = typeAliasKey.typeAlias().typeInfo();
 

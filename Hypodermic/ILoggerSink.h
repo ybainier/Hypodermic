@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <Hypodermic/LogLevel.h>
+#include "Hypodermic/LogLevel.h"
 
 
 namespace Hypodermic

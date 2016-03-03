@@ -1,7 +1,8 @@
 #pragma once
 
 #include <iostream>
-#include <Hypodermic/ILoggerSink.h>
+
+#include "Hypodermic/ILoggerSink.h"
 
 
 namespace Hypodermic

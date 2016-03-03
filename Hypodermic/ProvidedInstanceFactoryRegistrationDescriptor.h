@@ -47,7 +47,7 @@ namespace Hypodermic
                                                       const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases,
                                                       const std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > >& dependencyFactories,
                                                       const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
-            : BaseType(instanceType, typeAliases, dependencyFactories, activationHandler)
+            : BaseType(instanceType, typeAliases, dependencyFactories, activationHandlers)
         {
         }
 
@@ -57,10 +57,10 @@ namespace Hypodermic
         {
             auto updatedDescriptor = std::make_shared< typename UpdateDescriptor< TNewDescriptorInfo >::Type >
             (
-                instanceType(),
-                typeAliases(),
-                dependencyFactories(),
-                activationHandlers()
+                this->instanceType(),
+                this->typeAliases(),
+                this->dependencyFactories(),
+                this->activationHandlers()
             );
             updatedDescriptor->m_instanceFactory = m_instanceFactory;
 
@@ -73,11 +73,11 @@ namespace Hypodermic
 
             return RegistrationBuilder< TDescriptorInfo >::build
             (
-                instanceType(),
-                typeAliases(),
+                this->instanceType(),
+                this->typeAliases(),
                 instanceFactory(),
-                dependencyFactories(),
-                activationHandlers()
+                this->dependencyFactories(),
+                this->activationHandlers()
             );
         }
 

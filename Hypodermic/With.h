@@ -26,7 +26,7 @@ namespace RegistrationDescriptorOperations
             static void act() {}
         };
 
-        template <class TDependency, class TDescriptorInfo>
+        template <class TDependency>
         struct EnforceDependencyNotAlreadyRegistered
         {
             template <class T>
@@ -48,10 +48,10 @@ namespace RegistrationDescriptorOperations
         >
         ::Type& with(const std::function< std::shared_ptr< TDependency >(Container&) >& factory)
         {
-            EnforceDependencyNotAlreadyRegistered< TDependency, TDescriptorInfo >::act();
+            EnforceDependencyNotAlreadyRegistered< TDependency >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
-            descriptor->addDependencyFactory< TDependency >
+            descriptor->template addDependencyFactory< TDependency >
             (
                 [factory](Container& c)
                 {
@@ -59,7 +59,7 @@ namespace RegistrationDescriptorOperations
                 }
             );
 
-            auto updatedDescriptor = descriptor->createUpdate< typename TDescriptorInfo::template RegisterDependencyFactory< TDependency >::Type >();
+            auto updatedDescriptor = descriptor->template createUpdate< typename TDescriptorInfo::template RegisterDependencyFactory< TDependency >::Type >();
             descriptor->registrationDescriptorUpdated()(updatedDescriptor);
 
             return *updatedDescriptor;
@@ -74,10 +74,10 @@ namespace RegistrationDescriptorOperations
         {
             EnforceBaseOf< TDependency, TProvidedDependency >::act();
 
-            EnforceDependencyNotAlreadyRegistered< TDependency, TDescriptorInfo >::act();
+            EnforceDependencyNotAlreadyRegistered< TDependency >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
-            descriptor->addDependencyFactory< TDependency >
+            descriptor->template addDependencyFactory< TDependency >
             (
                 [providedInstance](Container&)
                 {
@@ -85,7 +85,7 @@ namespace RegistrationDescriptorOperations
                 }
             );
 
-            auto updatedDescriptor = descriptor->createUpdate< typename TDescriptorInfo::template RegisterDependencyInstance< TDependency, TProvidedDependency >::Type >();
+            auto updatedDescriptor = descriptor->template createUpdate< typename TDescriptorInfo::template RegisterDependencyInstance< TDependency, TProvidedDependency >::Type >();
             descriptor->registrationDescriptorUpdated()(updatedDescriptor);
 
             return *updatedDescriptor;
@@ -99,10 +99,10 @@ namespace RegistrationDescriptorOperations
         ::Type& with()
         {
             EnforceBaseOf< TDependency, TProvidedDependency >::act();
-            EnforceDependencyNotAlreadyRegistered< TDependency, TDescriptorInfo >::act();
+            EnforceDependencyNotAlreadyRegistered< TDependency >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
-            descriptor->addDependencyFactory< TDependency >
+            descriptor->template addDependencyFactory< TDependency >
             (
                 [](Container& c)
                 {
@@ -110,7 +110,7 @@ namespace RegistrationDescriptorOperations
                 }
             );
 
-            auto updatedDescriptor = descriptor->createUpdate< typename TDescriptorInfo::template RegisterDependency< TDependency, TProvidedDependency >::Type >();
+            auto updatedDescriptor = descriptor->template createUpdate< typename TDescriptorInfo::template RegisterDependency< TDependency, TProvidedDependency >::Type >();
             descriptor->registrationDescriptorUpdated()(updatedDescriptor);
 
             return *updatedDescriptor;

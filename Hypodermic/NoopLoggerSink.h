@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Hypodermic/ILoggerSink.h>
+#include "Hypodermic/ILoggerSink.h"
 
 
 namespace Hypodermic

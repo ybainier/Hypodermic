@@ -197,7 +197,7 @@
     <ClInclude Include="RegistrationDescriptorInfoToString.h" />
     <ClInclude Include="RegistrationException.h" />
     <ClInclude Include="RegistrationScope.h" />
-    <ClInclude Include="ScopeFunction.h" />
+    <ClInclude Include="InvokeAtScopeExit.h" />
     <ClInclude Include="SingleInstance.h" />
     <ClInclude Include="InstanceRegistrationTags.h" />
     <ClInclude Include="TypeAlias.h" />

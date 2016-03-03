@@ -2,8 +2,8 @@
 
 #include <sstream>
 
-#include <Hypodermic/Logger.h>
-#include <Hypodermic/LogLevel.h>
+#include "Hypodermic/Logger.h"
+#include "Hypodermic/LogLevel.h"
 
 
 #define HYPODERMIC_LOG(logLevel, message) \

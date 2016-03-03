@@ -51,10 +51,10 @@ namespace Hypodermic
         {
             auto updatedDescriptor = std::make_shared< typename UpdateDescriptor< TNewDescriptorInfo >::Type >
             (
-                instanceType(),
-                typeAliases(),
-                dependencyFactories(),
-                activationHandlers()
+                this->instanceType(),
+                this->typeAliases(),
+                this->dependencyFactories(),
+                this->activationHandlers()
             );
             updatedDescriptor->m_instance = m_instance;
 
@@ -65,7 +65,7 @@ namespace Hypodermic
         {
             HYPODERMIC_LOG_INFO("Describing " << TDescriptorInfo::toString());
 
-            return RegistrationBuilder< TDescriptorInfo >::buildForProvidedInstance(m_instance, typeAliases());
+            return RegistrationBuilder< TDescriptorInfo >::buildForProvidedInstance(m_instance, this->typeAliases());
         }
 
     private:
