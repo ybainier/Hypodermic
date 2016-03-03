@@ -13,10 +13,10 @@ enable_testing()
 # enable gcc specific stuff
 if(CMAKE_COMPILER_IS_GNUCXX)
     if (NOT CXX0x_ENABLED)
-        message(STATUS "Checking for g++ version >= 4.5")
+        message(STATUS "Checking for g++ version >= 4.8")
         execute_process(COMMAND ${CMAKE_CXX_COMPILER} -dumpversion OUTPUT_VARIABLE GCC_VERSION)
         
-        if (GCC_VERSION VERSION_LESS 4.5)
+        if (GCC_VERSION VERSION_LESS 4.8)
             message(FATAL_ERROR "g++ version is ${GCC_VERSION}")
         endif()
 
