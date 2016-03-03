@@ -5,13 +5,17 @@ language: cpp
 compiler:
     - gcc
 
-before_install:
-    # g++ 4.8
-    - if [ "$CXX" == "g++" ]; then sudo add-apt-repository --yes ppa:ubuntu-toolchain-r/test; fi
-
+addons:
+    apt:
+        sources:
+            - ubuntu-toolchain-r-test
+        packages:
+            - g++-4.8
+            - libboost-system-dev
+            - libboost-test-dev
+    
 install:
     # g++4.8
-    - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
     
 before_script:  
