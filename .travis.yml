@@ -9,11 +9,14 @@ addons:
     apt:
         sources:
             - ubuntu-toolchain-r-test
-            - boost-latest
         packages:
             - g++-4.8
-            - boost1.55
-    
+
+
+before_install:
+    - sudo add-apt-repository -y ppa:boost-latest/ppa   
+    - sudo apt-get install -y -qq boost1.55
+  
 install:
     # g++4.8
     - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
@@ -23,4 +26,5 @@ before_script:
     - cd build
     - cmake ..
 
-script: make
+script:
+    - make -j 3
