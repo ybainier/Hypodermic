@@ -181,16 +181,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ContainerTests.cpp" />
-    <ClCompile Include="DefaultConstructibleRegistrationTests.cpp" />
+    <ClCompile Include="DefaultConstructibleTests.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="MissingConstructorRegistrationTests.cpp" />
     <ClCompile Include="NestedContainerTests.cpp" />
-    <ClCompile Include="ProvidedConstructorRegistrationTests.cpp" />
+    <ClCompile Include="ProvidedDependenciesTests.cpp" />
     <ClCompile Include="ProvidedInstanceFactoryRegistrationTests.cpp" />
     <ClCompile Include="ProvidedInstanceRegistrationTests.cpp" />
     <ClCompile Include="RegistrationTests.cpp" />

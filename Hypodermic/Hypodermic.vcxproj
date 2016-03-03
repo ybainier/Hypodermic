@@ -154,22 +154,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ArgResolver.h" />
+    <ClInclude Include="AnyArgument.h" />
+    <ClInclude Include="ArgumentResolver.h" />
+    <ClInclude Include="ArgumentPack.h" />
     <ClInclude Include="As.h" />
     <ClInclude Include="AsSelf.h" />
-    <ClInclude Include="AutowiredConstructor.h" />
+    <ClInclude Include="AutowireableConstructor.h" />
+    <ClInclude Include="AutowireableConstructorRegistrationDescriptor.h" />
     <ClInclude Include="CircularDependencyException.h" />
     <ClInclude Include="ConsoleLoggerSink.h" />
     <ClInclude Include="ConstructorDescriptor.h" />
+    <ClInclude Include="ConstructorTypologyDeducer.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="ContainerBuilder.h" />
-    <ClInclude Include="DefaultConstructibleRegistrationDescriptor.h" />
     <ClInclude Include="DependencyActivationException.h" />
     <ClInclude Include="DependencyFactoryTag.h" />
     <ClInclude Include="ExceptionBase.h" />
     <ClInclude Include="ILoggerSink.h" />
     <ClInclude Include="InstanceAlreadyActivatingException.h" />
     <ClInclude Include="InstanceLifetime.h" />
+    <ClInclude Include="IntegerSequence.h" />
     <ClInclude Include="IRegistration.h" />
     <ClInclude Include="IRegistrationDescriptor.h" />
     <ClInclude Include="IRegistrationScope.h" />
@@ -177,12 +181,10 @@
     <ClInclude Include="Log.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LogLevel.h" />
-    <ClInclude Include="MissingConstructorRegistrationDescriptor.h" />
     <ClInclude Include="NestedRegistrationScope.h" />
     <ClInclude Include="NoopLoggerSink.h" />
     <ClInclude Include="OnActivated.h" />
     <ClInclude Include="PersistentInstanceRegistration.h" />
-    <ClInclude Include="ProvidedConstructorRegistrationDescriptor.h" />
     <ClInclude Include="ProvidedDependencyTag.h" />
     <ClInclude Include="ProvidedInstanceDependencyTag.h" />
     <ClInclude Include="ProvidedInstanceRegistration.h" />

@@ -5,28 +5,25 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Precompiled Headers</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultConstructibleRegistrationTests.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="RegistrationTests.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
     <ClCompile Include="ContainerTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultConstructibleTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="NestedContainerTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
     <ClCompile Include="ProvidedInstanceFactoryRegistrationTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="MissingConstructorRegistrationTests.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
     <ClCompile Include="ProvidedInstanceRegistrationTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="ProvidedConstructorRegistrationTests.cpp">
+    <ClCompile Include="RegistrationTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="NestedContainerTests.cpp">
+    <ClCompile Include="ProvidedDependenciesTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
   </ItemGroup>

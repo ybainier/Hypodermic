@@ -12,7 +12,15 @@ endif()
 set(HypodermicTests_sources
 
     main.cpp
-    ContainerBuilderTests.cpp
+    
+    ContainerTests.cpp
+    DefaultConstructibleTests.cpp
+    NestedContainerTests.cpp
+    ProvidedDependenciesTests.cpp
+    ProvidedInstanceFactoryRegistrationTests.cpp
+    ProvidedInstanceRegistrationTests.cpp
+    RegistrationTests.cpp
+    TestingTypes.cpp
 )
 
 include_directories("..")

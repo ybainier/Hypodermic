@@ -8,7 +8,7 @@
 using namespace Hypodermic;
 
 
-BOOST_AUTO_TEST_SUITE(DefaultConstructibleRegistrationTests)
+BOOST_AUTO_TEST_SUITE(DefaultConstructibleTests)
 
 BOOST_AUTO_TEST_CASE(should_register_default_constructible_type)
 {

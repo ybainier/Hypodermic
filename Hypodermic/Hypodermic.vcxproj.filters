@@ -37,15 +37,6 @@
     <ClInclude Include="RegistrationDescriptorBase.h">
       <Filter>RegistrationDescriptors</Filter>
     </ClInclude>
-    <ClInclude Include="ProvidedConstructorRegistrationDescriptor.h">
-      <Filter>RegistrationDescriptors</Filter>
-    </ClInclude>
-    <ClInclude Include="DefaultConstructibleRegistrationDescriptor.h">
-      <Filter>RegistrationDescriptors</Filter>
-    </ClInclude>
-    <ClInclude Include="MissingConstructorRegistrationDescriptor.h">
-      <Filter>RegistrationDescriptors</Filter>
-    </ClInclude>
     <ClInclude Include="ContainerBuilder.h" />
     <ClInclude Include="ExceptionBase.h">
       <Filter>Exceptions</Filter>
@@ -96,10 +87,6 @@
     <ClInclude Include="ConstructorDescriptor.h">
       <Filter>Traits</Filter>
     </ClInclude>
-    <ClInclude Include="ArgResolver.h">
-      <Filter>Traits</Filter>
-    </ClInclude>
-    <ClInclude Include="AutowiredConstructor.h" />
     <ClInclude Include="ProvidedInstanceRegistration.h">
       <Filter>Registrations</Filter>
     </ClInclude>
@@ -171,6 +158,27 @@
     </ClInclude>
     <ClInclude Include="ProvidedInstanceFactoryRegistrationDescriptor.h">
       <Filter>RegistrationDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstructorTypologyDeducer.h">
+      <Filter>Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="IntegerSequence.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ArgumentPack.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AutowireableConstructor.h">
+      <Filter>Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="AnyArgument.h">
+      <Filter>Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="AutowireableConstructorRegistrationDescriptor.h">
+      <Filter>RegistrationDescriptors</Filter>
+    </ClInclude>
+    <ClInclude Include="ArgumentResolver.h">
+      <Filter>Traits</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

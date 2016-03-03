@@ -19,11 +19,11 @@ namespace Traits
 {
 
     template <class TArg>
-    struct ArgResolver;
+    struct ArgumentResolver;
 
 
     template <class TArg>
-    struct ArgResolver< TArg* >
+    struct ArgumentResolver< std::shared_ptr< TArg > >
     {
         typedef std::shared_ptr< TArg > Type;
 
@@ -36,20 +36,11 @@ namespace Traits
 
             return factory(container);
         }
-
-        static std::string toString()
-        {
-            std::stringstream stream;
-
-            stream << Utils::getMetaTypeInfo< TArg >().fullyQualifiedName() << "*";
-
-            return stream.str();
-        }
     };
 
 
     template <class TArg>
-    struct ArgResolver< std::vector< TArg* > >
+    struct ArgumentResolver< std::vector< std::shared_ptr< TArg > > >
     {
         typedef std::vector< std::shared_ptr< TArg > > Type;
 
@@ -58,20 +49,11 @@ namespace Traits
         {
             return container.resolveAll< TArg >();
         }
-
-        static std::string toString()
-        {
-            std::stringstream stream;
-
-            stream << "Vector< " << Utils::getMetaTypeInfo< TArg >().fullyQualifiedName() << "* >";
-
-            return stream.str();
-        }
     };
 
 
     template <class TArg>
-    struct ArgResolver< std::function< TArg*() > >
+    struct ArgumentResolver< std::function< std::shared_ptr< TArg >() > >
     {
         typedef std::function< std::shared_ptr< TArg >() > Type;
 
@@ -80,17 +62,8 @@ namespace Traits
         {
             return [&container]()
             {
-                return ArgResolver< TArg* >::resolveFor< T >(container);
+                return ArgumentResolver< std::shared_ptr< TArg > >::resolveFor< T >(container);
             };
-        }
-
-        static std::string toString()
-        {
-            std::stringstream stream;
-
-            stream << "Function< " << Utils::getMetaTypeInfo< TArg >().fullyQualifiedName() << "*() >";
-
-            return stream.str();
         }
     };
 

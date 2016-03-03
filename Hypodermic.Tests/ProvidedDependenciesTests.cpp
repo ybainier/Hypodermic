@@ -8,7 +8,7 @@
 using namespace Hypodermic;
 
 
-BOOST_AUTO_TEST_SUITE(ProvidedConstructorRegistrationTests)
+BOOST_AUTO_TEST_SUITE(ProvidedDependenciesTests)
 
 BOOST_AUTO_TEST_CASE(should_register_type_with_autowired_provided_constructor)
 {
@@ -27,26 +27,7 @@ BOOST_AUTO_TEST_CASE(should_register_type_with_autowired_provided_constructor)
     BOOST_REQUIRE(instance->dependency != nullptr);
 }
 
-BOOST_AUTO_TEST_CASE(should_register_type_with_provided_constructor_just_as_if_they_were_autowired)
-{
-    // Arrange
-    ContainerBuilder builder;
-
-    // Act
-    builder.registerType< Testing::ProvidedDependency >().as< Testing::ProvidedDependencyBase >();
-    
-    builder.registerType< Testing::NonAutowiredProvidedConstructor >()
-           .usingConstructor< Testing::NonAutowiredProvidedConstructor(Testing::ProvidedDependencyBase*) >();
-
-    auto container = builder.build();
-
-    // Assert
-    auto instance = container->resolve< Testing::NonAutowiredProvidedConstructor >();
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_REQUIRE(instance->dependency != nullptr);
-}
-
-BOOST_AUTO_TEST_CASE(should_register_type_with_provided_constructor_and_dependency)
+BOOST_AUTO_TEST_CASE(should_register_type_with_provided_dependency)
 {
     // Arrange
     ContainerBuilder builder;
@@ -54,19 +35,18 @@ BOOST_AUTO_TEST_CASE(should_register_type_with_provided_constructor_and_dependen
     // Act
     builder.registerType< Testing::ProvidedDependency >();
     
-    builder.registerType< Testing::NonAutowiredProvidedConstructor >()
-           .usingConstructor< Testing::NonAutowiredProvidedConstructor(Testing::ProvidedDependencyBase*) >()
+    builder.registerType< Testing::AutowiredProvidedConstructor >()
            .with< Testing::ProvidedDependencyBase, Testing::ProvidedDependency >();
 
     auto container = builder.build();
 
     // Assert
-    auto instance = container->resolve< Testing::NonAutowiredProvidedConstructor >();
+    auto instance = container->resolve< Testing::AutowiredProvidedConstructor >();
     BOOST_REQUIRE(instance != nullptr);
     BOOST_REQUIRE(instance->dependency != nullptr);
 }
 
-BOOST_AUTO_TEST_CASE(should_register_type_with_provided_constructor_and_instance_dependency)
+BOOST_AUTO_TEST_CASE(should_register_type_with_provided_instance_dependency)
 {
     // Arrange
     ContainerBuilder builder;
@@ -74,19 +54,18 @@ BOOST_AUTO_TEST_CASE(should_register_type_with_provided_constructor_and_instance
     // Act
     auto dependency = std::make_shared< Testing::ProvidedDependency >();
     
-    builder.registerType< Testing::NonAutowiredProvidedConstructor >()
-           .usingConstructor< Testing::NonAutowiredProvidedConstructor(Testing::ProvidedDependencyBase*) >()
+    builder.registerType< Testing::AutowiredProvidedConstructor >()
            .with< Testing::ProvidedDependencyBase >(dependency);
 
     auto container = builder.build();
 
     // Assert
-    auto instance = container->resolve< Testing::NonAutowiredProvidedConstructor >();
+    auto instance = container->resolve< Testing::AutowiredProvidedConstructor >();
     BOOST_REQUIRE(instance != nullptr);
     BOOST_REQUIRE(instance->dependency != nullptr);
 }
 
-BOOST_AUTO_TEST_CASE(should_register_type_with_provided_constructor_and_instance_factory_dependency)
+BOOST_AUTO_TEST_CASE(should_register_type_with_provided_instance_factory_dependency)
 {
     // Arrange
     ContainerBuilder builder;
@@ -94,8 +73,7 @@ BOOST_AUTO_TEST_CASE(should_register_type_with_provided_constructor_and_instance
     // Act
     builder.registerType< Testing::ProvidedDependency >();
 
-    builder.registerType< Testing::NonAutowiredProvidedConstructor >()
-           .usingConstructor< Testing::NonAutowiredProvidedConstructor(Testing::ProvidedDependencyBase*) >()
+    builder.registerType< Testing::AutowiredProvidedConstructor >()
            .with< Testing::ProvidedDependencyBase >([](Container& c)
             {
                 return c.resolve< Testing::ProvidedDependency >();
@@ -104,7 +82,7 @@ BOOST_AUTO_TEST_CASE(should_register_type_with_provided_constructor_and_instance
     auto container = builder.build();
 
     // Assert
-    auto instance = container->resolve< Testing::NonAutowiredProvidedConstructor >();
+    auto instance = container->resolve< Testing::AutowiredProvidedConstructor >();
     BOOST_REQUIRE(instance != nullptr);
     BOOST_REQUIRE(instance->dependency != nullptr);
 }
