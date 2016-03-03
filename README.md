@@ -28,7 +28,6 @@ builder.registerType< MessageDispatcher >()
 builder.registerType< MessageSerializer >();
 
 builder.registerType< Transport >()
-       .usingConstructor< Transport(BusConfiguration*, IMessageSerializer*) >()
        .with< IMessageSerializer, MessageSerializer >()
        .as< ITransport >();
        
@@ -41,33 +40,18 @@ auto container = builder.build();
 
 # Express dependencies
 
-It might be magic to some of you; at last, it cannot scan types by itself and deduce how to build them if you don't provide some information. This is C++ we're using, there is no reflection — yet.
+Hypodermic automatically inject your constructor dependencies.
 ```cpp
 class Service
 {
 public:
-    typedef AutowiredConstructor< Service(INotificationSender*) > AutowiredSignature;
-
-    Service(std::shared_ptr< INotificationSender > notificationSender)
+    explicit Service(const std::shared_ptr< INotificationSender >& notificationSender)
         : m_notificationSender(notificationSender)
     { }
   
 private:
     std::shared_ptr< INotificationSender > m_notificationSender;
 };
-```
-With the above _AutowiredSignature typedef_:
-```cpp
-ContainerBuilder builder;
-
-builder.registerType< Service >();
-```
-Without:
-```cpp
-ContainerBuilder builder;
-
-builder.registerType< Service >()
-       .usingConstructor< Service(INotificationSender*) >();
 ```
 
 # Resolve types
