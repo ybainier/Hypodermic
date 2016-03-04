@@ -63,7 +63,6 @@ In your application, you may write code like this:
 ```cpp
 ContainerBuilder builder;
 
-builder.registerType< Service >();
 builder.registerType< SmsNotificationSender >().as< INotificationSender >();
 
 auto container = builder.build();
