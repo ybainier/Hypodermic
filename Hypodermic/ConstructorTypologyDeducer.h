@@ -4,6 +4,7 @@
 
 #include "Hypodermic/AnyArgument.h"
 #include "Hypodermic/ArgumentPack.h"
+#include "Hypodermic/Config.h"
 #include "Hypodermic/IntegerSequence.h"
 
 
@@ -11,6 +12,12 @@ namespace Hypodermic
 {
 namespace Traits
 {
+
+    struct ConstructorTypologyNotSupported
+    {
+        typedef ConstructorTypologyNotSupported Type;
+    };
+
 
     namespace Details
     {
@@ -21,7 +28,21 @@ namespace Traits
         struct ConstructorTypologyDeducer;
 
         template <class T>
-        struct ConstructorTypologyDeducer< T, Utils::IntegerSequence<> > : Utils::ArgumentPack<>
+        struct ConstructorTypologyDeducer
+        <
+            T,
+            Utils::IntegerSequence<>,
+            typename std::enable_if< !std::is_constructible< T >::value >::type
+        > : ConstructorTypologyNotSupported
+        {};
+
+        template <class T>
+        struct ConstructorTypologyDeducer
+        <
+            T,
+            Utils::IntegerSequence<>,
+            typename std::enable_if< std::is_constructible< T >::value >::type
+        > : Utils::ArgumentPack<>
         {};
 
         template <class T>
@@ -43,7 +64,7 @@ namespace Traits
             <
                 std::is_constructible< T, AnyArgument< T > >::value,
                 Utils::ArgumentPack< AnyArgument< T > >,
-                Utils::ArgumentPack<>
+                typename ConstructorTypologyDeducer< T, Utils::MakeIntegerSequence< 0 > >::Type
             >::type
         {};
 
@@ -74,7 +95,7 @@ namespace Traits
 
 
     template <class T>
-    using ConstructorTypologyDeducer = typename Details::ConstructorTypologyDeducer< T, Utils::MakeIntegerSequence< 10 > >::Type;
+    using ConstructorTypologyDeducer = typename Details::ConstructorTypologyDeducer< T, Utils::MakeIntegerSequence< HYPODERMIC_CONSTRUCTOR_ARGUMENT_COUNT > >::Type;
 
 } // namespace Traits
 } // namespace Hypodermic

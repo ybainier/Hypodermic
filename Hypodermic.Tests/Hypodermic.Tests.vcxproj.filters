@@ -26,6 +26,9 @@
     <ClCompile Include="ProvidedDependenciesTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="GithubTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">

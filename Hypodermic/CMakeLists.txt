@@ -12,6 +12,7 @@ set(Hypodermic_headers
     AutowireableConstructor.h
     AutowireableConstructorRegistrationDescriptor.h
     CircularDependencyException.h
+    Config.h
     ConsoleLoggerSink.h
     ConstructorDescriptor.h
     ConstructorTypologyDeducer.h
@@ -29,6 +30,8 @@ set(Hypodermic_headers
     IRegistration.h
     IRegistrationDescriptor.h
     IRegistrationScope.h
+    IRuntimeRegistrationBuilder.h
+    IsSupportedArgument.h
     ITypeAlias.h
     Log.h
     Logger.h
@@ -50,6 +53,7 @@ set(Hypodermic_headers
     RegistrationDescriptorInfoToString.h
     RegistrationException.h
     RegistrationScope.h
+    RuntimeRegistrationBuilder.h
     SingleInstance.h
     TypeAlias.h
     TypeAliasKey.h

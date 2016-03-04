@@ -26,9 +26,3 @@
 // Boost.Test
 #include <boost/test/results_reporter.hpp>
 #include <boost/test/unit_test.hpp>
-
-
-// Hypodermic
-#include "Hypodermic/Container.h"
-#include "Hypodermic/ContainerBuilder.h"
-#include "Hypodermic/Logger.h"

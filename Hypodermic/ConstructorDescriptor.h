@@ -7,6 +7,7 @@
 #include "Hypodermic/ArgumentPack.h"
 #include "Hypodermic/ArgumentResolver.h"
 #include "Hypodermic/ConstructorTypologyDeducer.h"
+#include "Hypodermic/IsSupportedArgument.h"
 
 
 namespace Hypodermic
@@ -29,7 +30,7 @@ namespace Traits
             {
             }
 
-            template <class T, class = typename std::enable_if< !std::is_convertible< TParent, T >::value >::type>
+            template <class T, class = typename std::enable_if< !std::is_convertible< TParent, T >::value && IsSupportedArgument< typename std::decay< T >::type >::value >::type>
             operator T()
             {
                 return ArgumentResolver< typename std::decay< T >::type >::template resolveFor< TParent >(m_container);

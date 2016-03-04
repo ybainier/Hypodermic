@@ -162,6 +162,7 @@
     <ClInclude Include="AutowireableConstructor.h" />
     <ClInclude Include="AutowireableConstructorRegistrationDescriptor.h" />
     <ClInclude Include="CircularDependencyException.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="ConsoleLoggerSink.h" />
     <ClInclude Include="ConstructorDescriptor.h" />
     <ClInclude Include="ConstructorTypologyDeducer.h" />
@@ -177,6 +178,8 @@
     <ClInclude Include="IRegistration.h" />
     <ClInclude Include="IRegistrationDescriptor.h" />
     <ClInclude Include="IRegistrationScope.h" />
+    <ClInclude Include="IRuntimeRegistrationBuilder.h" />
+    <ClInclude Include="IsSupportedArgument.h" />
     <ClInclude Include="ITypeAlias.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Logger.h" />
@@ -198,6 +201,7 @@
     <ClInclude Include="RegistrationException.h" />
     <ClInclude Include="RegistrationScope.h" />
     <ClInclude Include="InvokeAtScopeExit.h" />
+    <ClInclude Include="RuntimeRegistrationBuilder.h" />
     <ClInclude Include="SingleInstance.h" />
     <ClInclude Include="InstanceRegistrationTags.h" />
     <ClInclude Include="TypeAlias.h" />

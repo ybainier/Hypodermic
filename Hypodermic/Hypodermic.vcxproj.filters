@@ -182,5 +182,15 @@
     <ClInclude Include="InvokeAtScopeExit.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="IsSupportedArgument.h">
+      <Filter>Traits</Filter>
+    </ClInclude>
+    <ClInclude Include="RuntimeRegistrationBuilder.h">
+      <Filter>Registrations</Filter>
+    </ClInclude>
+    <ClInclude Include="IRuntimeRegistrationBuilder.h">
+      <Filter>Registrations</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

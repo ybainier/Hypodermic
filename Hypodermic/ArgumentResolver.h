@@ -11,10 +11,6 @@
 
 namespace Hypodermic
 {
-
-    class Container;
-
-
 namespace Traits
 {
 
@@ -27,12 +23,12 @@ namespace Traits
     {
         typedef std::shared_ptr< TArg > Type;
 
-        template <class T>
-        static Type resolveFor(Container& container)
+        template <class T, class TContainer>
+        static Type resolveFor(TContainer& container)
         {
-            auto&& factory = container.getDependencyFactory< T, TArg >();
+            auto&& factory = container.template getDependencyFactory< T, TArg >();
             if (!factory)
-                return container.resolve< TArg >();
+                return container.template resolve< TArg >();
 
             return factory(container);
         }
@@ -44,10 +40,10 @@ namespace Traits
     {
         typedef std::vector< std::shared_ptr< TArg > > Type;
 
-        template <class>
-        static Type resolveFor(Container& container)
+        template <class, class TContainer>
+        static Type resolveFor(TContainer& container)
         {
-            return container.resolveAll< TArg >();
+            return container.template resolveAll< TArg >();
         }
     };
 
@@ -57,12 +53,12 @@ namespace Traits
     {
         typedef std::function< std::shared_ptr< TArg >() > Type;
 
-        template <class T>
-        static Type resolveFor(Container& container)
+        template <class T, class TContainer>
+        static Type resolveFor(TContainer& container)
         {
             return [&container]()
             {
-                return ArgumentResolver< std::shared_ptr< TArg > >::resolveFor< T >(container);
+                return ArgumentResolver< std::shared_ptr< TArg > >::template resolveFor< T >(container);
             };
         }
     };

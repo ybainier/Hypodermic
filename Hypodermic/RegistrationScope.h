@@ -1,5 +1,6 @@
 #pragma once
 
+#include <mutex>
 #include <unordered_map>
 #include <vector>
 
@@ -28,6 +29,8 @@ namespace Hypodermic
         
         bool tryGetRegistrations(const TypeAliasKey& typeAliasKey, std::vector< std::shared_ptr< IRegistration > >& registrations) const override
         {
+            std::lock_guard< decltype(m_mutex) > lock(m_mutex);
+
             auto it = m_registrationsByBaseTypes.find(typeAliasKey);
             if (it == std::end(m_registrationsByBaseTypes))
                 return false;
@@ -44,6 +47,8 @@ namespace Hypodermic
     private:
         void addRegistration(const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration)
         {
+            std::lock_guard< decltype(m_mutex) > lock(m_mutex);
+
             auto it = m_registrationsByBaseTypes.find(typeAliasKey);
             if (it == std::end(m_registrationsByBaseTypes))
                 it = m_registrationsByBaseTypes.insert(std::make_pair(typeAliasKey, std::vector< std::shared_ptr< IRegistration > >())).first;
@@ -53,6 +58,7 @@ namespace Hypodermic
 
     private:
         std::unordered_map< TypeAliasKey, std::vector< std::shared_ptr< IRegistration > > > m_registrationsByBaseTypes;
+        mutable std::recursive_mutex m_mutex;
     };
 
 } // namespace Hypodermic

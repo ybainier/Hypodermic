@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(should_resolve_all_registrations_of_a_type)
     BOOST_CHECK(instances[1] == std::dynamic_pointer_cast<Testing::DefaultConstructible2>(instances[1]));
 }
 
-BOOST_AUTO_TEST_CASE(should_not_resolve_a_type_registered_by_its_base_type)
+BOOST_AUTO_TEST_CASE(should_create_a_new_registration_when_resolving_a_type_registered_by_its_base_type)
 {
     // Arrange
     ContainerBuilder builder;
@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE(should_not_resolve_a_type_registered_by_its_base_type)
 
     // Assert
     auto instance = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance == nullptr);
+    BOOST_CHECK(instance != nullptr);
 }
 
 BOOST_AUTO_TEST_CASE(should_resolve_a_type_registered_by_its_base_type_and_by_itself)
@@ -251,6 +251,37 @@ BOOST_AUTO_TEST_CASE(should_throw_when_detecting_a_circular_dependency)
     // Assert
     BOOST_CHECK_THROW(container->resolve< Testing::BaseType1 >(), std::exception);
     BOOST_CHECK_THROW(container->resolve< Testing::BaseType2 >(), std::exception);
+}
+
+BOOST_AUTO_TEST_CASE(should_resolve_non_registered_types)
+{
+    // Arrange
+    ContainerBuilder builder;
+
+    builder.registerType< Testing::ProvidedDependency >().as< Testing::ProvidedDependencyBase >();
+
+    auto container = builder.build();
+
+    // Act
+    auto instance = container->resolve< Testing::AutowiredProvidedConstructor >();
+
+    // Assert
+    BOOST_REQUIRE(instance != nullptr);
+    BOOST_CHECK(instance->dependency != nullptr);
+}
+
+BOOST_AUTO_TEST_CASE(should_resolve_non_registered_types_recursively)
+{
+    // Arrange
+    ContainerBuilder builder;
+    auto container = builder.build();
+
+    // Act
+    auto instance = container->resolve< Testing::MissingConstructor >();
+
+    // Assert
+    BOOST_REQUIRE(instance != nullptr);
+    BOOST_CHECK(instance->dependency != nullptr);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

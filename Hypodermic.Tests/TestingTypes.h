@@ -103,6 +103,13 @@ namespace Testing
 
     class NestedDependency
     {
+    public:
+        explicit NestedDependency(int i)
+            : i(i)
+        {
+        }
+
+        int i;
     };
 
     class TopLevelConstructor

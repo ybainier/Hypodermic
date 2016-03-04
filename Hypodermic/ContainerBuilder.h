@@ -7,6 +7,7 @@
 #include "Hypodermic/IRegistrationScope.h"
 #include "Hypodermic/Log.h"
 #include "Hypodermic/RegistrationDescriptorBuilder.h"
+#include "Hypodermic/RuntimeRegistrationBuilder.h"
 
 
 namespace Hypodermic
@@ -65,10 +66,7 @@ namespace Hypodermic
             auto scope = std::make_shared< RegistrationScope >();
             build(*scope);
 
-            auto container = std::make_shared< Container >(scope);
-            registerContainerInstance(container, scope);
-
-            return container;
+            return createAndRegisterContainerInstance(scope);
         }
 
         /// <summary>
@@ -83,10 +81,7 @@ namespace Hypodermic
             auto scope = container.createNestedScope();
             build(*scope);
 
-            auto nestedContainer = std::make_shared< Container >(scope);
-            registerContainerInstance(nestedContainer, scope);
-
-            return nestedContainer;
+            return createAndRegisterContainerInstance(scope);
         }
 
     private:
@@ -107,6 +102,14 @@ namespace Hypodermic
                 auto&& action = m_buildActions[x];
                 action(scope);
             }
+        }
+
+        std::shared_ptr< Container > createAndRegisterContainerInstance(const std::shared_ptr< IRegistrationScope >& scope)
+        {
+            auto container = std::make_shared< Container >(scope, std::make_shared< RuntimeRegistrationBuilder >());
+            registerContainerInstance(container, scope);
+
+            return container;
         }
 
         template <class TRegistrationDescriptor>
