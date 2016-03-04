@@ -14,7 +14,8 @@ addons:
 
 
 before_install:
-    - sudo add-apt-repository -y ppa:boost-latest/ppa   
+    - sudo add-apt-repository -y ppa:boost-latest/ppa
+    - sudo apt-get update -y -qq
     - sudo apt-get install -y -qq boost1.55
   
 install:
