@@ -58,7 +58,7 @@ namespace std
 {
 
     template <>
-    struct hash< Hypodermic::TypeAliasKey > : unary_function< Hypodermic::TypeAliasKey, size_t >
+    struct hash< Hypodermic::TypeAliasKey > : public unary_function< Hypodermic::TypeAliasKey, size_t >
     {
         size_t operator()(const Hypodermic::TypeAliasKey& key) const
         {

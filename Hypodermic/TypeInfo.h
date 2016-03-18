@@ -92,7 +92,7 @@ namespace std
 {
 
     template <>
-    class hash< Hypodermic::TypeInfo > : public unary_function< Hypodermic::TypeInfo, size_t >
+    struct hash< Hypodermic::TypeInfo > : public unary_function< Hypodermic::TypeInfo, size_t >
     {
     public:
         size_t operator()(const Hypodermic::TypeInfo& value) const
