@@ -4,8 +4,8 @@ Hypodermic
 Hypodermic is an IoC container for C++. It provides dependency injection to your existing design.
 
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
-[![Build status](https://ci.appveyor.com/api/projects/status/20csygnj7ww04tyw?svg=true&pendingText=Windows%20build%20pending&failingText=Windows%20build%20failed&passingText=Windows%20build%20passing)](https://ci.appveyor.com/project/ybainier/hypodermic)
-[![Build Status](https://travis-ci.org/ybainier/Hypodermic.svg?branch=master)](https://travis-ci.org/ybainier/Hypodermic)
+[![Build status](https://img.shields.io/appveyor/ci/ybainier/Hypodermic/master.svg?label=windows)](https://ci.appveyor.com/project/ybainier/hypodermic)
+[![Build Status](https://img.shields.io/travis/ybainier/Hypodermic/master.svg?label=linux/osx)](https://travis-ci.org/ybainier/Hypodermic)
 
 ### Ackowledgment
 
