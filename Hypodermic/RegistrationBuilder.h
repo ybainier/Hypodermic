@@ -63,7 +63,7 @@ namespace Hypodermic
         {
             return std::make_shared< PersistentInstanceRegistration >
             (
-                RegistrationBuilder< TRegistrationDescriptorInfo, TransientInstance >::template build
+                RegistrationBuilder< TRegistrationDescriptorInfo, TransientInstance >::build
                 (
                     instanceType,
                     typeAliases,
