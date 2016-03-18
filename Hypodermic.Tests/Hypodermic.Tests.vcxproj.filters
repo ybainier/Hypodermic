@@ -29,6 +29,9 @@
     <ClCompile Include="GithubTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="PerformanceTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
@@ -36,6 +39,9 @@
     </Filter>
     <Filter Include="Precompiled Headers">
       <UniqueIdentifier>{4b467aea-2d92-41d7-8120-36ff59078769}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{f06d8f34-4c3f-4a76-875a-5ff16410be56}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +53,15 @@
     </ClInclude>
     <ClInclude Include="TestingTypes.h">
       <Filter>Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Benchmark.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="DurationHumanizer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="LitteralDurationUnit.h">
+      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
