@@ -10,6 +10,7 @@ Hypodermic is an IoC container for C++. It provides dependency injection to your
 ### Ackowledgment
 
 Hypodermic was started with the will to mimic the famous .NET Autofac http://autofac.org/. Although its design evolved, both its behavior and its expressiveness tend to remain the same.
+Constructor deduction has been made possible thanks to the work of [Krzysztof Jusiak](http://krzysztof.jusiak.net/) in http://boost-experimental.github.io/di/.
 
 # Register components
 
