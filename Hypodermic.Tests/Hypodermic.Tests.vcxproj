@@ -181,6 +181,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ContainerBuilderTests.cpp" />
     <ClCompile Include="ContainerTests.cpp" />
     <ClCompile Include="DefaultConstructibleTests.cpp" />
     <ClCompile Include="GithubTests.cpp" />

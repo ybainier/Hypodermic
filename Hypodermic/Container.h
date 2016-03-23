@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <unordered_map>
 #include <vector>
 
 #include "Hypodermic/AutowireableConstructor.h"
@@ -26,11 +25,20 @@ namespace Hypodermic
         {
         }
 
+        /// <summary>
+        /// Create a nested scope
+        /// </summary>
+        /// <returns>A shared pointer to a new IRegistrationScope</returns>
         std::shared_ptr< IRegistrationScope > createNestedScope() const
         {
             return std::make_shared< NestedRegistrationScope >(m_registrationScope);
         }
 
+        /// <summary>
+        /// Resolve an instance of type T
+        /// </summary>
+        /// <param name="T">The type to resolve (i.e. get an instance of T)</param>
+        /// <returns>A shared pointer on an instance of type T</returns>
         template <class T>
         std::shared_ptr< T > resolve()
         {
@@ -41,11 +49,19 @@ namespace Hypodermic
             return resolveIfTypeCanBeRegistered< T >();
         }
 
+        /// <summary>
+        /// Resolve all instances of type T
+        /// </summary>
+        /// <param name="T">The type to resolve (i.e. get all instances of T)</param>
+        /// <returns>A vector of shared pointers on instances of type T</returns>
         template <class T>
         std::vector< std::shared_ptr< T > > resolveAll()
         {
             return resolveAll< T >(createKeyForType< T >());
         }
+
+    private:
+        template <class T> friend struct Traits::ArgumentResolver;
 
         template <class T, class TDependency>
         std::function< std::shared_ptr< TDependency >(Container&) > getDependencyFactory()
@@ -60,7 +76,6 @@ namespace Hypodermic
             return getDependencyFactory< TDependency >(*registrations.back());
         }
 
-    private:
         template <class T>
         std::shared_ptr< T > resolve(const TypeAliasKey& typeAliasKey)
         {

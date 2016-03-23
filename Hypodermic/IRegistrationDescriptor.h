@@ -2,7 +2,6 @@
 
 #include <functional>
 #include <memory>
-#include <unordered_map>
 
 #include <boost/signals2.hpp>
 

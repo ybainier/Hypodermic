@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <memory>
+#include <unordered_map>
 
 #include "Hypodermic/Container.h"
 #include "Hypodermic/IRegistrationScope.h"
@@ -84,10 +85,20 @@ namespace Hypodermic
             return createAndRegisterContainerInstance(scope);
         }
 
-    private:
-        void registerContainerInstance(const std::shared_ptr< Container >& container, const std::shared_ptr< IRegistrationScope >& scope)
+        /// <summary>
+        /// Add all registrations of a ContainerBuilder
+        /// </summary>
+        /// <param name="builder">The ContainerBuilder from which registrations are copied</param>
+        void addRegistrations(const ContainerBuilder& builder)
         {
-            typedef typename RegistrationDescriptorBuilder::ForProvidedInstance< Container >::Type RegistrationDescriptorType;
+            m_registrationDescriptors.insert(std::end(m_registrationDescriptors), std::begin(builder.m_registrationDescriptors), std::end(builder.m_registrationDescriptors));
+            m_buildActions.insert(std::begin(builder.m_buildActions), std::end(builder.m_buildActions));
+        }
+
+    private:
+        void registerContainerInstance(const std::shared_ptr< Container >& container, const std::shared_ptr< IRegistrationScope >& scope) const
+        {
+            typedef RegistrationDescriptorBuilder::ForProvidedInstance< Container >::Type RegistrationDescriptorType;
 
             auto registrationDescriptor = std::make_shared< RegistrationDescriptorType >(container);
             auto factory = registrationDescriptor->getDescriptionFactory();
@@ -104,7 +115,7 @@ namespace Hypodermic
             }
         }
 
-        std::shared_ptr< Container > createAndRegisterContainerInstance(const std::shared_ptr< IRegistrationScope >& scope)
+        std::shared_ptr< Container > createAndRegisterContainerInstance(const std::shared_ptr< IRegistrationScope >& scope) const
         {
             auto container = std::make_shared< Container >(scope, std::make_shared< RuntimeRegistrationBuilder >());
             registerContainerInstance(container, scope);
@@ -132,10 +143,12 @@ namespace Hypodermic
                 m_buildActions.erase(registrationDescriptor);
                 m_registrationDescriptors.insert
                 (
-                    m_registrationDescriptors.erase
+                    m_registrationDescriptors.erase(std::find
                     (
-                        std::find(std::begin(m_registrationDescriptors), std::end(m_registrationDescriptors), registrationDescriptor)
-                    ),
+                        std::begin(m_registrationDescriptors),
+                        std::end(m_registrationDescriptors),
+                        registrationDescriptor
+                    )),
                     x
                 );
 

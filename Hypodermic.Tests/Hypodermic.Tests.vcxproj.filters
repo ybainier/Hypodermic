@@ -32,6 +32,9 @@
     <ClCompile Include="PerformanceTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="ContainerBuilderTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
