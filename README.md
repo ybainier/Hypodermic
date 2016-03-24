@@ -114,6 +114,8 @@ Logger::configureSink(std::make_shared< MyVeryOwnLog4cxxLoggerSink >());
 
 The source is available in [Hypodermic.Tests/PerformanceTests.cpp](https://github.com/ybainier/Hypodermic/blob/master/Hypodermic.Tests/PerformanceTests.cpp)
 
+Run for 100000 iterations with 10000 cycles of warm up on Windows 10, Intel Core i7-4790 @ 3.60GHz, and 32 GB of RAM.
+
 ### Default constructible type
 
 |              | std::make_shared | resolve not registered transient | resolve registered transient | resolve registered single instance | resolve registered instance |
