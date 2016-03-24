@@ -63,7 +63,10 @@
     <ClInclude Include="DurationHumanizer.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="LitteralDurationUnit.h">
+    <ClInclude Include="PercentileCalculator.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="DurationUnit.h">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

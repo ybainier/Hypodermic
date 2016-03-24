@@ -207,7 +207,8 @@
   <ItemGroup>
     <ClInclude Include="Benchmark.h" />
     <ClInclude Include="DurationHumanizer.h" />
-    <ClInclude Include="LitteralDurationUnit.h" />
+    <ClInclude Include="DurationUnit.h" />
+    <ClInclude Include="PercentileCalculator.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestingTypes.h" />
