@@ -1,4 +1,4 @@
-Hypodermic
+Hypodermic <img align="left" src="../master/resources/syringe_by_Andy_Selimov_from_thenounproject.png?raw=true" width="56">
 ==========
 
 Hypodermic is an IoC container for C++. It provides dependency injection to your existing design.
