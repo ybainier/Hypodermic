@@ -121,15 +121,15 @@ Run for 100000 iterations with 10000 cycles of warm up on Windows 10, Intel Core
 |              | std::make_shared | resolve not registered transient | resolve registered transient | resolve registered single instance | resolve registered instance |
 |--------------|-----------------:|---------------------------------:|-----------------------------:|-----------------------------------:|----------------------------:|
 | Overall (ms) |               10 |                               71 |                           70 |                                 54 |                          55 |
-| Average (ns) |               72 |                              676 |                          672 |                                512 |                         518 |
-| Min     (ns) |                0 |                              570 |                          570 |                                285 |                         285 |
+| Average (µs) |             0.07 |                             0.68 |                         0.67 |                               0.51 |                        0.52 |
+| Min     (µs) |                0 |                             0.57 |                         0.57 |                               0.28 |                        0.28 |
 | Max     (µs) |               43 |                              149 |                          267 |                                 87 |                         268 |
 | 99.999% (µs) |               40 |                               67 |                           67 |                                 70 |                         115 |
 | 99.99%  (µs) |               22 |                               41 |                           30 |                                 24 |                          24 |
 | 99.9%   (µs) |                1 |                                9 |                            7 |                                  2 |                           4 |
-| 99%     (ns) |              286 |                              856 |                          856 |                                571 |                         571 |
-| 95%     (ns) |              285 |                              856 |                          856 |                                571 |                         571 |
-| 50%     (ns) |                0 |                              570 |                          570 |                                570 |                         570 |
+| 99%     (µs) |             0.28 |                             0.86 |                         0.86 |                               0.57 |                        0.57 |
+| 95%     (µs) |             0.28 |                             0.86 |                         0.86 |                               0.57 |                        0.57 |
+| 50%     (µs) |                0 |                             0.57 |                         0.57 |                               0.57 |                        0.57 |
 
 ### Type with default constructible dependency
 
