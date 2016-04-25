@@ -40,7 +40,7 @@ namespace Hypodermic
         {
             HYPODERMIC_LOG_INFO("Activating provided instance of type " << m_instanceType.fullyQualifiedName());
 
-            std::shared_ptr< void > instance = m_instance.lock();
+            std::shared_ptr< void > instance = m_instance;
 
             auto it = m_typeAliases.find(typeAliasKey);
             if (it != std::end(m_typeAliases) && it->second != nullptr)
@@ -56,7 +56,7 @@ namespace Hypodermic
         }
 
     private:
-        std::weak_ptr< T > m_instance;
+        std::shared_ptr< T > m_instance;
         TypeInfo m_instanceType;
         std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > m_typeAliases;
     };
