@@ -9,4 +9,4 @@ lib/**
 ipch/**
 obj/**
 *ReSharper*
-Hypodermic.VC.opendb
+*.VC.*
