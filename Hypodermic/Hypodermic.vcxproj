@@ -168,6 +168,7 @@
     <ClInclude Include="ConstructorTypologyDeducer.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="ContainerBuilder.h" />
+    <ClInclude Include="ContainerInstanceRegistration.h" />
     <ClInclude Include="DependencyActivationException.h" />
     <ClInclude Include="DependencyFactoryTag.h" />
     <ClInclude Include="ExceptionBase.h" />

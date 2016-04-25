@@ -192,5 +192,8 @@
     <ClInclude Include="IRuntimeRegistrationBuilder.h">
       <Filter>Registrations</Filter>
     </ClInclude>
+    <ClInclude Include="ContainerInstanceRegistration.h">
+      <Filter>Registrations</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
