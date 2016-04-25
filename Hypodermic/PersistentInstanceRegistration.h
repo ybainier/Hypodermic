@@ -48,7 +48,7 @@ namespace Hypodermic
             }
 
             auto instance = m_registration->activate(container, typeAliasKey);
-
+            if (instance != nullptr)
             {
                 std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
