@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 #include "Hypodermic/Container.h"
+#include "Hypodermic/ContainerInstanceRegistration.h"
 #include "Hypodermic/IRegistrationScope.h"
 #include "Hypodermic/Log.h"
 #include "Hypodermic/RegistrationDescriptorBuilder.h"
@@ -98,12 +99,7 @@ namespace Hypodermic
     private:
         void registerContainerInstance(const std::shared_ptr< Container >& container, const std::shared_ptr< IRegistrationScope >& scope) const
         {
-            typedef RegistrationDescriptorBuilder::ForProvidedInstance< Container >::Type RegistrationDescriptorType;
-
-            auto registrationDescriptor = std::make_shared< RegistrationDescriptorType >(container);
-            auto factory = registrationDescriptor->getDescriptionFactory();
-
-            factory(*scope);
+            scope->addRegistration(std::make_shared< ContainerInstanceRegistration >(container));
         }
 
         void build(IRegistrationScope& scope)
@@ -136,18 +132,21 @@ namespace Hypodermic
 
         void listenToRegistrationDescriptorUpdates(const std::shared_ptr< IRegistrationDescriptor >& registrationDescriptor)
         {
-            registrationDescriptor->registrationDescriptorUpdated().connect([this, registrationDescriptor](const std::shared_ptr< IRegistrationDescriptor >& x)
-            {
-                registrationDescriptor->registrationDescriptorUpdated().disconnect_all_slots();
+            std::weak_ptr< IRegistrationDescriptor > weakDescriptor = registrationDescriptor;
 
-                m_buildActions.erase(registrationDescriptor);
+            registrationDescriptor->registrationDescriptorUpdated().connect([this, weakDescriptor](const std::shared_ptr< IRegistrationDescriptor >& x)
+            {
+                auto descriptor = weakDescriptor.lock();
+                descriptor->registrationDescriptorUpdated().disconnect_all_slots();
+
+                m_buildActions.erase(descriptor);
                 m_registrationDescriptors.insert
                 (
                     m_registrationDescriptors.erase(std::find
                     (
                         std::begin(m_registrationDescriptors),
                         std::end(m_registrationDescriptors),
-                        registrationDescriptor
+                        descriptor
                     )),
                     x
                 );
