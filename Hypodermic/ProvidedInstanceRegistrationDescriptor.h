@@ -15,7 +15,6 @@ namespace Hypodermic
                                                    public RegistrationDescriptorOperations::As< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                    public RegistrationDescriptorOperations::AsSelf< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >
     {
-        template <class> friend class ProvidedInstanceRegistrationDescriptor;
         friend class RegistrationDescriptorOperations::As< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::AsSelf< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
 
@@ -40,8 +39,10 @@ namespace Hypodermic
         ProvidedInstanceRegistrationDescriptor(const TypeInfo& instanceType,
                                                const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases,
                                                const std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > >& dependencyFactories,
-                                               const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
+                                               const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers,
+                                               const std::shared_ptr< InstanceType >& instance)
             : BaseType(instanceType, typeAliases, dependencyFactories, activationHandlers)
+            , m_instance(instance)
         {
         }
 
@@ -54,9 +55,9 @@ namespace Hypodermic
                 this->instanceType(),
                 this->typeAliases(),
                 this->dependencyFactories(),
-                this->activationHandlers()
+                this->activationHandlers(),
+                m_instance
             );
-            updatedDescriptor->m_instance = m_instance;
 
             return updatedDescriptor;
         }

@@ -77,14 +77,14 @@ namespace Hypodermic
             (
                 this->instanceType(),
                 this->typeAliases(),
-                instanceFactory(),
+                typeErasedInstanceFactory(),
                 this->dependencyFactories(),
                 this->activationHandlers()
             );
         }
 
     private:
-        std::function< std::shared_ptr< void >(Container&) > instanceFactory() const
+        std::function< std::shared_ptr< void >(Container&) > typeErasedInstanceFactory() const
         {
             auto&& factory = m_instanceFactory;
 
