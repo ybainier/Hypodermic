@@ -46,8 +46,10 @@ namespace Hypodermic
         ProvidedInstanceFactoryRegistrationDescriptor(const TypeInfo& instanceType,
                                                       const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases,
                                                       const std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > >& dependencyFactories,
-                                                      const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
+                                                      const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers,
+                                                      const std::function< std::shared_ptr< InstanceType >(Container&) >& instanceFactory)
             : BaseType(instanceType, typeAliases, dependencyFactories, activationHandlers)
+            , m_instanceFactory(instanceFactory)
         {
         }
 
@@ -60,9 +62,9 @@ namespace Hypodermic
                 this->instanceType(),
                 this->typeAliases(),
                 this->dependencyFactories(),
-                this->activationHandlers()
+                this->activationHandlers(),
+                m_instanceFactory
             );
-            updatedDescriptor->m_instanceFactory = m_instanceFactory;
 
             return updatedDescriptor;
         }
