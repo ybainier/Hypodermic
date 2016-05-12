@@ -1,4 +1,7 @@
 #include "stdafx.h"
+#include "Hypodermic/Config.h"
+
+#if defined(HYPODERMIC_MODERN_COMPILER)
 
 #include "Hypodermic/ContainerBuilder.h"
 
@@ -205,3 +208,6 @@ BOOST_AUTO_TEST_CASE(resolve_with_dependencies_benchmark)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+
+#endif // HYPODERMIC_MODERN_COMPILER

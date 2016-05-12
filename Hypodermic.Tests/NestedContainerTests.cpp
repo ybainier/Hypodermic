@@ -52,4 +52,31 @@ BOOST_AUTO_TEST_CASE(should_resolve_dependency_in_nested_container)
     BOOST_CHECK_EQUAL(instance->dependency->i, expectedNumber);
 }
 
+BOOST_AUTO_TEST_CASE(should_keep_reference_on_top_level_registrations)
+{
+    // Arrange
+    int expectedNumber = 42;
+
+    std::shared_ptr< Container > nestedContainer;
+    {
+        ContainerBuilder builder;
+        builder.registerType< Testing::TopLevelConstructor >();
+
+        auto container = builder.build();
+
+        // Act
+        ContainerBuilder nestedContainerBuilder;
+        nestedContainerBuilder.registerInstance(std::make_shared< Testing::NestedDependency >(expectedNumber));
+        nestedContainer = nestedContainerBuilder.buildNestedContainerFrom(*container);
+    }
+
+    // Assert
+    BOOST_REQUIRE(nestedContainer != nullptr);
+
+    auto instance = nestedContainer->resolve< Testing::TopLevelConstructor >();
+    BOOST_REQUIRE(instance != nullptr);
+    BOOST_REQUIRE(instance->dependency != nullptr);
+    BOOST_CHECK_EQUAL(instance->dependency->i, expectedNumber);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

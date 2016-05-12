@@ -5,13 +5,31 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Precompiled Headers</Filter>
     </ClCompile>
+    <ClCompile Include="IsCompleteTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ContainerBuilderTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
     <ClCompile Include="ContainerTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
     <ClCompile Include="DefaultConstructibleTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="GithubTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
     <ClCompile Include="NestedContainerTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="PerformanceTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="ProvidedDependenciesTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
     <ClCompile Include="ProvidedInstanceFactoryRegistrationTests.cpp">
@@ -23,19 +41,10 @@
     <ClCompile Include="RegistrationTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="ProvidedDependenciesTests.cpp">
+    <ClCompile Include="TestingTypes.ForwardDeclaredDependency.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="GithubTests.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="PerformanceTests.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="ContainerBuilderTests.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="MemoryTests.cpp">
+    <ClCompile Include="ContainerTests.IncompleteTypeResolution.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,6 +80,9 @@
     </ClInclude>
     <ClInclude Include="DurationUnit.h">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="TestingTypes.ForwardDeclaredDependency.h">
+      <Filter>Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
