@@ -127,7 +127,7 @@ namespace Hypodermic
             if (std::is_same< InstanceRegistrationTag, Tags::SelfRegistered >::value)
                 stream << ".AsSelf";
 
-            if (InstanceLifetime::value == InstanceLifetimes::Persistent)
+            if (std::is_same< InstanceLifetime, PersistentInstance >::value)
                 stream << ".SingleInstance";
 
             boost::mpl::for_each< RegisteredBases >(Details::RegisteredBaseToString(stream));
