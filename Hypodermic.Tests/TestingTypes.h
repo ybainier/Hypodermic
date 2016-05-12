@@ -152,4 +152,11 @@ namespace Testing
         }
     };
 
+
+    class IncompleteType;
+    class CompleteType {};
+
+
+    class ForwardDeclaredDependency {};
+
 } // namespace Testing

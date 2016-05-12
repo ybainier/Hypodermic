@@ -195,5 +195,8 @@
     <ClInclude Include="ContainerInstanceRegistration.h">
       <Filter>Registrations</Filter>
     </ClInclude>
+    <ClInclude Include="IsComplete.h">
+      <Filter>Traits</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

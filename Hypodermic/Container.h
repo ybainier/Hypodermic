@@ -8,6 +8,7 @@
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/IRegistrationScope.h"
 #include "Hypodermic/IRuntimeRegistrationBuilder.h"
+#include "Hypodermic/IsComplete.h"
 #include "Hypodermic/NestedRegistrationScope.h"
 #include "Hypodermic/TypeInfo.h"
 
@@ -46,7 +47,7 @@ namespace Hypodermic
             if (instance != nullptr)
                 return instance;
 
-            return resolveIfTypeCanBeRegistered< T >();
+            return resolveIfTypeCanBeRegistered< T >(Traits::IsComplete< T >());
         }
 
         /// <summary>
@@ -132,12 +133,18 @@ namespace Hypodermic
         }
 
         template <class T>
-        std::shared_ptr< T > resolveIfTypeCanBeRegistered()
+        std::shared_ptr< T > resolveIfTypeCanBeRegistered(std::true_type /* type is complete */)
         {
             if (!tryToRegisterType< T >(*m_registrationScope, Traits::HasAutowireableConstructor< T >()))
                 return nullptr;
 
             return resolve< T >(createKeyForType< T >());
+        }
+
+        template <class T>
+        std::shared_ptr< T > resolveIfTypeCanBeRegistered(std::false_type /* type is incomplete */)
+        {
+            return nullptr;
         }
 
         template <class T>

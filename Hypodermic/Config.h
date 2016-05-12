@@ -1,5 +1,22 @@
 #pragma once
 
+#if defined(_MSC_VER)
+
+# if _MSC_VER < 1800
+#  error Unsupported compiler
+# elif _MSC_VER == 1800
+#  define VS2013
+# else
+#  define HYPODERMIC_MODERN_COMPILER
+# endif
+
+#else // !_MSC_VER
+
+# define HYPODERMIC_MODERN_COMPILER
+
+#endif // _MSC_VER
+
+
 
 #if !defined(HYPODERMIC_OVERRIDE_CONSTRUCTOR_ARGUMENT_COUNT)
 # define HYPODERMIC_CONSTRUCTOR_ARGUMENT_COUNT 20

@@ -180,6 +180,7 @@
     <ClInclude Include="IRegistrationDescriptor.h" />
     <ClInclude Include="IRegistrationScope.h" />
     <ClInclude Include="IRuntimeRegistrationBuilder.h" />
+    <ClInclude Include="IsComplete.h" />
     <ClInclude Include="IsSupportedArgument.h" />
     <ClInclude Include="ITypeAlias.h" />
     <ClInclude Include="Log.h" />
