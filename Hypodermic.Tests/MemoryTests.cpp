@@ -8,7 +8,7 @@
 using namespace Hypodermic;
 
 
-BOOST_AUTO_TEST_SUITE(MemotyTests)
+BOOST_AUTO_TEST_SUITE(MemoryTests)
 
 BOOST_AUTO_TEST_CASE(container_should_be_freed)
 {

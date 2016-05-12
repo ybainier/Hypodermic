@@ -15,7 +15,6 @@
 #include "Hypodermic/ProvidedDependencyTag.h"
 #include "Hypodermic/ProvidedInstanceDependencyTag.h"
 #include "Hypodermic/RegistrationDescriptorInfoToString.h"
-#include "Hypodermic/TypeInfo.h"
 
 
 namespace Hypodermic

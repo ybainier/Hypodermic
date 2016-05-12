@@ -93,6 +93,7 @@ BOOST_AUTO_TEST_CASE(should_send_one_notification_when_service_is_started)
 
     // Act
     auto service = container->resolve< Service >();
+    BOOST_REQUIRE(service != nullptr);
     BOOST_REQUIRE_NO_THROW(service->start());
 
     // Assert
