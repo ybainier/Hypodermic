@@ -34,15 +34,8 @@ namespace Traits
         template <class, class, class = void>
         struct ConstructorTypologyDeducer;
 
-        template <class T>
-        struct ConstructorTypologyDeducer
-        <
-            T,
-            Utils::IntegerSequence<>,
-            typename std::enable_if< !std::is_constructible< T >::value >::type
-        > : ConstructorTypologyNotSupported
-        {};
 
+        // Initial recursion state
         template <class T>
         struct ConstructorTypologyDeducer
         <
@@ -56,31 +49,23 @@ namespace Traits
         struct ConstructorTypologyDeducer
         <
             T,
-            Utils::IntegerSequence< 1 >,
-            typename std::enable_if< std::is_constructible< T, AnyArgument< T > >::value >::type
-        > : Utils::ArgumentPack< AnyArgument< T > >
+            Utils::IntegerSequence<>,
+            typename std::enable_if< !std::is_constructible< T >::value >::type
+        > : ConstructorTypologyDeducer< T, Utils::MakeIntegerSequence< 1 > >::Type
         {};
 
-        template <class T>
-        struct ConstructorTypologyDeducer
-        <
-            T,
-            Utils::IntegerSequence< 1 >,
-            typename std::enable_if< !std::is_constructible< T, AnyArgument< T > >::value >::type
-        > : std::conditional
-            <
-                std::is_constructible< T, AnyArgument< T > >::value,
-                Utils::ArgumentPack< AnyArgument< T > >,
-                typename ConstructorTypologyDeducer< T, Utils::MakeIntegerSequence< 0 > >::Type
-            >::type
-        {};
 
+        // Common recusion state
         template <class T, int... NthArgument>
         struct ConstructorTypologyDeducer
         <
             T,
             Utils::IntegerSequence< NthArgument... >,
-            typename std::enable_if< (Cardinality< NthArgument... >::value > 1) && std::is_constructible< T, WrapAndGet< T, NthArgument >... >::value >::type
+            typename std::enable_if
+            <
+                (Cardinality< NthArgument... >::value > 0 && Cardinality< NthArgument... >::value < HYPODERMIC_CONSTRUCTOR_ARGUMENT_COUNT) &&
+                std::is_constructible< T, WrapAndGet< T, NthArgument >... >::value
+            >::type
         > : Utils::ArgumentPack< WrapAndGet< T, NthArgument >... >
         {};
 
@@ -89,20 +74,39 @@ namespace Traits
         <
             T,
             Utils::IntegerSequence< NthArgument... >,
-            typename std::enable_if< (Cardinality< NthArgument... >::value > 1) && !std::is_constructible< T, WrapAndGet< T, NthArgument >... >::value >::type
-        > : std::conditional
+            typename std::enable_if
             <
-                std::is_constructible< T, WrapAndGet< T, NthArgument >... >::value,
-                Utils::ArgumentPack< WrapAndGet< T, NthArgument >... >,
-                typename ConstructorTypologyDeducer< T, Utils::MakeIntegerSequence< sizeof...(NthArgument) - 1 > >::Type
+                (Cardinality< NthArgument... >::value > 0 && Cardinality< NthArgument... >::value < HYPODERMIC_CONSTRUCTOR_ARGUMENT_COUNT) &&
+                !std::is_constructible< T, WrapAndGet< T, NthArgument >... >::value
             >::type
+        > : ConstructorTypologyDeducer< T, Utils::MakeIntegerSequence< sizeof...(NthArgument) + 1 > >::Type
+        {};
+
+
+        // Last recursion state
+        template <class T, int... NthArgument>
+        struct ConstructorTypologyDeducer
+        <
+            T,
+            Utils::IntegerSequence< NthArgument... >,
+            typename std::enable_if< (Cardinality< NthArgument... >::value == HYPODERMIC_CONSTRUCTOR_ARGUMENT_COUNT) && std::is_constructible< T, WrapAndGet< T, NthArgument >... >::value >::type
+        > : Utils::ArgumentPack< WrapAndGet< T, NthArgument >... >
+        {};
+
+        template <class T, int... NthArgument>
+        struct ConstructorTypologyDeducer
+        <
+            T,
+            Utils::IntegerSequence< NthArgument... >,
+            typename std::enable_if< (Cardinality< NthArgument... >::value == HYPODERMIC_CONSTRUCTOR_ARGUMENT_COUNT) && !std::is_constructible< T, WrapAndGet< T, NthArgument >... >::value >::type
+        > : ConstructorTypologyNotSupported
         {};
 
     } // namespace Details
 
 
     template <class T>
-    using ConstructorTypologyDeducer = typename Details::ConstructorTypologyDeducer< T, Utils::MakeIntegerSequence< HYPODERMIC_CONSTRUCTOR_ARGUMENT_COUNT > >::Type;
+    using ConstructorTypologyDeducer = typename Details::ConstructorTypologyDeducer< T, Utils::MakeIntegerSequence< 0 > >::Type;
 
 } // namespace Traits
 } // namespace Hypodermic
