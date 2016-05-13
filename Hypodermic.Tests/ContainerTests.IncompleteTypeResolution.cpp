@@ -10,19 +10,6 @@ using namespace Hypodermic;
 
 BOOST_AUTO_TEST_SUITE(ContainerTests)
 
-BOOST_AUTO_TEST_CASE(should_not_resolve_incomplete_types)
-{
-    // Arrange
-    ContainerBuilder builder;
-    auto container = builder.build();
-
-    // Act
-    auto instance = container->resolve< Testing::ForwardDeclaredDependency >();
-
-    // Assert
-    BOOST_CHECK(instance == nullptr);
-}
-
 BOOST_AUTO_TEST_CASE(should_not_resolve_incomplete_dependencies)
 {
     // Arrange
