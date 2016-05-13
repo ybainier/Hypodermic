@@ -18,6 +18,7 @@ set(Hypodermic_headers
     ConstructorTypologyDeducer.h
     Container.h
     ContainerBuilder.h
+    ContainerInstanceRegistration.h
     DependencyActivationException.h
     DependencyFactoryTag.h
     ExceptionBase.h
@@ -31,6 +32,7 @@ set(Hypodermic_headers
     IRegistrationDescriptor.h
     IRegistrationScope.h
     IRuntimeRegistrationBuilder.h
+    IsComplete.h
     IsSupportedArgument.h
     ITypeAlias.h
     Log.h

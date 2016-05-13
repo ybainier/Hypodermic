@@ -12,17 +12,21 @@ endif()
 set(HypodermicTests_sources
 
     main.cpp
-    
+
+    ContainerBuilderTests.cpp
     ContainerTests.cpp
+    ContainerTests.IncompleteTypeResolution.cpp
     DefaultConstructibleTests.cpp
     GithubTests.cpp
+    IsCompleteTests.cpp
+    MemoryTests.cpp
     NestedContainerTests.cpp
     PerformanceTests.cpp
     ProvidedDependenciesTests.cpp
     ProvidedInstanceFactoryRegistrationTests.cpp
     ProvidedInstanceRegistrationTests.cpp
     RegistrationTests.cpp
-    MemoryTests.cpp
+    TestingTypes.ForwardDeclaredDependency.cpp
 )
 
 include_directories("..")
