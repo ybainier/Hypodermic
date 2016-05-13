@@ -43,11 +43,13 @@ namespace Hypodermic
         template <class T>
         std::shared_ptr< T > resolve()
         {
+            static_assert(Traits::IsComplete< T >::value, "T should be a complete type");
+
             auto&& instance = resolve< T >(createKeyForType< T >());
             if (instance != nullptr)
                 return instance;
 
-            return resolveIfTypeCanBeRegistered< T >(Traits::IsComplete< T >());
+            return resolveIfTypeCanBeRegistered< T >();
         }
 
         /// <summary>
@@ -58,6 +60,8 @@ namespace Hypodermic
         template <class T>
         std::vector< std::shared_ptr< T > > resolveAll()
         {
+            static_assert(Traits::IsComplete< T >::value, "T should be a complete type");
+
             return resolveAll< T >(createKeyForType< T >());
         }
 
@@ -67,6 +71,8 @@ namespace Hypodermic
         template <class T, class TDependency>
         std::function< std::shared_ptr< TDependency >(Container&) > getDependencyFactory()
         {
+            static_assert(Traits::IsComplete< TDependency >::value, "TDependency should be a complete type");
+
             std::vector< std::shared_ptr< IRegistration > > registrations;
             if (!tryGetRegistrations(createKeyForType< T >(), registrations))
                 return nullptr;
@@ -133,18 +139,12 @@ namespace Hypodermic
         }
 
         template <class T>
-        std::shared_ptr< T > resolveIfTypeCanBeRegistered(std::true_type /* type is complete */)
+        std::shared_ptr< T > resolveIfTypeCanBeRegistered()
         {
             if (!tryToRegisterType< T >(*m_registrationScope, Traits::HasAutowireableConstructor< T >()))
                 return nullptr;
 
             return resolve< T >(createKeyForType< T >());
-        }
-
-        template <class T>
-        std::shared_ptr< T > resolveIfTypeCanBeRegistered(std::false_type /* type is incomplete */)
-        {
-            return nullptr;
         }
 
         template <class T>

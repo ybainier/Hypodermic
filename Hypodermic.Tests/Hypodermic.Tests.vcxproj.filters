@@ -41,12 +41,6 @@
     <ClCompile Include="RegistrationTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="TestingTypes.ForwardDeclaredDependency.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
-    <ClCompile Include="ContainerTests.IncompleteTypeResolution.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
@@ -80,9 +74,6 @@
     </ClInclude>
     <ClInclude Include="DurationUnit.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="TestingTypes.ForwardDeclaredDependency.h">
-      <Filter>Tests</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
