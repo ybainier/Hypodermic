@@ -15,7 +15,6 @@ set(HypodermicTests_sources
 
     ContainerBuilderTests.cpp
     ContainerTests.cpp
-    ContainerTests.IncompleteTypeResolution.cpp
     DefaultConstructibleTests.cpp
     GithubTests.cpp
     IsCompleteTests.cpp
@@ -26,7 +25,6 @@ set(HypodermicTests_sources
     ProvidedInstanceFactoryRegistrationTests.cpp
     ProvidedInstanceRegistrationTests.cpp
     RegistrationTests.cpp
-    TestingTypes.ForwardDeclaredDependency.cpp
 )
 
 include_directories("..")
