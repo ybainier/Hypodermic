@@ -1,10 +1,8 @@
 #pragma once
 
 #include "Hypodermic/Container.h"
+#include "Hypodermic/ContainerInstanceRegistrationActivator.h"
 #include "Hypodermic/IRegistration.h"
-#include "Hypodermic/IRegistrationActivator.h"
-#include "Hypodermic/Log.h"
-#include "Hypodermic/NoopRegistrationActivationInterceptor.h"
 #include "Hypodermic/TypeAliasKey.h"
 #include "Hypodermic/TypeInfo.h"
 
@@ -12,13 +10,11 @@
 namespace Hypodermic
 {
 
-    class ContainerInstanceRegistration : public IRegistration,
-                                          public IRegistrationActivator,
-                                          public NoopRegistrationActivationInterceptor
+    class ContainerInstanceRegistration : public IRegistration
     {
     public:
         explicit ContainerInstanceRegistration(const std::shared_ptr< Container >& instance)
-            : m_instance(instance)
+            : m_activator(*this, instance)
             , m_instanceType(Utils::getMetaTypeInfo< Container >())
             , m_typeAliases()
         {
@@ -39,29 +35,13 @@ namespace Hypodermic
             return nullptr;
         }
 
-        IRegistrationActivator& activator() override
+        IRegistrationActivator& activator() const override
         {
-            return *this;
-        }
-
-        std::shared_ptr< void > activate(Container& container, const TypeAliasKey& typeAliasKey) override
-        {
-            return activate(*this, container, typeAliasKey);
-        }
-
-        std::shared_ptr< void > activate(IRegistrationActivationInterceptor&, Container&, const TypeAliasKey&) override
-        {
-            HYPODERMIC_LOG_INFO("Activating Container instance of type " << m_instanceType.fullyQualifiedName());
-
-            std::shared_ptr< void > instance = m_instance.lock();
-            if (instance == nullptr)
-                HYPODERMIC_LOG_WARN("Container instance of type " << m_instanceType.fullyQualifiedName() << " is null");
-
-            return instance;
+            return m_activator;
         }
 
     private:
-        std::weak_ptr< Container > m_instance;
+        mutable ContainerInstanceRegistrationActivator m_activator;
         TypeInfo m_instanceType;
         std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > m_typeAliases;
     };

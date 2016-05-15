@@ -25,7 +25,7 @@ namespace Hypodermic
 
         virtual std::function< std::shared_ptr< void >(Container&) > getDependencyFactory(const TypeInfo& dependencyType) const = 0;
 
-        virtual IRegistrationActivator& activator() = 0;
+        virtual IRegistrationActivator& activator() const = 0;
     };
 
 } // namespace Hypodermic

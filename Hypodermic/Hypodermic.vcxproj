@@ -169,6 +169,7 @@
     <ClInclude Include="Container.h" />
     <ClInclude Include="ContainerBuilder.h" />
     <ClInclude Include="ContainerInstanceRegistration.h" />
+    <ClInclude Include="ContainerInstanceRegistrationActivator.h" />
     <ClInclude Include="DependencyActivationException.h" />
     <ClInclude Include="DependencyFactoryTag.h" />
     <ClInclude Include="ExceptionBase.h" />
@@ -193,11 +194,14 @@
     <ClInclude Include="NoopLoggerSink.h" />
     <ClInclude Include="OnActivated.h" />
     <ClInclude Include="PersistentInstanceRegistration.h" />
+    <ClInclude Include="PersistentInstanceRegistrationActivator.h" />
     <ClInclude Include="ProvidedDependencyTag.h" />
     <ClInclude Include="ProvidedInstanceDependencyTag.h" />
     <ClInclude Include="ProvidedInstanceRegistration.h" />
+    <ClInclude Include="ProvidedInstanceRegistrationActivator.h" />
     <ClInclude Include="ProvidedInstanceRegistrationDescriptor.h" />
     <ClInclude Include="ProvidedInstanceFactoryRegistrationDescriptor.h" />
+    <ClInclude Include="RegistrationActivator.h" />
     <ClInclude Include="RegistrationBuilder.h" />
     <ClInclude Include="RegistrationDescriptorBase.h" />
     <ClInclude Include="RegistrationDescriptorBuilder.h" />

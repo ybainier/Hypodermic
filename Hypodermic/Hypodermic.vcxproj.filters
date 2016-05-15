@@ -31,6 +31,9 @@
     <Filter Include="RegistrationDescriptors\Tags">
       <UniqueIdentifier>{384ee7f0-5f39-4182-9702-20a38917da40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Registrations\Activators">
+      <UniqueIdentifier>{94742c69-1098-4336-82c3-9a3c8ab862af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Container.h" />
@@ -202,13 +205,25 @@
       <Filter>Registrations</Filter>
     </ClInclude>
     <ClInclude Include="IRegistrationActivator.h">
-      <Filter>Registrations</Filter>
+      <Filter>Registrations\Activators</Filter>
     </ClInclude>
     <ClInclude Include="IRegistrationActivationInterceptor.h">
-      <Filter>Registrations</Filter>
+      <Filter>Registrations\Activators</Filter>
     </ClInclude>
     <ClInclude Include="NoopRegistrationActivationInterceptor.h">
-      <Filter>Registrations</Filter>
+      <Filter>Registrations\Activators</Filter>
+    </ClInclude>
+    <ClInclude Include="RegistrationActivator.h">
+      <Filter>Registrations\Activators</Filter>
+    </ClInclude>
+    <ClInclude Include="ContainerInstanceRegistrationActivator.h">
+      <Filter>Registrations\Activators</Filter>
+    </ClInclude>
+    <ClInclude Include="ProvidedInstanceRegistrationActivator.h">
+      <Filter>Registrations\Activators</Filter>
+    </ClInclude>
+    <ClInclude Include="PersistentInstanceRegistrationActivator.h">
+      <Filter>Registrations\Activators</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

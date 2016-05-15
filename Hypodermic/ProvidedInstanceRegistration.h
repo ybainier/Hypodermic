@@ -1,10 +1,7 @@
 #pragma once
 
 #include "Hypodermic/IRegistration.h"
-#include "Hypodermic/IRegistrationActivator.h"
-#include "Hypodermic/Log.h"
-#include "Hypodermic/NoopRegistrationActivationInterceptor.h"
-#include "Hypodermic/RegistrationExtensions.h"
+#include "Hypodermic/ProvidedInstanceRegistrationActivator.h"
 #include "Hypodermic/TypeAliasKey.h"
 #include "Hypodermic/TypeInfo.h"
 
@@ -13,14 +10,12 @@ namespace Hypodermic
 {
 
     template <class T>
-    class ProvidedInstanceRegistration : public IRegistration,
-                                         public IRegistrationActivator,
-                                         public NoopRegistrationActivationInterceptor
+    class ProvidedInstanceRegistration : public IRegistration
     {
     public:
         ProvidedInstanceRegistration(const std::shared_ptr< T >& instance,
                                      const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases)
-            : m_instance(instance)
+            : m_activator(*this, instance)
             , m_instanceType(Utils::getMetaTypeInfo< T >())
             , m_typeAliases(typeAliases)
         {
@@ -41,36 +36,13 @@ namespace Hypodermic
             return nullptr;
         }
 
-        IRegistrationActivator& activator() override
+        IRegistrationActivator& activator() const override
         {
-            return *this;
-        }
-
-        std::shared_ptr< void > activate(Container& container, const TypeAliasKey& typeAliasKey) override
-        {
-            return activate(*this, container, typeAliasKey);
-        }
-
-        std::shared_ptr< void > activate(IRegistrationActivationInterceptor& activationInterceptor, Container&, const TypeAliasKey& typeAliasKey) override
-        {
-            HYPODERMIC_LOG_INFO("Activating provided instance of type " << m_instanceType.fullyQualifiedName());
-
-            activationInterceptor.onSourceRegistrationActivated(m_instance);
-
-            auto&& instance = RegistrationExtensions::getAlignedPointer(*this, m_instance, typeAliasKey);
-
-            activationInterceptor.onRegistrationActivated(instance, typeAliasKey);
-
-            if (instance == nullptr)
-            {
-                HYPODERMIC_LOG_WARN("Provided instance of type " << m_instanceType.fullyQualifiedName() << " is null");
-            }
-
-            return instance;
+            return m_activator;
         }
 
     private:
-        std::shared_ptr< T > m_instance;
+        mutable ProvidedInstanceRegistrationActivator< T > m_activator;
         TypeInfo m_instanceType;
         std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > m_typeAliases;
     };
