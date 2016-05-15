@@ -21,6 +21,7 @@ set(HypodermicTests_sources
     MemoryTests.cpp
     NestedContainerTests.cpp
     PerformanceTests.cpp
+    PersistentInstanceRegistrationTests.cpp
     ProvidedDependenciesTests.cpp
     ProvidedInstanceFactoryRegistrationTests.cpp
     ProvidedInstanceRegistrationTests.cpp
