@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Hypodermic/IRegistration.h"
+#include "Hypodermic/IRegistrationActivator.h"
 #include "Hypodermic/Log.h"
+#include "Hypodermic/NoopRegistrationActivationInterceptor.h"
+#include "Hypodermic/RegistrationExtensions.h"
 #include "Hypodermic/TypeAliasKey.h"
 #include "Hypodermic/TypeInfo.h"
 
@@ -10,7 +13,9 @@ namespace Hypodermic
 {
 
     template <class T>
-    class ProvidedInstanceRegistration : public IRegistration
+    class ProvidedInstanceRegistration : public IRegistration,
+                                         public IRegistrationActivator,
+                                         public NoopRegistrationActivationInterceptor
     {
     public:
         ProvidedInstanceRegistration(const std::shared_ptr< T >& instance,
@@ -36,21 +41,30 @@ namespace Hypodermic
             return nullptr;
         }
 
-        std::shared_ptr< void > activate(Container&, const TypeAliasKey& typeAliasKey) override
+        IRegistrationActivator& activator() override
+        {
+            return *this;
+        }
+
+        std::shared_ptr< void > activate(Container& container, const TypeAliasKey& typeAliasKey) override
+        {
+            return activate(*this, container, typeAliasKey);
+        }
+
+        std::shared_ptr< void > activate(IRegistrationActivationInterceptor& activationInterceptor, Container&, const TypeAliasKey& typeAliasKey) override
         {
             HYPODERMIC_LOG_INFO("Activating provided instance of type " << m_instanceType.fullyQualifiedName());
 
-            std::shared_ptr< void > instance = m_instance;
+            activationInterceptor.onSourceRegistrationActivated(m_instance);
 
-            auto it = m_typeAliases.find(typeAliasKey);
-            if (it != std::end(m_typeAliases) && it->second != nullptr)
-            {
-                auto&& alignPointersFunc = it->second;
-                instance = alignPointersFunc(instance);
-            }
+            auto&& instance = RegistrationExtensions::getAlignedPointer(*this, m_instance, typeAliasKey);
+
+            activationInterceptor.onRegistrationActivated(instance, typeAliasKey);
 
             if (instance == nullptr)
+            {
                 HYPODERMIC_LOG_WARN("Provided instance of type " << m_instanceType.fullyQualifiedName() << " is null");
+            }
 
             return instance;
         }

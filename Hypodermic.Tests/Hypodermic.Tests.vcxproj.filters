@@ -41,6 +41,9 @@
     <ClCompile Include="RegistrationTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="PersistentInstanceRegistrationTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">

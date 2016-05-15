@@ -99,7 +99,7 @@ namespace Hypodermic
         template <class T>
         std::shared_ptr< T > resolve(const TypeAliasKey& typeAliasKey, IRegistration& registration)
         {
-            return std::static_pointer_cast< T >(registration.activate(*this, typeAliasKey));
+            return std::static_pointer_cast< T >(registration.activator().activate(*this, typeAliasKey));
         }
 
         template <class T>

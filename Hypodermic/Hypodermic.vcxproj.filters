@@ -198,5 +198,17 @@
     <ClInclude Include="IsComplete.h">
       <Filter>Traits</Filter>
     </ClInclude>
+    <ClInclude Include="RegistrationExtensions.h">
+      <Filter>Registrations</Filter>
+    </ClInclude>
+    <ClInclude Include="IRegistrationActivator.h">
+      <Filter>Registrations</Filter>
+    </ClInclude>
+    <ClInclude Include="IRegistrationActivationInterceptor.h">
+      <Filter>Registrations</Filter>
+    </ClInclude>
+    <ClInclude Include="NoopRegistrationActivationInterceptor.h">
+      <Filter>Registrations</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

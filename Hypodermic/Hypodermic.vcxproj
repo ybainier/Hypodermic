@@ -177,6 +177,8 @@
     <ClInclude Include="InstanceLifetime.h" />
     <ClInclude Include="IntegerSequence.h" />
     <ClInclude Include="IRegistration.h" />
+    <ClInclude Include="IRegistrationActivationInterceptor.h" />
+    <ClInclude Include="IRegistrationActivator.h" />
     <ClInclude Include="IRegistrationDescriptor.h" />
     <ClInclude Include="IRegistrationScope.h" />
     <ClInclude Include="IRuntimeRegistrationBuilder.h" />
@@ -187,6 +189,7 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LogLevel.h" />
     <ClInclude Include="NestedRegistrationScope.h" />
+    <ClInclude Include="NoopRegistrationActivationInterceptor.h" />
     <ClInclude Include="NoopLoggerSink.h" />
     <ClInclude Include="OnActivated.h" />
     <ClInclude Include="PersistentInstanceRegistration.h" />
@@ -201,6 +204,7 @@
     <ClInclude Include="RegistrationDescriptorInfo.h" />
     <ClInclude Include="RegistrationDescriptorInfoToString.h" />
     <ClInclude Include="RegistrationException.h" />
+    <ClInclude Include="RegistrationExtensions.h" />
     <ClInclude Include="RegistrationScope.h" />
     <ClInclude Include="InvokeAtScopeExit.h" />
     <ClInclude Include="RuntimeRegistrationBuilder.h" />

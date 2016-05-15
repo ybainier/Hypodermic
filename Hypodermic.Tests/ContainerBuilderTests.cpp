@@ -24,7 +24,7 @@ BOOST_AUTO_TEST_CASE(should_add_registrations)
     // Assert
     auto container = builder2.build();
     auto instance = container->resolve< Testing::ManualConstructible >();
-    BOOST_CHECK(instance != nullptr);
+    BOOST_REQUIRE(instance != nullptr);
     BOOST_CHECK_EQUAL(instance->i, expectedNumber);
 }
 

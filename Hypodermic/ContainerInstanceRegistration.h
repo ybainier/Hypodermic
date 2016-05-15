@@ -2,7 +2,9 @@
 
 #include "Hypodermic/Container.h"
 #include "Hypodermic/IRegistration.h"
+#include "Hypodermic/IRegistrationActivator.h"
 #include "Hypodermic/Log.h"
+#include "Hypodermic/NoopRegistrationActivationInterceptor.h"
 #include "Hypodermic/TypeAliasKey.h"
 #include "Hypodermic/TypeInfo.h"
 
@@ -10,7 +12,9 @@
 namespace Hypodermic
 {
 
-    class ContainerInstanceRegistration : public IRegistration
+    class ContainerInstanceRegistration : public IRegistration,
+                                          public IRegistrationActivator,
+                                          public NoopRegistrationActivationInterceptor
     {
     public:
         explicit ContainerInstanceRegistration(const std::shared_ptr< Container >& instance)
@@ -35,19 +39,21 @@ namespace Hypodermic
             return nullptr;
         }
 
-        std::shared_ptr< void > activate(Container&, const TypeAliasKey& typeAliasKey) override
+        IRegistrationActivator& activator() override
+        {
+            return *this;
+        }
+
+        std::shared_ptr< void > activate(Container& container, const TypeAliasKey& typeAliasKey) override
+        {
+            return activate(*this, container, typeAliasKey);
+        }
+
+        std::shared_ptr< void > activate(IRegistrationActivationInterceptor&, Container&, const TypeAliasKey& typeAliasKey) override
         {
             HYPODERMIC_LOG_INFO("Activating Container instance of type " << m_instanceType.fullyQualifiedName());
 
             std::shared_ptr< void > instance = m_instance.lock();
-
-            auto it = m_typeAliases.find(typeAliasKey);
-            if (it != std::end(m_typeAliases) && it->second != nullptr)
-            {
-                auto&& alignPointersFunc = it->second;
-                instance = alignPointersFunc(instance);
-            }
-
             if (instance == nullptr)
                 HYPODERMIC_LOG_WARN("Container instance of type " << m_instanceType.fullyQualifiedName() << " is null");
 
