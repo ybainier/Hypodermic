@@ -49,7 +49,7 @@ namespace Hypodermic
             return activate(*this, container, typeAliasKey);
         }
 
-        std::shared_ptr< void > activate(IRegistrationActivationInterceptor&, Container&, const TypeAliasKey& typeAliasKey) override
+        std::shared_ptr< void > activate(IRegistrationActivationInterceptor&, Container&, const TypeAliasKey&) override
         {
             HYPODERMIC_LOG_INFO("Activating Container instance of type " << m_instanceType.fullyQualifiedName());
 
