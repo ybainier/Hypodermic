@@ -6,6 +6,7 @@
 #include "Hypodermic/AutowireableConstructor.h"
 #include "Hypodermic/ConstructorDescriptor.h"
 #include "Hypodermic/IRegistration.h"
+#include "Hypodermic/IRegistrationActivator.h"
 #include "Hypodermic/IRegistrationScope.h"
 #include "Hypodermic/IRuntimeRegistrationBuilder.h"
 #include "Hypodermic/IsComplete.h"
