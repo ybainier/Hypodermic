@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include <iostream>
+
 #include "Hypodermic/Config.h"
 
 #if defined(HYPODERMIC_MODERN_COMPILER)
