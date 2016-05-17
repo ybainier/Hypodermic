@@ -102,13 +102,10 @@ namespace RegistrationDescriptorOperations
             EnforceDependencyNotAlreadyRegistered< TDependency >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
-            descriptor->template addDependencyFactory< TDependency >
-            (
-                [](Container& c)
-                {
-                    return std::static_pointer_cast< void >(c.resolve< TProvidedDependency >());
-                }
-            );
+            descriptor->template addDependencyFactory< TDependency >([](Container& c)
+            {
+                return std::static_pointer_cast< void >(c.resolve< TProvidedDependency >());
+            });
 
             auto updatedDescriptor = descriptor->template createUpdate< typename TDescriptorInfo::template RegisterDependency< TDependency, TProvidedDependency >::Type >();
             descriptor->registrationDescriptorUpdated()(updatedDescriptor);

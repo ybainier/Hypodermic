@@ -1,8 +1,5 @@
 #pragma once
 
-#include <string>
-#include <type_traits>
-
 #include <boost/mpl/has_key.hpp>
 #include <boost/mpl/identity.hpp>
 #include <boost/mpl/insert.hpp>

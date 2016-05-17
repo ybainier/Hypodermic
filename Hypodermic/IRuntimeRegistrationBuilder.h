@@ -10,9 +10,6 @@
 namespace Hypodermic
 {
 
-    class Container;
-
-
     class IRuntimeRegistrationBuilder
     {
     public:

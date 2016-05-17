@@ -1,10 +1,10 @@
 #pragma once
 
 #include <functional>
-#include <memory>
 #include <unordered_map>
 #include <vector>
 
+#include "Hypodermic/ActivationHandlers.h"
 #include "Hypodermic/DependencyFactories.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/RegistrationActivator.h"
@@ -24,7 +24,7 @@ namespace Hypodermic
                      const TypeAliases& typeAliases,
                      const InstanceFactory& instanceFactory,
                      const DependencyFactories& dependencyFactories,
-                     const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
+                     const ActivationHandlers& activationHandlers)
             : m_activator(*this, instanceFactory, activationHandlers)
             , m_instanceType(instanceType)
             , m_typeAliases(typeAliases)

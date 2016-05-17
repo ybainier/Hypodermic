@@ -6,7 +6,6 @@
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/IRegistrationActivationInterceptor.h"
 #include "Hypodermic/IRegistrationActivator.h"
-#include "Hypodermic/RegistrationException.h"
 #include "Hypodermic/Log.h"
 #include "Hypodermic/TypeAliasKey.h"
 #include "Hypodermic/TypeInfo.h"

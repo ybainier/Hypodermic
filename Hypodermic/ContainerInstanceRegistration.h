@@ -2,7 +2,6 @@
 
 #include "Hypodermic/Container.h"
 #include "Hypodermic/ContainerInstanceRegistrationActivator.h"
-#include "Hypodermic/InstanceFactory.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/TypeInfo.h"
 

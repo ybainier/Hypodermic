@@ -9,8 +9,6 @@
 namespace Hypodermic
 {
 
-    class Container;
-
     typedef std::unordered_map< TypeInfo, DependencyFactory > DependencyFactories;
 
 } // namespace Hypodermic

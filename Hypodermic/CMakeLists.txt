@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.6)
 
 set(Hypodermic_headers
 
+	ActivationHandler.h
+	ActivationHandlers.h
 	AnyArgument.h
 	ArgumentPack.h
 	ArgumentResolver.h

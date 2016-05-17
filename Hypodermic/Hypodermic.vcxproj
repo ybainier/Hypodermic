@@ -154,6 +154,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ActivationHandler.h" />
+    <ClInclude Include="ActivationHandlers.h" />
     <ClInclude Include="AnyArgument.h" />
     <ClInclude Include="ArgumentResolver.h" />
     <ClInclude Include="ArgumentPack.h" />

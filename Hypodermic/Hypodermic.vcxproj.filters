@@ -240,5 +240,11 @@
     <ClInclude Include="DependencyFactory.h">
       <Filter>Typedefs</Filter>
     </ClInclude>
+    <ClInclude Include="ActivationHandler.h">
+      <Filter>Typedefs</Filter>
+    </ClInclude>
+    <ClInclude Include="ActivationHandlers.h">
+      <Filter>Typedefs</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

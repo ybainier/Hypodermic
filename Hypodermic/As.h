@@ -1,6 +1,5 @@
 #pragma once
 
-#include <functional>
 #include <type_traits>
 
 #include "Hypodermic/TypeAliasKey.h"

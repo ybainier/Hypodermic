@@ -49,7 +49,7 @@ namespace Hypodermic
         AutowireableConstructorRegistrationDescriptor(const TypeInfo& instanceType,
                                                       const TypeAliases& typeAliases,
                                                       const DependencyFactories& dependencyFactories,
-                                                      const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
+                                                      const ActivationHandlers& activationHandlers)
             : BaseType(instanceType, typeAliases, dependencyFactories, activationHandlers)
         {
         }

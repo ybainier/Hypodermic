@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "Hypodermic/ActivationHandlers.h"
 #include "Hypodermic/DependencyFactories.h"
 #include "Hypodermic/InstanceLifetime.h"
 #include "Hypodermic/Registration.h"
@@ -31,7 +32,7 @@ namespace Hypodermic
                                                       const TypeAliases& typeAliases,
                                                       const InstanceFactory& instanceFactory,
                                                       const DependencyFactories& dependencyFactories,
-                                                      const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
+                                                      const ActivationHandlers& activationHandlers)
         {
             return std::make_shared< Registration >(instanceType, typeAliases, instanceFactory, dependencyFactories, activationHandlers);
         }
@@ -52,7 +53,7 @@ namespace Hypodermic
                                                       const TypeAliases& typeAliases,
                                                       const InstanceFactory& instanceFactory,
                                                       const DependencyFactories& dependencyFactories,
-                                                      const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
+                                                      const ActivationHandlers& activationHandlers)
         {
             return std::make_shared< PersistentInstanceRegistration >
             (

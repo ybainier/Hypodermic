@@ -39,7 +39,7 @@ namespace Hypodermic
         ProvidedInstanceRegistrationDescriptor(const TypeInfo& instanceType,
                                                const TypeAliases& typeAliases,
                                                const DependencyFactories& dependencyFactories,
-                                               const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers,
+                                               const ActivationHandlers& activationHandlers,
                                                const std::shared_ptr< InstanceType >& instance)
             : BaseType(instanceType, typeAliases, dependencyFactories, activationHandlers)
             , m_instance(instance)

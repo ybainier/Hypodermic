@@ -1,7 +1,6 @@
 #pragma once
 
-#include <unordered_map>
-
+#include "Hypodermic/ActivationHandlers.h"
 #include "Hypodermic/DependencyFactories.h"
 #include "Hypodermic/InstanceFactory.h"
 #include "Hypodermic/IRuntimeRegistrationBuilder.h"
@@ -23,7 +22,7 @@ namespace Hypodermic
                 TypeAliases(),
                 instanceFactory,
                 DependencyFactories(),
-                std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >()
+                ActivationHandlers()
             );
         }
     };

@@ -1,10 +1,6 @@
 #pragma once
 
-#include <type_traits>
-#include <unordered_map>
-#include <unordered_set>
-#include <vector>
-
+#include "Hypodermic/ActivationHandlers.h"
 #include "Hypodermic/DependencyFactories.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/IRegistrationDescriptor.h"
@@ -26,7 +22,7 @@ namespace Hypodermic
         RegistrationDescriptorBase(const TypeInfo& instanceType,
                                    const TypeAliases& typeAliases,
                                    const DependencyFactories& dependencyFactories,
-                                   const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
+                                   const ActivationHandlers& activationHandlers)
             : m_instanceType(instanceType)
             , m_typeAliases(typeAliases)
             , m_dependencyFactories(dependencyFactories)
@@ -44,7 +40,7 @@ namespace Hypodermic
             return m_instanceType;
         }
 
-        Action& registrationDescriptorUpdated() const override
+        Updated& registrationDescriptorUpdated() const override
         {
             return m_registrationDescriptorUpdated;
         }
@@ -65,7 +61,7 @@ namespace Hypodermic
             return m_dependencyFactories;
         }
 
-        const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers() const
+        const ActivationHandlers& activationHandlers() const
         {
             return m_activationHandlers;
         }
@@ -86,7 +82,7 @@ namespace Hypodermic
             m_dependencyFactories[Utils::getMetaTypeInfo< T >()] = factory;
         }
 
-        void addActivationHandler(const std::function< void(Container&, const std::shared_ptr< void >&) >& activationHandler)
+        void addActivationHandler(const ActivationHandler& activationHandler)
         {
             if (!activationHandler)
                 return;
@@ -100,8 +96,8 @@ namespace Hypodermic
         TypeInfo m_instanceType;
         TypeAliases m_typeAliases;
         DependencyFactories m_dependencyFactories;
-        std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > > m_activationHandlers;
-        mutable Action m_registrationDescriptorUpdated;
+        ActivationHandlers m_activationHandlers;
+        mutable Updated m_registrationDescriptorUpdated;
     };
 
 } // namespace Hypodermic

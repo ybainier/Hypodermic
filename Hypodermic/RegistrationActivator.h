@@ -3,11 +3,11 @@
 #include <functional>
 #include <memory>
 #include <mutex>
-#include <unordered_map>
 #include <vector>
 
 #include <boost/signals2.hpp>
 
+#include "Hypodermic/ActivationHandlers.h"
 #include "Hypodermic/CircularDependencyException.h"
 #include "Hypodermic/DependencyActivationException.h"
 #include "Hypodermic/InstanceAlreadyActivatingException.h"
@@ -31,7 +31,7 @@ namespace Hypodermic
     public:
         RegistrationActivator(const IRegistration& registration,
                               const InstanceFactory& instanceFactory,
-                              const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
+                              const ActivationHandlers& activationHandlers)
             : m_registration(registration)
             , m_instanceFactory(instanceFactory)
             , m_activating(false)
