@@ -21,9 +21,12 @@ set(Hypodermic_headers
 	ContainerInstanceRegistration.h
 	ContainerInstanceRegistrationActivator.h
 	DependencyActivationException.h
+    DependencyFactories.h
+    DependencyFactory.h
 	DependencyFactoryTag.h
 	ExceptionBase.h
 	ILoggerSink.h
+	InstanceFactory.h
 	IRegistration.h
 	IRegistrationActivationInterceptor.h
 	IRegistrationActivator.h
@@ -66,6 +69,7 @@ set(Hypodermic_headers
 	RuntimeRegistrationBuilder.h
 	SingleInstance.h
 	TypeAlias.h
+	TypeAliases.h
 	TypeAliasKey.h
 	TypeInfo.h
 	With.h

@@ -70,18 +70,11 @@ namespace Hypodermic
         template <class T> friend struct Traits::ArgumentResolver;
 
         template <class T, class TDependency>
-        std::function< std::shared_ptr< TDependency >(Container&) > getDependencyFactory()
+        std::function< std::shared_ptr< TDependency >(Container&) > getDependencyFactory(const IRegistration& registration)
         {
             static_assert(Traits::IsComplete< TDependency >::value, "TDependency should be a complete type");
 
-            std::vector< std::shared_ptr< IRegistration > > registrations;
-            if (!tryGetRegistrations(createKeyForType< T >(), registrations))
-                return nullptr;
-
-            if (registrations.empty())
-                return nullptr;
-
-            return getDependencyFactory< TDependency >(*registrations.back());
+            return getDependencyFactory< TDependency >(registration);
         }
 
         template <class T>
@@ -156,7 +149,7 @@ namespace Hypodermic
             scope.addRegistration(m_runtimeRegistrationBuilder->build
             (
                 Utils::getMetaTypeInfo< T >(),
-                [factory](Container& container) { return std::static_pointer_cast< void >(factory(container)); }
+                [factory](const IRegistration& registration, Container& container) { return std::static_pointer_cast< void >(factory(registration, container)); }
             ));
 
             return true;

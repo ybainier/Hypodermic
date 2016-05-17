@@ -1,8 +1,7 @@
 #pragma once
 
-#include <functional>
-#include <memory>
-#include <unordered_map>
+#include "Hypodermic/DependencyFactory.h"
+#include "Hypodermic/TypeAliases.h"
 
 
 namespace Hypodermic
@@ -10,7 +9,6 @@ namespace Hypodermic
 
     class Container;
     class IRegistrationActivator;
-    class TypeAliasKey;
     struct TypeInfo;
 
 
@@ -21,9 +19,9 @@ namespace Hypodermic
 
         virtual const TypeInfo& instanceType() const = 0;
 
-        virtual const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases() const = 0;
+        virtual const TypeAliases& typeAliases() const = 0;
 
-        virtual std::function< std::shared_ptr< void >(Container&) > getDependencyFactory(const TypeInfo& dependencyType) const = 0;
+        virtual DependencyFactory getDependencyFactory(const TypeInfo& dependencyType) const = 0;
 
         virtual IRegistrationActivator& activator() const = 0;
     };

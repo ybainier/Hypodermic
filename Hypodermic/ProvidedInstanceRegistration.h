@@ -2,7 +2,6 @@
 
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/ProvidedInstanceRegistrationActivator.h"
-#include "Hypodermic/TypeAliasKey.h"
 #include "Hypodermic/TypeInfo.h"
 
 
@@ -14,7 +13,7 @@ namespace Hypodermic
     {
     public:
         ProvidedInstanceRegistration(const std::shared_ptr< T >& instance,
-                                     const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases)
+                                     const TypeAliases& typeAliases)
             : m_activator(*this, instance)
             , m_instanceType(Utils::getMetaTypeInfo< T >())
             , m_typeAliases(typeAliases)
@@ -26,12 +25,12 @@ namespace Hypodermic
             return m_instanceType;
         }
 
-        const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases() const override
+        const TypeAliases& typeAliases() const override
         {
             return m_typeAliases;
         }
 
-        std::function< std::shared_ptr< void >(Container&) > getDependencyFactory(const TypeInfo&) const override
+        DependencyFactory getDependencyFactory(const TypeInfo&) const override
         {
             return nullptr;
         }
@@ -44,7 +43,7 @@ namespace Hypodermic
     private:
         mutable ProvidedInstanceRegistrationActivator< T > m_activator;
         TypeInfo m_instanceType;
-        std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > m_typeAliases;
+        TypeAliases m_typeAliases;
     };
 
 } // namespace Hypodermic

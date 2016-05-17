@@ -14,6 +14,7 @@ namespace Hypodermic
 {
 
     class Container;
+    class IRegistration;
 
 
 namespace Traits
@@ -25,18 +26,20 @@ namespace Traits
         template <class TParent>
         struct ArgumentResolverInvoker
         {
-            explicit ArgumentResolverInvoker(Container& container)
-                : m_container(container)
+            explicit ArgumentResolverInvoker(const IRegistration& registration, Container& container)
+                : m_registration(registration)
+                , m_container(container)
             {
             }
 
             template <class T, class = typename std::enable_if< !std::is_convertible< TParent, T >::value && IsSupportedArgument< typename std::decay< T >::type >::value >::type>
             operator T()
             {
-                return ArgumentResolver< typename std::decay< T >::type >::template resolveFor< TParent >(m_container);
+                return ArgumentResolver< typename std::decay< T >::type >::template resolveFor< TParent >(m_registration, m_container);
             }
 
         private:
+            const IRegistration& m_registration;
             Container& m_container;
         };
 
@@ -48,9 +51,9 @@ namespace Traits
         template <class T>
         struct ConstructorDescriptor< T, Utils::ArgumentPack<> >
         {
-            static std::function< std::shared_ptr< T >(Container&) > describe()
+            static std::function< std::shared_ptr< T >(const IRegistration&, Container&) > describe()
             {
-                return [](Container&)
+                return [](const IRegistration&, Container&)
                 {
                     return std::make_shared< T >();
                 };
@@ -61,11 +64,11 @@ namespace Traits
         template <class T, class... TAnyArgument>
         struct ConstructorDescriptor< T, Utils::ArgumentPack< TAnyArgument... > >
         {
-            static std::function< std::shared_ptr< T >(Container&) > describe()
+            static std::function< std::shared_ptr< T >(const IRegistration&, Container&) > describe()
             {
-                return [](Container& container)
+                return [](const IRegistration& registration, Container& container)
                 {
-                    return std::make_shared< T >(ArgumentResolverInvoker< typename TAnyArgument::Type >(container)...);
+                    return std::make_shared< T >(ArgumentResolverInvoker< typename TAnyArgument::Type >(registration, container)...);
                 };
             }
         };

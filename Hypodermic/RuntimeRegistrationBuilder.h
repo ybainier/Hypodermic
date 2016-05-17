@@ -2,8 +2,11 @@
 
 #include <unordered_map>
 
+#include "Hypodermic/DependencyFactories.h"
+#include "Hypodermic/InstanceFactory.h"
 #include "Hypodermic/IRuntimeRegistrationBuilder.h"
 #include "Hypodermic/Registration.h"
+#include "Hypodermic/TypeAliases.h"
 
 
 namespace Hypodermic
@@ -12,14 +15,14 @@ namespace Hypodermic
     class RuntimeRegistrationBuilder : public IRuntimeRegistrationBuilder
     {
     public:
-        std::shared_ptr< IRegistration > build(const TypeInfo& instanceType, const std::function< std::shared_ptr< void >(Container&) >& instanceFactory) override
+        std::shared_ptr< IRegistration > build(const TypeInfo& instanceType, const InstanceFactory& instanceFactory) override
         {
             return std::make_shared< Registration >
             (
                 instanceType,
-                std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >(),
+                TypeAliases(),
                 instanceFactory,
-                std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > >(),
+                DependencyFactories(),
                 std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >()
             );
         }

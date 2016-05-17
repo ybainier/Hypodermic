@@ -263,7 +263,7 @@ BOOST_AUTO_TEST_CASE(should_resolve_non_registered_types)
     auto container = builder.build();
 
     // Act
-    auto instance = container->resolve< Testing::AutowiredProvidedConstructor >();
+    auto instance = container->resolve< Testing::TypeWithOneDependency >();
 
     // Assert
     BOOST_REQUIRE(instance != nullptr);

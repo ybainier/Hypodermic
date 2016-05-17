@@ -171,10 +171,13 @@
     <ClInclude Include="ContainerInstanceRegistration.h" />
     <ClInclude Include="ContainerInstanceRegistrationActivator.h" />
     <ClInclude Include="DependencyActivationException.h" />
+    <ClInclude Include="DependencyFactories.h" />
+    <ClInclude Include="DependencyFactory.h" />
     <ClInclude Include="DependencyFactoryTag.h" />
     <ClInclude Include="ExceptionBase.h" />
     <ClInclude Include="ILoggerSink.h" />
     <ClInclude Include="InstanceAlreadyActivatingException.h" />
+    <ClInclude Include="InstanceFactory.h" />
     <ClInclude Include="InstanceLifetime.h" />
     <ClInclude Include="IntegerSequence.h" />
     <ClInclude Include="IRegistration.h" />
@@ -215,6 +218,7 @@
     <ClInclude Include="SingleInstance.h" />
     <ClInclude Include="InstanceRegistrationTags.h" />
     <ClInclude Include="TypeAlias.h" />
+    <ClInclude Include="TypeAliases.h" />
     <ClInclude Include="TypeAliasKey.h" />
     <ClInclude Include="TypeInfo.h" />
     <ClInclude Include="Registration.h" />

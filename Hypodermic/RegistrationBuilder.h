@@ -4,11 +4,12 @@
 #include <memory>
 #include <vector>
 
+#include "Hypodermic/DependencyFactories.h"
 #include "Hypodermic/InstanceLifetime.h"
 #include "Hypodermic/Registration.h"
 #include "Hypodermic/PersistentInstanceRegistration.h"
 #include "Hypodermic/ProvidedInstanceRegistration.h"
-#include "Hypodermic/TypeAliasKey.h"
+#include "Hypodermic/TypeAliases.h"
 
 
 namespace Hypodermic
@@ -25,14 +26,10 @@ namespace Hypodermic
     template <class TRegistrationDescriptorInfo>
     class RegistrationBuilder< TRegistrationDescriptorInfo, TransientInstance >
     {
-    private:
-        typedef std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > TypeAliases;
-        typedef std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > > DependencyFactories;
-
     public:
         static std::shared_ptr< IRegistration > build(const TypeInfo& instanceType,
                                                       const TypeAliases& typeAliases,
-                                                      const std::function< std::shared_ptr< void >(Container&) >& instanceFactory,
+                                                      const InstanceFactory& instanceFactory,
                                                       const DependencyFactories& dependencyFactories,
                                                       const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
         {
@@ -50,14 +47,10 @@ namespace Hypodermic
     template <class TRegistrationDescriptorInfo>
     class RegistrationBuilder< TRegistrationDescriptorInfo, PersistentInstance >
     {
-    private:
-        typedef std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > TypeAliases;
-        typedef std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > > DependencyFactories;
-
     public:
         static std::shared_ptr< IRegistration > build(const TypeInfo& instanceType,
                                                       const TypeAliases& typeAliases,
-                                                      const std::function< std::shared_ptr< void >(Container&) >& instanceFactory,
+                                                      const InstanceFactory& instanceFactory,
                                                       const DependencyFactories& dependencyFactories,
                                                       const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
         {

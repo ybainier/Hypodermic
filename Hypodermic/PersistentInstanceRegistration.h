@@ -5,7 +5,6 @@
 
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/PersistentInstanceRegistrationActivator.h"
-#include "Hypodermic/TypeAliasKey.h"
 #include "Hypodermic/TypeInfo.h"
 
 
@@ -26,12 +25,12 @@ namespace Hypodermic
             return m_registration->instanceType();
         }
 
-        const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases() const override
+        const TypeAliases& typeAliases() const override
         {
             return m_registration->typeAliases();
         }
 
-        std::function< std::shared_ptr< void >(Container&) > getDependencyFactory(const TypeInfo& dependencyType) const override
+        DependencyFactory getDependencyFactory(const TypeInfo& dependencyType) const override
         {
             return m_registration->getDependencyFactory(dependencyType);
         }

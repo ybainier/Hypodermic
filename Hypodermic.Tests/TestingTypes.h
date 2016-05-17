@@ -81,16 +81,26 @@ namespace Testing
     {
     public:
         virtual ~ProvidedDependencyBase() {}
+
+        virtual void doSomething() = 0;
     };
 
     class ProvidedDependency : public ProvidedDependencyBase
     {
+    public:
+        void doSomething() override {}
     };
 
-    class AutowiredProvidedConstructor
+    class RandomTypeBase
     {
     public:
-        explicit AutowiredProvidedConstructor(const std::shared_ptr< ProvidedDependencyBase >& dependency)
+        virtual ~RandomTypeBase() {}
+    };
+
+    class TypeWithOneDependency : public RandomTypeBase
+    {
+    public:
+        explicit TypeWithOneDependency(const std::shared_ptr< ProvidedDependencyBase >& dependency)
             : dependency(dependency)
         {
             if (this->dependency == nullptr)

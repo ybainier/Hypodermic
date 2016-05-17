@@ -5,11 +5,11 @@
 #include <unordered_set>
 #include <vector>
 
+#include "Hypodermic/DependencyFactories.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/IRegistrationDescriptor.h"
 #include "Hypodermic/RegistrationDescriptorInfo.h"
-#include "Hypodermic/TypeAliasKey.h"
-#include "Hypodermic/TypeInfo.h"
+#include "Hypodermic/TypeAliases.h"
 
 
 namespace Hypodermic
@@ -24,8 +24,8 @@ namespace Hypodermic
     {
     public:
         RegistrationDescriptorBase(const TypeInfo& instanceType,
-                                   const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases,
-                                   const std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > >& dependencyFactories,
+                                   const TypeAliases& typeAliases,
+                                   const DependencyFactories& dependencyFactories,
                                    const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
             : m_instanceType(instanceType)
             , m_typeAliases(typeAliases)
@@ -55,12 +55,12 @@ namespace Hypodermic
         }
 
     protected:
-        const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases() const
+        const TypeAliases& typeAliases() const
         {
             return m_typeAliases;
         }
 
-        const std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > >& dependencyFactories() const
+        const DependencyFactories& dependencyFactories() const
         {
             return m_dependencyFactories;
         }
@@ -81,7 +81,7 @@ namespace Hypodermic
         }
 
         template <class T>
-        void addDependencyFactory(const std::function< std::shared_ptr< void >(Container&) >& factory)
+        void addDependencyFactory(const DependencyFactory& factory)
         {
             m_dependencyFactories[Utils::getMetaTypeInfo< T >()] = factory;
         }
@@ -98,8 +98,8 @@ namespace Hypodermic
 
     private:
         TypeInfo m_instanceType;
-        std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > m_typeAliases;
-        std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > > m_dependencyFactories;
+        TypeAliases m_typeAliases;
+        DependencyFactories m_dependencyFactories;
         std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > > m_activationHandlers;
         mutable Action m_registrationDescriptorUpdated;
     };

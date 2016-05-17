@@ -34,6 +34,9 @@
     <Filter Include="Registrations\Activators">
       <UniqueIdentifier>{94742c69-1098-4336-82c3-9a3c8ab862af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Typedefs">
+      <UniqueIdentifier>{25f1fb95-b086-4430-9f03-77cad57d89e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Container.h" />
@@ -224,6 +227,18 @@
     </ClInclude>
     <ClInclude Include="PersistentInstanceRegistrationActivator.h">
       <Filter>Registrations\Activators</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeAliases.h">
+      <Filter>Typedefs</Filter>
+    </ClInclude>
+    <ClInclude Include="DependencyFactories.h">
+      <Filter>Typedefs</Filter>
+    </ClInclude>
+    <ClInclude Include="InstanceFactory.h">
+      <Filter>Typedefs</Filter>
+    </ClInclude>
+    <ClInclude Include="DependencyFactory.h">
+      <Filter>Typedefs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

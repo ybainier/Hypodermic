@@ -11,6 +11,7 @@
 #include "Hypodermic/CircularDependencyException.h"
 #include "Hypodermic/DependencyActivationException.h"
 #include "Hypodermic/InstanceAlreadyActivatingException.h"
+#include "Hypodermic/InstanceFactory.h"
 #include "Hypodermic/InvokeAtScopeExit.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/IRegistrationActivator.h"
@@ -29,7 +30,7 @@ namespace Hypodermic
     {
     public:
         RegistrationActivator(const IRegistration& registration,
-                              const std::function< std::shared_ptr< void >(Container&) >& instanceFactory,
+                              const InstanceFactory& instanceFactory,
                               const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
             : m_registration(registration)
             , m_instanceFactory(instanceFactory)
@@ -84,7 +85,7 @@ namespace Hypodermic
 
             try
             {
-                auto&& instance = m_instanceFactory(container);
+                auto&& instance = m_instanceFactory(m_registration, container);
                 activationInterceptor.onSourceRegistrationActivated(instance);
 
                 instance = RegistrationExtensions::getAlignedPointer(m_registration, instance, typeAliasKey);
@@ -141,7 +142,7 @@ namespace Hypodermic
 
     private:
         const IRegistration& m_registration;
-        std::function< std::shared_ptr< void >(Container&) > m_instanceFactory;
+        InstanceFactory m_instanceFactory;
         bool m_activating;
         std::recursive_mutex m_mutex;
         boost::signals2::signal< void(Container&, const std::shared_ptr< void >&) > m_activated;

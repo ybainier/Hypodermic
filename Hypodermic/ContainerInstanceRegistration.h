@@ -2,8 +2,8 @@
 
 #include "Hypodermic/Container.h"
 #include "Hypodermic/ContainerInstanceRegistrationActivator.h"
+#include "Hypodermic/InstanceFactory.h"
 #include "Hypodermic/IRegistration.h"
-#include "Hypodermic/TypeAliasKey.h"
 #include "Hypodermic/TypeInfo.h"
 
 
@@ -25,12 +25,12 @@ namespace Hypodermic
             return m_instanceType;
         }
 
-        const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases() const override
+        const TypeAliases& typeAliases() const override
         {
             return m_typeAliases;
         }
 
-        std::function< std::shared_ptr< void >(Container&) > getDependencyFactory(const TypeInfo&) const override
+        DependencyFactory getDependencyFactory(const TypeInfo&) const override
         {
             return nullptr;
         }
@@ -43,7 +43,7 @@ namespace Hypodermic
     private:
         mutable ContainerInstanceRegistrationActivator m_activator;
         TypeInfo m_instanceType;
-        std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > > m_typeAliases;
+        TypeAliases m_typeAliases;
     };
 
 } // namespace Hypodermic

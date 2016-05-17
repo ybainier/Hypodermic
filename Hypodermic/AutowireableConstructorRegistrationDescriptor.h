@@ -3,6 +3,7 @@
 #include "Hypodermic/As.h"
 #include "Hypodermic/AsSelf.h"
 #include "Hypodermic/ConstructorDescriptor.h"
+#include "Hypodermic/InstanceFactory.h"
 #include "Hypodermic/Log.h"
 #include "Hypodermic/OnActivated.h"
 #include "Hypodermic/RegistrationBuilder.h"
@@ -46,8 +47,8 @@ namespace Hypodermic
         }
 
         AutowireableConstructorRegistrationDescriptor(const TypeInfo& instanceType,
-                                                      const std::unordered_map< TypeAliasKey, std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) > >& typeAliases,
-                                                      const std::unordered_map< TypeInfo, std::function< std::shared_ptr< void >(Container&) > >& dependencyFactories,
+                                                      const TypeAliases& typeAliases,
+                                                      const DependencyFactories& dependencyFactories,
                                                       const std::vector< std::function< void(Container&, const std::shared_ptr< void >&) > >& activationHandlers)
             : BaseType(instanceType, typeAliases, dependencyFactories, activationHandlers)
         {
@@ -83,13 +84,13 @@ namespace Hypodermic
         }
 
     private:
-        std::function< std::shared_ptr< void >(Container&) > instanceFactory() const
+        InstanceFactory instanceFactory() const
         {
             auto&& factory = Traits::ConstructorDescriptor< InstanceType >::describe();
 
-            return [factory](Container& container)
+            return [factory](const IRegistration& registration, Container& container)
             {
-                return std::static_pointer_cast< void >(factory(container));
+                return std::static_pointer_cast< void >(factory(registration, container));
             };
         }
     };
