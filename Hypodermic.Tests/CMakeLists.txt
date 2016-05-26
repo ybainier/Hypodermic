@@ -13,6 +13,7 @@ set(HypodermicTests_sources
 
     main.cpp
 
+    CircularDependencyTests.cpp
     ContainerBuilderTests.cpp
     ContainerTests.cpp
     DefaultConstructibleTests.cpp
