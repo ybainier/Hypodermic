@@ -1,6 +1,9 @@
 #pragma once
 
-#include "Hypodermic/ActivationStack.h"
+#include <vector>
+
+#include "Hypodermic/ActivatedRegistrationInfo.h"
+#include "Hypodermic/ResolutionInfo.h"
 
 
 namespace Hypodermic
@@ -12,10 +15,12 @@ namespace Hypodermic
     class ResolutionContext
     {
     public:
-        ResolutionContext(ComponentContext& componentContext, ActivationStack& activationStack, ActivationStack& activatedRegistrations)
+        typedef std::vector< ResolutionInfo > ResolutionStack;
+        typedef std::vector< ActivatedRegistrationInfo > ActivatedRegistrations;
+
+    public:
+        explicit ResolutionContext(ComponentContext& componentContext)
             : m_componentContext(componentContext)
-            , m_activationStack(activationStack)
-            , m_activatedRegistrations(activatedRegistrations)
         {
         }
 
@@ -24,20 +29,20 @@ namespace Hypodermic
             return m_componentContext;
         }
 
-        ActivationStack& activationStack() const
+        ResolutionStack& resolutionStack()
         {
-            return m_activationStack;
+            return m_resolutionStack;
         }
 
-        ActivationStack& activatedRegistrations() const
+        ActivatedRegistrations& activatedRegistrations()
         {
             return m_activatedRegistrations;
         }
 
-    public:
+    private:
         ComponentContext& m_componentContext;
-        ActivationStack& m_activationStack;
-        ActivationStack& m_activatedRegistrations;
+        ResolutionStack m_resolutionStack;
+        ActivatedRegistrations m_activatedRegistrations;
     };
 
 } // namespace Hypodermic

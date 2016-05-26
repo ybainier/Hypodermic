@@ -11,10 +11,10 @@ namespace Hypodermic
     class TypeAliasKey;
 
     
-    class IResolutionScope
+    class IResolutionContainer
     {
     public:
-        virtual ~IResolutionScope() {}
+        virtual ~IResolutionContainer() {}
 
         virtual std::shared_ptr< void > getOrCreateComponent(const TypeAliasKey& typeAliasKey,
                                                              const std::shared_ptr< IRegistration >& registration,

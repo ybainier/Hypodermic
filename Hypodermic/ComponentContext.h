@@ -4,11 +4,11 @@
 #include <mutex>
 #include <vector>
 
-#include "Hypodermic/ActivationStack.h"
 #include "Hypodermic/AutowireableConstructor.h"
 #include "Hypodermic/ConstructorDescriptor.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/IRegistrationScope.h"
+#include "Hypodermic/IResolutionContainer.h"
 #include "Hypodermic/IRuntimeRegistrationBuilder.h"
 #include "Hypodermic/IsComplete.h"
 #include "Hypodermic/NestedRegistrationScope.h"
@@ -26,6 +26,7 @@ namespace Hypodermic
                          const std::shared_ptr< IRuntimeRegistrationBuilder >& runtimeRegistrationBuilder)
             : m_registrationScope(registrationScope)
             , m_runtimeRegistrationBuilder(runtimeRegistrationBuilder)
+            , m_resolutionContext(*this)
         {
         }
 
@@ -86,12 +87,10 @@ namespace Hypodermic
         template <class T>
         std::shared_ptr< T > resolve(const TypeAliasKey& typeAliasKey, const std::shared_ptr< RegistrationContext >& registrationContext)
         {
-            ResolutionContext resolutionContext(*this, m_activationStack, m_activatedRegistrations);
-
             std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
-            auto& scope = registrationContext->scope();
-            return std::static_pointer_cast< T >(scope.getOrCreateComponent(typeAliasKey, registrationContext->registration(), resolutionContext));
+            auto& resolutionContainer = registrationContext->resolutionContainer();
+            return std::static_pointer_cast< T >(resolutionContainer.getOrCreateComponent(typeAliasKey, registrationContext->registration(), m_resolutionContext));
         }
 
         template <class T>
@@ -162,8 +161,7 @@ namespace Hypodermic
     private:
         std::shared_ptr< IRegistrationScope > m_registrationScope;
         std::shared_ptr< IRuntimeRegistrationBuilder > m_runtimeRegistrationBuilder;
-        ActivationStack m_activationStack;
-        ActivationStack m_activatedRegistrations;
+        ResolutionContext m_resolutionContext;
         std::recursive_mutex m_mutex;
     };
 

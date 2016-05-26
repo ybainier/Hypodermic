@@ -154,11 +154,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ActivationResult.h" />
     <ClInclude Include="ActivationException.h" />
     <ClInclude Include="ActivationHandler.h" />
     <ClInclude Include="ActivationHandlers.h" />
+    <ClInclude Include="ActivatedRegistrationInfo.h" />
     <ClInclude Include="ActivationRegistry.h" />
-    <ClInclude Include="ActivationStack.h" />
+    <ClInclude Include="ResolutionInfo.h" />
     <ClInclude Include="AnyArgument.h" />
     <ClInclude Include="ArgumentResolver.h" />
     <ClInclude Include="ArgumentPack.h" />
@@ -190,7 +192,7 @@
     <ClInclude Include="IRegistrationActivator.h" />
     <ClInclude Include="IRegistrationDescriptor.h" />
     <ClInclude Include="IRegistrationScope.h" />
-    <ClInclude Include="IResolutionScope.h" />
+    <ClInclude Include="IResolutionContainer.h" />
     <ClInclude Include="IRuntimeRegistrationBuilder.h" />
     <ClInclude Include="IsComplete.h" />
     <ClInclude Include="IsSupportedArgument.h" />
@@ -216,8 +218,8 @@
     <ClInclude Include="RegistrationDescriptorInfoToString.h" />
     <ClInclude Include="RegistrationException.h" />
     <ClInclude Include="RegistrationScope.h" />
-    <ClInclude Include="InvokeAtScopeExit.h" />
     <ClInclude Include="RegistrationContext.h" />
+    <ClInclude Include="ResolutionContainer.h" />
     <ClInclude Include="ResolutionContext.h" />
     <ClInclude Include="RuntimeRegistrationBuilder.h" />
     <ClInclude Include="SingleInstance.h" />

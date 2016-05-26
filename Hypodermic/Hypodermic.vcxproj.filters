@@ -37,6 +37,9 @@
     <Filter Include="Activators">
       <UniqueIdentifier>{94742c69-1098-4336-82c3-9a3c8ab862af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resolution">
+      <UniqueIdentifier>{e65672a5-952e-47dc-abfd-870eb2731c2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Container.h" />
@@ -185,9 +188,6 @@
     <ClInclude Include="InstanceLifetime.h">
       <Filter>Descriptors</Filter>
     </ClInclude>
-    <ClInclude Include="InvokeAtScopeExit.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="Config.h" />
     <ClInclude Include="IsSupportedArgument.h">
       <Filter>Traits</Filter>
@@ -234,24 +234,33 @@
     <ClInclude Include="RegistrationActivator.h">
       <Filter>Activators</Filter>
     </ClInclude>
-    <ClInclude Include="ActivationRegistry.h">
-      <Filter>Scopes</Filter>
-    </ClInclude>
-    <ClInclude Include="IResolutionScope.h">
-      <Filter>Scopes</Filter>
-    </ClInclude>
     <ClInclude Include="RegistrationContext.h">
       <Filter>Scopes</Filter>
     </ClInclude>
     <ClInclude Include="ActivationException.h">
       <Filter>Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="ActivationStack.h">
-      <Filter>Typedefs</Filter>
-    </ClInclude>
     <ClInclude Include="ComponentContext.h" />
+    <ClInclude Include="IResolutionContainer.h">
+      <Filter>Resolution</Filter>
+    </ClInclude>
+    <ClInclude Include="ActivationRegistry.h">
+      <Filter>Resolution</Filter>
+    </ClInclude>
     <ClInclude Include="ResolutionContext.h">
-      <Filter>Scopes</Filter>
+      <Filter>Resolution</Filter>
+    </ClInclude>
+    <ClInclude Include="ResolutionContainer.h">
+      <Filter>Resolution</Filter>
+    </ClInclude>
+    <ClInclude Include="ResolutionInfo.h">
+      <Filter>Resolution</Filter>
+    </ClInclude>
+    <ClInclude Include="ActivatedRegistrationInfo.h">
+      <Filter>Resolution</Filter>
+    </ClInclude>
+    <ClInclude Include="ActivationResult.h">
+      <Filter>Resolution</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

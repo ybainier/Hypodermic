@@ -4,11 +4,12 @@ cmake_minimum_required(VERSION 2.6)
 
 set(Hypodermic_headers
 
+    ActivatedRegistrationInfo.h
     ActivationException.h
     ActivationHandler.h
     ActivationHandlers.h
     ActivationRegistry.h
-    ActivationStack.h
+    ActivationResult.h
     AnyArgument.h
     ArgumentPack.h
     ArgumentResolver.h
@@ -37,12 +38,11 @@ set(Hypodermic_headers
     InstanceLifetime.h
     InstanceRegistrationTags.h
     IntegerSequence.h
-    InvokeAtScopeExit.h
     IRegistration.h
     IRegistrationActivator.h
     IRegistrationDescriptor.h
     IRegistrationScope.h
-    IResolutionScope.h
+    IResolutionContainer.h
     IRuntimeRegistrationBuilder.h
     IsComplete.h
     IsSupportedArgument.h
@@ -70,7 +70,9 @@ set(Hypodermic_headers
     RegistrationDescriptorInfoToString.h
     RegistrationException.h
     RegistrationScope.h
+    ResolutionContainer.h
     ResolutionContext.h
+    ResolutionInfo.h
     RuntimeRegistrationBuilder.h
     SingleInstance.h
     TypeAlias.h
