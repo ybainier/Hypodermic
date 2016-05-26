@@ -20,7 +20,7 @@ ContainerBuilder builder;
 
 builder.registerInstance(std::make_shared< BusConfiguration >());
 
-builder.registerInstanceFactory([](Container&)
+builder.registerInstanceFactory([](ComponentContext&)
 {
     return std::make_shared< ThreadPool >(std::thread::hardware_concurrency());
 });
