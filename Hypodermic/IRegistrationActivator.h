@@ -6,9 +6,7 @@
 namespace Hypodermic
 {
 
-    class Container;
-    class IRegistrationActivationInterceptor;
-    class TypeAliasKey;
+    class ComponentContext;
 
 
     class IRegistrationActivator
@@ -16,11 +14,9 @@ namespace Hypodermic
     public:
         virtual ~IRegistrationActivator() {}
 
-        virtual std::shared_ptr< void > activate(Container& container, const TypeAliasKey& typeAliasKey) = 0;
+        virtual std::shared_ptr< void > activate(ComponentContext& container) = 0;
 
-        virtual std::shared_ptr< void > activate(IRegistrationActivationInterceptor& activationInterceptor,
-                                                 Container& container,
-                                                 const TypeAliasKey& typeAliasKey) = 0;
+        virtual void raiseActivated(ComponentContext& container, const std::shared_ptr< void >& instance) = 0;
     };
 
 } // namespace Hypodermic

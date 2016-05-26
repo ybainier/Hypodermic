@@ -1,6 +1,5 @@
 #pragma once
 
-#include <unordered_map>
 #include <vector>
 
 #include "Hypodermic/IRegistration.h"
@@ -25,26 +24,15 @@ namespace Hypodermic
             m_scope.addRegistration(registration);
         }
         
-        bool tryGetRegistrations(const TypeAliasKey& typeAliasKey, std::vector< std::shared_ptr< IRegistration > >& registrations) const override
+        bool tryGetRegistrations(const TypeAliasKey& typeAliasKey, std::vector< std::shared_ptr< RegistrationContext > >& registrationContexts) const override
         {
-            if (m_scope.isEmpty())
-                return m_parentScope->tryGetRegistrations(typeAliasKey, registrations);
-
-            if (!m_scope.tryGetRegistrations(typeAliasKey, registrations))
-                return m_parentScope->tryGetRegistrations(typeAliasKey, registrations);
-
-            return true;
-        }
-
-        bool isEmpty() const override
-        {
-            return m_scope.isEmpty();
+            auto result = m_scope.tryGetRegistrations(typeAliasKey, registrationContexts);
+            return m_parentScope->tryGetRegistrations(typeAliasKey, registrationContexts) || result;
         }
 
     private:
         RegistrationScope m_scope;
         std::shared_ptr< IRegistrationScope > m_parentScope;
-        std::unordered_map< TypeAliasKey, std::vector< std::shared_ptr< IRegistration > > > m_registrationsByBaseTypes;
     };
 
 } // namespace Hypodermic

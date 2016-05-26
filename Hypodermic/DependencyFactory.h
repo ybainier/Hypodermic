@@ -7,8 +7,8 @@
 namespace Hypodermic
 {
 
-    class Container;
+    class ComponentContext;
 
-    typedef std::function< std::shared_ptr< void >(Container&) > DependencyFactory;
+    typedef std::function< std::shared_ptr< void >(ComponentContext&) > DependencyFactory;
 
 } // namespace Hypodermic

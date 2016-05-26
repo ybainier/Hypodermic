@@ -3,7 +3,6 @@
 #include <unordered_map>
 
 #include "Hypodermic/IRegistration.h"
-#include "Hypodermic/PersistentInstanceRegistrationActivator.h"
 #include "Hypodermic/TypeInfo.h"
 
 
@@ -14,8 +13,7 @@ namespace Hypodermic
     {
     public:
         explicit PersistentInstanceRegistration(const std::shared_ptr< IRegistration >& registration)
-            : m_activator(*registration)
-            , m_registration(registration)
+            : m_registration(registration)
         {
         }
 
@@ -36,11 +34,15 @@ namespace Hypodermic
 
         IRegistrationActivator& activator() const override
         {
-            return m_activator;
+            return m_registration->activator();
+        }
+
+        InstanceLifetimes::InstanceLifetime instanceLifetime() const override
+        {
+            return InstanceLifetimes::Persistent;
         }
 
     private:
-        mutable PersistentInstanceRegistrationActivator m_activator;
         std::shared_ptr< IRegistration > m_registration;
     };
 

@@ -18,7 +18,7 @@ namespace Hypodermic
     public:
         static Logger& instance()
         {
-            static std::shared_ptr< Logger > instance(std::make_shared< Logger >(LoggerPrivateLock()));
+            static auto instance(std::make_shared< Logger >(LoggerPrivateLock()));
             return *instance;
         }
 
@@ -32,17 +32,22 @@ namespace Hypodermic
             instance().m_logLevel = level;
         }
 
-        bool isConfiguredForLevel(LogLevels::LogLevel level)
+        static LogLevels::LogLevel getLogLevel()
         {
-            return (int)level >= (int)m_logLevel;
+            return instance().m_logLevel;
         }
 
-        void log(LogLevels::LogLevel level, const std::string& message)
+        bool isConfiguredForLevel(LogLevels::LogLevel level) const
+        {
+            return static_cast< int >(level) >= static_cast< int >(m_logLevel);
+        }
+
+        void log(LogLevels::LogLevel level, const std::string& message) const
         {
             m_sink->append(level, message);
         }
 
-        Logger(const LoggerPrivateLock&)
+        explicit Logger(const LoggerPrivateLock&)
             : m_sink(std::make_shared< NoopLoggerSink >())
             , m_logLevel(LogLevels::Debug)
         {

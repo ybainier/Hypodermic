@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Hypodermic/DependencyFactory.h"
+#include "Hypodermic/InstanceLifetime.h"
 #include "Hypodermic/TypeAliases.h"
 
 
@@ -24,6 +25,8 @@ namespace Hypodermic
         virtual DependencyFactory getDependencyFactory(const TypeInfo& dependencyType) const = 0;
 
         virtual IRegistrationActivator& activator() const = 0;
+
+        virtual InstanceLifetimes::InstanceLifetime instanceLifetime() const = 0;
     };
 
 } // namespace Hypodermic

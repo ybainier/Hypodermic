@@ -183,6 +183,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CircularDependencyTests.cpp" />
     <ClCompile Include="ContainerBuilderTests.cpp" />
     <ClCompile Include="ContainerTests.cpp" />
     <ClCompile Include="DefaultConstructibleTests.cpp" />

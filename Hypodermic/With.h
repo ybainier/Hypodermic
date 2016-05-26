@@ -5,6 +5,9 @@
 
 namespace Hypodermic
 {
+
+    class ComponentContext;
+
 namespace RegistrationDescriptorOperations
 {
 
@@ -46,14 +49,14 @@ namespace RegistrationDescriptorOperations
         <
             typename TDescriptorInfo::template RegisterDependencyFactory< TDependency >::Type
         >
-        ::Type& with(const std::function< std::shared_ptr< TDependency >(Container&) >& factory)
+        ::Type& with(const std::function< std::shared_ptr< TDependency >(ComponentContext&) >& factory)
         {
             EnforceDependencyNotAlreadyRegistered< TDependency >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
             descriptor->template addDependencyFactory< TDependency >
             (
-                [factory](Container& c)
+                [factory](ComponentContext& c)
                 {
                     return std::static_pointer_cast< void >(factory(c));
                 }
@@ -79,7 +82,7 @@ namespace RegistrationDescriptorOperations
             auto descriptor = static_cast< TDescriptor* >(this);
             descriptor->template addDependencyFactory< TDependency >
             (
-                [providedInstance](Container&)
+                [providedInstance](ComponentContext&)
                 {
                     return std::static_pointer_cast< void >(providedInstance);
                 }
@@ -102,7 +105,7 @@ namespace RegistrationDescriptorOperations
             EnforceDependencyNotAlreadyRegistered< TDependency >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
-            descriptor->template addDependencyFactory< TDependency >([](Container& c)
+            descriptor->template addDependencyFactory< TDependency >([](ComponentContext& c)
             {
                 return std::static_pointer_cast< void >(c.resolve< TProvidedDependency >());
             });

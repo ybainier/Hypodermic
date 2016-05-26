@@ -38,7 +38,7 @@ namespace Hypodermic
         };
 
     public:
-        explicit ProvidedInstanceFactoryRegistrationDescriptor(const std::function< std::shared_ptr< InstanceType >(Container&) >& instanceFactory)
+        explicit ProvidedInstanceFactoryRegistrationDescriptor(const std::function< std::shared_ptr< InstanceType >(ComponentContext&) >& instanceFactory)
             : BaseType(Utils::getMetaTypeInfo< InstanceType >())
             , m_instanceFactory(instanceFactory)
         {
@@ -48,7 +48,7 @@ namespace Hypodermic
                                                       const TypeAliases& typeAliases,
                                                       const DependencyFactories& dependencyFactories,
                                                       const ActivationHandlers& activationHandlers,
-                                                      const std::function< std::shared_ptr< InstanceType >(Container&) >& instanceFactory)
+                                                      const std::function< std::shared_ptr< InstanceType >(ComponentContext&) >& instanceFactory)
             : BaseType(instanceType, typeAliases, dependencyFactories, activationHandlers)
             , m_instanceFactory(instanceFactory)
         {
@@ -89,13 +89,13 @@ namespace Hypodermic
         {
             auto&& factory = m_instanceFactory;
 
-            return [factory](const IRegistration&, Container& container)
+            return [factory](const IRegistration&, ComponentContext& componentContext)
             {
-                return std::static_pointer_cast< void >(factory(container));
+                return std::static_pointer_cast< void >(factory(componentContext));
             };
         }
 
-        std::function< std::shared_ptr< InstanceType >(Container&) > m_instanceFactory;
+        std::function< std::shared_ptr< InstanceType >(ComponentContext&) > m_instanceFactory;
     };
 
 } // namespace Hypodermic

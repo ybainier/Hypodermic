@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(should_register_type_with_provided_instance_factory_depende
     builder.registerType< Testing::ProvidedDependency >();
 
     builder.registerType< Testing::TypeWithOneDependency >()
-           .with< Testing::ProvidedDependencyBase >([](Container& c)
+           .with< Testing::ProvidedDependencyBase >([](ComponentContext& c)
             {
                 return c.resolve< Testing::ProvidedDependency >();
             });
@@ -165,7 +165,7 @@ BOOST_AUTO_TEST_CASE(should_register_type_as_an_alias_with_provided_instance_fac
     builder.registerType< Testing::ProvidedDependency >();
 
     builder.registerType< Testing::TypeWithOneDependency >()
-        .with< Testing::ProvidedDependencyBase >([](Container& c)
+        .with< Testing::ProvidedDependencyBase >([](ComponentContext& c)
         {
             return c.resolve< Testing::ProvidedDependency >();
         })

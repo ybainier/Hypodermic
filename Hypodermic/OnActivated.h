@@ -7,7 +7,7 @@
 namespace Hypodermic
 {
 
-    class Container;
+    class ComponentContext;
 
 namespace RegistrationDescriptorOperations
 {
@@ -25,12 +25,12 @@ namespace RegistrationDescriptorOperations
     public:
         // This template avoids Early Template Instantiation issue
         template <class TDelayedDescriptor = TDescriptor>
-        TDelayedDescriptor& onActivated(const std::function< void(Container&, const std::shared_ptr< InstanceType >&) >& handler)
+        TDelayedDescriptor& onActivated(const std::function< void(ComponentContext&, const std::shared_ptr< InstanceType >&) >& handler)
         {
             auto descriptor = static_cast< TDescriptor* >(this);
-            descriptor->addActivationHandler([handler](Container& container, const std::shared_ptr< void >& instance)
+            descriptor->addActivationHandler([handler](ComponentContext& componentContext, const std::shared_ptr< void >& instance)
             {
-                return handler(container, std::static_pointer_cast< InstanceType >(instance));
+                return handler(componentContext, std::static_pointer_cast< InstanceType >(instance));
             });
 
             return *descriptor;

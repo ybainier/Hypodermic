@@ -182,11 +182,11 @@ BOOST_AUTO_TEST_CASE(should_call_activation_handlers_everytime_an_instance_is_ac
 
     // Act
     builder.registerType< Testing::DefaultConstructible1 >()
-        .onActivated([&](Container&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
+        .onActivated([&](ComponentContext&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
         {
             activatedInstance = instance;
         })
-        .onActivated([&](Container&, const std::shared_ptr< Testing::DefaultConstructible1 >&)
+        .onActivated([&](ComponentContext&, const std::shared_ptr< Testing::DefaultConstructible1 >&)
         {
             activationCount++;
         });
@@ -216,7 +216,7 @@ BOOST_AUTO_TEST_CASE(should_call_activation_handler_only_once_when_a_single_inst
     // Act
     builder.registerType< Testing::DefaultConstructible1 >()
         .singleInstance()
-        .onActivated([&](Container&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
+        .onActivated([&](ComponentContext&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
         {
             activatedInstance = instance;
             activationCount++;
@@ -235,22 +235,6 @@ BOOST_AUTO_TEST_CASE(should_call_activation_handler_only_once_when_a_single_inst
     BOOST_CHECK(resolvedInstance2 == resolvedInstance);
     BOOST_CHECK(activatedInstance == resolvedInstance2);
     BOOST_CHECK_EQUAL(activationCount, 1);
-}
-
-BOOST_AUTO_TEST_CASE(should_throw_when_detecting_a_circular_dependency)
-{
-    // Arrange
-    ContainerBuilder builder;
-
-    // Act
-    builder.registerType< Testing::Type1 >().as< Testing::BaseType1 >();
-    builder.registerType< Testing::Type2 >().as< Testing::BaseType2 >();
-
-    auto container = builder.build();
-
-    // Assert
-    BOOST_CHECK_THROW(container->resolve< Testing::BaseType1 >(), std::exception);
-    BOOST_CHECK_THROW(container->resolve< Testing::BaseType2 >(), std::exception);
 }
 
 BOOST_AUTO_TEST_CASE(should_resolve_non_registered_types)

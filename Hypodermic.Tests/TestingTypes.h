@@ -163,6 +163,49 @@ namespace Testing
     };
 
 
+    class ILoader
+    {
+    public:
+        virtual ~ILoader() {}
+
+        virtual void load() = 0;
+    };
+
+    class Loader : public ILoader
+    {
+    public:
+        void load() override {}
+    };
+    
+
+    class TypeThatNeedsLoader
+    {
+    public:
+        explicit TypeThatNeedsLoader(const std::shared_ptr< ILoader >& dependency)
+            : dependency(dependency)
+        {
+            if (this->dependency == nullptr)
+                throw std::runtime_error("dependency cannot be null");
+        }
+
+        std::shared_ptr< ILoader > dependency;
+    };
+
+
+    class Initializer
+    {
+    public:
+        explicit Initializer(const std::shared_ptr< TypeThatNeedsLoader >& dependency)
+            : dependency(dependency)
+        {
+            if (this->dependency == nullptr)
+                throw std::runtime_error("dependency cannot be null");
+        }
+
+        std::shared_ptr< TypeThatNeedsLoader > dependency;
+    };
+
+
     class IncompleteType;
     class CompleteType {};
 

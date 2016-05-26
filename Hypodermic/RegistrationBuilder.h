@@ -36,12 +36,6 @@ namespace Hypodermic
         {
             return std::make_shared< Registration >(instanceType, typeAliases, instanceFactory, dependencyFactories, activationHandlers);
         }
-        
-        template <class T>
-        static std::shared_ptr< IRegistration > buildForProvidedInstance(const std::shared_ptr< T >& instance, const TypeAliases& typeAliases)
-        {
-            return std::make_shared< ProvidedInstanceRegistration< T > >(instance, typeAliases);
-        }
     };
 
 
@@ -71,14 +65,7 @@ namespace Hypodermic
         template <class T>
         static std::shared_ptr< IRegistration > buildForProvidedInstance(const std::shared_ptr< T >& instance, const TypeAliases& typeAliases)
         {
-            return std::make_shared< PersistentInstanceRegistration >
-            (
-                RegistrationBuilder< TRegistrationDescriptorInfo, TransientInstance >::template buildForProvidedInstance< T >
-                (
-                    instance,
-                    typeAliases
-                )
-            );
+            return std::make_shared< ProvidedInstanceRegistration< T > >(instance, typeAliases);
         }
     };
 

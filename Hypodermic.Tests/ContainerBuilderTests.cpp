@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_CASE(should_add_registrations)
     // Arrange
     int expectedNumber = 42;
     ContainerBuilder builder;
-    builder.registerInstanceFactory([&](Container&) { return std::make_shared< Testing::ManualConstructible >(expectedNumber); });
+    builder.registerInstanceFactory([&](ComponentContext&) { return std::make_shared< Testing::ManualConstructible >(expectedNumber); });
 
     // Act
     ContainerBuilder builder2;

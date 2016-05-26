@@ -10,6 +10,6 @@ namespace Hypodermic
     class Container;
     class IRegistration;
 
-    typedef std::function< std::shared_ptr< void >(const IRegistration&, Container&) > InstanceFactory;
+    typedef std::function< std::shared_ptr< void >(const IRegistration&, ComponentContext&) > InstanceFactory;
 
 } // namespace Hypodermic

@@ -19,14 +19,14 @@ namespace Traits
     {
         typedef std::shared_ptr< TArg > Type;
 
-        template <class T, class TRegistration, class TContainer>
-        static Type resolveFor(const TRegistration& registration, TContainer& container)
+        template <class T, class TRegistration, class TComponentContext>
+        static Type resolveFor(const TRegistration& registration, TComponentContext& context)
         {
-            auto&& factory = container.template getDependencyFactory< T, TArg >(registration);
+            auto&& factory = context.template getDependencyFactory< T, TArg >(registration);
             if (!factory)
-                return container.template resolve< TArg >();
+                return context.template resolve< TArg >();
 
-            return factory(container);
+            return factory(context);
         }
     };
 
@@ -36,10 +36,10 @@ namespace Traits
     {
         typedef std::vector< std::shared_ptr< TArg > > Type;
 
-        template <class, class TRegistration, class TContainer>
-        static Type resolveFor(const TRegistration&, TContainer& container)
+        template <class, class TRegistration, class TComponentContext>
+        static Type resolveFor(const TRegistration&, TComponentContext& context)
         {
-            return container.template resolveAll< TArg >();
+            return context.template resolveAll< TArg >();
         }
     };
 
@@ -49,12 +49,12 @@ namespace Traits
     {
         typedef std::function< std::shared_ptr< TArg >() > Type;
 
-        template <class T, class TRegistration, class TContainer>
-        static Type resolveFor(const TRegistration& registration, TContainer& container)
+        template <class T, class TRegistration, class TComponentContext>
+        static Type resolveFor(const TRegistration& registration, TComponentContext& context)
         {
-            return [&registration, &container]()
+            return [&registration, &context]()
             {
-                return ArgumentResolver< std::shared_ptr< TArg > >::template resolveFor< T >(registration, container);
+                return ArgumentResolver< std::shared_ptr< TArg > >::template resolveFor< T >(registration, context);
             };
         }
     };

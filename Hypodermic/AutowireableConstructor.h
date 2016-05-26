@@ -16,8 +16,7 @@ namespace Traits
         struct HasAutowireableConstructor;
 
         template <class T>
-        struct HasAutowireableConstructor< T, true, void > : std::false_type
-        {};
+        struct HasAutowireableConstructor< T, true, void > : std::false_type {};
 
         template <class T>
         struct HasAutowireableConstructor

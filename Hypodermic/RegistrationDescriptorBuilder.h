@@ -46,7 +46,7 @@ namespace Hypodermic
                 typedef struct { char dummy[2]; } no;
 
                 template <class T>
-                static yes test(decltype(std::declval< T >()(std::declval< Container& >()))*);
+                static yes test(decltype(std::declval< T >()(std::declval< ComponentContext& >()))*);
 
                 template <class T>
                 static no test(...);
@@ -57,7 +57,7 @@ namespace Hypodermic
             template <class TFunctor>
             struct GetResultType
             {
-                typedef decltype(std::declval< TFunctor >()(std::declval< Container& >())) Type;
+                typedef decltype(std::declval< TFunctor >()(std::declval< ComponentContext& >())) Type;
             };
 
             template <class TFunctor>
@@ -66,7 +66,7 @@ namespace Hypodermic
             };
 
         public:
-            static_assert(IsInvokableWithContainer< TCallable >::value, "TCallable should have an invokable function which signature matches std::shared_ptr< T >(Container&)");
+            static_assert(IsInvokableWithContainer< TCallable >::value, "TCallable should have an invokable function which signature matches std::shared_ptr< T >(ComponentContext&)");
             static_assert(IsResultASharedPtr< TCallable >::value, "TCallable should return a std:shared_ptr");
 
             typedef typename GetResultType< TCallable >::Type ResultType;

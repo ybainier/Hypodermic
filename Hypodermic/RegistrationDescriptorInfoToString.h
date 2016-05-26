@@ -78,10 +78,10 @@ namespace Hypodermic
             {
             }
 
-            template <class TIdentity>
-            void operator()(const TIdentity&)
+            template <class TIdentity, class T>
+            void operator()(const boost::mpl::pair< TIdentity, T >&)
             {
-                m_stream << ".As< " << Utils::getMetaTypeInfo< typename TIdentity::type >().fullyQualifiedName() << " >";
+                m_stream << ".As< " << Utils::getMetaTypeInfo< TIdentity >().fullyQualifiedName() << " >";
             }
 
         private:

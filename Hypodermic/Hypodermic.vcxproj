@@ -154,8 +154,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ActivationException.h" />
     <ClInclude Include="ActivationHandler.h" />
     <ClInclude Include="ActivationHandlers.h" />
+    <ClInclude Include="ActivationRegistry.h" />
+    <ClInclude Include="ActivationStack.h" />
     <ClInclude Include="AnyArgument.h" />
     <ClInclude Include="ArgumentResolver.h" />
     <ClInclude Include="ArgumentPack.h" />
@@ -164,6 +167,7 @@
     <ClInclude Include="AutowireableConstructor.h" />
     <ClInclude Include="AutowireableConstructorRegistrationDescriptor.h" />
     <ClInclude Include="CircularDependencyException.h" />
+    <ClInclude Include="ComponentContext.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="ConsoleLoggerSink.h" />
     <ClInclude Include="ConstructorDescriptor.h" />
@@ -183,10 +187,10 @@
     <ClInclude Include="InstanceLifetime.h" />
     <ClInclude Include="IntegerSequence.h" />
     <ClInclude Include="IRegistration.h" />
-    <ClInclude Include="IRegistrationActivationInterceptor.h" />
     <ClInclude Include="IRegistrationActivator.h" />
     <ClInclude Include="IRegistrationDescriptor.h" />
     <ClInclude Include="IRegistrationScope.h" />
+    <ClInclude Include="IResolutionScope.h" />
     <ClInclude Include="IRuntimeRegistrationBuilder.h" />
     <ClInclude Include="IsComplete.h" />
     <ClInclude Include="IsSupportedArgument.h" />
@@ -195,11 +199,9 @@
     <ClInclude Include="Logger.h" />
     <ClInclude Include="LogLevel.h" />
     <ClInclude Include="NestedRegistrationScope.h" />
-    <ClInclude Include="NoopRegistrationActivationInterceptor.h" />
     <ClInclude Include="NoopLoggerSink.h" />
     <ClInclude Include="OnActivated.h" />
     <ClInclude Include="PersistentInstanceRegistration.h" />
-    <ClInclude Include="PersistentInstanceRegistrationActivator.h" />
     <ClInclude Include="ProvidedDependencyTag.h" />
     <ClInclude Include="ProvidedInstanceDependencyTag.h" />
     <ClInclude Include="ProvidedInstanceRegistration.h" />
@@ -213,9 +215,10 @@
     <ClInclude Include="RegistrationDescriptorInfo.h" />
     <ClInclude Include="RegistrationDescriptorInfoToString.h" />
     <ClInclude Include="RegistrationException.h" />
-    <ClInclude Include="RegistrationExtensions.h" />
     <ClInclude Include="RegistrationScope.h" />
     <ClInclude Include="InvokeAtScopeExit.h" />
+    <ClInclude Include="RegistrationContext.h" />
+    <ClInclude Include="ResolutionContext.h" />
     <ClInclude Include="RuntimeRegistrationBuilder.h" />
     <ClInclude Include="SingleInstance.h" />
     <ClInclude Include="InstanceRegistrationTags.h" />

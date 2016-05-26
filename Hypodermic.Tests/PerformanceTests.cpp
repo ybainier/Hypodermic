@@ -6,12 +6,11 @@
 #if defined(HYPODERMIC_MODERN_COMPILER)
 
 #include "Hypodermic/ContainerBuilder.h"
+#include "Hypodermic/Logger.h"
 
 #include "Benchmark.h"
 #include "TestingTypes.h"
 
-
-using namespace Hypodermic;
 
 #if defined(_DEBUG)
 # define BENCHMARK_ITERATION_COUNT 10000
@@ -22,7 +21,34 @@ using namespace Hypodermic;
 #endif
 
 
-BOOST_AUTO_TEST_SUITE(PerformanceTests)
+namespace Testing
+{
+
+    struct PerformanceFixture
+    {
+        PerformanceFixture()
+            : m_previousLogLevel(Hypodermic::Logger::getLogLevel())
+        {
+            // Enabling logging during performance tests will seriously get you impatient.
+            Hypodermic::Logger::configureLogLevel(LogLevels::Off);
+        }
+
+        ~PerformanceFixture()
+        {
+            Hypodermic::Logger::configureLogLevel(m_previousLogLevel);
+        }
+
+    private:
+        Hypodermic::LogLevels::LogLevel m_previousLogLevel;
+    };
+
+}
+
+
+using namespace Hypodermic;
+
+
+BOOST_FIXTURE_TEST_SUITE(PerformanceTests, Testing::PerformanceFixture)
 
 BOOST_AUTO_TEST_CASE(simple_resolve_benchmark)
 {

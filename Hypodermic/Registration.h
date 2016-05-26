@@ -56,6 +56,11 @@ namespace Hypodermic
             return m_activator;
         }
 
+        InstanceLifetimes::InstanceLifetime instanceLifetime() const override
+        {
+            return InstanceLifetimes::Transient;
+        }
+
     private:
         mutable RegistrationActivator m_activator;
         TypeInfo m_instanceType;

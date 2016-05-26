@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE(should_call_activation_handler_everytime_an_instance_is_act
     std::vector< std::shared_ptr< Testing::DefaultConstructible1 > > activatedInstances;
 
     // Act
-    builder.registerType< Testing::DefaultConstructible1 >().onActivated([&activatedInstances](Hypodermic::Container&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
+    builder.registerType< Testing::DefaultConstructible1 >().onActivated([&activatedInstances](ComponentContext&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
     {
         activatedInstances.push_back(instance);
     });
@@ -49,7 +49,7 @@ BOOST_AUTO_TEST_CASE(should_call_activation_handler_only_once_for_single_instanc
     // Act
     builder.registerType< Testing::DefaultConstructible1 >()
            .singleInstance()
-           .onActivated([&activatedInstances](Hypodermic::Container&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
+           .onActivated([&activatedInstances](ComponentContext&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
             {
                 activatedInstances.push_back(instance);
             });

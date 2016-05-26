@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(should_register_manual_constructible_type_with_an_instance_
     ContainerBuilder builder;
 
     // Act
-    builder.registerInstanceFactory([&](Container&) { return std::make_shared< Testing::ManualConstructible >(expectedNumber); })
+    builder.registerInstanceFactory([&](ComponentContext&) { return std::make_shared< Testing::ManualConstructible >(expectedNumber); })
            .singleInstance();
 
     auto container = builder.build();
