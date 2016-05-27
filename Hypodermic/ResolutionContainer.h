@@ -14,6 +14,7 @@
 #include "Hypodermic/IRegistrationActivator.h"
 #include "Hypodermic/IResolutionContainer.h"
 #include "Hypodermic/Log.h"
+#include "Hypodermic/PointerAlignment.h"
 #include "Hypodermic/ResolutionContext.h"
 
 
@@ -71,8 +72,8 @@ namespace Hypodermic
 
             resolutionStack.pop_back();
 
-            if (activationResult.activated && activationResult.sourceInstance != nullptr)
-                activatedRegistrations.push_back(ActivatedRegistrationInfo(registration, activationResult.sourceInstance));
+            if (activationResult.activated)
+                activatedRegistrations.push_back(ActivatedRegistrationInfo(registration, activationResult.activatedInstance));
 
             if (resolutionStack.empty())
                 notifyActivatedRegistrations(activatedRegistrations, componentContext);
@@ -83,42 +84,45 @@ namespace Hypodermic
     private:
         ActivationResult getOrCreateComponent(ComponentContext& componentContext, const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration)
         {
-            ActivationResult instanceInfo;
-            instanceInfo.activated = true;
-
             if (registration->instanceLifetime() == InstanceLifetimes::Transient)
-            {
-                instanceInfo.sourceInstance = activateInstance(componentContext, registration);
-                instanceInfo.alignedInstance = getAlignedPointer(*registration, instanceInfo.sourceInstance, typeAliasKey);
-                return instanceInfo;
-            }
+                return activateComponent(componentContext, typeAliasKey, registration);
 
             std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
             auto registryIt = m_activationRegistriesByRegistration.find(registration);
             if (registryIt == std::end(m_activationRegistriesByRegistration))
-            {
-                instanceInfo.sourceInstance = activateInstance(componentContext, registration);
-                if (instanceInfo.sourceInstance == nullptr)
-                    return instanceInfo;
-
-                registryIt = m_activationRegistriesByRegistration.insert(std::make_pair(registration, ActivationRegistry(instanceInfo.sourceInstance))).first;
-            }
-            else
-            {
-                instanceInfo.activated = false;
-                instanceInfo.sourceInstance = registryIt->second.sourceInstance();
-            }
+                return activateComponentAndRegisterActivatedInstance(componentContext, typeAliasKey, registration);
 
             auto&& registry = registryIt->second;
 
-            if (registry.tryGetInstance(typeAliasKey, instanceInfo.alignedInstance))
-                return instanceInfo;
+            ActivationResult activationResult;
+            activationResult.activated = false;
+            activationResult.activatedInstance = registry.activatedInstance();
+            activationResult.alignedInstance = registry.getOrCreateAlignedInstance(typeAliasKey, registration->typeAliases());
 
-            instanceInfo.alignedInstance = getAlignedPointer(*registration, instanceInfo.sourceInstance, typeAliasKey);
-            registry.addInstance(typeAliasKey, instanceInfo.alignedInstance);
+            return activationResult;
+        }
 
-            return instanceInfo;
+        ActivationResult activateComponentAndRegisterActivatedInstance(ComponentContext& componentContext,
+                                                                       const TypeAliasKey& typeAliasKey,
+                                                                       const std::shared_ptr< IRegistration >& registration)
+        {
+            auto activationResult = activateComponent(componentContext, typeAliasKey, registration);
+
+            if (activationResult.activated)
+                m_activationRegistriesByRegistration.insert(std::make_pair(registration, ActivationRegistry(activationResult.activatedInstance)));
+
+            return activationResult;
+        }
+
+        static ActivationResult activateComponent(ComponentContext& componentContext, const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration)
+        {
+            ActivationResult activationResult;
+            activationResult.activatedInstance = activateInstance(componentContext, registration);
+            activationResult.alignedInstance = Utils::getAlignedPointer(activationResult.activatedInstance, typeAliasKey, registration->typeAliases());
+            activationResult.activated = activationResult.activatedInstance != nullptr;
+
+            return activationResult;
         }
 
         static std::shared_ptr< void > activateInstance(ComponentContext& componentContext, const std::shared_ptr< IRegistration >& registration)
@@ -132,19 +136,6 @@ namespace Hypodermic
             }
 
             return instance;
-        }
-
-        static std::shared_ptr< void > getAlignedPointer(const IRegistration& registration, const std::shared_ptr< void >& instance, const TypeAliasKey& typeAliasKey)
-        {
-            if (instance == nullptr)
-                return nullptr;
-
-            auto it = registration.typeAliases().find(typeAliasKey);
-            if (it == std::end(registration.typeAliases()) || it->second == nullptr)
-                return instance;
-
-            auto&& alignPointersFunc = it->second;
-            return alignPointersFunc(instance);
         }
 
         static void notifyActivatedRegistrations(ResolutionContext::ActivatedRegistrations& activatedRegistrations, ComponentContext& componentContext)

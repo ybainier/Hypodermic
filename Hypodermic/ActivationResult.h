@@ -14,7 +14,7 @@ namespace Hypodermic
         }
 
         bool activated;
-        std::shared_ptr< void > sourceInstance;
+        std::shared_ptr< void > activatedInstance;
         std::shared_ptr< void > alignedInstance;
     };
     

@@ -5,32 +5,32 @@
 #include <type_traits>
 
 
-#define HYPODERMIC_THROW(exception_type, message) \
+#define HYPODERMIC_THROW(HypodermicExceptionType, hypodermicMessage) \
 do \
 { \
-    std::stringstream stream; \
-    stream << message; \
-    throw exception_type(stream.str(), __FUNCTION__, __FILE__, __LINE__); \
+    std::stringstream hypodermicStream; \
+    hypodermicStream << hypodermicMessage; \
+    throw HypodermicExceptionType(hypodermicStream.str(), __FUNCTION__, __FILE__, __LINE__); \
 } while (0)
 
 
-#define HYPODERMIC_DECLARE_EXCEPTION(exception_type) \
-class exception_type : public ::Hypodermic::ExceptionBase< exception_type > \
+#define HYPODERMIC_DECLARE_EXCEPTION(HypodermicExceptionType) \
+class HypodermicExceptionType : public ::Hypodermic::ExceptionBase< HypodermicExceptionType > \
 { \
 public: \
-    explicit exception_type(std::string message = std::string(), \
-                            std::string function = std::string(), \
-                            std::string file = std::string(), \
-                            int line = -1) \
-        : ExceptionBase< exception_type >(std::move(message), std::move(function), std::move(file), line) \
+    explicit HypodermicExceptionType(std::string message = std::string(), \
+                                     std::string function = std::string(), \
+                                     std::string file = std::string(), \
+                                     int line = -1) \
+        : ExceptionBase< HypodermicExceptionType >(std::move(message), std::move(function), std::move(file), line) \
     { \
     } \
 \
-    explicit exception_type(std::exception innerException, \
-                            std::string function = std::string(), \
-                            std::string file = std::string(), \
-                            int line = -1) \
-        : ExceptionBase< exception_type >(std::move(innerException), std::move(function), std::move(file), line) \
+    explicit HypodermicExceptionType(std::exception innerException, \
+                                     std::string function = std::string(), \
+                                     std::string file = std::string(), \
+                                     int line = -1) \
+        : ExceptionBase< HypodermicExceptionType >(std::move(innerException), std::move(function), std::move(file), line) \
     { \
     } \
 }

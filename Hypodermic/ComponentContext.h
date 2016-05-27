@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <mutex>
 #include <vector>
 
 #include "Hypodermic/AutowireableConstructor.h"
@@ -87,8 +86,6 @@ namespace Hypodermic
         template <class T>
         std::shared_ptr< T > resolve(const TypeAliasKey& typeAliasKey, const std::shared_ptr< RegistrationContext >& registrationContext)
         {
-            std::lock_guard< decltype(m_mutex) > lock(m_mutex);
-
             auto& resolutionContainer = registrationContext->resolutionContainer();
             return std::static_pointer_cast< T >(resolutionContainer.getOrCreateComponent(typeAliasKey, registrationContext->registration(), m_resolutionContext));
         }
@@ -162,7 +159,6 @@ namespace Hypodermic
         std::shared_ptr< IRegistrationScope > m_registrationScope;
         std::shared_ptr< IRuntimeRegistrationBuilder > m_runtimeRegistrationBuilder;
         ResolutionContext m_resolutionContext;
-        std::recursive_mutex m_mutex;
     };
 
 } // namespace Hypodermic

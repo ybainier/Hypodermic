@@ -6,17 +6,17 @@
 #include "Hypodermic/LogLevel.h"
 
 
-#define HYPODERMIC_LOG(logLevel, message) \
+#define HYPODERMIC_LOG(hypodermicLogLevel, hypodermicLogMessage) \
     do \
     { \
-        auto&& loggerInstance = ::Hypodermic::Logger::instance(); \
-        if (!loggerInstance.isConfiguredForLevel(logLevel)) \
+        auto&& hypodermicLoggerInstance = ::Hypodermic::Logger::instance(); \
+        if (!hypodermicLoggerInstance.isConfiguredForLevel(hypodermicLogLevel)) \
             break; \
         \
-        std::stringstream stream; \
-        stream << message; \
+        std::stringstream hypodermicStream; \
+        hypodermicStream << hypodermicLogMessage; \
         \
-        loggerInstance.log(logLevel, stream.str()); \
+        hypodermicLoggerInstance.log(hypodermicLogLevel, hypodermicStream.str()); \
     } while (false)
 
 #define HYPODERMIC_LOG_DEBUG(message)   HYPODERMIC_LOG(::Hypodermic::LogLevels::Debug, message)

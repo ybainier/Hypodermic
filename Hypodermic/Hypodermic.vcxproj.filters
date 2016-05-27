@@ -262,5 +262,8 @@
     <ClInclude Include="ActivationResult.h">
       <Filter>Resolution</Filter>
     </ClInclude>
+    <ClInclude Include="PointerAlignment.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

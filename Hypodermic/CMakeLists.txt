@@ -54,6 +54,7 @@ set(Hypodermic_headers
     NoopLoggerSink.h
     OnActivated.h
     PersistentInstanceRegistration.h
+    PointerAlignment.h
     ProvidedDependencyTag.h
     ProvidedInstanceDependencyTag.h
     ProvidedInstanceFactoryRegistrationDescriptor.h

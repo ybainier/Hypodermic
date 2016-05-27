@@ -160,6 +160,7 @@
     <ClInclude Include="ActivationHandlers.h" />
     <ClInclude Include="ActivatedRegistrationInfo.h" />
     <ClInclude Include="ActivationRegistry.h" />
+    <ClInclude Include="PointerAlignment.h" />
     <ClInclude Include="ResolutionInfo.h" />
     <ClInclude Include="AnyArgument.h" />
     <ClInclude Include="ArgumentResolver.h" />
