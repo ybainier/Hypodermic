@@ -88,9 +88,9 @@ namespace Hypodermic
         {
             auto&& factory = Traits::ConstructorDescriptor< InstanceType >::describe();
 
-            return [factory](const IRegistration& registration, ComponentContext& componentContext)
+            return [factory](const IRegistration& registration, IResolutionContext& resolutionContext)
             {
-                return std::static_pointer_cast< void >(factory(registration, componentContext));
+                return std::static_pointer_cast< void >(factory(registration, resolutionContext));
             };
         }
     };

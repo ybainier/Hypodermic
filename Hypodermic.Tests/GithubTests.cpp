@@ -3,6 +3,8 @@
 #include "Hypodermic/ContainerBuilder.h"
 
 
+namespace Hypodermic
+{
 namespace Testing
 {
 
@@ -54,51 +56,47 @@ namespace Testing
         std::shared_ptr< INotificationSender > m_notificationSender;
     };
 
+
+    BOOST_AUTO_TEST_SUITE(GithubTests)
+
+    BOOST_AUTO_TEST_CASE(should_resolve_service_with_sms_notification_sender_configured)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        builder.registerType< SmsNotificationSender >().as< INotificationSender >();
+
+        auto container = builder.build();
+
+        // Act
+        std::shared_ptr< Service > service;
+        BOOST_REQUIRE_NO_THROW(service = container->resolve< Service >());
+
+        // Assert
+        BOOST_REQUIRE(service != nullptr);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_send_one_notification_when_service_is_started)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        auto notificationSender = std::make_shared< NotificationSenderTest >();
+        builder.registerInstance(notificationSender).as< INotificationSender >();
+
+        auto container = builder.build();
+
+        // Act
+        auto service = container->resolve< Service >();
+        BOOST_REQUIRE(service != nullptr);
+        BOOST_REQUIRE_NO_THROW(service->start());
+
+        // Assert
+        BOOST_REQUIRE_EQUAL(notificationSender->notifications.size(), 1);
+        BOOST_CHECK_EQUAL(notificationSender->notifications[0], "Service started");
+    }
+
+    BOOST_AUTO_TEST_SUITE_END()
+
 } // namespace Testing
-
-
-
-using namespace Testing;
-using namespace Hypodermic;
-
-
-BOOST_AUTO_TEST_SUITE(GithubTests)
-
-BOOST_AUTO_TEST_CASE(should_resolve_service_with_sms_notification_sender_configured)
-{
-    // Arrange
-    ContainerBuilder builder;
-
-    builder.registerType< SmsNotificationSender >().as< INotificationSender >();
-
-    auto container = builder.build();
-
-    // Act
-    std::shared_ptr< Service > service;
-    BOOST_REQUIRE_NO_THROW(service = container->resolve< Service >());
-
-    // Assert
-    BOOST_REQUIRE(service != nullptr);
-}
-
-BOOST_AUTO_TEST_CASE(should_send_one_notification_when_service_is_started)
-{
-    // Arrange
-    ContainerBuilder builder;
-
-    auto notificationSender = std::make_shared< NotificationSenderTest >();
-    builder.registerInstance(notificationSender).as< INotificationSender >();
-
-    auto container = builder.build();
-
-    // Act
-    auto service = container->resolve< Service >();
-    BOOST_REQUIRE(service != nullptr);
-    BOOST_REQUIRE_NO_THROW(service->start());
-
-    // Assert
-    BOOST_REQUIRE_EQUAL(notificationSender->notifications.size(), 1);
-    BOOST_CHECK_EQUAL(notificationSender->notifications[0], "Service started");
-}
-
-BOOST_AUTO_TEST_SUITE_END()
+} // namespace Hypodermic

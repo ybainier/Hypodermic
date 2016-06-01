@@ -7,9 +7,9 @@
 namespace Hypodermic
 {
 
-    class Container;
     class IRegistration;
+    class IResolutionContext;
 
-    typedef std::function< std::shared_ptr< void >(const IRegistration&, ComponentContext&) > InstanceFactory;
+    typedef std::function< std::shared_ptr< void >(const IRegistration&, IResolutionContext&) > InstanceFactory;
 
 } // namespace Hypodermic

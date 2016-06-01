@@ -5,6 +5,8 @@
 #include <type_traits>
 
 
+namespace Hypodermic
+{
 namespace Testing
 {
 namespace Utils
@@ -98,3 +100,4 @@ namespace Utils
     
 } // namespace Utils
 } // namespace Testing
+} // namespace Hypodermic

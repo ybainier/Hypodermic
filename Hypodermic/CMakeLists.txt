@@ -43,6 +43,7 @@ set(Hypodermic_headers
     IRegistrationDescriptor.h
     IRegistrationScope.h
     IResolutionContainer.h
+    IResolutionContext.h
     IRuntimeRegistrationBuilder.h
     IsComplete.h
     IsSupportedArgument.h

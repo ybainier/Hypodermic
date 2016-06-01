@@ -89,9 +89,9 @@ namespace Hypodermic
         {
             auto&& factory = m_instanceFactory;
 
-            return [factory](const IRegistration&, ComponentContext& componentContext)
+            return [factory](const IRegistration&, IResolutionContext& resolutionContext)
             {
-                return std::static_pointer_cast< void >(factory(componentContext));
+                return std::static_pointer_cast< void >(factory(resolutionContext.componentContext()));
             };
         }
 

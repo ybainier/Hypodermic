@@ -113,7 +113,7 @@ namespace Hypodermic
 
         std::shared_ptr< Container > createAndRegisterContainerInstance(const std::shared_ptr< IRegistrationScope >& scope) const
         {
-            auto container = std::make_shared< Container >(scope, std::make_shared< RuntimeRegistrationBuilder >());
+            auto&& container = Container::create(scope, std::make_shared< RuntimeRegistrationBuilder >());
             registerContainerInstance(container, scope);
 
             return container;

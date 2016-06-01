@@ -5,27 +5,32 @@
 #include "TestingTypes.h"
 
 
-using namespace Hypodermic;
-
-
-BOOST_AUTO_TEST_SUITE(ContainerBuilderTests)
-
-BOOST_AUTO_TEST_CASE(should_add_registrations)
+namespace Hypodermic
 {
-    // Arrange
-    int expectedNumber = 42;
-    ContainerBuilder builder;
-    builder.registerInstanceFactory([&](ComponentContext&) { return std::make_shared< Testing::ManualConstructible >(expectedNumber); });
+namespace Testing
+{
 
-    // Act
-    ContainerBuilder builder2;
-    builder2.addRegistrations(builder);
+    BOOST_AUTO_TEST_SUITE(ContainerBuilderTests)
 
-    // Assert
-    auto container = builder2.build();
-    auto instance = container->resolve< Testing::ManualConstructible >();
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK_EQUAL(instance->i, expectedNumber);
-}
+    BOOST_AUTO_TEST_CASE(should_add_registrations)
+    {
+        // Arrange
+        int expectedNumber = 42;
+        ContainerBuilder builder;
+        builder.registerInstanceFactory([&](ComponentContext&) { return std::make_shared< ManualConstructible >(expectedNumber); });
 
-BOOST_AUTO_TEST_SUITE_END()
+        // Act
+        ContainerBuilder builder2;
+        builder2.addRegistrations(builder);
+
+        // Assert
+        auto container = builder2.build();
+        auto instance = container->resolve< ManualConstructible >();
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK_EQUAL(instance->i, expectedNumber);
+    }
+
+    BOOST_AUTO_TEST_SUITE_END()
+
+} // namespace Testing
+} // namespace Hypodermic

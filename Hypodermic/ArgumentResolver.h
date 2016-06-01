@@ -4,6 +4,9 @@
 #include <memory>
 #include <vector>
 
+#include "Hypodermic/IsComplete.h"
+#include "Hypodermic/TypeInfo.h"
+
 
 namespace Hypodermic
 {
@@ -19,14 +22,16 @@ namespace Traits
     {
         typedef std::shared_ptr< TArg > Type;
 
-        template <class T, class TRegistration, class TComponentContext>
-        static Type resolveFor(const TRegistration& registration, TComponentContext& context)
+        template <class TRegistration, class TResolutionContext>
+        static Type resolve(const TRegistration& registration, TResolutionContext& resolutionContext)
         {
-            auto&& factory = context.template getDependencyFactory< T, TArg >(registration);
-            if (!factory)
-                return context.template resolve< TArg >();
+            static_assert(IsComplete< TArg >::value, "TArg should be a complete type");
 
-            return factory(context);
+            auto&& factory = registration.getDependencyFactory(Utils::getMetaTypeInfo< TArg >());
+            if (!factory)
+                return resolutionContext.componentContext().template resolve< TArg >();
+
+            return std::static_pointer_cast< TArg >(factory(resolutionContext.componentContext()));
         }
     };
 
@@ -36,10 +41,10 @@ namespace Traits
     {
         typedef std::vector< std::shared_ptr< TArg > > Type;
 
-        template <class, class TRegistration, class TComponentContext>
-        static Type resolveFor(const TRegistration&, TComponentContext& context)
+        template <class TRegistration, class TResolutionContext>
+        static Type resolve(const TRegistration&, TResolutionContext& resolutionContext)
         {
-            return context.template resolveAll< TArg >();
+            return resolutionContext.componentContext().template resolveAll< TArg >();
         }
     };
 
@@ -49,12 +54,18 @@ namespace Traits
     {
         typedef std::function< std::shared_ptr< TArg >() > Type;
 
-        template <class T, class TRegistration, class TComponentContext>
-        static Type resolveFor(const TRegistration& registration, TComponentContext& context)
+        template <class TRegistration, class TResolutionContext>
+        static Type resolve(const TRegistration&, TResolutionContext& resolutionContext)
         {
-            return [&registration, &context]()
+            auto&& weakContainer = resolutionContext.container();
+
+            return [weakContainer]() -> std::shared_ptr< TArg >
             {
-                return ArgumentResolver< std::shared_ptr< TArg > >::template resolveFor< T >(registration, context);
+                auto&& container = weakContainer.lock();
+                if (container == nullptr)
+                    return nullptr;
+
+                return container->template resolve< TArg >();
             };
         }
     };

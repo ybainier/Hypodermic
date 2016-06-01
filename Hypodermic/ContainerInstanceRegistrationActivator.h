@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Hypodermic/ComponentContext.h"
 #include "Hypodermic/Container.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/IRegistrationActivator.h"
@@ -20,7 +19,7 @@ namespace Hypodermic
         {
         }
     
-        std::shared_ptr< void > activate(ComponentContext&) override
+        std::shared_ptr< void > activate(IResolutionContext&) override
         {
             HYPODERMIC_LOG_INFO("Activating Container instance of type " << m_registration.instanceType().fullyQualifiedName());
 

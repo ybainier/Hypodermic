@@ -5,182 +5,187 @@
 #include "TestingTypes.h"
 
 
-using namespace Hypodermic;
-
-
-BOOST_AUTO_TEST_SUITE(ProvidedDependenciesTests)
-
-BOOST_AUTO_TEST_CASE(should_register_type_with_autowired_provided_constructor)
+namespace Hypodermic
 {
-    // Arrange
-    ContainerBuilder builder;
-
-    // Act
-    builder.registerType< Testing::ProvidedDependency >().as< Testing::ProvidedDependencyBase >();
-    builder.registerType< Testing::TypeWithOneDependency >();
-
-    auto container = builder.build();
-
-    // Assert
-    auto instance = container->resolve< Testing::TypeWithOneDependency >();
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK(instance->dependency != nullptr);
-}
-
-BOOST_AUTO_TEST_CASE(should_register_type_with_provided_dependency)
+namespace Testing
 {
-    // Arrange
-    ContainerBuilder builder;
 
-    // Act
-    builder.registerType< Testing::ProvidedDependency >();
+    BOOST_AUTO_TEST_SUITE(ProvidedDependenciesTests)
+
+    BOOST_AUTO_TEST_CASE(should_register_type_with_autowired_provided_constructor)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        // Act
+        builder.registerType< ProvidedDependency >().as< ProvidedDependencyBase >();
+        builder.registerType< TypeWithOneDependency >();
+
+        auto container = builder.build();
+
+        // Assert
+        auto instance = container->resolve< TypeWithOneDependency >();
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_register_type_with_provided_dependency)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        // Act
+        builder.registerType< ProvidedDependency >();
     
-    builder.registerType< Testing::TypeWithOneDependency >()
-           .with< Testing::ProvidedDependencyBase, Testing::ProvidedDependency >();
+        builder.registerType< TypeWithOneDependency >()
+               .with< ProvidedDependencyBase, ProvidedDependency >();
 
-    auto container = builder.build();
+        auto container = builder.build();
 
-    // Assert
-    auto instance = container->resolve< Testing::TypeWithOneDependency >();
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK(instance->dependency != nullptr);
-}
+        // Assert
+        auto instance = container->resolve< TypeWithOneDependency >();
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
 
-BOOST_AUTO_TEST_CASE(should_register_type_with_provided_instance_dependency)
-{
-    // Arrange
-    ContainerBuilder builder;
+    BOOST_AUTO_TEST_CASE(should_register_type_with_provided_instance_dependency)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    // Act
-    auto dependency = std::make_shared< Testing::ProvidedDependency >();
+        // Act
+        auto dependency = std::make_shared< ProvidedDependency >();
     
-    builder.registerType< Testing::TypeWithOneDependency >()
-           .with< Testing::ProvidedDependencyBase >(dependency);
+        builder.registerType< TypeWithOneDependency >()
+               .with< ProvidedDependencyBase >(dependency);
 
-    auto container = builder.build();
+        auto container = builder.build();
 
-    // Assert
-    auto instance = container->resolve< Testing::TypeWithOneDependency >();
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK(instance->dependency != nullptr);
-}
+        // Assert
+        auto instance = container->resolve< TypeWithOneDependency >();
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
 
-BOOST_AUTO_TEST_CASE(should_register_type_with_provided_instance_factory_dependency)
-{
-    // Arrange
-    ContainerBuilder builder;
+    BOOST_AUTO_TEST_CASE(should_register_type_with_provided_instance_factory_dependency)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    // Act
-    builder.registerType< Testing::ProvidedDependency >();
+        // Act
+        builder.registerType< ProvidedDependency >();
 
-    builder.registerType< Testing::TypeWithOneDependency >()
-           .with< Testing::ProvidedDependencyBase >([](ComponentContext& c)
+        builder.registerType< TypeWithOneDependency >()
+               .with< ProvidedDependencyBase >([](ComponentContext& c)
+                {
+                    return c.resolve< ProvidedDependency >();
+                });
+
+        auto container = builder.build();
+
+        // Assert
+        auto instance = container->resolve< TypeWithOneDependency >();
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_register_type_as_an_alias_with_autowired_provided_constructor)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        // Act
+        builder.registerType< ProvidedDependency >().as< ProvidedDependencyBase >();
+        builder.registerType< TypeWithOneDependency >().as< RandomTypeBase >();
+
+        auto container = builder.build();
+
+        // Assert
+        std::shared_ptr< RandomTypeBase > instanceBase;
+        BOOST_REQUIRE_NO_THROW(instanceBase = container->resolve< RandomTypeBase >());
+
+        auto instance = std::dynamic_pointer_cast< TypeWithOneDependency >(instanceBase);
+
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_register_type_as_an_alias_with_provided_dependency)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        // Act
+        builder.registerType< ProvidedDependency >();
+
+        builder.registerType< TypeWithOneDependency >()
+            .with< ProvidedDependencyBase, ProvidedDependency >()
+            .as< RandomTypeBase >();
+
+        auto container = builder.build();
+
+        // Assert
+        std::shared_ptr< RandomTypeBase > instanceBase;
+        BOOST_REQUIRE_NO_THROW(instanceBase = container->resolve< RandomTypeBase >());
+
+        auto instance = std::dynamic_pointer_cast< TypeWithOneDependency >(instanceBase);
+
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_register_type_as_an_alias_with_provided_instance_dependency)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        // Act
+        auto dependency = std::make_shared< ProvidedDependency >();
+
+        builder.registerType< TypeWithOneDependency >()
+            .with< ProvidedDependencyBase >(dependency)
+            .as< RandomTypeBase >();
+
+        auto container = builder.build();
+
+        // Assert
+        std::shared_ptr< RandomTypeBase > instanceBase;
+        BOOST_REQUIRE_NO_THROW(instanceBase = container->resolve< RandomTypeBase >());
+
+        auto instance = std::dynamic_pointer_cast< TypeWithOneDependency >(instanceBase);
+
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_register_type_as_an_alias_with_provided_instance_factory_dependency)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        // Act
+        builder.registerType< ProvidedDependency >();
+
+        builder.registerType< TypeWithOneDependency >()
+            .with< ProvidedDependencyBase >([](ComponentContext& c)
             {
-                return c.resolve< Testing::ProvidedDependency >();
-            });
+                return c.resolve< ProvidedDependency >();
+            })
+            .as< RandomTypeBase >();
 
-    auto container = builder.build();
+        auto container = builder.build();
 
-    // Assert
-    auto instance = container->resolve< Testing::TypeWithOneDependency >();
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK(instance->dependency != nullptr);
-}
+        // Assert
+        std::shared_ptr< RandomTypeBase > instanceBase;
+        BOOST_REQUIRE_NO_THROW(instanceBase = container->resolve< RandomTypeBase >());
 
-BOOST_AUTO_TEST_CASE(should_register_type_as_an_alias_with_autowired_provided_constructor)
-{
-    // Arrange
-    ContainerBuilder builder;
+        auto instance = std::dynamic_pointer_cast< TypeWithOneDependency >(instanceBase);
 
-    // Act
-    builder.registerType< Testing::ProvidedDependency >().as< Testing::ProvidedDependencyBase >();
-    builder.registerType< Testing::TypeWithOneDependency >().as< Testing::RandomTypeBase >();
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
 
-    auto container = builder.build();
+    BOOST_AUTO_TEST_SUITE_END()
 
-    // Assert
-    std::shared_ptr< Testing::RandomTypeBase > instanceBase;
-    BOOST_REQUIRE_NO_THROW(instanceBase = container->resolve< Testing::RandomTypeBase >());
-
-    auto instance = std::dynamic_pointer_cast< Testing::TypeWithOneDependency >(instanceBase);
-
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK(instance->dependency != nullptr);
-}
-
-BOOST_AUTO_TEST_CASE(should_register_type_as_an_alias_with_provided_dependency)
-{
-    // Arrange
-    ContainerBuilder builder;
-
-    // Act
-    builder.registerType< Testing::ProvidedDependency >();
-
-    builder.registerType< Testing::TypeWithOneDependency >()
-        .with< Testing::ProvidedDependencyBase, Testing::ProvidedDependency >()
-        .as< Testing::RandomTypeBase >();
-
-    auto container = builder.build();
-
-    // Assert
-    std::shared_ptr< Testing::RandomTypeBase > instanceBase;
-    BOOST_REQUIRE_NO_THROW(instanceBase = container->resolve< Testing::RandomTypeBase >());
-
-    auto instance = std::dynamic_pointer_cast< Testing::TypeWithOneDependency >(instanceBase);
-
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK(instance->dependency != nullptr);
-}
-
-BOOST_AUTO_TEST_CASE(should_register_type_as_an_alias_with_provided_instance_dependency)
-{
-    // Arrange
-    ContainerBuilder builder;
-
-    // Act
-    auto dependency = std::make_shared< Testing::ProvidedDependency >();
-
-    builder.registerType< Testing::TypeWithOneDependency >()
-        .with< Testing::ProvidedDependencyBase >(dependency)
-        .as< Testing::RandomTypeBase >();
-
-    auto container = builder.build();
-
-    // Assert
-    std::shared_ptr< Testing::RandomTypeBase > instanceBase;
-    BOOST_REQUIRE_NO_THROW(instanceBase = container->resolve< Testing::RandomTypeBase >());
-
-    auto instance = std::dynamic_pointer_cast< Testing::TypeWithOneDependency >(instanceBase);
-
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK(instance->dependency != nullptr);
-}
-
-BOOST_AUTO_TEST_CASE(should_register_type_as_an_alias_with_provided_instance_factory_dependency)
-{
-    // Arrange
-    ContainerBuilder builder;
-
-    // Act
-    builder.registerType< Testing::ProvidedDependency >();
-
-    builder.registerType< Testing::TypeWithOneDependency >()
-        .with< Testing::ProvidedDependencyBase >([](ComponentContext& c)
-        {
-            return c.resolve< Testing::ProvidedDependency >();
-        })
-        .as< Testing::RandomTypeBase >();
-
-    auto container = builder.build();
-
-    // Assert
-    std::shared_ptr< Testing::RandomTypeBase > instanceBase;
-    BOOST_REQUIRE_NO_THROW(instanceBase = container->resolve< Testing::RandomTypeBase >());
-
-    auto instance = std::dynamic_pointer_cast< Testing::TypeWithOneDependency >(instanceBase);
-
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK(instance->dependency != nullptr);
-}
-
-BOOST_AUTO_TEST_SUITE_END()
+} // namespace Testing
+} // namespace Hypodermic

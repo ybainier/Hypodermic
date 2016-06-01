@@ -5,9 +5,8 @@
 #include "Hypodermic/Container.h"
 
 
-using namespace Hypodermic;
-
-
+namespace Hypodermic
+{
 namespace Testing
 {
 
@@ -210,6 +209,16 @@ namespace Testing
     class CompleteType {};
 
 
-    class ForwardDeclaredDependency {};
+    class TypeWithInjectedFactory
+    {
+    public:
+        explicit TypeWithInjectedFactory(const std::function< std::shared_ptr< ILoader >() >& loaderFactory)
+            : factory(loaderFactory)
+        {
+        }
+
+        std::function< std::shared_ptr< ILoader >() > factory;
+    };
 
 } // namespace Testing
+} // namespace Hypodermic

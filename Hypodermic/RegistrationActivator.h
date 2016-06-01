@@ -30,7 +30,7 @@ namespace Hypodermic
                 m_activated.connect(handler);
         }
 
-        std::shared_ptr< void > activate(ComponentContext& container) override
+        std::shared_ptr< void > activate(IResolutionContext& resolutionContext) override
         {
             HYPODERMIC_LOG_INFO("Activating type " << m_registration.instanceType().fullyQualifiedName());
 
@@ -40,7 +40,7 @@ namespace Hypodermic
                 return nullptr;
             }
 
-            return m_instanceFactory(m_registration, container);
+            return m_instanceFactory(m_registration, resolutionContext);
         }
 
         void raiseActivated(ComponentContext& container, const std::shared_ptr< void >& instance) override

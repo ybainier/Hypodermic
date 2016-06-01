@@ -5,267 +5,343 @@
 #include "TestingTypes.h"
 
 
-using namespace Hypodermic;
-
-
-BOOST_AUTO_TEST_SUITE(ContainerTests)
-
-BOOST_AUTO_TEST_CASE(should_resolve_a_type_using_its_last_registration)
+namespace Hypodermic
 {
-    // Arrange
-    ContainerBuilder builder;
-
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >().as< Testing::DefaultConstructibleBase >();
-    builder.registerType< Testing::DefaultConstructible2 >().as< Testing::DefaultConstructibleBase >();
-
-    auto container = builder.build();
-
-    // Assert
-    auto instance = container->resolve< Testing::DefaultConstructibleBase >();
-    BOOST_CHECK(instance != nullptr);
-    BOOST_CHECK(std::dynamic_pointer_cast<Testing::DefaultConstructible2>(instance) == instance);
-}
-
-BOOST_AUTO_TEST_CASE(should_resolve_all_registrations_of_a_type)
+namespace Testing
 {
-    // Arrange
-    ContainerBuilder builder;
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >().as< Testing::DefaultConstructibleBase >();
-    builder.registerType< Testing::DefaultConstructible2 >().as< Testing::DefaultConstructibleBase >();
+    BOOST_AUTO_TEST_SUITE(ContainerTests)
 
-    auto container = builder.build();
+    BOOST_AUTO_TEST_CASE(should_resolve_a_type_using_its_last_registration)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    // Assert
-    auto instances = container->resolveAll< Testing::DefaultConstructibleBase >();
-    BOOST_REQUIRE_EQUAL(instances.size(), 2);
-    BOOST_CHECK(instances[0] == std::dynamic_pointer_cast<Testing::DefaultConstructible1>(instances[0]));
-    BOOST_CHECK(instances[1] == std::dynamic_pointer_cast<Testing::DefaultConstructible2>(instances[1]));
-}
+        // Act
+        builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >();
+        builder.registerType< DefaultConstructible2 >().as< DefaultConstructibleBase >();
 
-BOOST_AUTO_TEST_CASE(should_create_a_new_registration_when_resolving_a_type_registered_by_its_base_type)
-{
-    // Arrange
-    ContainerBuilder builder;
+        auto container = builder.build();
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >().as< Testing::DefaultConstructibleBase >();
+        // Assert
+        auto instance = container->resolve< DefaultConstructibleBase >();
+        BOOST_CHECK(instance != nullptr);
+        BOOST_CHECK(std::dynamic_pointer_cast< DefaultConstructible2 >(instance) == instance);
+    }
 
-    auto container = builder.build();
+    BOOST_AUTO_TEST_CASE(should_resolve_all_registrations_of_a_type)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    // Assert
-    auto instance = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance != nullptr);
-}
+        // Act
+        builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >();
+        builder.registerType< DefaultConstructible2 >().as< DefaultConstructibleBase >();
 
-BOOST_AUTO_TEST_CASE(should_resolve_a_type_registered_by_its_base_type_and_by_itself)
-{
-    // Arrange
-    ContainerBuilder builder;
+        auto container = builder.build();
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >().as< Testing::DefaultConstructibleBase >().asSelf();
+        // Assert
+        auto instances = container->resolveAll< DefaultConstructibleBase >();
+        BOOST_REQUIRE_EQUAL(instances.size(), 2);
+        BOOST_CHECK(instances[0] == std::dynamic_pointer_cast< DefaultConstructible1 >(instances[0]));
+        BOOST_CHECK(instances[1] == std::dynamic_pointer_cast< DefaultConstructible2 >(instances[1]));
+    }
 
-    auto container = builder.build();
+    BOOST_AUTO_TEST_CASE(should_create_a_new_registration_when_resolving_a_type_registered_by_its_base_type)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    // Assert
-    auto instance = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance != nullptr);
-}
+        // Act
+        builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >();
 
-BOOST_AUTO_TEST_CASE(should_resolve_different_instances_of_a_registered_type)
-{
-    // Arrange
-    ContainerBuilder builder;
+        auto container = builder.build();
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >().as< Testing::DefaultConstructibleBase >();
+        // Assert
+        auto instance = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(instance != nullptr);
+    }
 
-    auto container = builder.build();
+    BOOST_AUTO_TEST_CASE(should_resolve_a_type_registered_by_its_base_type_and_by_itself)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    // Assert
-    auto instance1 = container->resolve< Testing::DefaultConstructibleBase >();
-    BOOST_CHECK(instance1 != nullptr);
+        // Act
+        builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >().asSelf();
 
-    auto instance2 = container->resolve< Testing::DefaultConstructibleBase >();
-    BOOST_CHECK(instance2 != nullptr);
+        auto container = builder.build();
 
-    BOOST_CHECK(instance1 != instance2);
-}
+        // Assert
+        auto instance = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(instance != nullptr);
+    }
 
-BOOST_AUTO_TEST_CASE(should_resolve_the_same_instance_of_a_type_registered_as_a_single_instance_1)
-{
-    // Arrange
-    ContainerBuilder builder;
+    BOOST_AUTO_TEST_CASE(should_resolve_different_instances_of_a_registered_type)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >().as< Testing::DefaultConstructibleBase >().singleInstance();
+        // Act
+        builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >();
 
-    auto container = builder.build();
+        auto container = builder.build();
 
-    // Assert
-    auto instance1 = container->resolve< Testing::DefaultConstructibleBase >();
-    BOOST_CHECK(instance1 != nullptr);
+        // Assert
+        auto instance1 = container->resolve< DefaultConstructibleBase >();
+        BOOST_CHECK(instance1 != nullptr);
 
-    auto instance2 = container->resolve< Testing::DefaultConstructibleBase >();
-    BOOST_CHECK(instance2 != nullptr);
+        auto instance2 = container->resolve< DefaultConstructibleBase >();
+        BOOST_CHECK(instance2 != nullptr);
 
-    BOOST_CHECK(instance1 == instance2);
-}
+        BOOST_CHECK(instance1 != instance2);
+    }
 
-BOOST_AUTO_TEST_CASE(should_resolve_the_same_instance_of_a_type_registered_as_a_single_instance_2)
-{
-    // Arrange
-    ContainerBuilder builder;
+    BOOST_AUTO_TEST_CASE(should_resolve_the_same_instance_of_a_type_registered_as_a_single_instance_1)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >().as< Testing::DefaultConstructibleBase >().asSelf().singleInstance();
+        // Act
+        builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >().singleInstance();
 
-    auto container = builder.build();
+        auto container = builder.build();
 
-    // Assert
-    auto instance1 = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance1 != nullptr);
+        // Assert
+        auto instance1 = container->resolve< DefaultConstructibleBase >();
+        BOOST_CHECK(instance1 != nullptr);
 
-    auto instance2 = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance2 != nullptr);
+        auto instance2 = container->resolve< DefaultConstructibleBase >();
+        BOOST_CHECK(instance2 != nullptr);
 
-    BOOST_CHECK(instance1 == instance2);
-}
+        BOOST_CHECK(instance1 == instance2);
+    }
 
-BOOST_AUTO_TEST_CASE(should_resolve_the_same_instance_of_a_type_registered_as_a_single_instance_3)
-{
-    // Arrange
-    ContainerBuilder builder;
+    BOOST_AUTO_TEST_CASE(should_resolve_the_same_instance_of_a_type_registered_as_a_single_instance_2)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >().singleInstance();
+        // Act
+        builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >().asSelf().singleInstance();
 
-    auto container = builder.build();
+        auto container = builder.build();
 
-    // Assert
-    auto instance1 = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance1 != nullptr);
+        // Assert
+        auto instance1 = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(instance1 != nullptr);
 
-    auto instance2 = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance2 != nullptr);
+        auto instance2 = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(instance2 != nullptr);
 
-    BOOST_CHECK(instance1 == instance2);
-}
+        BOOST_CHECK(instance1 == instance2);
+    }
 
-BOOST_AUTO_TEST_CASE(should_resolve_container_as_a_dependency)
-{
-    // Arrange
-    ContainerBuilder builder;
+    BOOST_AUTO_TEST_CASE(should_resolve_the_same_instance_of_a_type_registered_as_a_single_instance_3)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    // Act
-    builder.registerType< Testing::ContainerDependent >();
+        // Act
+        builder.registerType< DefaultConstructible1 >().singleInstance();
 
-    auto container = builder.build();
+        auto container = builder.build();
 
-    // Assert
-    std::shared_ptr< Testing::ContainerDependent > instance;
+        // Assert
+        auto instance1 = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(instance1 != nullptr);
+
+        auto instance2 = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(instance2 != nullptr);
+
+        BOOST_CHECK(instance1 == instance2);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_resolve_container_as_a_dependency)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        // Act
+        builder.registerType< ContainerDependent >();
+
+        auto container = builder.build();
+
+        // Assert
+        std::shared_ptr< ContainerDependent > instance;
     
-    BOOST_REQUIRE_NO_THROW(instance = container->resolve< Testing::ContainerDependent >());
+        BOOST_REQUIRE_NO_THROW(instance = container->resolve< ContainerDependent >());
 
-    BOOST_CHECK(instance->container == container);
-}
+        BOOST_CHECK(instance->container == container);
+    }
 
-BOOST_AUTO_TEST_CASE(should_call_activation_handlers_everytime_an_instance_is_activated)
-{
-    // Arrange
-    ContainerBuilder builder;
-    std::shared_ptr< Testing::DefaultConstructible1 > activatedInstance;
-    int activationCount = 0;
+    BOOST_AUTO_TEST_CASE(should_call_activation_handlers_everytime_an_instance_is_activated)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        std::shared_ptr< DefaultConstructible1 > activatedInstance;
+        int activationCount = 0;
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >()
-        .onActivated([&](ComponentContext&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
+        // Act
+        builder.registerType< DefaultConstructible1 >()
+            .onActivated([&](ComponentContext&, const std::shared_ptr< DefaultConstructible1 >& instance)
+            {
+                activatedInstance = instance;
+            })
+            .onActivated([&](ComponentContext&, const std::shared_ptr< DefaultConstructible1 >&)
+            {
+                activationCount++;
+            });
+
+        auto container = builder.build();
+
+        // Assert
+        auto resolvedInstance = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(resolvedInstance != nullptr);
+        BOOST_CHECK(activatedInstance == resolvedInstance);
+        BOOST_CHECK_EQUAL(activationCount, 1);
+
+        auto resolvedInstance2 = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(resolvedInstance2 != nullptr);
+        BOOST_CHECK(resolvedInstance2 != resolvedInstance);
+        BOOST_CHECK(activatedInstance == resolvedInstance2);
+        BOOST_CHECK_EQUAL(activationCount, 2);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_call_activation_handler_only_once_when_a_single_instance_is_activated)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        std::shared_ptr< DefaultConstructible1 > activatedInstance;
+        int activationCount = 0;
+
+        // Act
+        builder.registerType< DefaultConstructible1 >()
+            .singleInstance()
+            .onActivated([&](ComponentContext&, const std::shared_ptr< DefaultConstructible1 >& instance)
+            {
+                activatedInstance = instance;
+                activationCount++;
+            });
+
+        auto container = builder.build();
+
+        // Assert
+        auto resolvedInstance = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(resolvedInstance != nullptr);
+        BOOST_CHECK(activatedInstance == resolvedInstance);
+        BOOST_CHECK_EQUAL(activationCount, 1);
+
+        auto resolvedInstance2 = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(resolvedInstance2 != nullptr);
+        BOOST_CHECK(resolvedInstance2 == resolvedInstance);
+        BOOST_CHECK(activatedInstance == resolvedInstance2);
+        BOOST_CHECK_EQUAL(activationCount, 1);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_resolve_non_registered_types)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        builder.registerType< ProvidedDependency >().as< ProvidedDependencyBase >();
+
+        auto container = builder.build();
+
+        // Act
+        auto instance = container->resolve< TypeWithOneDependency >();
+
+        // Assert
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_resolve_non_registered_types_recursively)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        auto container = builder.build();
+
+        // Act
+        auto instance = container->resolve< MissingConstructor >();
+
+        // Assert
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_inject_instance_factory)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        builder.registerType< Loader >().as< ILoader >();
+    
+        auto container = builder.build();
+
+        // Act
+        auto instance = container->resolve< TypeWithInjectedFactory >();
+
+        // Assert
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_REQUIRE(instance->factory);
+
+        auto loader1 = instance->factory();
+        BOOST_CHECK(loader1 != nullptr);
+
+        auto loader2 = instance->factory();
+        BOOST_CHECK(loader2 != nullptr);
+
+        BOOST_CHECK(loader1 != loader2);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_inject_instance_factory_that_keeps_registration_configuration)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        builder.registerType< Loader >().as< ILoader >().singleInstance();
+    
+        auto container = builder.build();
+
+        // Act
+        auto instance = container->resolve< TypeWithInjectedFactory >();
+
+        // Assert
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_REQUIRE(instance->factory);
+
+        auto loader1 = instance->factory();
+        BOOST_CHECK(loader1 != nullptr);
+
+        auto loader2 = instance->factory();
+        BOOST_CHECK(loader2 != nullptr);
+
+        BOOST_CHECK(loader1 == loader2);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_not_keep_container_in_injected_instance_factory)
+    {
+        // Arrange
+        std::shared_ptr< TypeWithInjectedFactory > instance;
+
         {
-            activatedInstance = instance;
-        })
-        .onActivated([&](ComponentContext&, const std::shared_ptr< Testing::DefaultConstructible1 >&)
-        {
-            activationCount++;
-        });
+            ContainerBuilder builder;
+            builder.registerType< Loader >().as< ILoader >().singleInstance();
+    
+            auto container = builder.build();
 
-    auto container = builder.build();
+            // Act
+            instance = container->resolve< TypeWithInjectedFactory >();
+        }
 
-    // Assert
-    auto resolvedInstance = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(resolvedInstance != nullptr);
-    BOOST_CHECK(activatedInstance == resolvedInstance);
-    BOOST_CHECK_EQUAL(activationCount, 1);
+        // Assert
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_REQUIRE(instance->factory);
 
-    auto resolvedInstance2 = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(resolvedInstance2 != nullptr);
-    BOOST_CHECK(resolvedInstance2 != resolvedInstance);
-    BOOST_CHECK(activatedInstance == resolvedInstance2);
-    BOOST_CHECK_EQUAL(activationCount, 2);
-}
+        auto loader = instance->factory();
+        BOOST_CHECK(loader == nullptr);
+    }
 
-BOOST_AUTO_TEST_CASE(should_call_activation_handler_only_once_when_a_single_instance_is_activated)
-{
-    // Arrange
-    ContainerBuilder builder;
-    std::shared_ptr< Testing::DefaultConstructible1 > activatedInstance;
-    int activationCount = 0;
+    BOOST_AUTO_TEST_SUITE_END()
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >()
-        .singleInstance()
-        .onActivated([&](ComponentContext&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
-        {
-            activatedInstance = instance;
-            activationCount++;
-        });
-
-    auto container = builder.build();
-
-    // Assert
-    auto resolvedInstance = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(resolvedInstance != nullptr);
-    BOOST_CHECK(activatedInstance == resolvedInstance);
-    BOOST_CHECK_EQUAL(activationCount, 1);
-
-    auto resolvedInstance2 = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(resolvedInstance2 != nullptr);
-    BOOST_CHECK(resolvedInstance2 == resolvedInstance);
-    BOOST_CHECK(activatedInstance == resolvedInstance2);
-    BOOST_CHECK_EQUAL(activationCount, 1);
-}
-
-BOOST_AUTO_TEST_CASE(should_resolve_non_registered_types)
-{
-    // Arrange
-    ContainerBuilder builder;
-
-    builder.registerType< Testing::ProvidedDependency >().as< Testing::ProvidedDependencyBase >();
-
-    auto container = builder.build();
-
-    // Act
-    auto instance = container->resolve< Testing::TypeWithOneDependency >();
-
-    // Assert
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK(instance->dependency != nullptr);
-}
-
-BOOST_AUTO_TEST_CASE(should_resolve_non_registered_types_recursively)
-{
-    // Arrange
-    ContainerBuilder builder;
-    auto container = builder.build();
-
-    // Act
-    auto instance = container->resolve< Testing::MissingConstructor >();
-
-    // Assert
-    BOOST_REQUIRE(instance != nullptr);
-    BOOST_CHECK(instance->dependency != nullptr);
-}
-
-BOOST_AUTO_TEST_SUITE_END()
+} // namespace Testing
+} // namespace Hypodermic

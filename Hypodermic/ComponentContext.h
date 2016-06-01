@@ -18,14 +18,18 @@
 namespace Hypodermic
 {
 
+    class Container;
+
+
     class ComponentContext
     {
     public:
-        ComponentContext(const std::shared_ptr< IRegistrationScope >& registrationScope,
+        ComponentContext(const std::weak_ptr< Container >& container,
+                         const std::shared_ptr< IRegistrationScope >& registrationScope,
                          const std::shared_ptr< IRuntimeRegistrationBuilder >& runtimeRegistrationBuilder)
             : m_registrationScope(registrationScope)
             , m_runtimeRegistrationBuilder(runtimeRegistrationBuilder)
-            , m_resolutionContext(*this)
+            , m_resolutionContext(*this, container)
         {
         }
 
@@ -60,16 +64,6 @@ namespace Hypodermic
         }
 
     private:
-        template <class T> friend struct Traits::ArgumentResolver;
-
-        template <class T, class TDependency>
-        std::function< std::shared_ptr< TDependency >(ComponentContext&) > getDependencyFactory(const IRegistration& registration)
-        {
-            static_assert(Traits::IsComplete< TDependency >::value, "TDependency should be a complete type");
-
-            return getDependencyFactory< TDependency >(registration);
-        }
-
         template <class T>
         std::shared_ptr< T > resolve(const TypeAliasKey& typeAliasKey)
         {
@@ -116,16 +110,6 @@ namespace Hypodermic
             return m_registrationScope->tryGetRegistrations(typeAliasKey, registrationContexts);
         }
 
-        template <class TDependency>
-        std::function< std::shared_ptr< TDependency >(ComponentContext&) > getDependencyFactory(const IRegistration& registration)
-        {
-            auto&& factory = registration.getDependencyFactory(Utils::getMetaTypeInfo< TDependency >());
-            if (!factory)
-                return nullptr;
-
-            return [factory](ComponentContext& c) { return std::static_pointer_cast< TDependency >(factory(c)); };
-        }
-
         template <class T>
         std::shared_ptr< T > resolveIfTypeCanBeRegistered()
         {
@@ -143,7 +127,7 @@ namespace Hypodermic
             scope.addRegistration(m_runtimeRegistrationBuilder->build
             (
                 Utils::getMetaTypeInfo< T >(),
-                [factory](const IRegistration& r, ComponentContext& c) { return std::static_pointer_cast< void >(factory(r, c)); }
+                [factory](const IRegistration& r, IResolutionContext& c) { return std::static_pointer_cast< void >(factory(r, c)); }
             ));
 
             return true;
@@ -156,8 +140,8 @@ namespace Hypodermic
         }
 
     private:
-        std::shared_ptr< IRegistrationScope > m_registrationScope;
-        std::shared_ptr< IRuntimeRegistrationBuilder > m_runtimeRegistrationBuilder;
+        const std::shared_ptr< IRegistrationScope >& m_registrationScope;
+        const std::shared_ptr< IRuntimeRegistrationBuilder >& m_runtimeRegistrationBuilder;
         ResolutionContext m_resolutionContext;
     };
 

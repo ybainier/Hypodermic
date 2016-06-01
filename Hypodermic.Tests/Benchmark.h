@@ -8,6 +8,8 @@
 #include "PercentileCalculator.h"
 
 
+namespace Hypodermic
+{
 namespace Testing
 {
 namespace Utils
@@ -112,6 +114,7 @@ namespace Utils
 
 } // namespace Utils
 } // namespace Testing
+} // namespace Hypodermic
 
 #include <iomanip>
 #include <ostream>
@@ -121,14 +124,14 @@ namespace Utils
 namespace std
 {
 
-    inline ostream& operator<<(ostream& stream, const Testing::Utils::Benchmark::NormalizedDuration& duration)
+    inline ostream& operator<<(ostream& stream, const Hypodermic::Testing::Utils::Benchmark::NormalizedDuration& duration)
     {
-        auto&& humanDuration = Testing::Utils::DurationHumanizer::createHumanDurationWithUnit(duration.value, duration.unit);
+        auto&& humanDuration = Hypodermic::Testing::Utils::DurationHumanizer::createHumanDurationWithUnit(duration.value, duration.unit);
 
         return stream << (boost::format("%.f") % humanDuration.value) << " " << humanDuration.shortUnitName;
     }
 
-    inline ostream& operator<<(ostream& stream, const Testing::Utils::Benchmark::Result::IterationResult& result)
+    inline ostream& operator<<(ostream& stream, const Hypodermic::Testing::Utils::Benchmark::Result::IterationResult& result)
     {
         return stream <<
                 "Average:           " << result.average << std::endl <<
@@ -142,9 +145,9 @@ namespace std
                 "50 percentile:     " << result.percentile50;
     }
 
-    inline ostream& operator<<(ostream& stream, const Testing::Utils::Benchmark::Result& result)
+    inline ostream& operator<<(ostream& stream, const Hypodermic::Testing::Utils::Benchmark::Result& result)
     {
-        auto&& readableElapsed = Testing::Utils::DurationHumanizer::deduceHumanDuration(result.elapsed);
+        auto&& readableElapsed = Hypodermic::Testing::Utils::DurationHumanizer::deduceHumanDuration(result.elapsed);
 
         stream << std::setprecision(3) <<
             "Run '" << result.name << "': " << readableElapsed.value << readableElapsed.shortUnitName << " over " << result.iterationCount << " iteration(s)";

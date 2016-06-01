@@ -12,14 +12,24 @@
 namespace Hypodermic
 {
 
-    class Container
+    class Container : public std::enable_shared_from_this< Container >
     {
+    private:
+        struct PrivateKey {};
+
     public:
-        Container(const std::shared_ptr< IRegistrationScope >& registrationScope,
+        Container(const PrivateKey&,
+                  const std::shared_ptr< IRegistrationScope >& registrationScope,
                   const std::shared_ptr< IRuntimeRegistrationBuilder >& runtimeRegistrationBuilder)
             : m_registrationScope(registrationScope)
             , m_runtimeRegistrationBuilder(runtimeRegistrationBuilder)
         {
+        }
+
+        static std::shared_ptr< Container > create(const std::shared_ptr< IRegistrationScope >& registrationScope,
+                                                   const std::shared_ptr< IRuntimeRegistrationBuilder >& runtimeRegistrationBuilder)
+        {
+            return std::make_shared< Container >(PrivateKey(), registrationScope, runtimeRegistrationBuilder);
         }
 
         /// <summary>
@@ -39,7 +49,7 @@ namespace Hypodermic
         template <class T>
         std::shared_ptr< T > resolve()
         {
-            ComponentContext componentContext(m_registrationScope, m_runtimeRegistrationBuilder);
+            ComponentContext componentContext(shared_from_this(), m_registrationScope, m_runtimeRegistrationBuilder);
             return componentContext.resolve< T >();
         }
 
@@ -51,7 +61,7 @@ namespace Hypodermic
         template <class T>
         std::vector< std::shared_ptr< T > > resolveAll()
         {
-            ComponentContext componentContext(m_registrationScope, m_runtimeRegistrationBuilder);
+            ComponentContext componentContext(shared_from_this(), m_registrationScope, m_runtimeRegistrationBuilder);
             return componentContext.resolveAll< T >();
         }
 

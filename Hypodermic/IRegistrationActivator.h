@@ -7,6 +7,7 @@ namespace Hypodermic
 {
 
     class ComponentContext;
+    class IResolutionContext;
 
 
     class IRegistrationActivator
@@ -14,7 +15,7 @@ namespace Hypodermic
     public:
         virtual ~IRegistrationActivator() {}
 
-        virtual std::shared_ptr< void > activate(ComponentContext& container) = 0;
+        virtual std::shared_ptr< void > activate(IResolutionContext& resolutionContext) = 0;
 
         virtual void raiseActivated(ComponentContext& container, const std::shared_ptr< void >& instance) = 0;
     };

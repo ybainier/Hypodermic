@@ -5,68 +5,73 @@
 #include "TestingTypes.h"
 
 
-using namespace Hypodermic;
-
-
-BOOST_AUTO_TEST_SUITE(RegistrationTests)
-
-BOOST_AUTO_TEST_CASE(should_call_activation_handler_everytime_an_instance_is_activated_through_resolution)
+namespace Hypodermic
 {
-    // Arrange
-    ContainerBuilder builder;
+namespace Testing
+{
 
-    std::vector< std::shared_ptr< Testing::DefaultConstructible1 > > activatedInstances;
+    BOOST_AUTO_TEST_SUITE(RegistrationTests)
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >().onActivated([&activatedInstances](ComponentContext&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
+    BOOST_AUTO_TEST_CASE(should_call_activation_handler_everytime_an_instance_is_activated_through_resolution)
     {
-        activatedInstances.push_back(instance);
-    });
+        // Arrange
+        ContainerBuilder builder;
 
-    auto container = builder.build();
+        std::vector< std::shared_ptr< DefaultConstructible1 > > activatedInstances;
 
-    // Assert
-    auto instance1 = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance1 != nullptr);
+        // Act
+        builder.registerType< DefaultConstructible1 >().onActivated([&activatedInstances](ComponentContext&, const std::shared_ptr< DefaultConstructible1 >& instance)
+        {
+            activatedInstances.push_back(instance);
+        });
 
-    auto instance2 = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance2 != nullptr);
+        auto container = builder.build();
 
-    BOOST_CHECK(instance1 != instance2);
+        // Assert
+        auto instance1 = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(instance1 != nullptr);
 
-    BOOST_REQUIRE_EQUAL(activatedInstances.size(), 2);
-    BOOST_CHECK(instance1 == activatedInstances[0]);
-    BOOST_CHECK(instance2 == activatedInstances[1]);
-}
+        auto instance2 = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(instance2 != nullptr);
 
-BOOST_AUTO_TEST_CASE(should_call_activation_handler_only_once_for_single_instance_mode)
-{
-    // Arrange
-    ContainerBuilder builder;
+        BOOST_CHECK(instance1 != instance2);
 
-    std::vector< std::shared_ptr< Testing::DefaultConstructible1 > > activatedInstances;
+        BOOST_REQUIRE_EQUAL(activatedInstances.size(), 2);
+        BOOST_CHECK(instance1 == activatedInstances[0]);
+        BOOST_CHECK(instance2 == activatedInstances[1]);
+    }
 
-    // Act
-    builder.registerType< Testing::DefaultConstructible1 >()
-           .singleInstance()
-           .onActivated([&activatedInstances](ComponentContext&, const std::shared_ptr< Testing::DefaultConstructible1 >& instance)
-            {
-                activatedInstances.push_back(instance);
-            });
+    BOOST_AUTO_TEST_CASE(should_call_activation_handler_only_once_for_single_instance_mode)
+    {
+        // Arrange
+        ContainerBuilder builder;
 
-    auto container = builder.build();
+        std::vector< std::shared_ptr< DefaultConstructible1 > > activatedInstances;
 
-    // Assert
-    auto instance1 = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance1 != nullptr);
+        // Act
+        builder.registerType< DefaultConstructible1 >()
+               .singleInstance()
+               .onActivated([&activatedInstances](ComponentContext&, const std::shared_ptr< DefaultConstructible1 >& instance)
+                {
+                    activatedInstances.push_back(instance);
+                });
 
-    auto instance2 = container->resolve< Testing::DefaultConstructible1 >();
-    BOOST_CHECK(instance2 != nullptr);
+        auto container = builder.build();
 
-    BOOST_CHECK(instance1 == instance2);
+        // Assert
+        auto instance1 = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(instance1 != nullptr);
 
-    BOOST_REQUIRE_EQUAL(activatedInstances.size(), 1);
-    BOOST_CHECK(instance1 == activatedInstances[0]);
-}
+        auto instance2 = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK(instance2 != nullptr);
 
-BOOST_AUTO_TEST_SUITE_END()
+        BOOST_CHECK(instance1 == instance2);
+
+        BOOST_REQUIRE_EQUAL(activatedInstances.size(), 1);
+        BOOST_CHECK(instance1 == activatedInstances[0]);
+    }
+
+    BOOST_AUTO_TEST_SUITE_END()
+
+} // namespace Testing
+} // namespace Hypodermic

@@ -26,7 +26,6 @@ namespace Hypodermic
     public:
         std::shared_ptr< void > getOrCreateComponent(const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration, ResolutionContext& resolutionContext) override
         {
-            auto& componentContext = resolutionContext.componentContext();
             auto& resolutionStack = resolutionContext.resolutionStack();
             auto& activatedRegistrations = resolutionContext.activatedRegistrations();
 
@@ -38,7 +37,7 @@ namespace Hypodermic
 
             try
             {
-                activationResult = getOrCreateComponent(componentContext, typeAliasKey, registration);
+                activationResult = getOrActivateComponent(typeAliasKey, registration, resolutionContext);
             }
             catch (CircularDependencyException& ex)
             {
@@ -76,22 +75,22 @@ namespace Hypodermic
                 activatedRegistrations.push_back(ActivatedRegistrationInfo(registration, activationResult.activatedInstance));
 
             if (resolutionStack.empty())
-                notifyActivatedRegistrations(activatedRegistrations, componentContext);
+                notifyActivatedRegistrations(activatedRegistrations, resolutionContext.componentContext());
 
             return activationResult.alignedInstance;
         }
 
     private:
-        ActivationResult getOrCreateComponent(ComponentContext& componentContext, const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration)
+        ActivationResult getOrActivateComponent(const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration, IResolutionContext& resolutionContext)
         {
             if (registration->instanceLifetime() == InstanceLifetimes::Transient)
-                return activateComponent(componentContext, typeAliasKey, registration);
+                return activateComponent(typeAliasKey, registration, resolutionContext);
 
             std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
             auto registryIt = m_activationRegistriesByRegistration.find(registration);
             if (registryIt == std::end(m_activationRegistriesByRegistration))
-                return activateComponentAndRegisterActivatedInstance(componentContext, typeAliasKey, registration);
+                return activateComponentAndRegisterActivatedInstance(typeAliasKey, registration, resolutionContext);
 
             auto&& registry = registryIt->second;
 
@@ -103,11 +102,11 @@ namespace Hypodermic
             return activationResult;
         }
 
-        ActivationResult activateComponentAndRegisterActivatedInstance(ComponentContext& componentContext,
-                                                                       const TypeAliasKey& typeAliasKey,
-                                                                       const std::shared_ptr< IRegistration >& registration)
+        ActivationResult activateComponentAndRegisterActivatedInstance(const TypeAliasKey& typeAliasKey,
+                                                                       const std::shared_ptr< IRegistration >& registration,
+                                                                       IResolutionContext& resolutionContext)
         {
-            auto activationResult = activateComponent(componentContext, typeAliasKey, registration);
+            auto activationResult = activateComponent(typeAliasKey, registration, resolutionContext);
 
             if (activationResult.activated)
                 m_activationRegistriesByRegistration.insert(std::make_pair(registration, ActivationRegistry(activationResult.activatedInstance)));
@@ -115,19 +114,19 @@ namespace Hypodermic
             return activationResult;
         }
 
-        static ActivationResult activateComponent(ComponentContext& componentContext, const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration)
+        static ActivationResult activateComponent(const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration, IResolutionContext& resolutionContext)
         {
             ActivationResult activationResult;
-            activationResult.activatedInstance = activateInstance(componentContext, registration);
+            activationResult.activatedInstance = activateInstance(registration, resolutionContext);
             activationResult.alignedInstance = Utils::getAlignedPointer(activationResult.activatedInstance, typeAliasKey, registration->typeAliases());
             activationResult.activated = activationResult.activatedInstance != nullptr;
 
             return activationResult;
         }
 
-        static std::shared_ptr< void > activateInstance(ComponentContext& componentContext, const std::shared_ptr< IRegistration >& registration)
+        static std::shared_ptr< void > activateInstance(const std::shared_ptr< IRegistration >& registration, IResolutionContext& resolutionContext)
         {
-            auto&& instance = registration->activator().activate(componentContext);
+            auto&& instance = registration->activator().activate(resolutionContext);
             if (instance == nullptr)
             {
                 HYPODERMIC_LOG_WARN("Activated instance of type " << registration->instanceType().fullyQualifiedName() << " is null");
