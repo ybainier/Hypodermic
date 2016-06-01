@@ -24,7 +24,7 @@ namespace Hypodermic
     class ComponentContext
     {
     public:
-        ComponentContext(const std::weak_ptr< Container >& container,
+        ComponentContext(const std::shared_ptr< Container >& container,
                          const std::shared_ptr< IRegistrationScope >& registrationScope,
                          const std::shared_ptr< IRuntimeRegistrationBuilder >& runtimeRegistrationBuilder)
             : m_registrationScope(registrationScope)

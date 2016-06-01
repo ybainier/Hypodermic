@@ -17,7 +17,7 @@ namespace Hypodermic
         typedef std::vector< ActivatedRegistrationInfo > ActivatedRegistrations;
 
     public:
-        explicit ResolutionContext(ComponentContext& componentContext, const std::weak_ptr< Container >& container)
+        explicit ResolutionContext(ComponentContext& componentContext, const std::shared_ptr< Container >& container)
             : m_componentContext(componentContext)
             , m_container(container)
         {
@@ -45,7 +45,7 @@ namespace Hypodermic
 
     private:
         ComponentContext& m_componentContext;
-        const std::weak_ptr< Container >& m_container;
+        std::weak_ptr< Container > m_container;
         ResolutionStack m_resolutionStack;
         ActivatedRegistrations m_activatedRegistrations;
     };
