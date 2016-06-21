@@ -37,7 +37,8 @@ namespace Hypodermic
             if (it == std::end(m_registrationContextsByBaseTypes))
                 return false;
 
-            registrationContexts = it->second;
+            auto& contexts = it->second;
+            registrationContexts.insert(std::end(registrationContexts), std::begin(contexts), std::end(contexts));
             return true;
         }
 

@@ -81,6 +81,58 @@ namespace Testing
         BOOST_CHECK_EQUAL(instance->dependency->i, expectedNumber);
     }
 
+    BOOST_AUTO_TEST_CASE(should_resolve_all_registrations_of_a_type)
+    {
+        // Arrange
+        std::shared_ptr< Container > nestedContainer;
+        {
+            ContainerBuilder builder;
+            builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >();
+
+            auto container = builder.build();
+
+            ContainerBuilder nestedContainerBuilder;
+            nestedContainerBuilder.registerType< DefaultConstructible2 >().as< DefaultConstructibleBase >();
+            nestedContainer = nestedContainerBuilder.buildNestedContainerFrom(*container);
+        }
+
+        BOOST_REQUIRE(nestedContainer != nullptr);
+
+        // Act
+        auto instances = nestedContainer->resolveAll< DefaultConstructibleBase >();
+
+        // Assert
+        BOOST_REQUIRE_EQUAL(instances.size(), 2);
+        BOOST_CHECK(instances[0] != nullptr);
+        BOOST_CHECK(instances[1] != nullptr);
+        BOOST_CHECK(instances[0] != instances[1]);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_resolve_a_type_using_its_last_registration)
+    {
+        // Arrange
+        std::shared_ptr< Container > nestedContainer;
+        {
+            ContainerBuilder builder;
+            builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >();
+
+            auto container = builder.build();
+
+            ContainerBuilder nestedContainerBuilder;
+            nestedContainerBuilder.registerType< DefaultConstructible2 >().as< DefaultConstructibleBase >();
+            nestedContainer = nestedContainerBuilder.buildNestedContainerFrom(*container);
+        }
+
+        BOOST_REQUIRE(nestedContainer != nullptr);
+
+        // Act
+        auto instance = nestedContainer->resolve< DefaultConstructibleBase >();
+
+        // Assert
+        BOOST_CHECK(instance != nullptr);
+        BOOST_CHECK(std::dynamic_pointer_cast< DefaultConstructible2 >(instance) == instance);
+    }
+
     BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace Testing

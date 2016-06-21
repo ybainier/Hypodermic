@@ -26,8 +26,8 @@ namespace Hypodermic
         
         bool tryGetRegistrations(const TypeAliasKey& typeAliasKey, std::vector< std::shared_ptr< RegistrationContext > >& registrationContexts) const override
         {
-            auto result = m_scope.tryGetRegistrations(typeAliasKey, registrationContexts);
-            return m_parentScope->tryGetRegistrations(typeAliasKey, registrationContexts) || result;
+            auto result = m_parentScope->tryGetRegistrations(typeAliasKey, registrationContexts);
+            return m_scope.tryGetRegistrations(typeAliasKey, registrationContexts) || result;
         }
 
     private:
