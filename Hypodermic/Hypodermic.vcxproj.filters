@@ -289,6 +289,6 @@
     <ClInclude Include="MetaForEach.h">
       <Filter>Meta</Filter>
     </ClInclude>
-    <ClInclude Include="FactoryBuilder.h" />
+    <ClInclude Include="FactoryWrapper.h" />
   </ItemGroup>
 </Project>

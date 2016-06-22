@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "Hypodermic/FactoryBuilder.h"
+#include "Hypodermic/FactoryWrapper.h"
 #include "Hypodermic/IsComplete.h"
 #include "Hypodermic/TypeInfo.h"
 
@@ -73,17 +73,16 @@ namespace Traits
 
 
     template <class TArg>
-    struct ArgumentResolver< FactoryBuilder< TArg > >
+    struct ArgumentResolver< FactoryWrapper< TArg > >
     {
-        typedef FactoryBuilder< TArg > Type;
+        typedef FactoryWrapper< TArg > Type;
 
         template <class TRegistration, class TResolutionContext>
-        static Type resolve(const TRegistration&, TResolutionContext& resolutionContext)
+        static Type resolve(const TRegistration& registration, TResolutionContext& resolutionContext)
         {
-            return Type(resolutionContext.container());
+            return Type(ArgumentResolver< std::function< std::shared_ptr< TArg >() > >::template resolve(registration, resolutionContext));
         }
     };
-
 
 } // namespace Traits
 } // namespace Hypodermic

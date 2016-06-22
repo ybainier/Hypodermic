@@ -97,7 +97,7 @@ namespace Testing
         auto container = builder.build();
 
         // Act
-        auto instance = container->resolve< TypeWithInjectedFactoryBuilder >();
+        auto instance = container->resolve< TypeWithInjectedFactoryWrapper >();
 
         // Assert
         BOOST_REQUIRE(instance != nullptr);
@@ -121,7 +121,7 @@ namespace Testing
         auto container = builder.build();
 
         // Act
-        auto instance = container->resolve< TypeWithInjectedFactoryBuilder >();
+        auto instance = container->resolve< TypeWithInjectedFactoryWrapper >();
 
         // Assert
         BOOST_REQUIRE(instance != nullptr);
@@ -139,7 +139,7 @@ namespace Testing
     BOOST_AUTO_TEST_CASE(should_not_keep_container_in_injected_instance_factory_builder)
     {
         // Arrange
-        std::shared_ptr< TypeWithInjectedFactoryBuilder > instance;
+        std::shared_ptr< TypeWithInjectedFactoryWrapper > instance;
 
         {
             ContainerBuilder builder;
@@ -148,7 +148,7 @@ namespace Testing
             auto container = builder.build();
 
             // Act
-            instance = container->resolve< TypeWithInjectedFactoryBuilder >();
+            instance = container->resolve< TypeWithInjectedFactoryWrapper >();
         }
 
         // Assert

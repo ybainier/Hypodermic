@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Hypodermic/Config.h"
-#include "Hypodermic/FactoryBuilder.h"
+#include "Hypodermic/FactoryWrapper.h"
 
 
 namespace Hypodermic
@@ -39,7 +39,7 @@ namespace Traits
 #endif
 
         template <class T>
-        struct IsSupportedArgument< FactoryBuilder< T > > : std::true_type {};
+        struct IsSupportedArgument< FactoryWrapper< T > > : std::true_type {};
 
     }
 

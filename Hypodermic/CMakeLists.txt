@@ -32,7 +32,7 @@ set(Hypodermic_headers
     DependencyFactory.h
     DependencyFactoryTag.h
     ExceptionBase.h
-    FactoryBuilder.h
+    FactoryWrapper.h
     ILoggerSink.h
     InstanceAlreadyActivatingException.h
     InstanceFactory.h
