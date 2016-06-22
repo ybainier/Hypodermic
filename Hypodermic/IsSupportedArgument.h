@@ -5,6 +5,9 @@
 #include <type_traits>
 #include <vector>
 
+#include "Hypodermic/Config.h"
+#include "Hypodermic/FactoryBuilder.h"
+
 
 namespace Hypodermic
 {
@@ -23,8 +26,20 @@ namespace Traits
         template <class T>
         struct IsSupportedArgument< std::vector< std::shared_ptr< T > > > : std::true_type {};
 
+#if defined(VS2013)
+
+        template <class T>
+        struct IsSupportedArgument< std::function< std::shared_ptr< T >() > > : std::false_type {};
+
+#else
+
         template <class T>
         struct IsSupportedArgument< std::function< std::shared_ptr< T >() > > : std::true_type {};
+
+#endif
+
+        template <class T>
+        struct IsSupportedArgument< FactoryBuilder< T > > : std::true_type {};
 
     }
 

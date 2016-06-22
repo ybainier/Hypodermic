@@ -32,6 +32,7 @@ set(Hypodermic_headers
     DependencyFactory.h
     DependencyFactoryTag.h
     ExceptionBase.h
+    FactoryBuilder.h
     ILoggerSink.h
     InstanceAlreadyActivatingException.h
     InstanceFactory.h
@@ -51,6 +52,12 @@ set(Hypodermic_headers
     Log.h
     Logger.h
     LogLevel.h
+    MetaContains.h
+    MetaForEach.h
+    MetaIdentity.h
+    MetaInsert.h
+    MetaMap.h
+    MetaPair.h
     NestedRegistrationScope.h
     NoopLoggerSink.h
     OnActivated.h

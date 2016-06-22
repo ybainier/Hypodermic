@@ -47,6 +47,9 @@
     <ClCompile Include="CircularDependencyTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="FactoryTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">

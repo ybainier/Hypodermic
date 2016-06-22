@@ -1,14 +1,13 @@
 #pragma once
 
-#include <boost/mpl/has_key.hpp>
-#include <boost/mpl/identity.hpp>
-#include <boost/mpl/insert.hpp>
-#include <boost/mpl/map.hpp>
-#include <boost/mpl/pair.hpp>
-
 #include "Hypodermic/DependencyFactoryTag.h"
 #include "Hypodermic/InstanceLifetime.h"
 #include "Hypodermic/InstanceRegistrationTags.h"
+#include "Hypodermic/MetaContains.h"
+#include "Hypodermic/MetaIdentity.h"
+#include "Hypodermic/MetaInsert.h"
+#include "Hypodermic/MetaMap.h"
+#include "Hypodermic/MetaPair.h"
 #include "Hypodermic/ProvidedDependencyTag.h"
 #include "Hypodermic/ProvidedInstanceDependencyTag.h"
 #include "Hypodermic/RegistrationDescriptorInfoToString.h"
@@ -22,12 +21,11 @@ namespace Hypodermic
         class T,
         InstanceLifetimes::InstanceLifetime Lifetime = InstanceLifetimes::Transient,
         class TInstanceRegistrationTag = Tags::NotSelfRegistered,
-        class TRegisteredBases = boost::mpl::map<>,
-        class TDependencies = boost::mpl::map<>
+        class TRegisteredBases = MetaMap<>,
+        class TDependencies = MetaMap<>
     >
     struct RegistrationDescriptorInfo
     {
-    public:
         typedef T InstanceType;
         typedef std::integral_constant< InstanceLifetimes::InstanceLifetime, Lifetime > InstanceLifetime;
         typedef TInstanceRegistrationTag InstanceRegistrationTag;
@@ -68,14 +66,14 @@ namespace Hypodermic
                 InstanceType,
                 InstanceLifetime::value,
                 InstanceRegistrationTag,
-                typename boost::mpl::insert< RegisteredBases, boost::mpl::pair< TBase, boost::mpl::identity< TBase > > >::type,
+                typename MetaInsert< RegisteredBases, MetaPair< TBase, MetaIdentity< TBase > > >::Type,
                 Dependencies
             >
             Type;
         };
 
         template <class TBase>
-        struct IsBaseRegistered : boost::mpl::has_key< RegisteredBases, TBase >
+        struct IsBaseRegistered : MetaContains< RegisteredBases, TBase >
         {
         };
 
@@ -88,7 +86,7 @@ namespace Hypodermic
                 InstanceLifetime::value,
                 InstanceRegistrationTag,
                 RegisteredBases,
-                typename boost::mpl::insert< Dependencies, boost::mpl::pair< TDependency, Tags::DependencyFactory< TDependency > > >::type
+                typename MetaInsert< Dependencies, MetaPair< TDependency, Tags::DependencyFactory< TDependency > > >::Type
             >
             Type;
         };
@@ -102,7 +100,7 @@ namespace Hypodermic
                 InstanceLifetime::value,
                 InstanceRegistrationTag,
                 RegisteredBases,
-                typename boost::mpl::insert< Dependencies, boost::mpl::pair< TDependency, Tags::ProvidedInstanceDependency< TDependency, TProvidedDependency > > >::type
+                typename MetaInsert< Dependencies, MetaPair< TDependency, Tags::ProvidedInstanceDependency< TDependency, TProvidedDependency > > >::Type
             >
             Type;
         };
@@ -116,13 +114,13 @@ namespace Hypodermic
                 InstanceLifetime::value,
                 InstanceRegistrationTag,
                 RegisteredBases,
-                typename boost::mpl::insert< Dependencies, boost::mpl::pair< TDependency, Tags::ProvidedDependency< TDependency, TProvidedDependency > > >::type
+                typename MetaInsert< Dependencies, MetaPair< TDependency, Tags::ProvidedDependency< TDependency, TProvidedDependency > > >::Type
             >
             Type;
         };
 
         template <class TDependency>
-        struct IsDependencyRegistered : boost::mpl::has_key< Dependencies, TDependency >
+        struct IsDependencyRegistered : MetaContains< Dependencies, TDependency >
         {
         };
 

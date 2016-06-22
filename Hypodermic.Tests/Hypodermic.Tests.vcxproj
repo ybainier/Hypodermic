@@ -187,6 +187,7 @@
     <ClCompile Include="ContainerBuilderTests.cpp" />
     <ClCompile Include="ContainerTests.cpp" />
     <ClCompile Include="DefaultConstructibleTests.cpp" />
+    <ClCompile Include="FactoryTests.cpp" />
     <ClCompile Include="GithubTests.cpp" />
     <ClCompile Include="IsCompleteTests.cpp" />
     <ClCompile Include="main.cpp">

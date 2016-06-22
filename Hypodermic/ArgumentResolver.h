@@ -4,6 +4,7 @@
 #include <memory>
 #include <vector>
 
+#include "Hypodermic/FactoryBuilder.h"
 #include "Hypodermic/IsComplete.h"
 #include "Hypodermic/TypeInfo.h"
 
@@ -69,6 +70,20 @@ namespace Traits
             };
         }
     };
+
+
+    template <class TArg>
+    struct ArgumentResolver< FactoryBuilder< TArg > >
+    {
+        typedef FactoryBuilder< TArg > Type;
+
+        template <class TRegistration, class TResolutionContext>
+        static Type resolve(const TRegistration&, TResolutionContext& resolutionContext)
+        {
+            return Type(resolutionContext.container());
+        }
+    };
+
 
 } // namespace Traits
 } // namespace Hypodermic

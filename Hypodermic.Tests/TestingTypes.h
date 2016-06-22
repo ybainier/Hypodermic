@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "Hypodermic/Container.h"
+#include "Hypodermic/FactoryBuilder.h"
 
 
 namespace Hypodermic
@@ -214,6 +215,17 @@ namespace Testing
     public:
         explicit TypeWithInjectedFactory(const std::function< std::shared_ptr< ILoader >() >& loaderFactory)
             : factory(loaderFactory)
+        {
+        }
+
+        std::function< std::shared_ptr< ILoader >() > factory;
+    };
+
+    class TypeWithInjectedFactoryBuilder
+    {
+    public:
+        explicit TypeWithInjectedFactoryBuilder(const FactoryBuilder< ILoader >& factoryBuilder)
+            : factory(factoryBuilder.build())
         {
         }
 

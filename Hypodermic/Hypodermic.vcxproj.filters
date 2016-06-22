@@ -40,6 +40,9 @@
     <Filter Include="Resolution">
       <UniqueIdentifier>{e65672a5-952e-47dc-abfd-870eb2731c2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Meta">
+      <UniqueIdentifier>{56d788e1-dab3-49e9-b780-07fb6f159f1c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Container.h" />
@@ -268,5 +271,24 @@
     <ClInclude Include="IResolutionContext.h">
       <Filter>Resolution</Filter>
     </ClInclude>
+    <ClInclude Include="MetaMap.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="MetaIdentity.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="MetaPair.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="MetaInsert.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="MetaContains.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="MetaForEach.h">
+      <Filter>Meta</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryBuilder.h" />
   </ItemGroup>
 </Project>

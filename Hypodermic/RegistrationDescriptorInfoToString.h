@@ -4,10 +4,9 @@
 #include <string>
 #include <type_traits>
 
-#include <boost/mpl/for_each.hpp>
-#include <boost/mpl/pair.hpp>
-
 #include "Hypodermic/DependencyFactoryTag.h"
+#include "Hypodermic/MetaForEach.h"
+#include "Hypodermic/MetaPair.h"
 #include "Hypodermic/ProvidedDependencyTag.h"
 #include "Hypodermic/ProvidedInstanceDependencyTag.h"
 #include "Hypodermic/TypeInfo.h"
@@ -73,13 +72,13 @@ namespace Hypodermic
 
         struct RegisteredBaseToString
         {
-            RegisteredBaseToString(std::ostream& stream)
+            explicit RegisteredBaseToString(std::ostream& stream)
                 : m_stream(stream)
             {
             }
 
             template <class TIdentity, class T>
-            void operator()(const boost::mpl::pair< TIdentity, T >&)
+            void operator()(const MetaPair< TIdentity, T >&)
             {
                 m_stream << ".As< " << Utils::getMetaTypeInfo< TIdentity >().fullyQualifiedName() << " >";
             }
@@ -90,13 +89,13 @@ namespace Hypodermic
 
         struct DependencyToString
         {
-            DependencyToString(std::ostream& stream)
+            explicit DependencyToString(std::ostream& stream)
                 : m_stream(stream)
             {
             }
 
             template <class TKey, class TDependencyTag>
-            void operator()(const boost::mpl::pair< TKey, TDependencyTag >&) const
+            void operator()(const MetaPair< TKey, TDependencyTag >&) const
             {
                 m_stream << TagToString< TDependencyTag >::toString();
             }
@@ -130,8 +129,8 @@ namespace Hypodermic
             if (std::is_same< InstanceLifetime, PersistentInstance >::value)
                 stream << ".SingleInstance";
 
-            boost::mpl::for_each< RegisteredBases >(Details::RegisteredBaseToString(stream));
-            boost::mpl::for_each< Dependencies >(Details::DependencyToString(stream));
+            metaForEach< RegisteredBases >(Details::RegisteredBaseToString(stream));
+            metaForEach< Dependencies >(Details::DependencyToString(stream));
 
             return stream.str();
         }

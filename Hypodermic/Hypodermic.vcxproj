@@ -160,7 +160,14 @@
     <ClInclude Include="ActivationHandlers.h" />
     <ClInclude Include="ActivatedRegistrationInfo.h" />
     <ClInclude Include="ActivationRegistry.h" />
+    <ClInclude Include="FactoryBuilder.h" />
     <ClInclude Include="IResolutionContext.h" />
+    <ClInclude Include="MetaContains.h" />
+    <ClInclude Include="MetaForEach.h" />
+    <ClInclude Include="MetaIdentity.h" />
+    <ClInclude Include="MetaInsert.h" />
+    <ClInclude Include="MetaMap.h" />
+    <ClInclude Include="MetaPair.h" />
     <ClInclude Include="PointerAlignment.h" />
     <ClInclude Include="ResolutionInfo.h" />
     <ClInclude Include="AnyArgument.h" />
