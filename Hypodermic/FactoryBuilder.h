@@ -29,7 +29,7 @@ namespace Hypodermic
                 if (c == nullptr)
                     return nullptr;
 
-                return c->resolve< T >();
+                return c->template resolve< T >();
             };
         }
 
