@@ -4,14 +4,20 @@
 #include <sstream>
 #include <type_traits>
 
+#include "Hypodermic/Pragmas.h"
+
 
 #define HYPODERMIC_THROW(HypodermicExceptionType, hypodermicMessage) \
-do \
-{ \
-    std::stringstream hypodermicStream; \
-    hypodermicStream << hypodermicMessage; \
-    throw HypodermicExceptionType(hypodermicStream.str(), __FUNCTION__, __FILE__, __LINE__); \
-} while (0)
+    HYPODERMIC_PRAGMA_PUSH \
+    HYPODERMIC_IGNORE_CONDITIONAL_EXPRESSION_IS_CONSTANT \
+    do \
+    { \
+        std::stringstream hypodermicStream; \
+        hypodermicStream << hypodermicMessage; \
+        throw HypodermicExceptionType(hypodermicStream.str(), __FUNCTION__, __FILE__, __LINE__); \
+    } while (0); \
+    HYPODERMIC_PRAGMA_POP
+
 
 
 #define HYPODERMIC_DECLARE_EXCEPTION(HypodermicExceptionType) \

@@ -7,6 +7,7 @@
 #include "Hypodermic/DependencyFactoryTag.h"
 #include "Hypodermic/MetaForEach.h"
 #include "Hypodermic/MetaPair.h"
+#include "Hypodermic/Pragmas.h"
 #include "Hypodermic/ProvidedDependencyTag.h"
 #include "Hypodermic/ProvidedInstanceDependencyTag.h"
 #include "Hypodermic/TypeInfo.h"
@@ -123,11 +124,16 @@ namespace Hypodermic
 
             stream << "RegistrationOf< " << Utils::getMetaTypeInfo< InstanceType >().fullyQualifiedName() << " >";
 
+            HYPODERMIC_PRAGMA_PUSH
+            HYPODERMIC_IGNORE_CONDITIONAL_EXPRESSION_IS_CONSTANT
+
             if (std::is_same< InstanceRegistrationTag, Tags::SelfRegistered >::value)
                 stream << ".AsSelf";
 
             if (std::is_same< InstanceLifetime, PersistentInstance >::value)
                 stream << ".SingleInstance";
+
+            HYPODERMIC_PRAGMA_POP
 
             metaForEach< RegisteredBases >(Details::RegisteredBaseToString(stream));
             metaForEach< Dependencies >(Details::DependencyToString(stream));
