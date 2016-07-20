@@ -63,6 +63,7 @@ set(Hypodermic_headers
     OnActivated.h
     PersistentInstanceRegistration.h
     PointerAlignment.h
+    Pragmas.h
     ProvidedDependencyTag.h
     ProvidedInstanceDependencyTag.h
     ProvidedInstanceFactoryRegistrationDescriptor.h
