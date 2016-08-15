@@ -72,6 +72,18 @@ namespace Hypodermic
         }
 
         /// <summary>
+        /// Update a container
+        /// </summary>
+        /// <param name="container">The container to update</param>
+        void updateContainer(Container& container)
+        {
+            HYPODERMIC_LOG_INFO("Updating container");
+
+            for (auto&& x : m_registrationDescriptors)
+                container.updateRegistrationScope(m_buildActions[x]);
+        }
+
+        /// <summary>
         /// Build a new and nested container from a passed Container
         /// </summary>
         /// <param name="container">The Container from which to create a nested Container</param>

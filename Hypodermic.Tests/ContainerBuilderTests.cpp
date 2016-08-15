@@ -30,6 +30,29 @@ namespace Testing
         BOOST_CHECK_EQUAL(instance->i, expectedNumber);
     }
 
+    BOOST_AUTO_TEST_CASE(should_update_registrations)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        builder.registerType< TypeWithOneDependency >();
+
+        auto container = builder.build();
+
+        // Act
+        ContainerBuilder newBuilder;
+        newBuilder.registerType< ProvidedDependency >().as< ProvidedDependencyBase >();
+
+        newBuilder.updateContainer(*container);
+
+        // Assert
+        std::shared_ptr< TypeWithOneDependency > instance;
+
+        BOOST_REQUIRE_NO_THROW(instance = container->resolve< TypeWithOneDependency >());
+
+        BOOST_REQUIRE(instance != nullptr);
+        BOOST_CHECK(instance->dependency != nullptr);
+    }
+
     BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace Testing

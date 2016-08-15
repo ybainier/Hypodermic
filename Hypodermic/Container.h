@@ -42,6 +42,16 @@ namespace Hypodermic
         }
 
         /// <summary>
+        /// Update the current registration scope
+        /// </summary>
+        /// <param name="scopeUpdater">The function responsible for updating the registration scope</param>
+        void updateRegistrationScope(const std::function< void(IRegistrationScope&) >& scopeUpdater) const
+        {
+            if (scopeUpdater)
+                scopeUpdater(*m_registrationScope);
+        }
+
+        /// <summary>
         /// Resolve an instance of type T
         /// </summary>
         /// <param name="T">The type to resolve (i.e. get an instance of T)</param>
