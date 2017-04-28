@@ -293,5 +293,11 @@
     <ClInclude Include="UseIfNone.h">
       <Filter>Descriptors\Operations</Filter>
     </ClInclude>
+    <ClInclude Include="Named.h">
+      <Filter>Descriptors\Operations</Filter>
+    </ClInclude>
+    <ClInclude Include="NamedTypeAlias.h">
+      <Filter>TypeAlias</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -5,6 +5,7 @@
 #include "Hypodermic/ConstructorDescriptor.h"
 #include "Hypodermic/InstanceFactory.h"
 #include "Hypodermic/Log.h"
+#include "Hypodermic/Named.h"
 #include "Hypodermic/OnActivated.h"
 #include "Hypodermic/RegistrationBuilder.h"
 #include "Hypodermic/RegistrationDescriptorBase.h"
@@ -20,6 +21,7 @@ namespace Hypodermic
     class AutowireableConstructorRegistrationDescriptor : public RegistrationDescriptorBase< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::As< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::AsSelf< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
+                                                          public RegistrationDescriptorOperations::Named< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::OnActivated< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::SingleInstance< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::UseIfNone< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
@@ -27,6 +29,7 @@ namespace Hypodermic
     {
         friend class RegistrationDescriptorOperations::As< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::AsSelf< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
+        friend class RegistrationDescriptorOperations::Named< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::OnActivated< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::SingleInstance< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::UseIfNone< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;

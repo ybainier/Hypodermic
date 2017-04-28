@@ -74,7 +74,7 @@ namespace Utils
 {
 
     template <class T>
-    inline const TypeInfo& getMetaTypeInfo()
+    const TypeInfo& getMetaTypeInfo()
     {
         static TypeInfo result(typeid(T));
         return result;

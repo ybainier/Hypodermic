@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <utility>
 
 #include "Hypodermic/ITypeAlias.h"
@@ -9,11 +10,12 @@
 namespace Hypodermic
 {
 
-    class TypeAlias : public ITypeAlias
+    class NamedTypeAlias : public ITypeAlias
     {
     public:
-        explicit TypeAlias(const TypeInfo& typeInfo)
+        explicit NamedTypeAlias(const TypeInfo& typeInfo, const std::string& name)
             : m_typeInfo(typeInfo)
+            , m_name(name)
         {
         }
 
@@ -23,16 +25,17 @@ namespace Hypodermic
             if (self == &rhs)
                 return true;
 
-            auto rhsTypeAlias = dynamic_cast< const TypeAlias* >(&rhs);
+            auto rhsTypeAlias = dynamic_cast< const NamedTypeAlias* >(&rhs);
             if (rhsTypeAlias == nullptr)
                 return false;
 
-            return m_typeInfo == rhsTypeAlias->m_typeInfo;
+            return m_typeInfo == rhsTypeAlias->m_typeInfo && m_name == rhsTypeAlias->m_name;
         }
         
         std::size_t hashCode() const override
         {
-            return std::hash< std::type_index >()(m_typeInfo.intrinsicTypeInfo());
+            auto hashCode = std::hash< std::type_index >()(m_typeInfo.intrinsicTypeInfo());
+            return (hashCode * 397) ^ std::hash< std::string >()(m_name);
         }
 
         const TypeInfo& typeInfo() const override
@@ -42,6 +45,7 @@ namespace Hypodermic
 
     private:
         TypeInfo m_typeInfo;
+        std::string m_name;
     };
 
 } // namespace Hypodermic

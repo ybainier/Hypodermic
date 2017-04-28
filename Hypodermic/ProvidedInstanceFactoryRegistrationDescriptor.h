@@ -4,6 +4,7 @@
 #include "Hypodermic/AsSelf.h"
 #include "Hypodermic/InstanceFactory.h"
 #include "Hypodermic/Log.h"
+#include "Hypodermic/Named.h"
 #include "Hypodermic/OnActivated.h"
 #include "Hypodermic/RegistrationBuilder.h"
 #include "Hypodermic/RegistrationDescriptorBase.h"
@@ -18,12 +19,14 @@ namespace Hypodermic
     class ProvidedInstanceFactoryRegistrationDescriptor : public RegistrationDescriptorBase< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::As< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::AsSelf< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
+                                                          public RegistrationDescriptorOperations::Named< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::OnActivated< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::SingleInstance< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::UseIfNone< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >
     {
         friend class RegistrationDescriptorOperations::As< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::AsSelf< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
+        friend class RegistrationDescriptorOperations::Named< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::OnActivated< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::SingleInstance< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::UseIfNone< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;

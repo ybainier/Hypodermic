@@ -65,6 +65,20 @@ namespace Hypodermic
             return resolveAll< T >(createKeyForType< T >());
         }
 
+        /// <summary>
+        /// Resolve an instance of type T by both its type and a name
+        /// </summary>
+        /// <param name="T">The type to resolve (i.e. get an instance of T)</param>
+        /// <param name="name">The name of the object to resolve</param>
+        /// <returns>A shared pointer on an instance of type T</returns>
+        template <class T>
+        std::shared_ptr< T > resolveNamed(const std::string& name)
+        {
+            static_assert(Traits::IsComplete< T >::value, "T should be a complete type");
+
+            return resolve< T >(createKeyForNamedType< T >(name));
+        }
+
     private:
         template <class T>
         std::shared_ptr< T > resolve(const TypeAliasKey& typeAliasKey)

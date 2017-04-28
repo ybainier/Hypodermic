@@ -21,6 +21,7 @@ set(HypodermicTests_sources
     GithubTests.cpp
     IsCompleteTests.cpp
     MemoryTests.cpp
+    NamedTests.cpp
     NestedContainerTests.cpp
     PerformanceTests.cpp
     PersistentInstanceRegistrationTests.cpp
@@ -28,6 +29,7 @@ set(HypodermicTests_sources
     ProvidedInstanceFactoryRegistrationTests.cpp
     ProvidedInstanceRegistrationTests.cpp
     RegistrationTests.cpp
+    UseIfNoneTests.cpp
 )
 
 include_directories("..")

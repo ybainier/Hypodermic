@@ -58,6 +58,8 @@ set(Hypodermic_headers
     MetaInsert.h
     MetaMap.h
     MetaPair.h
+    Named.h
+    NamedTypeAlias.h
     NestedRegistrationScope.h
     NoopLoggerSink.h
     OnActivated.h
@@ -89,6 +91,7 @@ set(Hypodermic_headers
     TypeAliases.h
     TypeAliasKey.h
     TypeInfo.h
+    UseIfNone.h
     With.h
 )
 

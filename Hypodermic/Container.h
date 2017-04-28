@@ -75,6 +75,19 @@ namespace Hypodermic
             return componentContext.resolveAll< T >();
         }
 
+        /// <summary>
+        /// Resolve an instance of type T by both its type and a name
+        /// </summary>
+        /// <param name="T">The type to resolve (i.e. get an instance of T)</param>
+        /// <param name="name">The name of the object to resolve</param>
+        /// <returns>A shared pointer on an instance of type T</returns>
+        template <class T>
+        std::shared_ptr< T > resolveNamed(const std::string& name)
+        {
+            ComponentContext componentContext(shared_from_this(), m_registrationScope, m_runtimeRegistrationBuilder);
+            return componentContext.resolveNamed< T >(name);
+        }
+
     private:
         std::shared_ptr< IRegistrationScope > m_registrationScope;
         std::shared_ptr< IRuntimeRegistrationBuilder > m_runtimeRegistrationBuilder;

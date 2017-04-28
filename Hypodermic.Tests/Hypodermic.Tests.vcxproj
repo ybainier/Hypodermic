@@ -197,6 +197,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MemoryTests.cpp" />
+    <ClCompile Include="NamedTests.cpp" />
     <ClCompile Include="NestedContainerTests.cpp" />
     <ClCompile Include="PerformanceTests.cpp" />
     <ClCompile Include="PersistentInstanceRegistrationTests.cpp" />

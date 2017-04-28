@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "Hypodermic/ITypeAlias.h"
+#include "Hypodermic/NamedTypeAlias.h"
 #include "Hypodermic/TypeAlias.h"
 #include "Hypodermic/TypeInfo.h"
 
@@ -41,14 +42,25 @@ namespace Hypodermic
 
 
     template <class T>
-    inline TypeAliasKey createKeyForType()
+    TypeAliasKey createKeyForType()
     {
         return createKeyForType(Utils::getMetaTypeInfo< T >());
+    }
+
+    template <class T>
+    TypeAliasKey createKeyForNamedType(const std::string& name)
+    {
+        return createKeyForNamedType(Utils::getMetaTypeInfo< T >(), name);
     }
 
     inline TypeAliasKey createKeyForType(const TypeInfo& typeInfo)
     {
         return TypeAliasKey(std::make_shared< TypeAlias >(typeInfo));
+    }
+
+    inline TypeAliasKey createKeyForNamedType(const TypeInfo& typeInfo, const std::string& name)
+    {
+        return TypeAliasKey(std::make_shared< NamedTypeAlias >(typeInfo, name));
     }
 
 } // namespace Hypodermic
