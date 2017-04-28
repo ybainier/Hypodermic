@@ -50,6 +50,9 @@
     <ClCompile Include="FactoryTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="UseIfNoneTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">

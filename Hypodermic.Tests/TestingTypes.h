@@ -31,6 +31,12 @@ namespace Testing
         void doSomething() override {}
     };
 
+    class DefaultConstructible3 : public DefaultConstructibleBase
+    {
+    public:
+        void doSomething() override {}
+    };
+
 
     class ContainerDependent
     {

@@ -44,6 +44,11 @@ namespace Hypodermic
             return InstanceLifetimes::Transient;
         }
 
+        bool isFallback() const override
+        {
+            return false;
+        }
+
     private:
         mutable ContainerInstanceRegistrationActivator m_activator;
         TypeInfo m_instanceType;

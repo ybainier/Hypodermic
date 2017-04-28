@@ -115,7 +115,8 @@ namespace Hypodermic
         static std::string toString()
         {
             typedef typename TDescriptorInfo::InstanceType InstanceType;
-            typedef typename TDescriptorInfo::InstanceRegistrationTag InstanceRegistrationTag;
+            typedef typename TDescriptorInfo::SelfRegistrationTag SelfRegistrationTag;
+            typedef typename TDescriptorInfo::Behavior Behavior;
             typedef typename TDescriptorInfo::InstanceLifetime InstanceLifetime;
             typedef typename TDescriptorInfo::RegisteredBases RegisteredBases;
             typedef typename TDescriptorInfo::Dependencies Dependencies;
@@ -127,11 +128,14 @@ namespace Hypodermic
             HYPODERMIC_PRAGMA_PUSH
             HYPODERMIC_IGNORE_CONDITIONAL_EXPRESSION_IS_CONSTANT
 
-            if (std::is_same< InstanceRegistrationTag, Tags::SelfRegistered >::value)
+            if (std::is_same< SelfRegistrationTag, Tags::SelfRegistered >::value)
                 stream << ".AsSelf";
 
             if (std::is_same< InstanceLifetime, PersistentInstance >::value)
                 stream << ".SingleInstance";
+
+            if (std::is_same< Behavior, Tags::FallbackRegistration >::value)
+                stream << ".UseIfNone";
 
             HYPODERMIC_PRAGMA_POP
 

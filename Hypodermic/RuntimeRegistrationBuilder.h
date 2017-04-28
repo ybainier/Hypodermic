@@ -22,7 +22,8 @@ namespace Hypodermic
                 TypeAliases(),
                 instanceFactory,
                 DependencyFactories(),
-                ActivationHandlers()
+                ActivationHandlers(),
+                false /* not a fallback registration */
             );
         }
     };

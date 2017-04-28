@@ -1,5 +1,7 @@
 #pragma once
 
+#include <type_traits>
+
 #include "Hypodermic/InstanceRegistrationTags.h"
 
 
@@ -19,7 +21,7 @@ namespace RegistrationDescriptorOperations
         {
         private:
             typedef typename TDescriptorInfo::RegisteredBases RegisteredBases;
-            typedef typename TDescriptorInfo::InstanceRegistrationTag InstanceRegistrationTag;
+            typedef typename TDescriptorInfo::SelfRegistrationTag InstanceRegistrationTag;
 
         public:
             typedef typename std::conditional

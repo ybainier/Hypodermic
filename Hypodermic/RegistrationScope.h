@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <mutex>
 #include <unordered_map>
 #include <vector>
@@ -33,13 +34,34 @@ namespace Hypodermic
         {
             std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
+            auto hasRegistrations = false;
+            {
+                auto it = m_fallbackRegistrationContextsByBaseTypes.find(typeAliasKey);
+                if (it != std::end(m_fallbackRegistrationContextsByBaseTypes))
+                {
+                    auto& contexts = it->second;
+                    std::copy(std::rbegin(contexts), std::rend(contexts), std::back_inserter(registrationContexts));
+
+                    hasRegistrations = true;
+                }
+            }
+
             auto it = m_registrationContextsByBaseTypes.find(typeAliasKey);
             if (it == std::end(m_registrationContextsByBaseTypes))
-                return false;
+                return hasRegistrations;
 
             auto& contexts = it->second;
-            registrationContexts.insert(std::end(registrationContexts), std::begin(contexts), std::end(contexts));
+            std::copy(std::begin(contexts), std::end(contexts), std::back_inserter(registrationContexts));
             return true;
+        }
+
+        std::shared_ptr< IRegistrationScope > clone() override
+        {
+            auto scope = std::make_shared< RegistrationScope >();
+            scope->m_registrationContextsByBaseTypes = m_registrationContextsByBaseTypes;
+            scope->m_fallbackRegistrationContextsByBaseTypes = m_fallbackRegistrationContextsByBaseTypes;
+
+            return scope;
         }
 
     private:
@@ -47,15 +69,29 @@ namespace Hypodermic
         {
             std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
-            auto it = m_registrationContextsByBaseTypes.find(typeAliasKey);
-            if (it == std::end(m_registrationContextsByBaseTypes))
-                it = m_registrationContextsByBaseTypes.insert(std::make_pair(typeAliasKey, std::vector< std::shared_ptr< RegistrationContext > >())).first;
+            if (registration->isFallback())
+            {
+                addRegistration(m_fallbackRegistrationContextsByBaseTypes, typeAliasKey, registration);
+            }
+            else
+            {
+                addRegistration(m_registrationContextsByBaseTypes, typeAliasKey, registration);
+            }
+        }
+
+        template <class TRegistrationContextsByBaseTypes>
+        void addRegistration(TRegistrationContextsByBaseTypes& container, const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration)
+        {
+            auto it = container.find(typeAliasKey);
+            if (it == std::end(container))
+                it = container.insert(std::make_pair(typeAliasKey, std::vector< std::shared_ptr< RegistrationContext > >())).first;
 
             it->second.push_back(std::make_shared< RegistrationContext >(m_resolutionContainer, registration));
         }
 
     private:
         std::unordered_map< TypeAliasKey, std::vector< std::shared_ptr< RegistrationContext > > > m_registrationContextsByBaseTypes;
+        std::unordered_map< TypeAliasKey, std::vector< std::shared_ptr< RegistrationContext > > > m_fallbackRegistrationContextsByBaseTypes;
         mutable std::recursive_mutex m_mutex;
         ResolutionContainer m_resolutionContainer;
     };

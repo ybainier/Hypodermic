@@ -5,6 +5,7 @@
 #include "Hypodermic/Log.h"
 #include "Hypodermic/RegistrationBuilder.h"
 #include "Hypodermic/RegistrationDescriptorBase.h"
+#include "Hypodermic/UseIfNone.h"
 
 
 namespace Hypodermic
@@ -13,10 +14,12 @@ namespace Hypodermic
     template <class TDescriptorInfo>
     class ProvidedInstanceRegistrationDescriptor : public RegistrationDescriptorBase< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                    public RegistrationDescriptorOperations::As< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
-                                                   public RegistrationDescriptorOperations::AsSelf< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >
+                                                   public RegistrationDescriptorOperations::AsSelf< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
+                                                   public RegistrationDescriptorOperations::UseIfNone< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >
     {
         friend class RegistrationDescriptorOperations::As< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::AsSelf< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
+        friend class RegistrationDescriptorOperations::UseIfNone< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
 
     public:
         typedef RegistrationDescriptorBase< ProvidedInstanceRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo > BaseType;

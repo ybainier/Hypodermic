@@ -27,6 +27,8 @@ namespace Hypodermic
     template <class TRegistrationDescriptorInfo>
     class RegistrationBuilder< TRegistrationDescriptorInfo, TransientInstance >
     {
+        using IsFallback = std::is_same< typename TRegistrationDescriptorInfo::Behavior, Tags::FallbackRegistration >;
+
     public:
         static std::shared_ptr< IRegistration > build(const TypeInfo& instanceType,
                                                       const TypeAliases& typeAliases,
@@ -34,7 +36,7 @@ namespace Hypodermic
                                                       const DependencyFactories& dependencyFactories,
                                                       const ActivationHandlers& activationHandlers)
         {
-            return std::make_shared< Registration >(instanceType, typeAliases, instanceFactory, dependencyFactories, activationHandlers);
+            return std::make_shared< Registration >(instanceType, typeAliases, instanceFactory, dependencyFactories, activationHandlers, IsFallback::value);
         }
     };
 
@@ -42,6 +44,8 @@ namespace Hypodermic
     template <class TRegistrationDescriptorInfo>
     class RegistrationBuilder< TRegistrationDescriptorInfo, PersistentInstance >
     {
+        using IsFallback = std::is_same< typename TRegistrationDescriptorInfo::Behavior, Tags::FallbackRegistration >;
+
     public:
         static std::shared_ptr< IRegistration > build(const TypeInfo& instanceType,
                                                       const TypeAliases& typeAliases,
@@ -65,7 +69,7 @@ namespace Hypodermic
         template <class T>
         static std::shared_ptr< IRegistration > buildForProvidedInstance(const std::shared_ptr< T >& instance, const TypeAliases& typeAliases)
         {
-            return std::make_shared< ProvidedInstanceRegistration< T > >(instance, typeAliases);
+            return std::make_shared< ProvidedInstanceRegistration< T > >(instance, typeAliases, IsFallback::value);
         }
     };
 

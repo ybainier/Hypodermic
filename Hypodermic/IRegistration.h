@@ -27,6 +27,8 @@ namespace Hypodermic
         virtual IRegistrationActivator& activator() const = 0;
 
         virtual InstanceLifetimes::InstanceLifetime instanceLifetime() const = 0;
+
+        virtual bool isFallback() const = 0;
     };
 
 } // namespace Hypodermic

@@ -20,7 +20,8 @@ namespace Hypodermic
     <
         class T,
         InstanceLifetimes::InstanceLifetime Lifetime = InstanceLifetimes::Transient,
-        class TInstanceRegistrationTag = Tags::NotSelfRegistered,
+        class TSelfRegistrationTag = Tags::NotSelfRegistered,
+        class TRegistrationBehavior = Tags::DefaultRegistration,
         class TRegisteredBases = MetaMap<>,
         class TDependencies = MetaMap<>
     >
@@ -28,7 +29,8 @@ namespace Hypodermic
     {
         typedef T InstanceType;
         typedef std::integral_constant< InstanceLifetimes::InstanceLifetime, Lifetime > InstanceLifetime;
-        typedef TInstanceRegistrationTag InstanceRegistrationTag;
+        typedef TSelfRegistrationTag SelfRegistrationTag;
+        typedef TRegistrationBehavior Behavior;
         typedef TRegisteredBases RegisteredBases;
         typedef TDependencies Dependencies;
 
@@ -38,7 +40,8 @@ namespace Hypodermic
             <
                 InstanceType,
                 InstanceLifetimes::Persistent,
-                InstanceRegistrationTag,
+                SelfRegistrationTag,
+                Behavior,
                 RegisteredBases,
                 Dependencies
             >
@@ -52,6 +55,21 @@ namespace Hypodermic
                 InstanceType,
                 InstanceLifetime::value,
                 Tags::SelfRegistered,
+                Behavior,
+                RegisteredBases,
+                Dependencies
+            >
+            Type;
+        };
+
+        struct PreserveDefault
+        {
+            typedef RegistrationDescriptorInfo
+            <
+                InstanceType,
+                InstanceLifetime::value,
+                SelfRegistrationTag,
+                Tags::FallbackRegistration,
                 RegisteredBases,
                 Dependencies
             >
@@ -65,7 +83,8 @@ namespace Hypodermic
             <
                 InstanceType,
                 InstanceLifetime::value,
-                InstanceRegistrationTag,
+                SelfRegistrationTag,
+                Behavior,
                 typename MetaInsert< RegisteredBases, MetaPair< TBase, MetaIdentity< TBase > > >::Type,
                 Dependencies
             >
@@ -84,7 +103,8 @@ namespace Hypodermic
             <
                 InstanceType,
                 InstanceLifetime::value,
-                InstanceRegistrationTag,
+                SelfRegistrationTag,
+                Behavior,
                 RegisteredBases,
                 typename MetaInsert< Dependencies, MetaPair< TDependency, Tags::DependencyFactory< TDependency > > >::Type
             >
@@ -98,7 +118,8 @@ namespace Hypodermic
             <
                 InstanceType,
                 InstanceLifetime::value,
-                InstanceRegistrationTag,
+                SelfRegistrationTag,
+                Behavior,
                 RegisteredBases,
                 typename MetaInsert< Dependencies, MetaPair< TDependency, Tags::ProvidedInstanceDependency< TDependency, TProvidedDependency > > >::Type
             >
@@ -112,7 +133,8 @@ namespace Hypodermic
             <
                 InstanceType,
                 InstanceLifetime::value,
-                InstanceRegistrationTag,
+                SelfRegistrationTag,
+                Behavior,
                 RegisteredBases,
                 typename MetaInsert< Dependencies, MetaPair< TDependency, Tags::ProvidedDependency< TDependency, TProvidedDependency > > >::Type
             >
@@ -127,7 +149,7 @@ namespace Hypodermic
 
         static std::string toString()
         {
-            return RegistrationDescriptorInfoToString::toString< RegistrationDescriptorInfo< InstanceType, InstanceLifetime::value, InstanceRegistrationTag, RegisteredBases, Dependencies > >();
+            return RegistrationDescriptorInfoToString::toString< RegistrationDescriptorInfo< InstanceType, InstanceLifetime::value, SelfRegistrationTag, Behavior, RegisteredBases, Dependencies > >();
         }
     };
 

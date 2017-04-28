@@ -42,6 +42,11 @@ namespace Hypodermic
             return InstanceLifetimes::Persistent;
         }
 
+        bool isFallback() const override
+        {
+            return m_registration->isFallback();
+        }
+
     private:
         std::shared_ptr< IRegistration > m_registration;
     };

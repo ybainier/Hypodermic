@@ -8,6 +8,7 @@
 #include "Hypodermic/RegistrationBuilder.h"
 #include "Hypodermic/RegistrationDescriptorBase.h"
 #include "Hypodermic/SingleInstance.h"
+#include "Hypodermic/UseIfNone.h"
 
 
 namespace Hypodermic
@@ -18,13 +19,14 @@ namespace Hypodermic
                                                           public RegistrationDescriptorOperations::As< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::AsSelf< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::OnActivated< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
-                                                          public RegistrationDescriptorOperations::SingleInstance< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >
-
+                                                          public RegistrationDescriptorOperations::SingleInstance< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
+                                                          public RegistrationDescriptorOperations::UseIfNone< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >
     {
         friend class RegistrationDescriptorOperations::As< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::AsSelf< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::OnActivated< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::SingleInstance< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
+        friend class RegistrationDescriptorOperations::UseIfNone< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
 
     public:
         typedef RegistrationDescriptorBase< ProvidedInstanceFactoryRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo > BaseType;

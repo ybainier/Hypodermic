@@ -169,6 +169,7 @@
     <ClInclude Include="MetaMap.h" />
     <ClInclude Include="MetaPair.h" />
     <ClInclude Include="PointerAlignment.h" />
+    <ClInclude Include="UseIfNone.h" />
     <ClInclude Include="ResolutionInfo.h" />
     <ClInclude Include="AnyArgument.h" />
     <ClInclude Include="ArgumentResolver.h" />

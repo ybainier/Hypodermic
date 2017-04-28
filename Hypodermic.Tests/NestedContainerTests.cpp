@@ -133,6 +133,95 @@ namespace Testing
         BOOST_CHECK(std::dynamic_pointer_cast< DefaultConstructible2 >(instance) == instance);
     }
 
+    BOOST_AUTO_TEST_CASE(should_no_longer_resolve_the_same_type_when_nested_container_is_released)
+    {
+        // Arrange
+        std::shared_ptr< Container > container;
+
+        std::shared_ptr< DefaultConstructibleBase > nestedInstance;
+        {
+            ContainerBuilder builder;
+            builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >();
+
+            container = builder.build();
+
+            ContainerBuilder nestedContainerBuilder;
+            nestedContainerBuilder.registerType< DefaultConstructible2 >().as< DefaultConstructibleBase >();
+            auto nestedContainer = nestedContainerBuilder.buildNestedContainerFrom(*container);
+
+            nestedInstance = nestedContainer->resolve< DefaultConstructibleBase >();
+        }
+
+        auto instance = container->resolve< DefaultConstructibleBase >();
+
+        // Assert
+        BOOST_CHECK(std::dynamic_pointer_cast< DefaultConstructible1 >(instance) == instance);
+        BOOST_CHECK(std::dynamic_pointer_cast< DefaultConstructible2 >(nestedInstance) == nestedInstance);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_no_longer_resolve_the_same_instance_when_nested_container_is_released)
+    {
+        // Arrange
+        std::shared_ptr< Container > container;
+
+        std::shared_ptr< DefaultConstructibleBase > nestedInstance1;
+        std::shared_ptr< DefaultConstructibleBase > nestedInstance2;
+        {
+            ContainerBuilder builder;
+            builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >().singleInstance();
+
+            container = builder.build();
+
+            ContainerBuilder nestedContainerBuilder;
+            nestedContainerBuilder.registerType< DefaultConstructible2 >().as< DefaultConstructibleBase >().singleInstance();
+            auto nestedContainer = nestedContainerBuilder.buildNestedContainerFrom(*container);
+
+            nestedInstance1 = nestedContainer->resolve< DefaultConstructibleBase >();
+            nestedInstance2 = nestedContainer->resolve< DefaultConstructibleBase >();
+        }
+
+        auto instance1 = container->resolve< DefaultConstructibleBase >();
+        auto instance2 = container->resolve< DefaultConstructibleBase >();
+
+        // Assert
+        BOOST_CHECK(std::dynamic_pointer_cast< DefaultConstructible1 >(instance1) == instance2);
+        BOOST_CHECK(std::dynamic_pointer_cast< DefaultConstructible2 >(nestedInstance1) == nestedInstance2);
+        BOOST_CHECK(instance1 != nestedInstance1);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_keep_using_resolved_instance_in_nested_container)
+    {
+        // Arrange
+        std::shared_ptr< Container > container;
+
+        std::shared_ptr< DefaultConstructibleBase > instance;
+        std::shared_ptr< DefaultConstructibleBase > parentInstanceFromNestedContainer;
+        {
+            ContainerBuilder builder;
+            builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >().singleInstance();
+
+            container = builder.build();
+
+            instance = container->resolve< DefaultConstructibleBase >();
+
+            ContainerBuilder nestedContainerBuilder;
+            nestedContainerBuilder.registerType< DefaultConstructible2 >();
+            auto nestedContainer = nestedContainerBuilder.buildNestedContainerFrom(*container);
+
+            auto nestedInstance = nestedContainer->resolve< DefaultConstructible2 >();
+            BOOST_CHECK(nestedInstance != nullptr);
+
+            parentInstanceFromNestedContainer = container->resolve< DefaultConstructibleBase >();
+        }
+
+        auto instanceAfterNestedContainerIsReleased = container->resolve< DefaultConstructibleBase >();
+
+        // Assert
+        BOOST_CHECK(std::dynamic_pointer_cast< DefaultConstructible1 >(instance) == instance);
+        BOOST_CHECK(parentInstanceFromNestedContainer == instance);
+        BOOST_CHECK(instanceAfterNestedContainerIsReleased == instance);
+    }
+
     BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace Testing

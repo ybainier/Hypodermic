@@ -290,5 +290,8 @@
       <Filter>Meta</Filter>
     </ClInclude>
     <ClInclude Include="FactoryWrapper.h" />
+    <ClInclude Include="UseIfNone.h">
+      <Filter>Descriptors\Operations</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

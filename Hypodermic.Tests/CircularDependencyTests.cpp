@@ -28,7 +28,7 @@ namespace Testing
         BOOST_CHECK_THROW(container->resolve< BaseType2 >(), std::exception);
     }
 
-    BOOST_AUTO_TEST_CASE(should_not_throw_when_a_dependency_lol)
+    BOOST_AUTO_TEST_CASE(should_not_throw_when_resolving_a_type_that_needs_an_instance_that_is_being_activated)
     {
         // Arrange
         ContainerBuilder builder;

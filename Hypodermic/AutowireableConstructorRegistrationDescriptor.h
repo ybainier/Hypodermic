@@ -9,6 +9,7 @@
 #include "Hypodermic/RegistrationBuilder.h"
 #include "Hypodermic/RegistrationDescriptorBase.h"
 #include "Hypodermic/SingleInstance.h"
+#include "Hypodermic/UseIfNone.h"
 #include "Hypodermic/With.h"
 
 
@@ -21,12 +22,14 @@ namespace Hypodermic
                                                           public RegistrationDescriptorOperations::AsSelf< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::OnActivated< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::SingleInstance< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
+                                                          public RegistrationDescriptorOperations::UseIfNone< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >,
                                                           public RegistrationDescriptorOperations::With< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >
     {
         friend class RegistrationDescriptorOperations::As< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::AsSelf< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::OnActivated< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::SingleInstance< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
+        friend class RegistrationDescriptorOperations::UseIfNone< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
         friend class RegistrationDescriptorOperations::With< AutowireableConstructorRegistrationDescriptor< TDescriptorInfo >, TDescriptorInfo >;
 
     public:

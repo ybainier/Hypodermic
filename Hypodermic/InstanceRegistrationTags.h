@@ -10,6 +10,9 @@ namespace Hypodermic
         struct SelfRegistered {};
         struct NotSelfRegistered {};
 
+        struct FallbackRegistration {};
+        struct DefaultRegistration {};
+
     }
 
 } // namespace Hypodermic

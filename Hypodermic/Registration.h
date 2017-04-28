@@ -24,11 +24,13 @@ namespace Hypodermic
                      const TypeAliases& typeAliases,
                      const InstanceFactory& instanceFactory,
                      const DependencyFactories& dependencyFactories,
-                     const ActivationHandlers& activationHandlers)
+                     const ActivationHandlers& activationHandlers,
+                     bool isFallback)
             : m_activator(*this, instanceFactory, activationHandlers)
             , m_instanceType(instanceType)
             , m_typeAliases(typeAliases)
             , m_dependencyFactories(dependencyFactories)
+            , m_isFallback(isFallback)
         {
         }
 
@@ -61,11 +63,17 @@ namespace Hypodermic
             return InstanceLifetimes::Transient;
         }
 
+        bool isFallback() const override
+        {
+            return m_isFallback;
+        }
+
     private:
         mutable RegistrationActivator m_activator;
         TypeInfo m_instanceType;
         TypeAliases m_typeAliases;
         DependencyFactories m_dependencyFactories;
+        bool m_isFallback;
     };
 
 } // namespace Hypodermic
