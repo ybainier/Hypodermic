@@ -57,11 +57,13 @@ namespace Hypodermic
 
         std::shared_ptr< IRegistrationScope > clone() override
         {
-            auto scope = std::make_shared< RegistrationScope >();
-            scope->m_registrationContextsByBaseTypes = m_registrationContextsByBaseTypes;
-            scope->m_fallbackRegistrationContextsByBaseTypes = m_fallbackRegistrationContextsByBaseTypes;
+            std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
-            return scope;
+            auto scopeClone = std::make_shared< RegistrationScope >();
+            scopeClone->m_registrationContextsByBaseTypes = m_registrationContextsByBaseTypes;
+            scopeClone->m_fallbackRegistrationContextsByBaseTypes = m_fallbackRegistrationContextsByBaseTypes;
+
+            return scopeClone;
         }
 
     private:
