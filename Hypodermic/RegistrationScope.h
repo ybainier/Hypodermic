@@ -40,7 +40,7 @@ namespace Hypodermic
                 if (it != std::end(m_fallbackRegistrationContextsByBaseTypes))
                 {
                     auto& contexts = it->second;
-                    std::copy(std::rbegin(contexts), std::rend(contexts), std::back_inserter(registrationContexts));
+                    std::copy(contexts.rbegin(), contexts.rend(), std::back_inserter(registrationContexts));
 
                     hasRegistrations = true;
                 }

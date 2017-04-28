@@ -20,7 +20,4 @@
 
 // Boost.Test
 #include <boost/test/results_reporter.hpp>
-#include <boost/test/tools/old/interface.hpp>
 #include <boost/test/unit_test.hpp>
-#include <boost/test/unit_test_log.hpp>
-#include <boost/test/unit_test_suite.hpp>
