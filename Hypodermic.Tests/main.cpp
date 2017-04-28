@@ -20,7 +20,7 @@ struct GlobalFixture
         boost::unit_test::results_reporter::set_level(boost::unit_test::SHORT_REPORT);
         boost::unit_test::unit_test_log.set_threshold_level(boost::unit_test::log_successful_tests);
         
-        Hypodermic::Logger::configureLogLevel(Hypodermic::LogLevels::Off);
+        Hypodermic::Logger::configureLogLevel(Hypodermic::LogLevels::Error);
         Hypodermic::Logger::configureSink(std::make_shared< Hypodermic::ConsoleLoggerSink >());
     }
 };

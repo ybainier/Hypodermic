@@ -49,7 +49,7 @@ namespace Hypodermic
 
         explicit Logger(const LoggerPrivateLock&)
             : m_sink(std::make_shared< NoopLoggerSink >())
-            , m_logLevel(LogLevels::Debug)
+            , m_logLevel(LogLevels::Error)
         {
         }
 
