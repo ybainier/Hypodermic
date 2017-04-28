@@ -27,7 +27,7 @@ namespace Hypodermic
     template <class TRegistrationDescriptorInfo>
     class RegistrationBuilder< TRegistrationDescriptorInfo, TransientInstance >
     {
-        using IsFallback = std::is_same< typename TRegistrationDescriptorInfo::Behavior, Tags::FallbackRegistration >;
+        using IsFallback = std::is_same< typename TRegistrationDescriptorInfo::FallbackRegistrationTag, Tags::FallbackRegistration >;
 
     public:
         static std::shared_ptr< IRegistration > build(const TypeInfo& instanceType,
@@ -44,7 +44,7 @@ namespace Hypodermic
     template <class TRegistrationDescriptorInfo>
     class RegistrationBuilder< TRegistrationDescriptorInfo, PersistentInstance >
     {
-        using IsFallback = std::is_same< typename TRegistrationDescriptorInfo::Behavior, Tags::FallbackRegistration >;
+        using IsFallback = std::is_same< typename TRegistrationDescriptorInfo::FallbackRegistrationTag, Tags::FallbackRegistration >;
 
     public:
         static std::shared_ptr< IRegistration > build(const TypeInfo& instanceType,

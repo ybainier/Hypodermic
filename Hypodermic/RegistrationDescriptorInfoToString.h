@@ -116,7 +116,7 @@ namespace Hypodermic
         {
             typedef typename TDescriptorInfo::InstanceType InstanceType;
             typedef typename TDescriptorInfo::SelfRegistrationTag SelfRegistrationTag;
-            typedef typename TDescriptorInfo::Behavior Behavior;
+            typedef typename TDescriptorInfo::FallbackRegistrationTag FallbackRegistrationTag;
             typedef typename TDescriptorInfo::InstanceLifetime InstanceLifetime;
             typedef typename TDescriptorInfo::RegisteredBases RegisteredBases;
             typedef typename TDescriptorInfo::Dependencies Dependencies;
@@ -134,7 +134,7 @@ namespace Hypodermic
             if (std::is_same< InstanceLifetime, PersistentInstance >::value)
                 stream << ".SingleInstance";
 
-            if (std::is_same< Behavior, Tags::FallbackRegistration >::value)
+            if (std::is_same< FallbackRegistrationTag, Tags::FallbackRegistration >::value)
                 stream << ".UseIfNone";
 
             HYPODERMIC_PRAGMA_POP

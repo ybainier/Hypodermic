@@ -14,7 +14,7 @@ namespace RegistrationDescriptorOperations
     <
         class TDescriptor,
         class TDescriptorInfo,
-        class TRegistrationBehavior = typename TDescriptorInfo::Behavior
+        class TFallbackRegistrationTag = typename TDescriptorInfo::FallbackRegistrationTag
     >
     class UseIfNone;
 
@@ -31,13 +31,13 @@ namespace RegistrationDescriptorOperations
         template <class TDelayedDescriptor = TDescriptor>
         typename TDelayedDescriptor::template UpdateDescriptor
         <
-            typename TDescriptorInfo::PreserveDefault::Type
+            typename TDescriptorInfo::UseIfNone::Type
         >
         ::Type& useIfNone()
         {
             auto descriptor = static_cast< TDescriptor* >(this);
 
-            auto updatedDescriptor = descriptor->template createUpdate< typename TDescriptorInfo::PreserveDefault::Type >();
+            auto updatedDescriptor = descriptor->template createUpdate< typename TDescriptorInfo::UseIfNone::Type >();
             descriptor->registrationDescriptorUpdated()(updatedDescriptor);
 
             return *updatedDescriptor;
