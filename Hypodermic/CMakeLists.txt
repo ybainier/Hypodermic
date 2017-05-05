@@ -49,6 +49,7 @@ set(Hypodermic_headers
     IsComplete.h
     IsSupportedArgument.h
     ITypeAlias.h
+    Hypodermic.h
     Log.h
     Logger.h
     LogLevel.h

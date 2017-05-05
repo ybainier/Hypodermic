@@ -299,5 +299,6 @@
     <ClInclude Include="NamedTypeAlias.h">
       <Filter>TypeAlias</Filter>
     </ClInclude>
+    <ClInclude Include="Hypodermic.h" />
   </ItemGroup>
 </Project>
