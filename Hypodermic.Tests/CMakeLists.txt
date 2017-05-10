@@ -18,7 +18,6 @@ set(HypodermicTests_sources
     ContainerTests.cpp
     DefaultConstructibleTests.cpp
     FactoryTests.cpp
-    GithubTests.cpp
     IsCompleteTests.cpp
     MemoryTests.cpp
     NamedTests.cpp

@@ -17,9 +17,6 @@
     <ClCompile Include="DefaultConstructibleTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="GithubTests.cpp">
-      <Filter>Tests</Filter>
-    </ClCompile>
     <ClCompile Include="MemoryTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
