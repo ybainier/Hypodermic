@@ -37,12 +37,35 @@ namespace RegistrationDescriptorOperations
         };
 
     public:
-        template <class TBase, class TDelayedDescriptor = TDescriptor>
+        // This template avoids Early Template Instantiation issue
+        template <class TDelayedDescriptor = TDescriptor>
         typename TDelayedDescriptor::template UpdateDescriptor
         <
-            typename TDescriptorInfo::template RegisterBase< TBase >::Type
+            typename TDescriptorInfo::SelfRegistered::Type
         >
         ::Type& named(const std::string& name)
+        {
+            auto descriptor = static_cast< TDescriptor* >(this);
+            descriptor->addTypeIfMissing(createKeyForNamedType< InstanceType >(name));
+
+            auto updatedDescriptor = descriptor->template createUpdate< typename TDescriptorInfo::SelfRegistered::Type >();
+            descriptor->registrationDescriptorUpdated()(updatedDescriptor);
+
+            return *updatedDescriptor;
+        }
+
+        // This template avoids Early Template Instantiation issue
+        template <class TBase, class TDelayedDescriptor = TDescriptor>
+        typename std::enable_if
+        <
+            !std::is_same< TBase, InstanceType >::value,
+            typename TDelayedDescriptor::template UpdateDescriptor
+            <
+                typename TDescriptorInfo::template RegisterBase< TBase >::Type
+            >
+            ::Type&
+        >
+        ::type named(const std::string& name)
         {
             EnforceBaseOf< TBase, InstanceType >::act();
             EnforceBaseNotAlreadyRegistered< TBase >::act();

@@ -27,6 +27,21 @@ namespace Testing
         BOOST_CHECK(instance != nullptr);
     }
 
+    BOOST_AUTO_TEST_CASE(should_resolve_named_component_as_itself)
+    {
+        // Arrange
+        ContainerBuilder builder;
+
+        // Act
+        builder.registerType< DefaultConstructible1 >().named("default1");
+
+        auto container = builder.build();
+
+        // Assert
+        auto instance = container->resolveNamed< DefaultConstructible1 >("default1");
+        BOOST_CHECK(instance != nullptr);
+    }
+
     BOOST_AUTO_TEST_CASE(should_not_resolve_named_component_without_its_name)
     {
         // Arrange
