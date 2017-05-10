@@ -36,7 +36,7 @@ namespace Testing
 
         BOOST_CHECK(instance1 != instance2);
 
-        BOOST_REQUIRE_EQUAL(activatedInstances.size(), 2);
+        BOOST_REQUIRE_EQUAL(activatedInstances.size(), 2u);
         BOOST_CHECK(instance1 == activatedInstances[0]);
         BOOST_CHECK(instance2 == activatedInstances[1]);
     }
@@ -67,7 +67,7 @@ namespace Testing
 
         BOOST_CHECK(instance1 == instance2);
 
-        BOOST_REQUIRE_EQUAL(activatedInstances.size(), 1);
+        BOOST_REQUIRE_EQUAL(activatedInstances.size(), 1u);
         BOOST_CHECK(instance1 == activatedInstances[0]);
     }
 

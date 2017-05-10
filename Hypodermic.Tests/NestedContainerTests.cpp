@@ -102,7 +102,7 @@ namespace Testing
         auto instances = nestedContainer->resolveAll< DefaultConstructibleBase >();
 
         // Assert
-        BOOST_REQUIRE_EQUAL(instances.size(), 2);
+        BOOST_REQUIRE_EQUAL(instances.size(), 2u);
         BOOST_CHECK(instances[0] != nullptr);
         BOOST_CHECK(instances[1] != nullptr);
         BOOST_CHECK(instances[0] != instances[1]);

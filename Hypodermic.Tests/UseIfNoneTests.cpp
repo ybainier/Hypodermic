@@ -74,7 +74,7 @@ namespace Testing
 
         // Assert
         auto instances = container->resolveAll< DefaultConstructibleBase >();
-        BOOST_REQUIRE_EQUAL(instances.size(), 2);
+        BOOST_REQUIRE_EQUAL(instances.size(), 2u);
         BOOST_CHECK(instances[0] == std::dynamic_pointer_cast< DefaultConstructible2 >(instances[0]));
         BOOST_CHECK(instances[1] == std::dynamic_pointer_cast< DefaultConstructible1 >(instances[1]));
     }
