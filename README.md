@@ -34,7 +34,7 @@ Want to discover what happened here? Learn to use more features through the [beg
 Some comparative benchmarks are available on the wiki, [check them out](https://github.com/ybainier/Hypodermic/wiki/Benchmarks).
 
 
-## Ackowledgment
+## Acknowledgment
 
 Hypodermic was started with the will to mimic the famous .NET Autofac http://autofac.org/. Although its design evolved, both its behavior and its expressiveness tend to remain the same.
 
