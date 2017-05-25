@@ -41,7 +41,7 @@ namespace Hypodermic
 
             auto scopeClone = std::make_shared< NestedRegistrationScope >(PrivateTag());
             scopeClone->m_parentScope = m_parentScope;
-            scopeClone->m_scope = m_scope;
+            scopeClone->m_scope = m_scope->clone();
 
             return scopeClone;
         }
