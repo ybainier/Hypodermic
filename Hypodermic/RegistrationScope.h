@@ -93,32 +93,32 @@ namespace Hypodermic
             }
         }
 
-        template <class TRegistrationContextsByBaseTypes>
-        void addRegistrationContext(TRegistrationContextsByBaseTypes& container, const TypeAliasKey& typeAliasKey, const std::shared_ptr< RegistrationContext >& registrationContext)
-        {
-            std::lock_guard< decltype(m_mutex) > lock(m_mutex);
-
-            auto it = container.find(typeAliasKey);
-            if (it == std::end(container))
-                it = container.insert(std::make_pair(typeAliasKey, std::vector< std::shared_ptr< RegistrationContext > >())).first;
-
-            it->second.push_back(registrationContext);
-        }
-
         void copyRegistrationContextsTo(IRegistrationScope& other) const
         {
-            for (auto& x : m_registrationContextsByBaseTypes)
-            {
-                for (auto& registrationContext : x.second)
-                {
-                    other.addRegistrationContext(registrationContext);
-                }
-            }
+            copyRegistrationContextsToRegistrationScope(m_registrationContextsByBaseTypes, other);
         }
 
         void copyFallbackRegistrationContextsTo(IRegistrationScope& other) const
         {
-            for (auto& x : m_fallbackRegistrationContextsByBaseTypes)
+            copyRegistrationContextsToRegistrationScope(m_fallbackRegistrationContextsByBaseTypes, other);
+        }
+
+        template <class TRegistrationContextsByBaseTypes>
+        void addRegistrationContext(TRegistrationContextsByBaseTypes& contextsByBaseTypes, const TypeAliasKey& typeAliasKey, const std::shared_ptr< RegistrationContext >& registrationContext)
+        {
+            std::lock_guard< decltype(m_mutex) > lock(m_mutex);
+
+            auto it = contextsByBaseTypes.find(typeAliasKey);
+            if (it == std::end(contextsByBaseTypes))
+                it = contextsByBaseTypes.insert(std::make_pair(typeAliasKey, std::vector< std::shared_ptr< RegistrationContext > >())).first;
+
+            it->second.push_back(registrationContext);
+        }
+
+        template <class TRegistrationContextsByBaseTypes>
+        void copyRegistrationContextsToRegistrationScope(const TRegistrationContextsByBaseTypes& contextsByBaseTypes, IRegistrationScope& other) const
+        {
+            for (auto& x : contextsByBaseTypes)
             {
                 for (auto& registrationContext : x.second)
                 {
