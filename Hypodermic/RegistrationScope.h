@@ -55,40 +55,76 @@ namespace Hypodermic
             return true;
         }
 
-        std::shared_ptr< IRegistrationScope > clone() override
+        void copyTo(IRegistrationScope& other) const override
         {
             std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
-            auto scopeClone = std::make_shared< RegistrationScope >();
-            scopeClone->m_registrationContextsByBaseTypes = m_registrationContextsByBaseTypes;
-            scopeClone->m_fallbackRegistrationContextsByBaseTypes = m_fallbackRegistrationContextsByBaseTypes;
+            copyRegistrationContextsTo(other);
+            copyFallbackRegistrationContextsTo(other);
+        }
 
-            return scopeClone;
+        void addRegistrationContext(const std::shared_ptr< RegistrationContext >& registrationContext) override
+        {
+            if (registrationContext->registration()->typeAliases().empty())
+            {
+                addRegistrationContext(createKeyForType(registrationContext->registration()->instanceType()), registrationContext);
+                return;
+            }
+
+            for (auto&& x : registrationContext->registration()->typeAliases())
+                addRegistrationContext(x.first, registrationContext);
         }
 
     private:
         void addRegistration(const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration)
         {
-            std::lock_guard< decltype(m_mutex) > lock(m_mutex);
+            addRegistrationContext(typeAliasKey, std::make_shared< RegistrationContext >(m_resolutionContainer, registration));
+        }
 
-            if (registration->isFallback())
+        void addRegistrationContext(const TypeAliasKey& typeAliasKey, const std::shared_ptr< RegistrationContext >& registrationContext)
+        {
+            if (registrationContext->registration()->isFallback())
             {
-                addRegistration(m_fallbackRegistrationContextsByBaseTypes, typeAliasKey, registration);
+                addRegistrationContext(m_fallbackRegistrationContextsByBaseTypes, typeAliasKey, registrationContext);
             }
             else
             {
-                addRegistration(m_registrationContextsByBaseTypes, typeAliasKey, registration);
+                addRegistrationContext(m_registrationContextsByBaseTypes, typeAliasKey, registrationContext);
             }
         }
 
         template <class TRegistrationContextsByBaseTypes>
-        void addRegistration(TRegistrationContextsByBaseTypes& container, const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration)
+        void addRegistrationContext(TRegistrationContextsByBaseTypes& container, const TypeAliasKey& typeAliasKey, const std::shared_ptr< RegistrationContext >& registrationContext)
         {
+            std::lock_guard< decltype(m_mutex) > lock(m_mutex);
+
             auto it = container.find(typeAliasKey);
             if (it == std::end(container))
                 it = container.insert(std::make_pair(typeAliasKey, std::vector< std::shared_ptr< RegistrationContext > >())).first;
 
-            it->second.push_back(std::make_shared< RegistrationContext >(m_resolutionContainer, registration));
+            it->second.push_back(registrationContext);
+        }
+
+        void copyRegistrationContextsTo(IRegistrationScope& other) const
+        {
+            for (auto& x : m_registrationContextsByBaseTypes)
+            {
+                for (auto& registrationContext : x.second)
+                {
+                    other.addRegistrationContext(registrationContext);
+                }
+            }
+        }
+
+        void copyFallbackRegistrationContextsTo(IRegistrationScope& other) const
+        {
+            for (auto& x : m_fallbackRegistrationContextsByBaseTypes)
+            {
+                for (auto& registrationContext : x.second)
+                {
+                    other.addRegistrationContext(registrationContext);
+                }
+            }
         }
 
     private:

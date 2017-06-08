@@ -54,6 +54,42 @@ namespace Testing
         BOOST_CHECK_EQUAL(instance->dependency->i, expectedNumber);
     }
 
+     BOOST_AUTO_TEST_CASE(should_resolve_dependency_in_nested_of_nested_container)
+     {
+         // Arrange
+         int expectedNumber1 = 42;
+         int expectedNumber2 = 43;
+ 
+         ContainerBuilder builder;
+         builder.registerType< TopLevelConstructor >();
+ 
+         auto container = builder.build();
+ 
+         ContainerBuilder nestedContainerBuilder1;
+         nestedContainerBuilder1.registerInstance(std::make_shared< NestedDependency >(expectedNumber1));
+         auto nestedContainer1 = nestedContainerBuilder1.buildNestedContainerFrom(*container);
+ 
+         // Act
+         ContainerBuilder nestedContainerBuilder2;
+         nestedContainerBuilder2.registerInstance(std::make_shared< NestedDependency >(expectedNumber2));
+         auto nestedContainer2 = nestedContainerBuilder2.buildNestedContainerFrom(*nestedContainer1);
+ 
+         // Assert
+         auto instance = container->resolve< TopLevelConstructor >();
+         BOOST_REQUIRE(instance != nullptr);
+         BOOST_CHECK(instance->dependency == nullptr);
+ 
+         instance = nestedContainer1->resolve< TopLevelConstructor >();
+         BOOST_REQUIRE(instance != nullptr);
+         BOOST_REQUIRE(instance->dependency != nullptr);
+         BOOST_CHECK_EQUAL(instance->dependency->i, expectedNumber1);
+ 
+         instance = nestedContainer2->resolve< TopLevelConstructor >();
+         BOOST_REQUIRE(instance != nullptr);
+         BOOST_REQUIRE(instance->dependency != nullptr);
+         BOOST_CHECK_EQUAL(instance->dependency->i, expectedNumber2);
+     }
+
     BOOST_AUTO_TEST_CASE(should_keep_reference_on_top_level_registrations)
     {
         // Arrange

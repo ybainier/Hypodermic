@@ -1,9 +1,10 @@
 #pragma once
 
+#include <memory>
+#include <mutex>
 #include <vector>
 
 #include "Hypodermic/IRegistration.h"
-#include "Hypodermic/IRegistrationScope.h"
 #include "Hypodermic/RegistrationScope.h"
 #include "Hypodermic/TypeAliasKey.h"
 
@@ -11,15 +12,9 @@
 namespace Hypodermic
 {
 
-    class NestedRegistrationScope : public IRegistrationScope
+    class NestedRegistrationScope : public IRegistrationScope, public std::enable_shared_from_this< NestedRegistrationScope >
     {
-        struct PrivateTag {};
-
     public:
-        explicit NestedRegistrationScope(PrivateTag)
-        {
-        }
-
         explicit NestedRegistrationScope(const std::shared_ptr< IRegistrationScope >& parentScope)
             : m_parentScope(parentScope)
         {
@@ -35,15 +30,16 @@ namespace Hypodermic
             return scope().tryGetRegistrations(typeAliasKey, registrationContexts);
         }
 
-        std::shared_ptr< IRegistrationScope > clone() override
+        void copyTo(IRegistrationScope& other) const override
         {
             std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
-            auto scopeClone = std::make_shared< NestedRegistrationScope >(PrivateTag());
-            scopeClone->m_parentScope = m_parentScope;
-            scopeClone->m_scope = m_scope;
+            scope().copyTo(other);
+        }
 
-            return scopeClone;
+        void addRegistrationContext(const std::shared_ptr< RegistrationContext >& registrationContext) override
+        {
+            writeScope().addRegistrationContext(registrationContext);
         }
 
     private:
@@ -62,14 +58,17 @@ namespace Hypodermic
             std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
             if (m_scope == nullptr)
-                m_scope = m_parentScope->clone();
+            {
+                m_scope = std::make_shared< RegistrationScope >();
+                m_parentScope->copyTo(*m_scope);
+            }
 
             return *m_scope;
         }
 
     private:
         std::shared_ptr< IRegistrationScope > m_parentScope;
-        std::shared_ptr< IRegistrationScope > m_scope;
+        std::shared_ptr< RegistrationScope > m_scope;
         mutable std::recursive_mutex m_mutex;
     };
 
