@@ -12,7 +12,7 @@
 namespace Hypodermic
 {
 
-    class NestedRegistrationScope : public IRegistrationScope, public std::enable_shared_from_this< NestedRegistrationScope >
+    class NestedRegistrationScope : public IRegistrationScope
     {
     public:
         explicit NestedRegistrationScope(const std::shared_ptr< IRegistrationScope >& parentScope)
@@ -32,8 +32,6 @@ namespace Hypodermic
 
         void copyTo(IRegistrationScope& other) const override
         {
-            std::lock_guard< decltype(m_mutex) > lock(m_mutex);
-
             scope().copyTo(other);
         }
 
