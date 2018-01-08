@@ -16,7 +16,7 @@ namespace Hypodermic
     class IRegistration
     {
     public:
-        virtual ~IRegistration() {}
+        virtual ~IRegistration() = default;
 
         virtual const TypeInfo& instanceType() const = 0;
 

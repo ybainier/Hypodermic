@@ -21,7 +21,7 @@ namespace Hypodermic
         typedef boost::signals2::signal< void(const std::shared_ptr< IRegistrationDescriptor >&) > Updated;
 
     public:
-        virtual ~IRegistrationDescriptor() {}
+        virtual ~IRegistrationDescriptor() = default;
 
         virtual Updated& registrationDescriptorUpdated() const = 0;
 

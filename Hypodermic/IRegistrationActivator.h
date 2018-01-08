@@ -13,7 +13,7 @@ namespace Hypodermic
     class IRegistrationActivator
     {
     public:
-        virtual ~IRegistrationActivator() {}
+        virtual ~IRegistrationActivator() = default;
 
         virtual std::shared_ptr< void > activate(IResolutionContext& resolutionContext) = 0;
 

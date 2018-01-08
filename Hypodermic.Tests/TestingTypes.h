@@ -14,7 +14,7 @@ namespace Testing
     class DefaultConstructibleBase
     {
     public:
-        virtual ~DefaultConstructibleBase() {}
+        virtual ~DefaultConstructibleBase() = default;
 
         virtual void doSomething() = 0;
     };
@@ -86,7 +86,7 @@ namespace Testing
     class ProvidedDependencyBase
     {
     public:
-        virtual ~ProvidedDependencyBase() {}
+        virtual ~ProvidedDependencyBase() = default;
 
         virtual void doSomething() = 0;
     };
@@ -100,7 +100,7 @@ namespace Testing
     class RandomTypeBase
     {
     public:
-        virtual ~RandomTypeBase() {}
+        virtual ~RandomTypeBase() = default;
     };
 
     class TypeWithOneDependency : public RandomTypeBase
@@ -143,13 +143,13 @@ namespace Testing
     class BaseType1
     {
     public:
-        virtual ~BaseType1() {}
+        virtual ~BaseType1() = default;
     };
 
     class BaseType2
     {
     public:
-        virtual ~BaseType2() {}
+        virtual ~BaseType2() = default;
     };
 
     class Type1 : public BaseType1
@@ -172,7 +172,7 @@ namespace Testing
     class ILoader
     {
     public:
-        virtual ~ILoader() {}
+        virtual ~ILoader() = default;
 
         virtual void load() = 0;
     };

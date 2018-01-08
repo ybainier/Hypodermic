@@ -14,7 +14,7 @@ namespace Hypodermic
     class IResolutionContainer
     {
     public:
-        virtual ~IResolutionContainer() {}
+        virtual ~IResolutionContainer() = default;
 
         virtual std::shared_ptr< void > getOrCreateComponent(const TypeAliasKey& typeAliasKey,
                                                              const std::shared_ptr< IRegistration >& registration,

@@ -13,7 +13,7 @@ namespace Hypodermic
     class IResolutionContext
     {
     public:
-        virtual ~IResolutionContext() {}
+        virtual ~IResolutionContext() = default;
 
         virtual ComponentContext& componentContext() const = 0;
 

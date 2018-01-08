@@ -85,7 +85,7 @@ namespace RegistrationDescriptorOperations
         }
 
     protected:
-        virtual ~Named() {}
+        virtual ~Named() = default;
     };
 
 } // namespace RegistrationDescriptorOperations

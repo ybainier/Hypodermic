@@ -93,7 +93,7 @@ namespace Hypodermic
         }
 
         // theoricaly not necessary but g++ complains
-        virtual ~ExceptionBase() throw() {}
+        virtual ~ExceptionBase() throw() = default;
 
         virtual const char* what() const throw()
         {

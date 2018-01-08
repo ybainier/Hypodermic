@@ -44,7 +44,7 @@ namespace RegistrationDescriptorOperations
         }
 
     protected:
-        virtual ~UseIfNone() {}
+        virtual ~UseIfNone() = default;
     };
 
 
@@ -56,7 +56,7 @@ namespace RegistrationDescriptorOperations
     class UseIfNone< TDescriptor, TDescriptorInfo, Tags::FallbackRegistration >
     {
     protected:
-        virtual ~UseIfNone() {}
+        virtual ~UseIfNone() = default;
     };
 
 } // namespace RegistrationDescriptorOperations

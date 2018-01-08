@@ -71,7 +71,7 @@ namespace RegistrationDescriptorOperations
         }
 
     protected:
-        virtual ~AsSelf() {}
+        virtual ~AsSelf() = default;
     };
 
 
@@ -83,7 +83,7 @@ namespace RegistrationDescriptorOperations
     class AsSelf< TDescriptor, TDescriptorInfo, Details::InstanceRegistrationResolvable >
     {
     protected:
-        virtual ~AsSelf() {}
+        virtual ~AsSelf() = default;
     };
 
 } // namespace RegistrationDescriptorOperations

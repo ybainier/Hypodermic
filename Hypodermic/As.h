@@ -62,7 +62,7 @@ namespace RegistrationDescriptorOperations
         }
 
     protected:
-        virtual ~As() {}
+        virtual ~As() = default;
     };
 
 } // namespace RegistrationDescriptorOperations

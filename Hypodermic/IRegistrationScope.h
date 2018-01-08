@@ -14,7 +14,7 @@ namespace Hypodermic
     class IRegistrationScope
     {
     public:
-        virtual ~IRegistrationScope() {}
+        virtual ~IRegistrationScope() = default;
 
         virtual void addRegistration(const std::shared_ptr< IRegistration >& registration) = 0;
 

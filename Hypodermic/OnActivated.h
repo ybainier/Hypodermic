@@ -37,7 +37,7 @@ namespace RegistrationDescriptorOperations
         }
 
     protected:
-        virtual ~OnActivated() {}
+        virtual ~OnActivated() = default;
     };
 
 } // namespace RegistrationDescriptorOperations

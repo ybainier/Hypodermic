@@ -12,7 +12,7 @@ namespace Hypodermic
     class ITypeAlias
     {
     public:
-        virtual ~ITypeAlias() {}
+        virtual ~ITypeAlias() = default;
 
         virtual bool operator==(const ITypeAlias& rhs) const = 0;
         

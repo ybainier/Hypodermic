@@ -42,7 +42,7 @@ namespace RegistrationDescriptorOperations
         }
 
     protected:
-        virtual ~SingleInstance() {}
+        virtual ~SingleInstance() = default;
     };
 
 
@@ -54,7 +54,7 @@ namespace RegistrationDescriptorOperations
     class SingleInstance< TDescriptor, TDescriptorInfo, PersistentInstance >
     {
     protected:
-        virtual ~SingleInstance() {}
+        virtual ~SingleInstance() = default;
     };
 
 } // namespace RegistrationDescriptorOperations

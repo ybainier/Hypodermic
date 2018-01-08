@@ -117,7 +117,7 @@ namespace RegistrationDescriptorOperations
         }
 
     protected:
-        virtual ~With() {}
+        virtual ~With() = default;
     };
 
 } // namespace RegistrationDescriptorOperations
