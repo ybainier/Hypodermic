@@ -31,7 +31,7 @@ namespace Hypodermic
 
     private:
         const std::shared_ptr< IRegistration >& m_registration;
-        const TypeAliasKey& m_typeAliasKey;
+        TypeAliasKey m_typeAliasKey;
     };
 
 } // namespace Hypodermic

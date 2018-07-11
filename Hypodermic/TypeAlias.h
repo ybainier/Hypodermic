@@ -40,6 +40,11 @@ namespace Hypodermic
             return m_typeInfo;
         }
 
+        std::string toString() const override
+        {
+            return m_typeInfo.fullyQualifiedName();
+        }
+
     private:
         TypeInfo m_typeInfo;
     };

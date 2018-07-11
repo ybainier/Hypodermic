@@ -300,5 +300,9 @@
       <Filter>TypeAlias</Filter>
     </ClInclude>
     <ClInclude Include="Hypodermic.h" />
+    <ClInclude Include="Pragmas.h" />
+    <ClInclude Include="IRegistrationRegistry.h">
+      <Filter>Scopes</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

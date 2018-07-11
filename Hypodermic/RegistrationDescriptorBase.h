@@ -45,9 +45,9 @@ namespace Hypodermic
             return m_registrationDescriptorUpdated;
         }
 
-        std::function< void(IRegistrationScope&) > getDescriptionFactory() const override
+        std::function< void(IRegistrationRegistry&) > getDescriptionFactory() const override
         {
-            return [&](IRegistrationScope& x) { x.addRegistration(describe()); };
+            return [&](IRegistrationRegistry& x) { x.addRegistration(describe()); };
         }
 
     protected:

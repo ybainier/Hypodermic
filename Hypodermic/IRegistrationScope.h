@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "Hypodermic/IRegistrationRegistry.h"
+
 
 namespace Hypodermic
 {
@@ -11,12 +13,10 @@ namespace Hypodermic
     class TypeAliasKey;
 
 
-    class IRegistrationScope
+    class IRegistrationScope : public IRegistrationRegistry
     {
     public:
         virtual ~IRegistrationScope() = default;
-
-        virtual void addRegistration(const std::shared_ptr< IRegistration >& registration) = 0;
 
         virtual bool tryGetRegistrations(const TypeAliasKey& typeAliasKey, std::vector< std::shared_ptr< RegistrationContext > >& registrationContexts) const = 0;
 

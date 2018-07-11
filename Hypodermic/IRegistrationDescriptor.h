@@ -10,7 +10,7 @@ namespace Hypodermic
 {
 
     class IRegistrationDescriptor;
-    class IRegistrationScope;
+    class IRegistrationRegistry;
 
     struct TypeInfo;
 
@@ -25,7 +25,7 @@ namespace Hypodermic
 
         virtual Updated& registrationDescriptorUpdated() const = 0;
 
-        virtual std::function< void(IRegistrationScope&) > getDescriptionFactory() const = 0;
+        virtual std::function< void(IRegistrationRegistry&) > getDescriptionFactory() const = 0;
 
         virtual const TypeInfo& instanceType() const = 0;
     };

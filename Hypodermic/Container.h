@@ -88,6 +88,12 @@ namespace Hypodermic
             return componentContext.resolveNamed< T >(name);
         }
 
+        std::shared_ptr< void > resolveErasedType(const TypeAliasKey& typeAliasKey)
+        {
+            ComponentContext componentContext(shared_from_this(), m_registrationScope, m_runtimeRegistrationBuilder);
+            return componentContext.resolveErasedType(typeAliasKey);
+        }
+
     private:
         std::shared_ptr< IRegistrationScope > m_registrationScope;
         std::shared_ptr< IRuntimeRegistrationBuilder > m_runtimeRegistrationBuilder;

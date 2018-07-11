@@ -28,25 +28,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -162,6 +162,7 @@
     <ClInclude Include="ActivationRegistry.h" />
     <ClInclude Include="FactoryWrapper.h" />
     <ClInclude Include="Hypodermic.h" />
+    <ClInclude Include="IRegistrationRegistry.h" />
     <ClInclude Include="IResolutionContext.h" />
     <ClInclude Include="MetaContains.h" />
     <ClInclude Include="MetaForEach.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Named.h" />
     <ClInclude Include="NamedTypeAlias.h" />
     <ClInclude Include="PointerAlignment.h" />
+    <ClInclude Include="Pragmas.h" />
     <ClInclude Include="UseIfNone.h" />
     <ClInclude Include="ResolutionInfo.h" />
     <ClInclude Include="AnyArgument.h" />

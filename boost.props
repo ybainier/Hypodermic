@@ -6,7 +6,7 @@
     <BoostRoot>$(BOOST_HOME)</BoostRoot>
     <BoostIncludePath>$(BoostRoot)</BoostIncludePath>
     <BoostLibraryPath Condition="'$(BOOST_LIB_PATH)'=='' And '$(Platform)'=='Win32'">$(BoostRoot)lib\</BoostLibraryPath>
-    <BoostLibraryPath Condition="'$(BOOST_LIB_PATH)'=='' And '$(Platform)'=='x64'">$(BoostRoot)lib\x64\</BoostLibraryPath>
+    <BoostLibraryPath Condition="'$(BOOST_LIB_PATH)'=='' And '$(Platform)'=='x64'">$(BoostRoot)lib\vc141-x64\</BoostLibraryPath>
     <BoostLibraryPath Condition="'$(BOOST_LIB_PATH)'!=''">$(BOOST_LIB_PATH)</BoostLibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>

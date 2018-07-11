@@ -3,6 +3,7 @@
 #include <functional>
 #include <memory>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "Hypodermic/Container.h"
 #include "Hypodermic/ContainerInstanceRegistration.h"
@@ -17,6 +18,24 @@ namespace Hypodermic
 
     class ContainerBuilder
     {
+        class Validator : public IRegistrationRegistry
+        {
+        public:
+            void addRegistration(const std::shared_ptr< IRegistration >& registration) override
+            {
+                if (registration->typeAliases().empty())
+                {
+                    registeredTypeAliasKeys.insert(createKeyForType(registration->instanceType()));
+                    return;
+                }
+
+                for (auto&& x : registration->typeAliases())
+                    registeredTypeAliasKeys.insert(x.first);
+            }
+
+            std::unordered_set< TypeAliasKey > registeredTypeAliasKeys;
+        };
+
     public:
         /// <summary>
         /// Register type T
@@ -61,7 +80,7 @@ namespace Hypodermic
         /// Build a new container
         /// </summary>
         /// <returns>A shared pointer to a new Container</returns>
-        std::shared_ptr< Container > build()
+        std::shared_ptr< Container > build() const
         {
             HYPODERMIC_LOG_INFO("Building container");
 
@@ -88,7 +107,7 @@ namespace Hypodermic
         /// </summary>
         /// <param name="container">The Container from which to create a nested Container</param>
         /// <returns>A shared pointer to a new Container</returns>
-        std::shared_ptr< Container > buildNestedContainerFrom(const Container& container)
+        std::shared_ptr< Container > buildNestedContainerFrom(const Container& container) const
         {
             HYPODERMIC_LOG_INFO("Building nested container");
 
@@ -108,18 +127,34 @@ namespace Hypodermic
             m_buildActions.insert(std::begin(builder.m_buildActions), std::end(builder.m_buildActions));
         }
 
+        void validate() const
+        {
+            HYPODERMIC_LOG_INFO("Validating container");
+
+            Validator validator;
+            build(validator);
+
+            for (auto&& x : validator.registeredTypeAliasKeys)
+            {
+                HYPODERMIC_LOG_DEBUG("Validating resolution of " << x.typeAlias().toString());
+
+                auto container = build();
+                container->resolveErasedType(x);
+            }
+        }
+
     private:
-        void registerContainerInstance(const std::shared_ptr< Container >& container, const std::shared_ptr< IRegistrationScope >& scope) const
+        void registerContainerInstance(const std::shared_ptr< Container >& container, const std::shared_ptr< IRegistrationRegistry >& scope) const
         {
             scope->addRegistration(std::make_shared< ContainerInstanceRegistration >(container));
         }
 
-        void build(IRegistrationScope& scope)
+        void build(IRegistrationRegistry& registrationRegistry) const
         {
             for (auto&& x : m_registrationDescriptors)
             {
-                auto&& action = m_buildActions[x];
-                action(scope);
+                auto&& action = m_buildActions.find(x)->second;
+                action(registrationRegistry);
             }
         }
 
@@ -171,7 +206,7 @@ namespace Hypodermic
 
     private:
         std::vector< std::shared_ptr< IRegistrationDescriptor > > m_registrationDescriptors;
-        std::unordered_map< std::shared_ptr< IRegistrationDescriptor >, std::function< void(IRegistrationScope&) > > m_buildActions;
+        std::unordered_map< std::shared_ptr< IRegistrationDescriptor >, std::function< void(IRegistrationRegistry&) > > m_buildActions;
     };
 
 } // namespace Hypodermic

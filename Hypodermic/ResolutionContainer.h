@@ -4,6 +4,8 @@
 #include <mutex>
 #include <sstream>
 
+#include <boost/range/sub_range.hpp>
+
 #include "Hypodermic/ActivationResult.h"
 #include "Hypodermic/ActivationException.h"
 #include "Hypodermic/ActivatedRegistrationInfo.h"
@@ -29,9 +31,14 @@ namespace Hypodermic
             auto& resolutionStack = resolutionContext.resolutionStack();
             auto& activatedRegistrations = resolutionContext.activatedRegistrations();
 
-            checkForCircularDependencies(typeAliasKey, registration, resolutionContext);
+            if (isActivating(registration, resolutionContext.resolutionStack()))
+            {
+                resolutionStack.emplace_back(registration, typeAliasKey);
 
-            resolutionStack.push_back(ResolutionInfo(registration, typeAliasKey));
+                HYPODERMIC_THROW_INSTANCE_ALREADY_ACTIVATING_EXCEPTION("Already activating " << prettyPrintResolutionInfo(*registration, typeAliasKey));
+            }
+
+            resolutionStack.emplace_back(registration, typeAliasKey);
 
             ActivationResult activationResult;
 
@@ -39,32 +46,31 @@ namespace Hypodermic
             {
                 activationResult = getOrActivateComponent(typeAliasKey, registration, resolutionContext);
             }
-            catch (CircularDependencyException& ex)
+            catch (ActivationException&)
             {
-                HYPODERMIC_LOG_ERROR("Circular dependency detected while activating " << registration->instanceType().fullyQualifiedName() << ": " << ex.what());
-
-                HYPODERMIC_THROW_CIRCULAR_DEPENDENCY_EXCEPTION("Circular dependency detected while activating " << registration->instanceType().fullyQualifiedName() << ": " << ex.what());
+                throw;
+            }
+            catch (DependencyActivationException&)
+            {
+                throw;
+            }
+            catch (CircularDependencyException&)
+            {
+                throw;
             }
             catch (InstanceAlreadyActivatingException& ex)
             {
-                HYPODERMIC_THROW_CIRCULAR_DEPENDENCY_EXCEPTION(ex.what());
-            }
-            catch (DependencyActivationException& ex)
-            {
-                HYPODERMIC_LOG_ERROR("Unable to activate instance of type " << registration->instanceType().fullyQualifiedName() << " because one dependency cannot be activated: " << ex.what());
+                HYPODERMIC_LOG_ERROR("Circular dependency detected while activating " << registration->instanceType().fullyQualifiedName() << ": " << ex.what());
 
-                HYPODERMIC_THROW_DEPENDENCY_ACTIVATION_EXCEPTION("Unable to activate instance of type " << registration->instanceType().fullyQualifiedName() <<
-                                                                 " because one dependency cannot be activated: " << ex.what());
-            }
-            catch (ActivationException& ex)
-            {
-                HYPODERMIC_LOG_ERROR("Unable to activate instance of type " << registration->instanceType().fullyQualifiedName() << ": " << ex.what());
+                logAndClearResolutionStack(resolutionStack);
 
-                HYPODERMIC_THROW_DEPENDENCY_ACTIVATION_EXCEPTION("Unable to activate instance of type " << registration->instanceType().fullyQualifiedName() << ": " << ex.what());
+                HYPODERMIC_THROW_CIRCULAR_DEPENDENCY_EXCEPTION("Circular dependency detected while activating " << registration->instanceType().fullyQualifiedName() << ": " << ex.what());
             }
             catch (std::exception& ex)
             {
                 HYPODERMIC_LOG_ERROR("Unable to activate instance of type " << registration->instanceType().fullyQualifiedName() << ": " << ex.what());
+
+                logAndClearResolutionStack(resolutionStack);
 
                 HYPODERMIC_THROW_ACTIVATION_EXCEPTION("Unable to activate instance of type " << registration->instanceType().fullyQualifiedName() << ": " << ex.what());
             }
@@ -72,7 +78,7 @@ namespace Hypodermic
             resolutionStack.pop_back();
 
             if (activationResult.activated)
-                activatedRegistrations.push_back(ActivatedRegistrationInfo(registration, activationResult.activatedInstance));
+                activatedRegistrations.emplace_back(registration, activationResult.activatedInstance);
 
             if (resolutionStack.empty())
                 notifyActivatedRegistrations(activatedRegistrations, resolutionContext.componentContext());
@@ -146,38 +152,14 @@ namespace Hypodermic
                 info.registration()->activator().raiseActivated(componentContext, info.instance());
         }
 
-        static void checkForCircularDependencies(const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration, ResolutionContext& resolutionContext)
-        {
-            if (!isActivating(registration, resolutionContext.resolutionStack()))
-                return;
-
-            std::stringstream stream;
-            stream << "Already activating " << prettyPrintResolutionInfo(*registration, typeAliasKey) << ": ";
-
-            auto firstItem = true;
-            for (auto&& resolutionInfo : resolutionContext.resolutionStack())
-            {
-                if (firstItem)
-                    firstItem = false;
-                else
-                    stream << " -> ";
-
-                stream << prettyPrintResolutionInfo(*resolutionInfo.registration(), resolutionInfo.typeAliasKey());
-            }
-
-            auto errorMessage = stream.str();
-            HYPODERMIC_LOG_ERROR(errorMessage);
-            HYPODERMIC_THROW_INSTANCE_ALREADY_ACTIVATING_EXCEPTION(errorMessage);
-        }
-
         static std::string prettyPrintResolutionInfo(const IRegistration& registration, const TypeAliasKey& typeAliasKey)
         {
             std::stringstream stream;
 
             if (registration.instanceType() == typeAliasKey.typeAlias().typeInfo())
-                stream << typeAliasKey.typeAlias().typeInfo().fullyQualifiedName();
+                stream << typeAliasKey.typeAlias().toString();
             else
-                stream << typeAliasKey.typeAlias().typeInfo().fullyQualifiedName() << " (base of " << registration.instanceType().fullyQualifiedName() << ")";
+                stream << typeAliasKey.typeAlias().toString() << " (base of " << registration.instanceType().fullyQualifiedName() << ")";
 
             return stream.str();
         } 
@@ -191,6 +173,34 @@ namespace Hypodermic
             }
 
             return false;
+        }
+
+        static void logAndClearResolutionStack(ResolutionContext::ResolutionStack& resolutionStack)
+        {
+            if (resolutionStack.empty())
+                return;
+
+            std::stringstream stream;
+            auto count = 1;
+            do
+            {
+                auto&& resolutionInfo = resolutionStack.back();
+                auto& registration = *resolutionInfo.registration();
+                auto& typeAliasKey = resolutionInfo.typeAliasKey();
+
+                stream << std::endl
+                    << count << ". ";
+                
+                if (registration.instanceType() == typeAliasKey.typeAlias().typeInfo())
+                    stream << resolutionInfo.registration()->instanceType().fullyQualifiedName();
+                else
+                    stream << resolutionInfo.registration()->instanceType().fullyQualifiedName() << " as " << resolutionInfo.typeAliasKey().typeAlias().toString();
+
+                ++count;
+                resolutionStack.pop_back();
+            } while (!resolutionStack.empty());
+
+            HYPODERMIC_LOG_ERROR("Resolution stack:" << stream.str());
         }
 
     private:

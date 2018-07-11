@@ -53,6 +53,9 @@
     <ClCompile Include="NamedTests.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="ContainerBuilderValidationTests.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
