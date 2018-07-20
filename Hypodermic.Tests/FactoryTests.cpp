@@ -81,8 +81,7 @@ namespace Testing
         BOOST_REQUIRE(instance != nullptr);
         BOOST_REQUIRE(instance->factory);
 
-        auto loader = instance->factory();
-        BOOST_CHECK(loader == nullptr);
+        BOOST_CHECK_THROW(instance->factory(), std::exception);
     }
 
 #endif // !defined(VS2013)
@@ -155,8 +154,7 @@ namespace Testing
         BOOST_REQUIRE(instance != nullptr);
         BOOST_REQUIRE(instance->factory);
 
-        auto loader = instance->factory();
-        BOOST_CHECK(loader == nullptr);
+        BOOST_CHECK_THROW(instance->factory(), std::exception);
     }
 
     BOOST_AUTO_TEST_SUITE_END()

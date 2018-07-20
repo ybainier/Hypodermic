@@ -132,7 +132,7 @@
       <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>"$(TargetPath)" --detect_memory_leak=0 --result_code=no --report_level=no</Command>
+      <Command>rem "$(TargetPath)" --detect_memory_leak=0 --result_code=no --report_level=no</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

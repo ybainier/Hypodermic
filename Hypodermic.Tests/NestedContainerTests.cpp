@@ -12,7 +12,7 @@ namespace Testing
 
     BOOST_AUTO_TEST_SUITE(NestedContainerTests)
 
-    BOOST_AUTO_TEST_CASE(should_not_resolve_dependency)
+    BOOST_AUTO_TEST_CASE(should_not_resolve_non_auto_registerable_unregistered_dependency)
     {
         // Arrange
         ContainerBuilder builder;
@@ -20,12 +20,8 @@ namespace Testing
 
         auto container = builder.build();
 
-        // Act
-        auto instance = container->resolve< TopLevelConstructor >();
-
-        // Assert
-        BOOST_REQUIRE(instance != nullptr);
-        BOOST_CHECK(instance->dependency == nullptr);
+        // Act & Assert
+        BOOST_CHECK_THROW(container->resolve< TopLevelConstructor >(), std::exception);
     }
 
     BOOST_AUTO_TEST_CASE(should_resolve_dependency_in_nested_container)
@@ -44,11 +40,9 @@ namespace Testing
         auto nestedContainer = nestedContainerBuilder.buildNestedContainerFrom(*container);
 
         // Assert
-        auto instance = container->resolve< TopLevelConstructor >();
-        BOOST_REQUIRE(instance != nullptr);
-        BOOST_CHECK(instance->dependency == nullptr);
+        BOOST_CHECK_THROW(container->resolve< TopLevelConstructor >(), std::exception);
 
-        instance = nestedContainer->resolve< TopLevelConstructor >();
+        auto instance = nestedContainer->resolve< TopLevelConstructor >();
         BOOST_REQUIRE(instance != nullptr);
         BOOST_REQUIRE(instance->dependency != nullptr);
         BOOST_CHECK_EQUAL(instance->dependency->i, expectedNumber);
@@ -75,11 +69,9 @@ namespace Testing
          auto nestedContainer2 = nestedContainerBuilder2.buildNestedContainerFrom(*nestedContainer1);
  
          // Assert
-         auto instance = container->resolve< TopLevelConstructor >();
-         BOOST_REQUIRE(instance != nullptr);
-         BOOST_CHECK(instance->dependency == nullptr);
+         BOOST_CHECK_THROW(container->resolve< TopLevelConstructor >(), std::exception);
  
-         instance = nestedContainer1->resolve< TopLevelConstructor >();
+         auto instance = nestedContainer1->resolve< TopLevelConstructor >();
          BOOST_REQUIRE(instance != nullptr);
          BOOST_REQUIRE(instance->dependency != nullptr);
          BOOST_CHECK_EQUAL(instance->dependency->i, expectedNumber1);

@@ -44,8 +44,6 @@ namespace Testing
         explicit ContainerDependent(const std::shared_ptr< Container >& container)
             : container(container)
         {
-            if (this->container == nullptr)
-                throw std::runtime_error("container cannot be null");
         }
 
         std::shared_ptr< Container > container;
@@ -74,8 +72,6 @@ namespace Testing
         explicit MissingConstructor(const std::shared_ptr< MissingConstructorDependency >& dependency)
             : dependency(dependency)
         {
-            if (this->dependency == nullptr)
-                throw std::runtime_error("dependency cannot be null");
         }
 
         std::shared_ptr< MissingConstructorDependency > dependency;
@@ -109,8 +105,6 @@ namespace Testing
         explicit TypeWithOneDependency(const std::shared_ptr< ProvidedDependencyBase >& dependency)
             : dependency(dependency)
         {
-            if (this->dependency == nullptr)
-                throw std::runtime_error("dependency cannot be null");
         }
 
         std::shared_ptr< ProvidedDependencyBase > dependency;
@@ -190,8 +184,6 @@ namespace Testing
         explicit TypeThatNeedsLoader(const std::shared_ptr< ILoader >& dependency)
             : dependency(dependency)
         {
-            if (this->dependency == nullptr)
-                throw std::runtime_error("dependency cannot be null");
         }
 
         std::shared_ptr< ILoader > dependency;
@@ -204,8 +196,6 @@ namespace Testing
         explicit Initializer(const std::shared_ptr< TypeThatNeedsLoader >& dependency)
             : dependency(dependency)
         {
-            if (this->dependency == nullptr)
-                throw std::runtime_error("dependency cannot be null");
         }
 
         std::shared_ptr< TypeThatNeedsLoader > dependency;

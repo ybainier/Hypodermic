@@ -53,8 +53,7 @@ namespace Testing
         auto container = builder.build();
 
         // Assert
-        auto instance = container->resolve< DefaultConstructibleBase >();
-        BOOST_CHECK(instance == nullptr);
+        BOOST_CHECK_THROW(container->resolve< DefaultConstructibleBase >(), std::exception);
     }
 
     BOOST_AUTO_TEST_CASE(should_resolve_the_right_named_component)

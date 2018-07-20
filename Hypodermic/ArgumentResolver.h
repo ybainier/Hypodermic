@@ -6,6 +6,7 @@
 
 #include "Hypodermic/FactoryWrapper.h"
 #include "Hypodermic/IsComplete.h"
+#include "Hypodermic/ResolutionException.h"
 #include "Hypodermic/TypeInfo.h"
 
 
@@ -29,10 +30,10 @@ namespace Traits
             static_assert(IsComplete< TArg >::value, "TArg should be a complete type");
 
             auto&& factory = registration.getDependencyFactory(Utils::getMetaTypeInfo< TArg >());
-            if (!factory)
-                return resolutionContext.componentContext().template resolve< TArg >();
+            if (factory)
+                return std::static_pointer_cast< TArg >(factory(resolutionContext.componentContext()));
 
-            return std::static_pointer_cast< TArg >(factory(resolutionContext.componentContext()));
+            return resolutionContext.componentContext().template resolve< TArg >();
         }
     };
 
@@ -64,7 +65,7 @@ namespace Traits
             {
                 auto&& container = weakContainer.lock();
                 if (container == nullptr)
-                    return nullptr;
+                    HYPODERMIC_THROW_RESOLUTION_EXCEPTION("The container is not available to resolve " << Utils::getMetaTypeInfo< TArg >().fullyQualifiedName());
 
                 return container->template resolve< TArg >();
             };

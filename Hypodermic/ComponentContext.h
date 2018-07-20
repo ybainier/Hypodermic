@@ -14,6 +14,7 @@
 #include "Hypodermic/IsComplete.h"
 #include "Hypodermic/NestedRegistrationScope.h"
 #include "Hypodermic/ResolutionContext.h"
+#include "Hypodermic/ResolutionException.h"
 #include "Hypodermic/TypeInfo.h"
 
 
@@ -146,7 +147,7 @@ namespace Hypodermic
         std::shared_ptr< T > resolveIfTypeCanBeRegistered()
         {
             if (!tryToRegisterType< T >(*m_registrationScope, Traits::HasAutowireableConstructor< T >()))
-                return nullptr;
+                HYPODERMIC_THROW_RESOLUTION_EXCEPTION("Unable to resolve " << Utils::getMetaTypeInfo< T >().fullyQualifiedName());
 
             return resolve< T >(createKeyForType< T >());
         }

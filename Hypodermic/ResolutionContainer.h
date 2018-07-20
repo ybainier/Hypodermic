@@ -134,11 +134,7 @@ namespace Hypodermic
         {
             auto&& instance = registration->activator().activate(resolutionContext);
             if (instance == nullptr)
-            {
-                HYPODERMIC_LOG_WARN("Activated instance of type " << registration->instanceType().fullyQualifiedName() << " is null");
-
-                return nullptr;
-            }
+                HYPODERMIC_THROW_ACTIVATION_EXCEPTION("Unable to activate instance of type " << registration->instanceType().fullyQualifiedName());
 
             return instance;
         }
