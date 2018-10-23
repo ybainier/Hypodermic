@@ -55,13 +55,16 @@ namespace Testing
     {
         // Arrange
         ContainerBuilder builder;
+
+        builder.registerType< ProvidedDependency >().as< ProvidedDependencyBase >();
+
         auto container = builder.build();
 
         // Act
         Behavior::configureRuntimeRegistration(false);
 
         // Assert
-        BOOST_CHECK_THROW(container->resolve< MissingConstructor >(), std::exception);
+        BOOST_CHECK_THROW(container->resolve< TypeWithOneDependency >(), std::exception);
     }
 
     BOOST_AUTO_TEST_CASE(should_not_resolve_non_registered_types_recursively_when_runtime_registration_is_disabled)
@@ -69,7 +72,7 @@ namespace Testing
         // Arrange
         ContainerBuilder builder;
 
-        builder.registerType< ProvidedDependency >().as< ProvidedDependencyBase >();
+        builder.registerType< MissingConstructor >();
 
         auto container = builder.build();
 
