@@ -6,6 +6,7 @@
 #include <boost/range/adaptor/reversed.hpp>
 
 #include "Hypodermic/AutowireableConstructor.h"
+#include "Hypodermic/Behavior.h"
 #include "Hypodermic/ConstructorDescriptor.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/IRegistrationScope.h"
@@ -146,7 +147,7 @@ namespace Hypodermic
         template <class T>
         std::shared_ptr< T > resolveIfTypeCanBeRegistered()
         {
-            if (!tryToRegisterType< T >(*m_registrationScope, Traits::HasAutowireableConstructor< T >()))
+            if (!Behavior::isRuntimeRegistrationEnabled() || !tryToRegisterType< T >(*m_registrationScope, Traits::HasAutowireableConstructor< T >()))
                 HYPODERMIC_THROW_RESOLUTION_EXCEPTION("Unable to resolve " << Utils::getMetaTypeInfo< T >().fullyQualifiedName());
 
             return resolve< T >(createKeyForType< T >());

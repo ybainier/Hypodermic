@@ -28,6 +28,7 @@ set(HypodermicTests_sources
     ProvidedInstanceFactoryRegistrationTests.cpp
     ProvidedInstanceRegistrationTests.cpp
     RegistrationTests.cpp
+    RuntimeRegistrationTests.cpp
     UseIfNoneTests.cpp
 )
 

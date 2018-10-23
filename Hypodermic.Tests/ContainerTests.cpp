@@ -239,37 +239,6 @@ namespace Testing
         BOOST_CHECK_EQUAL(activationCount, 1);
     }
 
-    BOOST_AUTO_TEST_CASE(should_resolve_non_registered_types)
-    {
-        // Arrange
-        ContainerBuilder builder;
-
-        builder.registerType< ProvidedDependency >().as< ProvidedDependencyBase >();
-
-        auto container = builder.build();
-
-        // Act
-        auto instance = container->resolve< TypeWithOneDependency >();
-
-        // Assert
-        BOOST_REQUIRE(instance != nullptr);
-        BOOST_CHECK(instance->dependency != nullptr);
-    }
-
-    BOOST_AUTO_TEST_CASE(should_resolve_non_registered_types_recursively)
-    {
-        // Arrange
-        ContainerBuilder builder;
-        auto container = builder.build();
-
-        // Act
-        auto instance = container->resolve< MissingConstructor >();
-
-        // Assert
-        BOOST_REQUIRE(instance != nullptr);
-        BOOST_CHECK(instance->dependency != nullptr);
-    }
-
     BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace Testing

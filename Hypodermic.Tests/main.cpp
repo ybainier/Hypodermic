@@ -9,6 +9,7 @@
 # pragma warning (disable: 4231) // nonstandard extension used : 'extern' before template explicit instantiation
 #endif
 
+#include "Hypodermic/Behavior.h"
 #include "Hypodermic/ConsoleLoggerSink.h"
 #include "Hypodermic/Logger.h"
 

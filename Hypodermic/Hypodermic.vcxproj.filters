@@ -307,5 +307,6 @@
     <ClInclude Include="ResolutionException.h">
       <Filter>Exceptions</Filter>
     </ClInclude>
+    <ClInclude Include="Behavior.h" />
   </ItemGroup>
 </Project>

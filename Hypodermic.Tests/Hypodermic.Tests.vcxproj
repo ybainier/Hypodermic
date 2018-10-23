@@ -201,6 +201,7 @@
     <ClCompile Include="NestedContainerTests.cpp" />
     <ClCompile Include="PerformanceTests.cpp" />
     <ClCompile Include="PersistentInstanceRegistrationTests.cpp" />
+    <ClCompile Include="RuntimeRegistrationTests.cpp" />
     <ClCompile Include="UseIfNoneTests.cpp" />
     <ClCompile Include="ProvidedDependenciesTests.cpp" />
     <ClCompile Include="ProvidedInstanceFactoryRegistrationTests.cpp" />

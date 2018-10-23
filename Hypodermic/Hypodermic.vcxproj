@@ -160,6 +160,7 @@
     <ClInclude Include="ActivationHandlers.h" />
     <ClInclude Include="ActivatedRegistrationInfo.h" />
     <ClInclude Include="ActivationRegistry.h" />
+    <ClInclude Include="Behavior.h" />
     <ClInclude Include="FactoryWrapper.h" />
     <ClInclude Include="Hypodermic.h" />
     <ClInclude Include="IRegistrationRegistry.h" />

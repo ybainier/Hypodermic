@@ -17,6 +17,7 @@ set(Hypodermic_headers
     AsSelf.h
     AutowireableConstructor.h
     AutowireableConstructorRegistrationDescriptor.h
+    Behavior.h
     CircularDependencyException.h
     ComponentContext.h
     Config.h
