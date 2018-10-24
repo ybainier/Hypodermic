@@ -7,7 +7,7 @@ configuration: Release
 platform: x64
 environment:
   BOOST_HOME: C:\Libraries\boost_1_67_0
-  BOOST_LIB_PATH: C:\Libraries\boost_1_67_0\lib64-msvc-15.0
+  BOOST_LIB_PATH: C:\Libraries\boost_1_67_0\lib64-msvc-14.1
 before_build:
 - cmd: set PATH=%ProgramFiles(x86)%\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin;%PATH%
 build:
