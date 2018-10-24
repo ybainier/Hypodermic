@@ -5,5 +5,4 @@ includedir=@includedir@
 Name: libhypodermic
 Description: Hypodermic is an IoC container for C++11.
 Version: @VERSION@
-Libs: -L${libdir} -lboost_system
 Cflags: -I${includedir}
