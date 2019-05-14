@@ -92,9 +92,11 @@ namespace std
 {
 
     template <>
-    struct hash< Hypodermic::TypeInfo > : public unary_function< Hypodermic::TypeInfo, size_t >
+    struct hash< Hypodermic::TypeInfo >
     {
-    public:
+        typedef Hypodermic::TypeInfo argument_type;
+        typedef size_t result_type;
+
         size_t operator()(const Hypodermic::TypeInfo& value) const
         {
             return hash< type_index >()(type_index(value.intrinsicTypeInfo()));

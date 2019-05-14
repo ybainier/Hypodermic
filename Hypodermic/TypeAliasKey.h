@@ -70,8 +70,11 @@ namespace std
 {
 
     template <>
-    struct hash< Hypodermic::TypeAliasKey > : public unary_function< Hypodermic::TypeAliasKey, size_t >
+    struct hash< Hypodermic::TypeAliasKey >
     {
+        typedef Hypodermic::TypeAliasKey argument_type;
+        typedef size_t result_type;
+
         size_t operator()(const Hypodermic::TypeAliasKey& key) const
         {
             return key.hashCode();
