@@ -43,6 +43,9 @@
     <Filter Include="Meta">
       <UniqueIdentifier>{56d788e1-dab3-49e9-b780-07fb6f159f1c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Descriptors\Extensions">
+      <UniqueIdentifier>{d7326e8b-2d1a-4fc2-b197-db01279797ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Container.h" />
@@ -308,5 +311,11 @@
       <Filter>Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="Behavior.h" />
+    <ClInclude Include="EnforceBaseOf.h">
+      <Filter>Descriptors\Extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="EnforceDependencyNotAlreadyRegistered.h">
+      <Filter>Descriptors\Extensions</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

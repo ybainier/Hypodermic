@@ -161,6 +161,8 @@
     <ClInclude Include="ActivatedRegistrationInfo.h" />
     <ClInclude Include="ActivationRegistry.h" />
     <ClInclude Include="Behavior.h" />
+    <ClInclude Include="EnforceBaseOf.h" />
+    <ClInclude Include="EnforceDependencyNotAlreadyRegistered.h" />
     <ClInclude Include="FactoryWrapper.h" />
     <ClInclude Include="Hypodermic.h" />
     <ClInclude Include="IRegistrationRegistry.h" />

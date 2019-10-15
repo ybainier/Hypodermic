@@ -4,6 +4,7 @@
 #include "Hypodermic/DependencyFactories.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/IRegistrationDescriptor.h"
+#include "Hypodermic/Log.h"
 #include "Hypodermic/RegistrationDescriptorInfo.h"
 #include "Hypodermic/TypeAliases.h"
 
@@ -73,7 +74,11 @@ namespace Hypodermic
 
         void addTypeIfMissing(const TypeAliasKey& typeAliasKey, const std::function< std::shared_ptr< void >(const std::shared_ptr< void >&) >& alignPointersFunc)
         {
-            m_typeAliases.insert(std::make_pair(typeAliasKey, alignPointersFunc));
+            const auto inserted = m_typeAliases.insert(std::make_pair(typeAliasKey, alignPointersFunc)).second;
+			if (!inserted)
+			{
+				HYPODERMIC_LOG_WARN("Base type " << typeAliasKey.typeAlias().toString() << " is already registered for instance type " << m_instanceType.fullyQualifiedName());
+			}
         }
 
         template <class T>

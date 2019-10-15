@@ -32,8 +32,11 @@ set(Hypodermic_headers
     DependencyFactories.h
     DependencyFactory.h
     DependencyFactoryTag.h
+    EnforceBaseOf.h
+    EnforceDependencyNotAlreadyRegistered.h
     ExceptionBase.h
     FactoryWrapper.h
+    Hypodermic.h
     ILoggerSink.h
     InstanceAlreadyActivatingException.h
     InstanceFactory.h
@@ -51,7 +54,6 @@ set(Hypodermic_headers
     IsComplete.h
     IsSupportedArgument.h
     ITypeAlias.h
-    Hypodermic.h
     Log.h
     Logger.h
     LogLevel.h

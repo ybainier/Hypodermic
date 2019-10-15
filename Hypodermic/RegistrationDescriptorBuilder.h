@@ -22,6 +22,7 @@ namespace Hypodermic
             typedef AutowireableConstructorRegistrationDescriptor< RegistrationDescriptorInfo< T > > Type;
         };
 
+
         template <class T>
         struct ForProvidedInstance
         {

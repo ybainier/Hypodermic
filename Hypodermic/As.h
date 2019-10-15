@@ -1,7 +1,6 @@
 #pragma once
 
-#include <type_traits>
-
+#include "Hypodermic/EnforceBaseOf.h"
 #include "Hypodermic/TypeAliasKey.h"
 
 
@@ -20,22 +19,6 @@ namespace RegistrationDescriptorOperations
     private:
         typedef typename TDescriptorInfo::InstanceType InstanceType;
 
-        template <class TBase, class T>
-        struct EnforceBaseOf
-        {
-            static_assert(std::is_base_of< TBase, T >::value && !std::is_same< TBase, T >::value, "TBase should be a base of T");
-
-            static void act() {}
-        };
-
-        template <class TBase>
-        struct EnforceBaseNotAlreadyRegistered
-        {
-            static_assert(!TDescriptorInfo::template IsBaseRegistered< TBase >::value, "TBase is already registered for instance T");
-
-            static void act() {}
-        };
-
     public:
         template <class TBase, class TDelayedDescriptor = TDescriptor>
         typename TDelayedDescriptor::template UpdateDescriptor
@@ -44,8 +27,7 @@ namespace RegistrationDescriptorOperations
         >
         ::Type& as()
         {
-            EnforceBaseOf< TBase, InstanceType >::act();
-            EnforceBaseNotAlreadyRegistered< TBase >::act();
+            Extensions::EnforceBaseOf< TDescriptorInfo, TBase, InstanceType >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
             descriptor->addTypeIfMissing(createKeyForType< TBase >(), [](const std::shared_ptr< void >& x)

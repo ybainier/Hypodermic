@@ -102,6 +102,46 @@ namespace Testing
         BOOST_CHECK(namedInstance1 != namedInstance2);
     }
 
+	BOOST_AUTO_TEST_CASE(should_resolve_mixed_named_component_registration_and_type_registration)
+	{
+		// Arrange
+		ContainerBuilder builder;
+
+		// Act
+		builder.registerType< DefaultConstructible1 >()
+			  .as< DefaultConstructibleBase >() // this will get resolved by Container::resolve< T >()
+			  .named< DefaultConstructibleBase >("this won't");
+
+		auto container = builder.build();
+
+		// Assert
+    	auto instance = container->resolve< DefaultConstructibleBase >();
+		BOOST_CHECK(instance == std::dynamic_pointer_cast< DefaultConstructible1 >(instance));
+	}
+
+	BOOST_AUTO_TEST_CASE(should_resolve_all_mixed_named_component_registration_and_type_registration)
+	{
+		// Arrange
+		ContainerBuilder builder;
+
+		// Act
+		builder.registerType< DefaultConstructible1 >()
+			  .as< DefaultConstructibleBase >() // this will get resolved by Container::resolveAll< T >()
+			  .named< DefaultConstructibleBase >("this won't");
+
+		builder.registerType< DefaultConstructible2 >()
+    		   .named< DefaultConstructibleBase >("this won't get resolved by Container::resolveAll< T >()")
+			   .as< DefaultConstructibleBase >(); // this will
+
+		auto container = builder.build();
+
+		// Assert
+		auto instances = container->resolveAll< DefaultConstructibleBase >();
+		BOOST_REQUIRE_EQUAL(instances.size(), 2u);
+		BOOST_CHECK(instances[0] == std::dynamic_pointer_cast< DefaultConstructible1 >(instances[0]));
+		BOOST_CHECK(instances[1] == std::dynamic_pointer_cast< DefaultConstructible2 >(instances[1]));
+	}
+
     BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace Testing

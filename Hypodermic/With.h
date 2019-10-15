@@ -1,6 +1,7 @@
 #pragma once
 
-#include <type_traits>
+#include "Hypodermic/EnforceBaseOf.h"
+#include "Hypodermic/EnforceDependencyNotAlreadyRegistered.h"
 
 
 namespace Hypodermic
@@ -21,28 +22,6 @@ namespace RegistrationDescriptorOperations
     private:
         typedef typename TDescriptorInfo::InstanceType InstanceType;
 
-        template <class TBase, class T>
-        struct EnforceBaseOf
-        {
-            static_assert(std::is_base_of< TBase, T >::value && !std::is_same< TBase, T >::value, "TBase should be a base of T");
-
-            static void act() {}
-        };
-
-        template <class TDependency>
-        struct EnforceDependencyNotAlreadyRegistered
-        {
-            template <class T>
-            struct Act
-            {
-                static_assert(!TDescriptorInfo::template IsDependencyRegistered< TDependency >::value, "TDependency is already registered for instance T");
-
-                typedef void Type;
-            };
-
-            static typename Act< typename TDescriptorInfo::InstanceType >::Type act() {}
-        };
-
     public:
         template <class TDependency, class TDelayedDescriptor = TDescriptor>
         typename TDelayedDescriptor::template UpdateDescriptor
@@ -51,7 +30,7 @@ namespace RegistrationDescriptorOperations
         >
         ::Type& with(const std::function< std::shared_ptr< TDependency >(ComponentContext&) >& factory)
         {
-            EnforceDependencyNotAlreadyRegistered< TDependency >::act();
+            Extensions::EnforceDependencyNotAlreadyRegistered< TDescriptorInfo, TDependency >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
             descriptor->template addDependencyFactory< TDependency >
@@ -75,9 +54,8 @@ namespace RegistrationDescriptorOperations
         >
         ::Type& with(const std::shared_ptr< TProvidedDependency >& providedInstance)
         {
-            EnforceBaseOf< TDependency, TProvidedDependency >::act();
-
-            EnforceDependencyNotAlreadyRegistered< TDependency >::act();
+			Extensions::EnforceBaseOf< TDescriptorInfo, TDependency, TProvidedDependency >::act();
+			Extensions::EnforceDependencyNotAlreadyRegistered< TDescriptorInfo, TDependency >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
             descriptor->template addDependencyFactory< TDependency >
@@ -101,8 +79,8 @@ namespace RegistrationDescriptorOperations
         >
         ::Type& with()
         {
-            EnforceBaseOf< TDependency, TProvidedDependency >::act();
-            EnforceDependencyNotAlreadyRegistered< TDependency >::act();
+            Extensions::EnforceBaseOf< TDescriptorInfo, TDependency, TProvidedDependency >::act();
+            Extensions::EnforceDependencyNotAlreadyRegistered< TDescriptorInfo, TDependency >::act();
 
             auto descriptor = static_cast< TDescriptor* >(this);
             descriptor->template addDependencyFactory< TDependency >([](ComponentContext& c)
