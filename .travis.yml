@@ -44,5 +44,5 @@ before_script:
     - cd build
     - cmake -DCMAKE_CXX_COMPILER=$COMPILER -DCMAKE_BUILD_TYPE=Release ..
 
-script:s
+script:
     - make -j 3
