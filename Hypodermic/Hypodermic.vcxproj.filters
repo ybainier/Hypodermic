@@ -317,6 +317,5 @@
     <ClInclude Include="EnforceDependencyNotAlreadyRegistered.h">
       <Filter>Descriptors\Extensions</Filter>
     </ClInclude>
-    <ClInclude Include="InstanceFactoryDeducer.h" />
   </ItemGroup>
 </Project>
