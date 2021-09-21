@@ -63,24 +63,12 @@ namespace Hypodermic
             copyFallbackRegistrationContextsTo(other);
         }
 
-        void addRegistrationContext(const std::shared_ptr< RegistrationContext >& registrationContext) override
-        {
-            if (registrationContext->registration()->typeAliases().empty())
-            {
-                addRegistrationContext(createKeyForType(registrationContext->registration()->instanceType()), registrationContext);
-                return;
-            }
-
-            for (auto&& x : registrationContext->registration()->typeAliases())
-                addRegistrationContext(x.first, registrationContext);
-        }
-
-    private:
-        void addRegistration(const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration)
+        void addRegistration(const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration) override
         {
             addRegistrationContext(typeAliasKey, std::make_shared< RegistrationContext >(m_resolutionContainer, registration));
         }
 
+    private:
         void addRegistrationContext(const TypeAliasKey& typeAliasKey, const std::shared_ptr< RegistrationContext >& registrationContext)
         {
             if (registrationContext->registration()->isFallback())
@@ -120,9 +108,12 @@ namespace Hypodermic
         {
             for (auto& x : contextsByBaseTypes)
             {
-                for (auto& registrationContext : x.second)
+                auto& typeAliasKey = x.first;
+                auto& contexts = x.second;
+            	
+                for (auto& registrationContext : contexts)
                 {
-                    other.addRegistrationContext(registrationContext);
+                    other.addRegistration(typeAliasKey, registrationContext->registration());
                 }
             }
         }

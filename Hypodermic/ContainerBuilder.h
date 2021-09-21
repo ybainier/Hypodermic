@@ -25,12 +25,17 @@ namespace Hypodermic
             {
                 if (registration->typeAliases().empty())
                 {
-                    registeredTypeAliasKeys.insert(createKeyForType(registration->instanceType()));
+                    addRegistration(createKeyForType(registration->instanceType()), nullptr);
                     return;
                 }
 
                 for (auto&& x : registration->typeAliases())
-                    registeredTypeAliasKeys.insert(x.first);
+                    addRegistration(x.first, nullptr);
+            }
+
+            void addRegistration(const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& /*registration*/) override
+            {
+                registeredTypeAliasKeys.insert(typeAliasKey);
             }
 
             std::unordered_set< TypeAliasKey > registeredTypeAliasKeys;

@@ -35,9 +35,9 @@ namespace Hypodermic
             scope().copyTo(other);
         }
 
-        void addRegistrationContext(const std::shared_ptr< RegistrationContext >& registrationContext) override
+        void addRegistration(const TypeAliasKey& typeAliasKey, const std::shared_ptr< IRegistration >& registration) override
         {
-            writeScope().addRegistrationContext(registrationContext);
+            writeScope().addRegistration(typeAliasKey, registration);
         }
 
     private:

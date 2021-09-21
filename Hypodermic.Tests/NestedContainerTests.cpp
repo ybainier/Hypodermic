@@ -250,6 +250,26 @@ namespace Testing
         BOOST_CHECK(instanceAfterNestedContainerIsReleased == instance);
     }
 
+	BOOST_AUTO_TEST_CASE(should_resolve_all_the_same_components)
+    {
+	    // Arrange
+        ContainerBuilder builder;
+        builder.registerType< DefaultConstructible1 >().as< DefaultConstructibleBase >().asSelf();
+        builder.registerType< DefaultConstructible2 >().as< DefaultConstructibleBase >().asSelf();
+
+        auto container = builder.build();
+        auto components = container->resolveAll< DefaultConstructibleBase >();
+    	
+    	// Act
+        ContainerBuilder nestedBuilder;
+        auto nestedContainer = nestedBuilder.buildNestedContainerFrom(*container);
+
+        auto componentsFromNestedContainer = nestedContainer->resolveAll< DefaultConstructibleBase >();
+
+        // Assert
+        BOOST_CHECK_EQUAL(components.size(), componentsFromNestedContainer.size());
+    }
+
     BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace Testing
