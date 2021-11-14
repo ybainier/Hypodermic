@@ -40,7 +40,17 @@ namespace Hypodermic
                 return nullptr;
             }
 
-            return m_instanceFactory(m_registration, resolutionContext);
+            if (m_registration.instanceLifetime() == InstanceLifetimes::Transient)
+            {
+                return m_instanceFactory(m_registration, resolutionContext);
+            }
+
+            if (!m_instance)
+            {
+                m_instance = m_instanceFactory(m_registration, resolutionContext);
+            }
+
+            return m_instance;
         }
 
         void raiseActivated(ComponentContext& container, const std::shared_ptr< void >& instance) override
@@ -52,6 +62,7 @@ namespace Hypodermic
         const IRegistration& m_registration;
         InstanceFactory m_instanceFactory;
         boost::signals2::signal< void(ComponentContext&, const std::shared_ptr< void >&) > m_activated;
+        std::shared_ptr<void> m_instance;
     };
 
 } // namespace Hypodermic

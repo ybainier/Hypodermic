@@ -8,6 +8,7 @@
 
 namespace Hypodermic
 {
+    class Registration;
 
     class PersistentInstanceRegistration : public IRegistration
     {
@@ -15,6 +16,7 @@ namespace Hypodermic
         explicit PersistentInstanceRegistration(const std::shared_ptr< IRegistration >& registration)
             : m_registration(registration)
         {
+            std::static_pointer_cast<Registration>(m_registration)->m_registrationLifetime = InstanceLifetimes::Persistent;
         }
 
         const TypeInfo& instanceType() const override

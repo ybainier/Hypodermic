@@ -60,7 +60,7 @@ namespace Hypodermic
 
         InstanceLifetimes::InstanceLifetime instanceLifetime() const override
         {
-            return InstanceLifetimes::Transient;
+            return m_registrationLifetime;
         }
 
         bool isFallback() const override
@@ -74,6 +74,10 @@ namespace Hypodermic
         TypeAliases m_typeAliases;
         DependencyFactories m_dependencyFactories;
         bool m_isFallback;
+
+
+        friend class PersistentInstanceRegistration;
+        InstanceLifetimes::InstanceLifetime m_registrationLifetime = InstanceLifetimes::Transient;
     };
 
 } // namespace Hypodermic
