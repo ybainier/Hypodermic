@@ -23,7 +23,8 @@ namespace Hypodermic
                 instanceFactory,
                 DependencyFactories(),
                 ActivationHandlers(),
-                false /* not a fallback registration */
+                false, /* not a fallback registration */
+                InstanceLifetimes::Transient
             );
         }
     };

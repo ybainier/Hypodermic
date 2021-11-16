@@ -36,7 +36,14 @@ namespace Hypodermic
                                                       const DependencyFactories& dependencyFactories,
                                                       const ActivationHandlers& activationHandlers)
         {
-            return std::make_shared< Registration >(instanceType, typeAliases, instanceFactory, dependencyFactories, activationHandlers, IsFallback::value);
+            return std::make_shared< Registration >(
+                    instanceType,
+                    typeAliases,
+                    instanceFactory,
+                    dependencyFactories,
+                    activationHandlers,
+                    IsFallback::value,
+                    InstanceLifetimes::Transient);
         }
     };
 
@@ -55,14 +62,14 @@ namespace Hypodermic
         {
             return std::make_shared< PersistentInstanceRegistration >
             (
-                RegistrationBuilder< TRegistrationDescriptorInfo, TransientInstance >::build
-                (
-                    instanceType,
-                    typeAliases,
-                    instanceFactory,
-                    dependencyFactories,
-                    activationHandlers
-                )
+                    std::make_shared< Registration >(
+                            instanceType,
+                            typeAliases,
+                            instanceFactory,
+                            dependencyFactories,
+                            activationHandlers,
+                            IsFallback::value,
+                            InstanceLifetimes::Persistent)
             );
         }
 

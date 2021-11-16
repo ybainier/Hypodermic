@@ -25,12 +25,14 @@ namespace Hypodermic
                      const InstanceFactory& instanceFactory,
                      const DependencyFactories& dependencyFactories,
                      const ActivationHandlers& activationHandlers,
-                     bool isFallback)
+                     bool isFallback,
+                     InstanceLifetimes::InstanceLifetime registrationLifetime)
             : m_activator(*this, instanceFactory, activationHandlers)
             , m_instanceType(instanceType)
             , m_typeAliases(typeAliases)
             , m_dependencyFactories(dependencyFactories)
             , m_isFallback(isFallback)
+            , m_registrationLifetime(registrationLifetime)
         {
         }
 
@@ -75,9 +77,7 @@ namespace Hypodermic
         DependencyFactories m_dependencyFactories;
         bool m_isFallback;
 
-
-        friend class PersistentInstanceRegistration;
-        InstanceLifetimes::InstanceLifetime m_registrationLifetime = InstanceLifetimes::Transient;
+        InstanceLifetimes::InstanceLifetime m_registrationLifetime;
     };
 
 } // namespace Hypodermic
