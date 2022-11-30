@@ -38,6 +38,7 @@ set(Hypodermic_headers
     FactoryWrapper.h
     Hypodermic.h
     ILoggerSink.h
+    IMutableRegistrationScope.h
     InstanceAlreadyActivatingException.h
     InstanceFactory.h
     InstanceLifetime.h

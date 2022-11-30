@@ -4,6 +4,7 @@
 #include <mutex>
 #include <vector>
 
+#include "Hypodermic/IMutableRegistrationScope.h"
 #include "Hypodermic/IRegistration.h"
 #include "Hypodermic/RegistrationScope.h"
 #include "Hypodermic/TypeAliasKey.h"
@@ -30,7 +31,7 @@ namespace Hypodermic
             return scope().tryGetRegistrations(typeAliasKey, registrationContexts);
         }
 
-        void copyTo(IRegistrationScope& other) const override
+        void copyTo(IMutableRegistrationScope& other) const override
         {
             scope().copyTo(other);
         }

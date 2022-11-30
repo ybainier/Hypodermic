@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "Hypodermic/IMutableRegistrationScope.h"
 #include "Hypodermic/IRegistration.h"
-#include "Hypodermic/IRegistrationScope.h"
 #include "Hypodermic/RegistrationContext.h"
 #include "Hypodermic/ResolutionContainer.h"
 #include "Hypodermic/TypeAliasKey.h"
@@ -15,7 +15,7 @@
 namespace Hypodermic
 {
 
-    class RegistrationScope : public IRegistrationScope
+    class RegistrationScope : public IMutableRegistrationScope
     {
     public:
         void addRegistration(const std::shared_ptr< IRegistration >& registration) override
@@ -55,7 +55,7 @@ namespace Hypodermic
             return true;
         }
 
-        void copyTo(IRegistrationScope& other) const override
+        void copyTo(IMutableRegistrationScope& other) const override
         {
             std::lock_guard< decltype(m_mutex) > lock(m_mutex);
 
@@ -68,7 +68,6 @@ namespace Hypodermic
             addRegistrationContext(typeAliasKey, std::make_shared< RegistrationContext >(m_resolutionContainer, registration));
         }
 
-    private:
         void addRegistrationContext(const TypeAliasKey& typeAliasKey, const std::shared_ptr< RegistrationContext >& registrationContext)
         {
             if (registrationContext->registration()->isFallback())
@@ -81,12 +80,13 @@ namespace Hypodermic
             }
         }
 
-        void copyRegistrationContextsTo(IRegistrationScope& other) const
+    private:
+        void copyRegistrationContextsTo(IMutableRegistrationScope& other) const
         {
             copyRegistrationContextsToRegistrationScope(m_registrationContextsByBaseTypes, other);
         }
 
-        void copyFallbackRegistrationContextsTo(IRegistrationScope& other) const
+        void copyFallbackRegistrationContextsTo(IMutableRegistrationScope& other) const
         {
             copyRegistrationContextsToRegistrationScope(m_fallbackRegistrationContextsByBaseTypes, other);
         }
@@ -104,7 +104,7 @@ namespace Hypodermic
         }
 
         template <class TRegistrationContextsByBaseTypes>
-        void copyRegistrationContextsToRegistrationScope(const TRegistrationContextsByBaseTypes& contextsByBaseTypes, IRegistrationScope& other) const
+        void copyRegistrationContextsToRegistrationScope(const TRegistrationContextsByBaseTypes& contextsByBaseTypes, IMutableRegistrationScope& other) const
         {
             for (auto& x : contextsByBaseTypes)
             {
@@ -113,7 +113,7 @@ namespace Hypodermic
             	
                 for (auto& registrationContext : contexts)
                 {
-                    other.addRegistration(typeAliasKey, registrationContext->registration());
+                    other.addRegistrationContext(typeAliasKey, registrationContext);
                 }
             }
         }

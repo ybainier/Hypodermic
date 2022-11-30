@@ -270,6 +270,97 @@ namespace Testing
         BOOST_CHECK_EQUAL(components.size(), componentsFromNestedContainer.size());
     }
 
+    BOOST_AUTO_TEST_CASE(should_resolve_instance_from_base_container)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        builder.registerInstance(std::make_shared< DefaultConstructible1 >());
+
+        auto container = builder.build();
+
+        std::shared_ptr< DefaultConstructibleBase > nestedInstance;
+        {
+            ContainerBuilder nestedBuilder;
+            auto nestedContainer = nestedBuilder.buildNestedContainerFrom(*container);
+
+            // Act
+            nestedInstance = nestedContainer->resolve< DefaultConstructible1 >();
+        }
+
+        // Assert
+        auto instance = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK_EQUAL(instance, nestedInstance);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_resolve_instance_with_interface_from_base_container)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        builder.registerInstance(std::make_shared< DefaultConstructible1 >()).as< DefaultConstructibleBase >();
+
+        auto container = builder.build();
+
+        std::shared_ptr< DefaultConstructibleBase > nestedInstance;
+        {
+            ContainerBuilder nestedBuilder;
+            auto nestedContainer = nestedBuilder.buildNestedContainerFrom(*container);
+
+            // Act
+            nestedInstance = nestedContainer->resolve< DefaultConstructibleBase >();
+        }
+
+        // Assert
+        auto instance = container->resolve< DefaultConstructibleBase >();
+        BOOST_CHECK_EQUAL(instance, nestedInstance);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_resolve_single_instance_from_base_container)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        builder.registerType< DefaultConstructible1 >().singleInstance();
+
+        auto container = builder.build();
+
+        std::shared_ptr< DefaultConstructibleBase > nestedInstance;
+        {
+            ContainerBuilder nestedBuilder;
+            auto nestedContainer = nestedBuilder.buildNestedContainerFrom(*container);
+
+            // Act
+            nestedInstance = nestedContainer->resolve< DefaultConstructible1 >();
+        }
+
+        // Assert
+        auto instance = container->resolve< DefaultConstructible1 >();
+        BOOST_CHECK_EQUAL(instance, nestedInstance);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_resolve_single_instance_with_interface_from_base_container)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        builder.registerType< DefaultConstructible1 >()
+               .as< DefaultConstructibleBase >()
+               .asSelf()
+               .singleInstance();
+
+        auto container = builder.build();
+
+        std::shared_ptr< DefaultConstructibleBase > nestedInstance;
+        {
+            ContainerBuilder nestedBuilder;
+            auto nestedContainer = nestedBuilder.buildNestedContainerFrom(*container);
+
+            // Act
+            nestedInstance = nestedContainer->resolve< DefaultConstructibleBase >();
+        }
+
+        // Assert
+        auto instance = container->resolve< DefaultConstructibleBase >();
+        BOOST_CHECK_EQUAL(instance, nestedInstance);
+    }
+
     BOOST_AUTO_TEST_SUITE_END()
 
 } // namespace Testing
