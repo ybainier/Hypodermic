@@ -10,3 +10,4 @@ ipch/**
 obj/**
 *ReSharper*
 *.VC.*
+.vs/*
