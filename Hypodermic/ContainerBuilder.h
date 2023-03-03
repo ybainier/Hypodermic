@@ -42,6 +42,8 @@ namespace Hypodermic
         };
 
     public:
+        virtual ~ContainerBuilder() = default;
+
         /// <summary>
         /// Register type T
         /// </summary>
