@@ -165,6 +165,7 @@
     <ClInclude Include="EnforceDependencyNotAlreadyRegistered.h" />
     <ClInclude Include="FactoryWrapper.h" />
     <ClInclude Include="Hypodermic.h" />
+    <ClInclude Include="IMutableRegistrationScope.h" />
     <ClInclude Include="IRegistrationRegistry.h" />
     <ClInclude Include="IResolutionContext.h" />
     <ClInclude Include="MetaContains.h" />
