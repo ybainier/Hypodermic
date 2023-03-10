@@ -11,3 +11,7 @@ obj/**
 *ReSharper*
 *.VC.*
 .vs/*
+compile_commands.json
+CMakeUserPresets.json
+test_package/CMakeUserPresets.json
+test_package/build
