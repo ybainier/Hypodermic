@@ -34,10 +34,10 @@ set(HypodermicTests_sources
 
 include_directories("..")
 
-add_definitions(-DBOOST_TEST_DYN_LINK)
+# add_definitions(-DBOOST_TEST_DYN_LINK)
 
 add_executable(Hypodermic.Tests ${HypodermicTests_sources})
-target_link_libraries(Hypodermic.Tests ${Boost_LIBRARIES})
+target_link_libraries(Hypodermic.Tests Boost::unit_test_framework)
 
 add_test(cmake_Hypodermic.Tests ${CMAKE_CURRENT_BINARY_DIR}/Hypodermic.Tests --result_code=no --report_level=no)
 

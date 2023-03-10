@@ -76,7 +76,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMPILER_FLAGS} ${WARNING_FLAGS}")
 
 
 add_subdirectory(Hypodermic)
-add_subdirectory(Hypodermic.Tests)
+if (NOT BUILD_TESTING STREQUAL OFF)
+	add_subdirectory(Hypodermic.Tests)
+endif()
 
 
 # uninstall target
