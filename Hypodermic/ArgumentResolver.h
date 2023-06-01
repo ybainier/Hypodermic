@@ -38,6 +38,25 @@ namespace Traits
     };
 
 
+	template <class TArg>
+	struct ArgumentResolver< std::shared_ptr< const TArg > >
+	{
+		typedef std::shared_ptr< const TArg > Type;
+
+		template <class TRegistration, class TResolutionContext>
+		static Type resolve(const TRegistration& registration, TResolutionContext& resolutionContext)
+		{
+			static_assert(IsComplete< TArg >::value, "TArg should be a complete type");
+
+			auto&& factory = registration.getDependencyFactory(Utils::getMetaTypeInfo< TArg >());
+			if (factory)
+				return std::shared_ptr< const TArg >(std::static_pointer_cast<TArg>(factory(resolutionContext.componentContext())));
+
+			return std::shared_ptr< const TArg >(resolutionContext.componentContext().template resolve< TArg >());
+		}
+	};
+
+
     template <class TArg>
     struct ArgumentResolver< std::vector< std::shared_ptr< TArg > > >
     {
