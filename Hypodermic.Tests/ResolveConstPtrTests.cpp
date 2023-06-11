@@ -58,6 +58,36 @@ namespace
         // Arrange
         ContainerBuilder builder;
         builder.registerType<Foo>();
+        auto container = builder.build();
+
+        // Act
+        const auto foo = container->resolve<Foo>();
+        auto value = foo->value();
+
+        // Assert
+        BOOST_CHECK_EQUAL(value, 42);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_resolve_const_ptr)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        builder.registerType<Foo>();
+        auto container = builder.build();
+
+        // Act
+        const auto cfoo = container->resolve<const Foo>();
+        auto value = cfoo->value();
+
+        // Assert
+        BOOST_CHECK_EQUAL(value, 42);
+    }
+
+    BOOST_AUTO_TEST_CASE(should_resolve_non_const_ptr_argument)
+    {
+        // Arrange
+        ContainerBuilder builder;
+        builder.registerType<Foo>();
         builder.registerType<Bar>();
         auto container = builder.build();
 
@@ -69,7 +99,7 @@ namespace
         BOOST_CHECK_EQUAL(value, 42);
     }
 
-    BOOST_AUTO_TEST_CASE(should_resolve_const_ptr)
+    BOOST_AUTO_TEST_CASE(should_resolve_const_ptr_argument)
     {
         // Arrange
         ContainerBuilder builder;
