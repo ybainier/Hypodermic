@@ -156,11 +156,12 @@ namespace Hypodermic
         template <class T>
         bool tryToRegisterType(IRegistrationScope& scope, std::true_type /* T has autowireable constructor */)
         {
-            auto&& factory = Traits::ConstructorDescriptor< T >::describe();
+            using MutableT = std::remove_const_t<T>;
+            auto&& factory = Traits::ConstructorDescriptor< MutableT >::describe();
 
             scope.addRegistration(m_runtimeRegistrationBuilder->build
             (
-                Utils::getMetaTypeInfo< T >(),
+                Utils::getMetaTypeInfo< MutableT >(),
                 [factory](const IRegistration& r, IResolutionContext& c) { return std::static_pointer_cast< void >(factory(r, c)); }
             ));
 
